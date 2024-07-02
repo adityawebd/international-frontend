@@ -1305,3 +1305,50 @@ footer .limited_edition {
 }
 
 /* --------------------- footer ends  -------------- */
+
+
+
+.product_points {
+    background-color: var(--e-gray);
+    display: flex;
+    border-radius: 30px;
+    padding: 2px 10px;
+    margin-right: 10px;
+}
+.product_points span {
+    padding-top: 4px;
+}
+
+.product .cart_btns {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+}
+.product .cart_btns a {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+.product .cart_btns a:first-child {
+    background-color: var(--green-clr);
+    color: var(--white-clr);
+    padding: 8px 24px;
+    border-radius: 30px;
+    transition: 0.4s all;
+    margin-right: 10px;
+}
+.product .cart_btns a:first-child:hover {
+    background-color: var(--darkest-gray);
+}
+.product .cart_btns a:last-child {
+    background-color: var(--darkest-gray);
+    color: var(--white-clr);
+    padding: 8px 24px;
+    border-radius: 30px;
+    transition: 0.4s all;
+}
+.product .cart_btns a:last-child:hover {
+    background-color: var(--green-clr);
+}

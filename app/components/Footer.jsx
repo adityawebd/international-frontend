@@ -12,7 +12,9 @@ const Footer = () => {
                 <div className="container py-5">
                     <div className="row pb-5">
                         <div className="col-md-3">
-                            <img src="/assets/image/logo-gift1.png" alt="" />
+                            <a href="/">
+                                <img src="/assets/image/logo-gift1.png" alt="Logo" />
+                            </a>
                             <div className="text-sm light_black_font mt-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi, dolor.</div>
                             <div className='text-sm light_black_font mt-2'> <span className='font-bold'>Call Us: </span> +44 0123 456 789</div>
                             <div className='text-sm light_black_font mt-2'> <span className='font-bold'>Email: </span> example@gmail.com</div>
