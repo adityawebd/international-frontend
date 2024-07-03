@@ -1293,6 +1293,7 @@ body {
 .explore_feeds_wrapper img {
     height: 200px;
     width: 100%;
+    border-radius: 10px;
 }
 
 /* --------------------- explore_feeds ends  -------------- */
@@ -1307,6 +1308,24 @@ footer .limited_edition {
 /* --------------------- footer ends  -------------- */
 
 
+
+
+
+
+
+
+
+
+/* ---------------------------------
+---------------------------------
+------ PRODUCT PAGE -------------
+---------------------------------
+--------------------------------- */
+
+.variations img {
+    height: 150px;
+    border-radius: 10px;
+}
 
 .product_points {
     background-color: var(--e-gray);
@@ -1351,4 +1370,55 @@ footer .limited_edition {
 }
 .product .cart_btns a:last-child:hover {
     background-color: var(--green-clr);
+}
+
+
+.product_details {
+    /* border: 1px solid red; */
+}
+.product_details .tabs_ul {
+    /* border: 1px solid var(--e-gray); */
+}
+.product_details .tabs_ul li button  {
+    border: 1px solid var(--darkest-gray);
+    border-radius: 30px;
+}
+
+.green_bg_white_font {
+    background-color: var(--green-clr);
+    color: var(--white-clr);
+    border: 1px solid var(--green-clr) !important;
+}
+
+
+/* ------------ top_reviews_wrapper -------- */
+.top_reviews_wrapper {
+    /* border: 1px solid red; */
+}
+.top_reviews_wrapper img {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    margin-right: 20px;
+}
+
+.top_reviews_wrapper .verified_pruchase span {
+    color: var(--green-clr);
+    font-size: 20px;
+}
+.top_reviews_wrapper .verified_pruchase p {
+    padding-top: 3px;
+}
+.top_reviews_wrapper .top_reviews_icons span {
+    /* border: 1px solid var(--darkest-gray); */    
+    background-color: var(--e-gray);
+    font-size: 13px;
+    padding: 6px;
+    border-radius: 50%;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.css-1hs7rf2-JoyCircularProgress-progress {
+    stroke: var(--green-clr) !important;
 }
