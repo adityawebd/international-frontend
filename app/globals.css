@@ -23,12 +23,27 @@ body {
     color: #555555;
 }
 
+.bg_gray {
+    background-color: var(--e-gray);
+}
+
 .green_font {
     color: var(--green-clr);
 }
 
 .star_clr {
     color: var(--star-clr);
+}
+
+.asterik {
+    color: red;
+}
+
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: -16px;
+    margin-bottom: 10px;
 }
 
 /* --------- navbar styling starts ------------- */
@@ -481,6 +496,13 @@ body {
 
 
 /* ------------ navbar styling ends ------------------ */
+
+/* ------------ Breadcrumbs styling starts ------------------ */
+.breadcrumbs span {
+    padding-top: 3px;
+    margin: 0 5px;
+}
+/* ------------ Breadcrumbs styling ends ------------------ */
 
 .monthly_best_sell {
     background-color: #F4F5F9;
@@ -1421,4 +1443,228 @@ footer .limited_edition {
 
 .css-1hs7rf2-JoyCircularProgress-progress {
     stroke: var(--green-clr) !important;
+}
+
+
+
+/* ---------------------------------
+---------------------------------
+------ LOGIN PAGE -------------
+---------------------------------
+--------------------------------- */
+
+
+.login_form  {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.login_form form {
+    background-color: var(--e-gray);
+    display: flex;
+    flex-direction: column;
+
+    width: 40%;
+    padding: 40px;
+    border-radius: 4px;
+}
+
+.login_form form label {
+    width: 100%;
+    font-size: 15px;
+}
+
+.login_form form input {
+    width: 100%;
+    border: 1px solid #eee;
+    outline: none;
+    margin-bottom: 20px;
+    padding: 6px 18px;
+}
+.login_form form input::placeholder {
+    font-size: 13px;
+}
+
+.login_form form button {
+    /* margin: 0 auto; */
+    background-color: var(--green-clr);
+    color: var(--white-clr);
+    margin-top: 20px;
+    padding: 8px 0;
+    border-radius: 4px;
+    outline: none;
+    text-transform: uppercase;
+    transition: 0.6s all;
+}
+.login_form form button:hover {
+    background-color: var(--darkest-gray);
+}
+.login_register_btn {
+    background-color: var(--darkest-gray);
+    color: var(--white-clr);
+    margin-top: 20px;
+    padding: 8px 0;
+    border-radius: 4px;
+    outline: none;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+@media(max-width: 425px) {
+    .login_form form {
+        width: 100%;
+        padding: 30px;
+    }
+    .login_form form button {
+        font-size: 13px;
+    }
+    .login_register_btn {
+        font-size: 13px;
+    }
+}
+@media (min-width: 426px) and (max-width: 768px) {
+    .login_form form {
+        width: 60%;
+        padding: 30px;
+    }
+    .login_form form button {
+        font-size: 13px;
+    }
+    .login_register_btn {
+        font-size: 13px;
+    }
+}
+
+
+
+/* ---------------------------------
+---------------------------------
+------ register PAGE -------------
+---------------------------------
+--------------------------------- */
+
+
+.register_form  {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.register_form form {
+    background-color: var(--e-gray);
+    display: flex;
+    flex-direction: column;
+
+    width: 60%;
+    padding: 40px;
+    border-radius: 4px;
+}
+
+.register_form form label {
+    width: 100%;
+    font-size: 15px;
+}
+
+.register_form form input {
+    width: 100%;
+    border: 1px solid #eee;
+    outline: none;
+    margin-bottom: 20px;
+    padding: 6px 18px;
+}
+.register_form form input::placeholder {
+    font-size: 13px;
+}
+
+.register_form form button {
+    /* margin: 0 auto; */
+    background-color: var(--green-clr);
+    color: var(--white-clr);
+    margin-top: 20px;
+    padding: 8px 0;
+    border-radius: 4px;
+    outline: none;
+    text-transform: uppercase;
+    transition: 0.6s all;
+}
+.register_form form button:hover {
+    background-color: var(--darkest-gray);
+}
+
+.register_form form select {
+    width: 100%;
+    padding: 8px 16px;
+    font-size: 13px;
+    color: var(--primary-clr);
+    outline: none;
+}
+
+@media(max-width: 425px) {
+    .register_form form {
+        width: 100%;
+        padding: 30px;
+    }
+    .register_form form button {
+        font-size: 13px;
+    }
+    .register_register_btn {
+        font-size: 13px;
+    }
+}
+@media (min-width: 426px) and (max-width: 768px) {
+    .register_form form {
+        width: 60%;
+        padding: 30px;
+    }
+    .register_form form button {
+        font-size: 13px;
+    }
+    .register_register_btn {
+        font-size: 13px;
+    }
+}
+
+
+
+/* --------------------------------
+---------- about ---------------
+-------------------------------- */
+.date_views_ul span {
+    padding-top: 4px;
+    font-size: 8px;
+}
+
+
+/* --------------------------------
+---------- cart ---------------
+-------------------------------- */
+.cart_page_right {
+    border: 1px solid var(--e-gray);
+}
+.cart_page_right form select {
+    width: 100%;
+    border: 1px solid var(--e-gray);
+    font-size: 14px;
+    padding: 12px 10px;
+    color: var(--darkest-gray);
+}
+.cart_page_right form input {
+    width: 100%;
+    color: var(--darkest-gray);
+    border: 1px solid var(--e-gray);
+    font-size: 14px;
+    padding: 12px 10px;
+}
+.cart_page_right form input[type="checkbox"] {
+    margin-top: 25px;
+    width: 15px;
+}
+
+.cart_page_right .total_amount {
+    border-top: 1px solid var(--e-gray);
+    border-bottom: 1px solid var(--e-gray);
+    padding: 10px 0;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }

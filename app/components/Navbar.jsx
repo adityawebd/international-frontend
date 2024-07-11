@@ -79,7 +79,7 @@ const Navbar = () => {
                   </ul>
                 </div></div>
 
-              <div className='cart_icon'><span><CiShoppingBasket /></span></div>
+              <div className='cart_icon'><a href="/cart"><span><CiShoppingBasket /></span></a></div>
             </div>
           </div>
         </div>

@@ -33,7 +33,7 @@ const BestSeller = () => {
                                 slidesPerView: 3.8,
                             },
                             1300: {
-                                slidesPerView: 3.6,
+                                slidesPerView: 4.6,
                             },
                         }}
                         // navigation={true}
