@@ -1668,3 +1668,198 @@ footer .limited_edition {
     justify-content: space-between;
     align-items: center;
 }
+
+
+/* ---------------------------------------------------- */
+
+
+/* --------------------------------
+---------- Wishlist ---------------
+-------------------------------- */
+.wishlist_page .table_wrapper {
+    overflow-x: auto;
+}
+.wishlist_page table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+.wishlist_page .table_wrapper {
+    /* border: 1px solid green; */
+}
+
+
+.wishlist_page .table_wrapper table {
+    /* border: 1px solid blue; */
+}
+.wishlist_page .table_wrapper table thead {
+    border-bottom: 2px solid var(--primary-clr);
+}
+
+.wishlist_page .table_wrapper table thead tr th {
+    border: 1px solid var(--primary-clr);
+}
+.wishlist_page .table_wrapper table tbody tr td {
+    border: 1px solid var(--primary-clr);
+}
+
+.wishlist_page .table_wrapper .product {
+    width: 40%;
+    text-align: center;
+    padding: 10px;
+}
+.wishlist_page .table_wrapper .price {
+    width: 10%;
+    text-align: center;
+    padding: 10px;
+}
+.wishlist_page .table_wrapper .status {
+    width: 15%;
+    text-align: center;
+    padding: 10px;
+}
+.wishlist_page .table_wrapper .action {
+    width: 25%;
+    text-align: center;
+    padding: 10px;
+}
+.wishlist_page .table_wrapper .remove {
+    width: 10%;
+    text-align: center;
+    padding: 10px;
+}
+
+.wishlist_page table tbody .product_img {
+    /* border: 1px solid red; */
+    width: 15%;
+}
+.wishlist_page table tbody .product_img img {
+    width: 50%;
+    margin: 10px;
+}
+.wishlist_page table tbody .product_name {
+    text-align: center;
+    padding: 0 10px;
+}
+.wishlist_page table tbody .product_price {
+    text-align: center;
+    padding: 0 10px;
+}
+.wishlist_page table tbody .product_stock_status {
+    text-align: center;
+    padding: 0 10px;
+}
+.wishlist_page table tbody .product_action {
+    padding: 0 60px;
+}
+
+.wishlist_page table tbody .product_action button {
+    background-color: var(--green-clr);
+    color: var(--white-clr);
+    border-radius: 40px;
+    font-size: 14px;
+    padding: 10px 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+
+.wishlist_page table tbody .product_action button[disabled] {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+.wishlist_page table tbody .product_delete_btn {
+    padding: 0 60px;
+}
+.wishlist_page table tbody .product_delete_btn span {
+    color: var(--green-clr);
+    font-size: 24px;
+}
+
+@media (max-width: 425px) {
+    .wishlist_page table {
+        width: 1000px;
+    }
+    .wishlist_page table tbody .product_img img {
+        width: 80%;
+    }
+    .wishlist_page table tbody .product_action {
+        padding: 0 10px;
+    }
+    
+    .wishlist_page table tbody .product_action button {
+        font-size: 14px;
+        padding: 10px 30px;
+        letter-spacing: 1px;
+    }
+    /* .product_name h3 {
+        font-size: 12px;
+    }
+    .product_name p {
+        font-size: 12px !important;
+    } */
+}
+@media (min-width: 426px) and (max-width: 768px) {
+    .wishlist_page table tbody .product_img img {
+        width: 70%;
+    }
+    .wishlist_page table tbody .product_action {
+        padding: 0 10px;
+    }
+    
+    .wishlist_page table tbody .product_action button {
+        font-size: 12px;
+        padding: 10px 24px;
+        letter-spacing: 0px;
+    }
+}
+@media (min-width: 769px) and (max-width: 1024px) {
+    .wishlist_page table tbody .product_action {
+        padding: 0 20px;
+    }
+    
+    .wishlist_page table tbody .product_action button {
+        background-color: var(--green-clr);
+        color: var(--white-clr);
+        border-radius: 40px;
+        font-size: 14px;
+        padding: 10px 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;
+        letter-spacing: 1px;
+    }
+}
+
+/* ---------------------------------------------------- */
+
+
+/* --------------------------------
+---------- User Profile Pages -----
+-------------------------------- */
+
+.user_profile .banner {
+    /* border: 1px solid red; */
+}
+.user_profile .banner img {
+    width: 100%;
+    height: 250px;
+}
+
+.user_profile .banner .user_img  {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.user_profile .banner .user_img img  {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 6px solid var(--white-clr);
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    margin-top: -70px;
+}
