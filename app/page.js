@@ -1,5 +1,7 @@
 'use client'
 import { Main } from "next/document";
+import { CurrencyProvider } from './CurrencyContext';
+
 import Image from "next/image";
 import Navbar from "./components/Navbar";
 import HeroSection from "./components/HeroSection";
@@ -20,20 +22,22 @@ import Footer from "./components/Footer";
 export default function Home() {
   return (
     <main>
-      <Navbar/>
-      <HeroSection/>
-      <MonthlyBestSell />
-      <NewArrival />
-      <AllCollection />
-      <BestSeller />
-      <TopCategories />
-      <ProductTimer />
-      <PromisesBanner />
-      <WoodStatue />
-      <ClientBrands />
-      <Testimonials />
-      <ExploreFeeds />
-      <Footer />
+      <CurrencyProvider>
+        <Navbar/>
+        <HeroSection/>
+        <MonthlyBestSell />
+        <NewArrival />
+        <AllCollection />
+        <BestSeller />
+        <TopCategories />
+        <ProductTimer />
+        <PromisesBanner />
+        <WoodStatue />
+        <ClientBrands />
+        <Testimonials />
+        <ExploreFeeds />
+        <Footer />
+      </CurrencyProvider>
     </main>
   );
 }

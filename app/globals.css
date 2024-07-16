@@ -115,7 +115,27 @@ body {
     width: 20%;
 }
 
-/* --------------- dropdown styling ----------- */
+/* ------ dropdown styling ----- */
+/* currency dropdown  */
+.navbar_header .currency {
+    /* border: 1px solid red; */
+    position: relative;
+}
+.navbar_header .currency .currency_dropdown{
+    /* border: 1px solid green; */
+    position: absolute;
+    width: 100%;
+    z-index: 999;
+    background-color: var(--white-clr);
+    border: 1px solid var(--primary-clr);
+    padding: 5px 10px;
+}
+.navbar_header .currency .currency_dropdown div{
+    padding: 4px 10px 5px 0;
+}
+.navbar_header .currency .currency_dropdown div:first-child{
+    border-bottom: 1px solid var(--primary-clr);
+}
 
 @keyframes growDown {
     0% {
@@ -247,16 +267,21 @@ body {
 
 .navbar_icons .user_dropdown {
     position: absolute;
+    z-index: 999;
     font-size: 13px;
     text-transform: uppercase;
     background-color: var(--white-clr);
     border: 1px solid var(--primary-clr);
-    padding: 4px 12px;
+    padding: 5px 20px;
     color: var(--darkest-gray);
     top: 50px;
     right: 0;
-
-    display: none;
+}
+.navbar_icons .user_dropdown div {
+    padding: 4px 10px 5px 0;
+}
+.navbar_icons .user_dropdown div:first-child {
+    border-bottom: 1px solid var(--primary-clr);
 }
 
 .navbar_icons .user_dropdown ul li:first-child {
@@ -1863,3 +1888,254 @@ footer .limited_edition {
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     margin-top: -70px;
 }
+
+
+.profile-info {
+    /* border: 1px solid red; */
+    background-color: var(--e-gray);
+
+    display: flex;
+    flex-wrap: wrap;
+}
+.profile-info .profile-item{
+    /* border: 1px solid red; */
+    width: 50%;
+    padding: 20px;
+}
+.profile-info .profile-item input{
+    width: 100%;
+    background-color: #e2e2e2;
+    padding: 10px 16px;
+}
+.profile-info .profile-item span{
+    width: 100%;
+    display: block;
+    background-color: var(--white-clr);
+    padding: 10px 16px;
+}
+
+.profile-info .profile-actions {
+    /* border: 1px solid red; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 10px;  
+}
+
+.profile-info .profile-actions .save_btn {
+    background-color: var(--green-clr);
+    color: var(--white-clr);
+    padding: 10px 20px;
+}
+.profile-info .profile-actions .edit_btn {
+    background-color: var(--primary-clr);
+    color: var(--white-clr);
+    padding: 10px 24px;
+}
+
+
+
+/* ----------- user history  ---------------- */
+
+.user_history .table_wrapper {
+    overflow-x: auto;
+}
+.user_history table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.user_history .table_wrapper table thead {
+    border-bottom: 2px solid var(--primary-clr);
+}
+
+.user_history .table_wrapper table thead tr th {
+    border: 1px solid var(--primary-clr);
+    padding-left: 10px;
+}
+.user_history .table_wrapper table tbody tr td {
+    border: 1px solid var(--primary-clr);
+}
+.user_history .table_wrapper table .product_img img {
+    width: 50%;
+    margin: 4px;
+}
+
+.user_history .table_wrapper .id {
+    width: 5%;
+}
+.user_history .table_wrapper .img {
+    width: 10%;
+}
+.user_history .table_wrapper .name {
+    width: 25%;
+}
+.user_history .table_wrapper .date {
+    width:10%;
+}
+.user_history .table_wrapper .price {
+    width: 10%;
+}
+.user_history .table_wrapper .status {
+    width: 10%;
+}
+.user_history .table_wrapper .action {
+    width: 10%;
+}
+.user_history .table_wrapper .view_btn {
+    background-color: var(--green-clr);
+    color: var(--white-clr);
+    padding: 8px 16px;
+}
+
+
+
+/* --------------- checkout -------- */
+.checkout_page form {
+    /* border: 1px solid red; */
+    background-color: var(--e-gray);
+    padding: 20px;
+}
+.payment-methods {
+    /* border: 1px solid red; */
+}
+
+.checkout_page .main_form {
+    /* border: 1px solid red; */
+}
+.checkout_page .main_form .form_flex {
+    /* border: 1px solid red; */
+}
+.checkout_page .main_form .form_flex .form-group {
+    /* border: 1px solid red; */
+    width: 50%;
+    padding-right: 10px;
+}
+.checkout_page .main_form .form_flex .form-group input {
+    background-color: var(--white-clr);
+    width: 100%;
+    padding: 10px 16px;
+    outline: none;
+}
+.checkout_page .main_form .form_flex .form-group select {
+    background-color: var(--white-clr);
+    width: 100%;
+    padding: 10px 16px;
+    outline: none;
+}
+.checkout_page form button {
+    background-color: var(--green-clr);
+    color: var(--white-clr);
+    padding: 10px 16px;
+}
+
+/* -------------- track order -------------- */
+
+
+
+
+/* ---------------------------------
+---------------------------------
+------ CONTACT PAGE -------------
+---------------------------------
+--------------------------------- */
+
+
+.contact_form  {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.contact_form form {
+    background-color: var(--e-gray);
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+    padding: 40px;
+    border-radius: 4px;
+}
+
+.contact_form form label {
+    width: 100%;
+    font-size: 15px;
+}
+
+.contact_form form input {
+    width: 100%;
+    border: 1px solid #eee;
+    outline: none;
+    margin-bottom: 20px;
+    padding: 6px 18px;
+}
+.contact_form form input::placeholder {
+    font-size: 13px;
+}
+.contact_form form textarea {
+    width: 100%;
+    height: 100px;
+    border: 1px solid #eee;
+    outline: none;
+    margin-bottom: 20px;
+    padding: 6px 18px;
+}
+.contact_form form textarea::placeholder {
+    font-size: 13px;
+}
+
+.contact_form form button {
+    /* margin: 0 auto; */
+    background-color: var(--green-clr);
+    color: var(--white-clr);
+    margin-top: 20px;
+    padding: 8px 0;
+    border-radius: 4px;
+    outline: none;
+    text-transform: uppercase;
+    transition: 0.6s all;
+}
+.contact_form form button:hover {
+    background-color: var(--darkest-gray);
+}
+.login_register_btn {
+    background-color: var(--darkest-gray);
+    color: var(--white-clr);
+    margin-top: 20px;
+    padding: 8px 0;
+    border-radius: 4px;
+    outline: none;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.map_integration iframe {
+    width: 100%;
+}
+
+@media(max-width: 425px) {
+    .contact_form form {
+        width: 100%;
+        padding: 30px;
+    }
+    .contact_form form button {
+        font-size: 13px;
+    }
+    .login_register_btn {
+        font-size: 13px;
+    }
+}
+@media (min-width: 426px) and (max-width: 768px) {
+    .contact_form form {
+        width: 60%;
+        padding: 30px;
+    }
+    .contact_form form button {
+        font-size: 13px;
+    }
+    .login_register_btn {
+        font-size: 13px;
+    }
+}
+

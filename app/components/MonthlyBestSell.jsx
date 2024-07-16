@@ -1,12 +1,12 @@
-import React from 'react'
+import React from 'react';
+
 import BestSellCard from './BestSellCard'
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, A11y } from 'swiper/modules';
 import 'swiper/css';
 
-
-const MonthlyBestSell = () => {
+const MonthlyBestSell = ({ price, ...props }) => {
     return (
         <div>
             <div className="monthly_best_sell">
@@ -58,8 +58,8 @@ const MonthlyBestSell = () => {
                                         img_title=""
                                         sku_id="667a6274b4d48f8a84ed4c63"
                                         title="Shiva Gold Statue "
-                                        discounted_price="550"
-                                        actual_price="684"
+                                        discounted_price="759"
+                                        actual_price="1000"
                                     />
                                 </SwiperSlide>
                                 <SwiperSlide>
@@ -69,8 +69,8 @@ const MonthlyBestSell = () => {
                                         img_title=""
                                         sku_id="667a6274b4d48f8a84ed4c63"
                                         title="Shiva Gold Statue "
-                                        discounted_price="550"
-                                        actual_price="684"
+                                        discounted_price="759"
+                                        actual_price="884"
                                     />
                                 </SwiperSlide>
                                 <SwiperSlide>
@@ -80,8 +80,8 @@ const MonthlyBestSell = () => {
                                         img_title=""
                                         sku_id="667a6274b4d48f8a84ed4c63"
                                         title="Shiva Gold Statue "
-                                        discounted_price="550"
-                                        actual_price="684"
+                                        discounted_price="759"
+                                        actual_price="884"
                                     />
                                 </SwiperSlide>
                                 <SwiperSlide>
@@ -91,8 +91,8 @@ const MonthlyBestSell = () => {
                                         img_title=""
                                         sku_id="667a6274b4d48f8a84ed4c63"
                                         title="Shiva Gold Statue "
-                                        discounted_price="550"
-                                        actual_price="684"
+                                        discounted_price="759"
+                                        actual_price="884"
                                     />
                                 </SwiperSlide>
                                 <SwiperSlide>
@@ -102,8 +102,8 @@ const MonthlyBestSell = () => {
                                         img_title=""
                                         sku_id="667a6274b4d48f8a84ed4c63"
                                         title="Shiva Gold Statue "
-                                        discounted_price="550"
-                                        actual_price="684"
+                                        discounted_price="759"
+                                        actual_price="884"
                                     />
                                 </SwiperSlide>
                                 <SwiperSlide>
@@ -113,8 +113,8 @@ const MonthlyBestSell = () => {
                                         img_title=""
                                         sku_id="667a6274b4d48f8a84ed4c63"
                                         title="Shiva Gold Statue "
-                                        discounted_price="550"
-                                        actual_price="684"
+                                        discounted_price="759"
+                                        actual_price="884"
                                     />
                                 </SwiperSlide>
                                 <SwiperSlide>
@@ -124,8 +124,8 @@ const MonthlyBestSell = () => {
                                         img_title=""
                                         sku_id="667a6274b4d48f8a84ed4c63"
                                         title="Shiva Gold Statue "
-                                        discounted_price="550"
-                                        actual_price="684"
+                                        discounted_price="759"
+                                        actual_price="884"
                                     />
                                 </SwiperSlide>
                                 <SwiperSlide>
@@ -135,8 +135,8 @@ const MonthlyBestSell = () => {
                                         img_title=""
                                         sku_id="667a6274b4d48f8a84ed4c63"
                                         title="Shiva Gold Statue "
-                                        discounted_price="550"
-                                        actual_price="684"
+                                        discounted_price="759"
+                                        actual_price="884"
                                     />
                                 </SwiperSlide>
                             </Swiper>

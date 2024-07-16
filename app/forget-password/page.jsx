@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
+import Breadcrumbs from '../components/Breadcrumbs'
 
 const page = () => {
 
@@ -15,10 +16,8 @@ const page = () => {
     if (Object.keys(errors).length === 0) {
       // Simulate backend authentication (replace with actual backend call)
       // For demonstration purposes, assume login is successful
-      console.log('Password:', password);
+      console.log('Usernace/Email:', username);
 
-      // alert on successful registration
-      alert("Password Reset Succesful!")
       // Set state to trigger redirection
       setRedirectToHome(true);
     } else {
@@ -44,13 +43,15 @@ const page = () => {
   useEffect(() => {
     if (redirectToHome) {
       // Redirect to home page after successful login
-      window.location.href = '/login'; // Replace with your desired URL
+      window.location.href = '/otp-verification'; // Replace with your desired URL
     }
   }, [redirectToHome]);
 
   return (
     <div>
       <Navbar />
+      <Breadcrumbs page_title="Forget Passowrd" />
+
 
       <div className="login py-5">
         <div className="container">

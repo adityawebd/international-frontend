@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
+import Breadcrumbs from '../components/Breadcrumbs'
 
 const page = () => {
 
@@ -91,6 +92,8 @@ const page = () => {
     return (
         <div>
             <Navbar />
+            <Breadcrumbs page_title="Register" />
+
 
             <div className="register py-5">
                 <div className="container">
@@ -252,7 +255,7 @@ const page = () => {
                                     />
                                     {errors.addressThree && <p className="error-message">{errors.addressThree}</p>}
                                 </div>
-                                
+
                                 <div className="col-md-6 col-lg-6 col-sm-12 form-group">
                                     <label htmlFor="country">Country<span className='asterik'>*</span></label>
                                     <select
@@ -272,6 +275,10 @@ const page = () => {
                             </div>
 
                             <button type="submit">Register</button>
+
+                            <div className="flex justify-center mt-5 light_black_font">
+                                Already have an account? &nbsp; <a href="/login" className='underline font-semibold'>Login here</a>
+                            </div>
                         </form>
                     </div>
                 </div>

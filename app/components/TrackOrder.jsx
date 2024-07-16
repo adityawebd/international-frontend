@@ -1,11 +1,14 @@
-import React from 'react'
+'use client'
+import React from 'react';
+
 
 const TrackOrder = () => {
   return (
-    <div>
-      Track Order
+    <div className="trackOrderContainer">
+      <h2>Track Your Order</h2>
+     
     </div>
-  )
-}
+  );
+};
 
-export default TrackOrder
+export default TrackOrder;

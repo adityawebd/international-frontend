@@ -1,13 +1,19 @@
 'use client'
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { CiUser, CiShoppingBasket } from "react-icons/ci";
 import { IoSearch } from "react-icons/io5";
 import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/fa";
+import { CurrencyContext } from '../CurrencyContext'; // Importing the context
 
 const Navbar = () => {
-
+  const { currency, setCurrency } = useContext(CurrencyContext); // Use context
   const [isVisible, setIsVisible] = useState(false);
-  const searchBarRef = useRef(null);
+  const searchBarRef = useRef(null); // Ref for the search bar
+  const currencyDropdownRef = useRef(null); // Ref for the currency dropdown
+  const userDropdownRef = useRef(null); // Ref for the user dropdown
+
+  const [currencyDropdownVisible, setCurrencyDropdownVisible] = useState(false);
+  const [userDropdownVisible, setUserDropdownVisible] = useState(false);
 
   // Toggle search bar visibility
   const toggleSearchBar = (event) => {
@@ -24,6 +30,20 @@ const Navbar = () => {
     ) {
       setIsVisible(false);
     }
+
+    if (
+      currencyDropdownRef.current &&
+      !currencyDropdownRef.current.contains(event.target)
+    ) {
+      setCurrencyDropdownVisible(false);
+    }
+
+    if (
+      userDropdownRef.current &&
+      !userDropdownRef.current.contains(event.target)
+    ) {
+      setUserDropdownVisible(false);
+    }
   };
 
   useEffect(() => {
@@ -32,6 +52,21 @@ const Navbar = () => {
       document.removeEventListener('click', handleClickOutside);
     };
   }, []);
+
+  const toggleCurrencyDropdown = (event) => {   // for currency dropdown
+    event.stopPropagation();
+    setCurrencyDropdownVisible((prev) => !prev);
+  };
+
+  const changeCurrency = (currency) => {         // for curreny change
+    setCurrency(currency);
+    setCurrencyDropdownVisible(false);
+  };
+
+  const toggleUserDropdown = (event) => {     // for user dropdown
+    event.stopPropagation();
+    setUserDropdownVisible((prev) => !prev);
+  };
 
   return (
     <div>
@@ -46,8 +81,14 @@ const Navbar = () => {
           <div className="offer">
             Free Shipping this week order above - ₹75
           </div>
-          <div className="currency">
-            CURRENCY
+          <div className="currency" onClick={toggleCurrencyDropdown} ref={currencyDropdownRef}>
+            CURRENCY: {currency}
+            {currencyDropdownVisible && (
+              <div className="currency_dropdown">
+                <div onClick={() => changeCurrency('INR')}>₹ INR</div>
+                <div onClick={() => changeCurrency('USD')}>$ USD</div>
+              </div>
+            )}
           </div>
         </div>
         <div className='navbar'>
@@ -71,13 +112,15 @@ const Navbar = () => {
               </div>
             </div>
             <div className='navbar_icons'>
-              <div className='cart_icon user_dropdown_btn'><span><CiUser /></span>
-                <div className="user_dropdown">
-                  <ul>
-                    <li><a href="">Login</a></li>
-                    <li><a href="">Register</a></li>
-                  </ul>
-                </div></div>
+
+              <div className='cart_icon user_dropdown_btn' onClick={toggleUserDropdown} ref={userDropdownRef}><span><CiUser /></span>
+                {userDropdownVisible && (
+                  <div className="user_dropdown">
+                    <div><a href="/login">LOGIN</a></div>
+                    <div><a href="/register">REGISTER</a></div>
+                  </div>
+                )}
+              </div>
 
               <div className='cart_icon'><a href="/cart"><span><CiShoppingBasket /></span></a></div>
             </div>

@@ -10,13 +10,13 @@ const page = () => {
   return (
     <div>
       <Navbar />
-      <Breadcrumbs page_title="Privacy Policy" />
+      <Breadcrumbs page_title="Cancellation Refund Policy" />
 
       <div className="about_page py-5">
         <div className="container">
           <div className="row">
             <div className="">
-              <h2 className='text-3xl font-semibold text-black'>Privacy Policy</h2>
+              <h2 className='text-3xl font-semibold text-black'>Cancellation Refund Policy</h2>
               <p className='date_views_ul flex flex-wrap text-xs font-medium light_black_font my-3'>
                 By International &nbsp;<span><GoDotFill /></span>&nbsp; 10 May 2024  &nbsp;<span><GoDotFill /></span>&nbsp; 8 mins read  &nbsp;<span><GoDotFill /></span>&nbsp; 69K Views
               </p>

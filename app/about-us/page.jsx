@@ -1,6 +1,5 @@
 import React from 'react'
 import Navbar from '../components/Navbar'
-import './style.css'
 import Breadcrumbs from '../components/Breadcrumbs'
 import Footer from '../components/Footer'
 

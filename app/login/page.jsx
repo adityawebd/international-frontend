@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
+import Breadcrumbs from '../components/Breadcrumbs'
 
 const page = () => {
 
@@ -60,6 +61,8 @@ const page = () => {
   return (
     <div>
       <Navbar />
+      <Breadcrumbs page_title="Login" />
+
 
       <div className="login py-5">
         <div className="container">
@@ -99,6 +102,10 @@ const page = () => {
               <button type="submit">Login</button>
 
               <a className="login_register_btn" href="/register">register now</a>
+
+              <div className="flex justify-center mt-5 light_black_font">
+                Don't have an account? &nbsp; <a href="/register" className='underline font-semibold'>Register here</a>
+              </div>
             </form>
           </div>
         </div>

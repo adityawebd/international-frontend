@@ -5,10 +5,10 @@ const Profile = () => {
 
   const [profile, setProfile] = useState({
     name: 'Aditya Raj',
-    email: 'aditya@example.com',
-    number: '1234567890',
-    address: '123 Main St',
-    shippingAddress: '456 Secondary St'
+    email: 'example@gmail.com',
+    number: '+91 1234567890',
+    address: 'RG Trade Tower, 509, NSP',
+    shippingAddress: 'RG Trade Tower, 509, NSP'
   });
 
   const handleEdit = () => {
@@ -19,6 +19,28 @@ const Profile = () => {
     setIsEditing(false);
   };
 
+  // const handleSave = async () => {                                 // enable this when dealing this backend
+  //   try {
+  //     const response = await fetch('/api/updateProfile', {
+  //       method: 'PUT',
+  //       headers: {
+  //         'Content-Type': 'application/json'
+  //       },
+  //       body: JSON.stringify(profile)
+  //     });
+
+  //     if (response.ok) {
+  //       setIsEditing(false);
+  //       // Handle successful response if needed
+  //     } else {
+  //       // Handle error response if needed
+  //       console.error('Failed to update profile');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error:', error);
+  //   }
+  // };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setProfile({ ...profile, [name]: value });
@@ -26,7 +48,7 @@ const Profile = () => {
 
   return (
     <div>
-      <div className="user_profile pl-5">
+      <div className="user_profile px-5">
         <div className="banner">
           <img src="/assets/image/banner-profile.jpg" alt="Profile Banner" />
           <div className="user_img">
@@ -34,6 +56,11 @@ const Profile = () => {
           </div>
           <h2 className="name text-center text-xl font-semibold light_black_font mt-2">{profile.name}</h2>
         </div>
+        <p>Hello <span className='text-lg font-medium '>{profile.name}</span></p>
+        <p className='pr-5 pb-4 mb-4 light_black_font border-b'>From your account you can easily view and track orders. You can manage and change your account information like address, contact information and history of orders.</p>
+
+
+        <h2 className='text-xl font-semibold light_black_font pb-3'>ACCOUNT INFORMATION</h2>
         <div className="profile-info">
           <div className="profile-item">
             <label>Email:</label>
@@ -87,11 +114,11 @@ const Profile = () => {
               <span>{profile.shippingAddress}</span>
             )}
           </div>
-          <div className="profile-actions">
+          <div className="profile-actions pl-2">
             {isEditing ? (
-              <button onClick={handleSave}>Save</button>
+              <button className='save_btn' onClick={handleSave}>Save</button>
             ) : (
-              <button onClick={handleEdit}>Edit</button>
+              <button className='edit_btn' onClick={handleEdit}>Edit</button>
             )}
           </div>
         </div>
