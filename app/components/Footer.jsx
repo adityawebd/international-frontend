@@ -7,7 +7,7 @@ const Footer = () => {
         <div>
             <footer>
                 <div className="limited_edition text-center text-md text-white py-3">
-                    Win a contest! Get this limited-edition <a className='underline' href="">View Detail</a>
+                    Win a contest! Get this limited-edition <a className='underline' href="/all-products">View Detail</a>
                 </div>
                 <div className="container py-5">
                     <div className="row pb-5">
@@ -15,9 +15,9 @@ const Footer = () => {
                             <a href="/">
                                 <img src="/assets/image/logo-gift1.png" alt="Logo" />
                             </a>
-                            <div className="text-sm light_black_font mt-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi, dolor.</div>
-                            <div className='text-sm light_black_font mt-2'> <span className='font-bold'>Call Us: </span> +44 0123 456 789</div>
-                            <div className='text-sm light_black_font mt-2'> <span className='font-bold'>Email: </span> example@gmail.com</div>
+                            <div className="text-sm light_black_font mt-3">We International Gift, located at Uttam Nager, New Delhi </div>
+                            <div className='text-sm light_black_font mt-2'> <span className='font-bold'>Call Us: </span> +91-8800217402</div>
+                            <div className='text-sm light_black_font mt-2'> <span className='font-bold'>Email: </span> rakesh@internationalgift.in</div>
                         </div>
                         <div className="col-md-2 mt-2">
                             <h3 className='text-lg font-bold tracking-widest light_black_font border-b-2 pb-2'>Information</h3>
@@ -49,9 +49,24 @@ const Footer = () => {
                         <div className="col-md-3 mt-2">
                             <h3 className='text-lg font-bold tracking-widest light_black_font border-b-2 pb-2'>Newsletter</h3>
                             <ul>
-                                <p className='text-sm light_black_font mt-2'>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ea, est.</p>
-                                <li className='text-sm light_black_font mt-2'><a href="">Cancellation Refund Policy</a></li>
-                                <li className='text-sm light_black_font mt-2'><a href="">Contact us</a></li>
+                                <p className='text-sm light_black_font mt-2 mb-4'>Subscribe to your newletter! By submitting your email below</p>
+                                <div className="mt- w-full md:w-1/2 lg:mt-0">
+                                    <form className="flex lg:justify-center">
+                                        <div className="flex w-full max-w-md items-center space-x-2">
+                                            <input
+                                                className="flex h-10 w-[100] rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                                                type="email"
+                                                placeholder="Email"
+                                            ></input>
+                                            <button
+                                                type="button"
+                                                className="rounded-md bg_green px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                                            >
+                                                Subscribe
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
                             </ul>
                         </div>
                     </div>

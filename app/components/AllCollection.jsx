@@ -17,7 +17,7 @@ const AllCollection = () => {
                                 discount="30"
                                 img_src="/assets/image/cat-1-1-removebg-preview.png"
                                 img_title=""
-                                order_link=""
+                                order_link="/all-products"
                             />
                         </div>
                         <div className="col-md-6">
@@ -28,7 +28,7 @@ const AllCollection = () => {
                                 discount="30"
                                 img_src="/assets/image/cat-1-2-removebg-preview.png"
                                 img_title=""
-                                order_link=""
+                                order_link="/all-products"
                             />
                         </div>
                     </div>

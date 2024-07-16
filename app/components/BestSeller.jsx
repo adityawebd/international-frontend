@@ -43,7 +43,7 @@ const BestSeller = () => {
                     >
                         <SwiperSlide>
                             <NewArrivalCard
-                                card_link=""
+                                card_link="/product"
                                 img_src="/assets/image/gift17.jpg"
                                 img_title=""
                                 sku_id="667a6274b4d48f8a84ed4c63"
@@ -54,7 +54,7 @@ const BestSeller = () => {
                         </SwiperSlide>
                         <SwiperSlide>
                             <NewArrivalCard
-                                card_link=""
+                                card_link="/product"
                                 img_src="/assets/image/gift17.jpg"
                                 img_title=""
                                 sku_id="667a6274b4d48f8a84ed4c63"
@@ -65,7 +65,7 @@ const BestSeller = () => {
                         </SwiperSlide>
                         <SwiperSlide>
                             <NewArrivalCard
-                                card_link=""
+                                card_link="/product"
                                 img_src="/assets/image/gift17.jpg"
                                 img_title=""
                                 sku_id="667a6274b4d48f8a84ed4c63"
@@ -76,7 +76,7 @@ const BestSeller = () => {
                         </SwiperSlide>
                         <SwiperSlide>
                             <NewArrivalCard
-                                card_link=""
+                                card_link="/product"
                                 img_src="/assets/image/gift17.jpg"
                                 img_title=""
                                 sku_id="667a6274b4d48f8a84ed4c63"
@@ -87,7 +87,7 @@ const BestSeller = () => {
                         </SwiperSlide>
                         <SwiperSlide>
                             <NewArrivalCard
-                                card_link=""
+                                card_link="/product"
                                 img_src="/assets/image/gift17.jpg"
                                 img_title=""
                                 sku_id="667a6274b4d48f8a84ed4c63"
@@ -98,7 +98,7 @@ const BestSeller = () => {
                         </SwiperSlide>
                         <SwiperSlide>
                             <NewArrivalCard
-                                card_link=""
+                                card_link="/product"
                                 img_src="/assets/image/gift17.jpg"
                                 img_title=""
                                 sku_id="667a6274b4d48f8a84ed4c63"
@@ -109,7 +109,7 @@ const BestSeller = () => {
                         </SwiperSlide>
                         <SwiperSlide>
                             <NewArrivalCard
-                                card_link=""
+                                card_link="/product"
                                 img_src="/assets/image/gift17.jpg"
                                 img_title=""
                                 sku_id="667a6274b4d48f8a84ed4c63"
@@ -120,7 +120,7 @@ const BestSeller = () => {
                         </SwiperSlide>
                         <SwiperSlide>
                             <NewArrivalCard
-                                card_link=""
+                                card_link="/product"
                                 img_src="/assets/image/gift17.jpg"
                                 img_title=""
                                 sku_id="667a6274b4d48f8a84ed4c63"

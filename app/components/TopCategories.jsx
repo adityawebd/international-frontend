@@ -50,10 +50,10 @@ const TopCategories = () => {
                             </div>
                             <div className="col-md-9 col-sm">
                                 {[
-                                    { id: '1', img_src: '/assets/images/cat-banner/cat-11.jpg', btn_link: '' },
-                                    { id: '2', img_src: '/assets/images/cat-banner/cat-22.jpg', btn_link: '' },
-                                    { id: '3', img_src: '/assets/images/cat-banner/cat-33.jpg', btn_link: '' },
-                                    { id: '4', img_src: '/assets/images/cat-banner/cat-11.jpg', btn_link: '' }
+                                    { id: '1', img_src: '/assets/images/cat-banner/cat-11.jpg', btn_link: '/all-products' },
+                                    { id: '2', img_src: '/assets/images/cat-banner/cat-22.jpg', btn_link: '/all-products' },
+                                    { id: '3', img_src: '/assets/images/cat-banner/cat-33.jpg', btn_link: '/all-products' },
+                                    { id: '4', img_src: '/assets/images/cat-banner/cat-11.jpg', btn_link: '/all-products' }
                                 ].map(({ id, img_src, btn_link }) => (
                                     <div
                                         key={id}

@@ -20,7 +20,7 @@ const WoodStatue = () => {
                 </div>
                 <h2 className='text-3xl font-semibold light_black_font uppercase mt-2'>Super Quality Statue</h2>
                 <h2 className='text-4xl font-semibold light_black_font uppercase mt-2'>₹40.00 Only</h2>
-                <a href="">SHOP NOW</a>
+                <a href="/product">SHOP NOW</a>
               </div>
             </div>
           </div>

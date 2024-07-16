@@ -78,9 +78,9 @@ const Navbar = () => {
             <a href="#"><FaInstagram /></a>
             <a href="#"><FaLinkedinIn /></a>
           </div>
-          <div className="offer">
+          {/* <div className="offer">
             Free Shipping this week order above - ₹75
-          </div>
+          </div> */}
           <div className="currency" onClick={toggleCurrencyDropdown} ref={currencyDropdownRef}>
             CURRENCY: {currency}
             {currencyDropdownVisible && (

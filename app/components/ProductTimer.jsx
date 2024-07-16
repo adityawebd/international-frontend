@@ -1,10 +1,20 @@
-import React, { useEffect, useState } from 'react';
+const convertPrice = (price, currency, exchangeRates) => {
+    const rate = exchangeRates[currency];
+    return price * rate;
+};
+
+import React, { useContext } from 'react';
+import { CurrencyContext } from '../CurrencyContext';
 
 import { MdArrowForwardIos } from "react-icons/md";
 import { MdArrowBackIos } from "react-icons/md";
 import { FaStar } from "react-icons/fa6";
 
 const ProductTimer = () => {
+
+    const { currency, exchangeRates } = useContext(CurrencyContext);
+    const convertedPrice = convertPrice('200', currency, exchangeRates);
+    const convertedActualPrice = convertPrice('400', currency, exchangeRates);
 
     return (
         <div>
@@ -15,10 +25,10 @@ const ProductTimer = () => {
                             <div className="product_timer_header flex justify-between align-middle border-b-2">
                                 <h2 className='mb-2 font-semibold text-2xl text-center light_black_font'>Featured Items</h2>
 
-                                <div className="l_r_btns flex justify-between align-middle">
+                                {/* <div className="l_r_btns flex justify-between align-middle">
                                     <button className='text-2xl light_black_font'> <MdArrowBackIos /> </button>
                                     <button className='text-2xl light_black_font'> <MdArrowForwardIos /> </button>
-                                </div>
+                                </div> */}
                             </div>
                             <div className="product_timer_body mt-4">
                                 <div className="scrollable_card">
@@ -38,14 +48,16 @@ const ProductTimer = () => {
                                             <div className="review"> 4 Reviews</div>
                                         </div>
                                         <div className="price pt-2">
-                                            <span>₹549.00</span> &nbsp; ₹480.00
+                                            {/* <span>₹549.00</span> &nbsp; ₹480.00 */}
+                                            {currency === 'INR' ? '₹' : '$'} {convertedPrice.toFixed(2)} &nbsp;
+                                            <span>{currency === 'INR' ? '₹' : '$'} {convertedActualPrice.toFixed(2)}</span>
                                         </div>
 
                                         <p className='desc text-sm'>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Impedit, corrupti.</p>
                                         <div className="booking"> <span className='font-semibold light_black_font'>Total Booking: </span> 25 </div>
                                         <div className="btns py-2">
-                                            <a href="">REMIND ME</a>
-                                            <a href="">BOOK NOW</a>
+                                            {/* <a href="">REMIND ME</a> */}
+                                            <a href="/product">BUY NOW</a>
                                         </div>
                                     </div>
                                 </div>
@@ -57,10 +69,10 @@ const ProductTimer = () => {
                             <div className="product_timer_header flex justify-between align-middle border-b-2">
                                 <h2 className='mb-2 font-semibold text-2xl text-center light_black_font'>Featured Items</h2>
 
-                                <div className="l_r_btns flex justify-between align-middle">
+                                {/* <div className="l_r_btns flex justify-between align-middle">
                                     <button className='text-2xl light_black_font'> <MdArrowBackIos /> </button>
                                     <button className='text-2xl light_black_font'> <MdArrowForwardIos /> </button>
-                                </div>
+                                </div> */}
                             </div>
                             <div className="product_timer_body mt-4">
                                 <div className="scrollable_card">
@@ -80,14 +92,16 @@ const ProductTimer = () => {
                                             <div className="review"> 4 Reviews</div>
                                         </div>
                                         <div className="price pt-2">
-                                            <span>₹549.00</span> &nbsp; ₹480.00
+                                            {/* <span>₹549.00</span> &nbsp; ₹480.00 */}
+                                            {currency === 'INR' ? '₹' : '$'} {convertedPrice.toFixed(2)} &nbsp;
+                                            <span>{currency === 'INR' ? '₹' : '$'} {convertedActualPrice.toFixed(2)}</span>
                                         </div>
 
                                         <p className='desc text-sm'>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Impedit, corrupti.</p>
                                         <div className="booking"> <span className='font-semibold light_black_font'>Total Booking: </span> 25 </div>
                                         <div className="btns py-2">
-                                            <a href="">REMIND ME</a>
-                                            <a href="">BOOK NOW</a>
+                                            {/* <a href="">REMIND ME</a> */}
+                                            <a href="/product">BUY NOW</a>
                                         </div>
                                     </div>
                                 </div>
