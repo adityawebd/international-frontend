@@ -4,6 +4,7 @@ import { CiUser, CiShoppingBasket } from "react-icons/ci";
 import { IoSearch } from "react-icons/io5";
 import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/fa";
 import { CurrencyContext } from '../CurrencyContext'; // Importing the context
+import ProductTopbar from '../components/ProductTopbar'
 
 const Navbar = () => {
   const { currency, setCurrency } = useContext(CurrencyContext); // Use context
@@ -126,6 +127,7 @@ const Navbar = () => {
             </div>
           </div>
         </div>
+        <ProductTopbar />
       </nav>
     </div>
   )

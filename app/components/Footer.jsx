@@ -1,6 +1,6 @@
 import React from 'react'
 import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/fa";
-
+import {Send} from 'lucide-react'
 
 const Footer = () => {
     return (
@@ -50,21 +50,10 @@ const Footer = () => {
                             <h3 className='text-lg font-bold tracking-widest light_black_font border-b-2 pb-2'>Newsletter</h3>
                             <ul>
                                 <p className='text-sm light_black_font mt-2 mb-4'>Subscribe to your newletter! By submitting your email below</p>
-                                <div className="mt- w-full md:w-1/2 lg:mt-0">
-                                    <form className="flex lg:justify-center">
-                                        <div className="flex w-full max-w-md items-center space-x-2">
-                                            <input
-                                                className="flex h-10 w-[100] rounded-md border border-black/30 bg-transparent px-3 py-2 text-sm placeholder:text-gray-600 focus:outline-none focus:ring-1 focus:ring-black/30 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
-                                                type="email"
-                                                placeholder="Email"
-                                            ></input>
-                                            <button
-                                                type="button"
-                                                className="rounded-md bg_green px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-                                            >
-                                                Subscribe
-                                            </button>
-                                        </div>
+                                <div className="footer_news_widget">
+                                    <form>
+                                        <input type="email" placeholder='Enter you email here...' />
+                                        <button><span><Send /></span></button>
                                     </form>
                                 </div>
                             </ul>

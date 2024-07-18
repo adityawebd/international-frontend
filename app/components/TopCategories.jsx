@@ -21,10 +21,10 @@ const TopCategories = () => {
                             <div className="col-md-3 col-sm">
                                 <nav className="flex flex-col space-y-2" aria-label="Tabs" role="tablist">
                                     {[
-                                        { id: '1', category: 'Category 1', products: '440 Products', img: 'cat_1.png', hoverImg: 'cat_1_1.png' },
-                                        { id: '2', category: 'Category 2', products: '440 Products', img: 'cat_2.png', hoverImg: 'cat_2_1.png' },
-                                        { id: '3', category: 'Category 3', products: '440 Products', img: 'cat_3.png', hoverImg: 'cat_3_1.png' },
-                                        { id: '4', category: 'Category 4', products: '440 Products', img: 'cat_4.png', hoverImg: 'cat_4_1.png' }
+                                        { id: '1', category: 'Religious Idol', products: '440 Products', img: 'cat_1.png', hoverImg: 'cat_1_1.png' },
+                                        { id: '2', category: 'Decorative Item', products: '440 Products', img: 'cat_2.png', hoverImg: 'cat_2_1.png' },
+                                        { id: '3', category: 'Dry Fruit Bowl', products: '440 Products', img: 'cat_3.png', hoverImg: 'cat_3_1.png' },
+                                        { id: '4', category: 'Car Idol', products: '440 Products', img: 'cat_4.png', hoverImg: 'cat_4_1.png' }
                                     ].map(({ id, category, products, img, hoverImg }) => (
                                         <button
                                             key={id}
