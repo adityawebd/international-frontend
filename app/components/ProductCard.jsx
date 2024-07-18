@@ -12,13 +12,13 @@ const ProductCard = ({ product }) => {
     const convertedActualPrice = convertPrice(product.actual_price, currency, exchangeRates);
 
     return (
-        <div className="w-[300px] rounded-md border mb-2 mr-2">
+        <div className="w-[300px] rounded-md border mb-2 mr-2 reposnive_product_card">
             <img
                 src={product.image}
                 alt="product-image"
                 className="h-[200px] w-full rounded-t-md object-cover"
             />
-            <div className="py-4 px-2">
+            <div className="py-4 px-2 reposnive_product_card_content">
                 <h1 className="inline-flex items-center text-lg font-semibold product_title">
                     {product.name} &nbsp;
                     {/* <ArrowUpRight className="h-4 w-4" /> */}

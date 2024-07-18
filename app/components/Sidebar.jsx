@@ -4,7 +4,7 @@ import Image from 'next/image'
 
 const Sidebar = () => {
     return (
-        <aside className="flex h-screen w-64 flex-col overflow-y-auto bg-newblue px-5 ">
+        <aside className="flex  w-64 flex-col overflow-y-auto bg-newblue px-5 ">
             <div className="flex flex-1 flex-col justify-between">
 
                 <nav className="-mx-3 space-y-6 ">
