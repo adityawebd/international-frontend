@@ -284,7 +284,8 @@ body {
     top: 50px;
     right: 0;
 }
-.navbar_icons .user_dropdown div a  {
+
+.navbar_icons .user_dropdown div a {
     padding: 5px 20px;
     /* border: 1px solid red; */
     width: 100%;
@@ -573,13 +574,15 @@ body {
     overflow: hidden;
     /* transition: scale 1s all; */
     border-radius: 20px;
-    
+
 }
+
 .swiper-wrapper .products_card img {
     height: 100%;
     width: 100%;
     transition: transform 1.6s ease;
 }
+
 .swiper-wrapper .products_card img:hover {
     transform: scale(1.1);
 }
@@ -1087,11 +1090,16 @@ body {
     /* border: 1px solid red; */
     width: 40%;
     margin-right: 20px;
+    overflow: hidden;
 }
 
 .product_timer_body figure img {
     width: 100%;
     height: 100%;
+    transition: transform 2s ease;
+}
+.product_timer_body figure img:hover {
+    transform: scale(1.1);
 }
 
 .product_timer_body .product_timer_content {
@@ -1394,11 +1402,22 @@ body {
 
 
 /* --------------------- explore_feeds starts  -------------- */
+.explore_feeds_wrapper figure {
+    height: 200px;
+    border-radius: 10px;
+    overflow: hidden;
+}
 .explore_feeds_wrapper img {
     height: 200px;
-    width: 100%;
+    width: 226px;
     border-radius: 10px;
+    transition: transform 1s ease;
 }
+.explore_feeds_wrapper img:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
 
 /* --------------------- explore_feeds ends  -------------- */
 
@@ -1503,6 +1522,57 @@ footer .limited_edition {
     border-radius: 10px;
 }
 
+
+.card {
+    /* border: 1px solid red; */
+    position: relative;
+    display: flex;
+    border: none;
+    transition: 0.5s ease-in-out;
+}
+
+.picbox {
+    position: relative;
+    height: 100%;
+    background: #ffffff;
+    z-index: 2;
+    border-radius: 10px;
+}
+
+.picbox img {
+    width: 100%;
+    height: 100%;
+    cursor: zoom-in;
+    object-fit: cover;
+    transition: 0.6s ease-in-out;
+}
+
+/* lens magnifyer */
+/* .imgZoomLens {
+    display: none;
+    pointer-events: none;
+    position: absolute;
+    width: 20px !important;
+    height: 20px !important;
+    transform: translate(0%, 50%) !important;
+    background: rgba(245, 245, 245, 0.5);
+    border-radius: 50%;
+    z-index: 1000;
+} */
+
+/* resulted image */
+.imgZoomResult {
+    border-radius: 10px;
+    display: none;
+    position: absolute;
+    background-repeat: no-repeat;
+    width: 30rem;
+    height: 40rem;
+    margin-left: 101%;
+    z-index: 100;
+}
+
+
 @media(max-width: 425px) {
     .product_img_wrapper_container {
         /* border: 1px solid red; */
@@ -1547,6 +1617,43 @@ footer .limited_edition {
         width: 400px;
         height: 400px;
         border-radius: 10px;
+    }
+
+    .card {
+        position: relative;
+        display: flex;
+        flex-direction: column !important;
+        border-radius: 11px;
+        transition: 0.5s ease-in-out;
+    }
+
+    .picbox {
+        position: relative;
+        height: 100%;
+        background: #ffffff;
+        z-index: 2;
+        border-radius: 10px;
+    }
+
+    .picbox img {
+        width: 100%;
+        height: 100%;
+        cursor: zoom-in;
+        object-fit: cover;
+        transition: 0.6s ease-in-out;
+    }
+
+    /* resulted image */
+    .imgZoomResult {
+        border-radius: 10px;
+        display: none;
+        position: absolute;
+        background-repeat: no-repeat;
+        width: 30rem;
+        height: 40rem;
+        margin-top: 102%;
+        margin-left: 0%;
+        z-index: 100;
     }
 }
 
@@ -1598,10 +1705,22 @@ footer .limited_edition {
 }
 
 
+/* -------------- variations ------------------ */
+.variations figure {
+    height: 150px;
+    border-radius: 10px;
+    overflow: hidden;
+}
 
 .variations img {
     height: 150px;
+    width: 150px;
     border-radius: 10px;
+    transition: transform 1s ease;
+}
+.variations img:hover {
+    transform: scale(1.2);
+    cursor: pointer;
 }
 
 .product_points {
@@ -2089,6 +2208,7 @@ footer .limited_edition {
     .wishlist_page {
         margin-top: 30px;
     }
+
     .wishlist_page table {
         width: 1000px;
     }
@@ -2235,18 +2355,18 @@ footer .limited_edition {
         /* border: 1px solid red; */
         margin-top: 30px;
     }
-    
+
     .user_profile .banner img {
         width: 100%;
         height: 100px;
     }
-    
+
     .user_profile .banner .user_img {
         display: flex;
         justify-content: center;
         align-items: center;
     }
-    
+
     .user_profile .banner .user_img img {
         width: 60px;
         height: 60px;
@@ -2255,50 +2375,50 @@ footer .limited_edition {
         box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
         margin-top: -30px;
     }
-    
-    
+
+
     .profile-info {
         /* border: 1px solid red; */
         background-color: var(--e-gray);
-    
+
         display: flex;
         flex-wrap: wrap;
     }
-    
+
     .profile-info .profile-item {
         /* border: 1px solid red; */
         width: 100%;
         padding: 20px;
     }
-    
+
     .profile-info .profile-item input {
         width: 100%;
         background-color: #e2e2e2;
         padding: 10px 16px;
     }
-    
+
     .profile-info .profile-item span {
         width: 100%;
         display: block;
         background-color: var(--white-clr);
         padding: 10px 16px;
     }
-    
+
     .profile-info .profile-actions {
         /* border: 1px solid red; */
         display: flex;
         justify-content: center;
         align-items: center;
-    
+
         padding: 10px;
     }
-    
+
     .profile-info .profile-actions .save_btn {
         background-color: var(--green-clr);
         color: var(--white-clr);
         padding: 10px 20px;
     }
-    
+
     .profile-info .profile-actions .edit_btn {
         background-color: var(--primary-clr);
         color: var(--white-clr);
@@ -3129,6 +3249,129 @@ footer .limited_edition {
 -------------- Hersection ------------
 -------------------------------------- */
 
+.hero_main_wrapper {
+    overflow: hidden;
+}
+
 .hero_img_text {
-    border: 1px solid red;
+    /* border: 1px solid red; */
+    position: absolute;
+    left: 15%;
+    top: 20%;
+}
+.hero_img_text h1,
+.hero_img_text h6,
+.hero_img_text p,
+.hero_img_text a {
+    opacity: 0;
+    animation: slideIn 4s forwards;
+}
+.hero_img_text h1 {
+    font-size: 60px;
+    font-weight: 700;
+    color: var(--darkest-gray);
+}
+.hero_img_text h6 {
+    font-size: 48px;
+    font-weight: 400;
+    color: var(--darkest-gray);
+    margin-top: 80px;
+}
+.hero_img_text p {
+    font-size: 20px;
+    font-weight: 300;
+    color: var(--darkest-gray);
+    width: 60%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.hero_img_text a {
+    background-color: var(--darkest-gray);
+    color: var(--white-clr);
+    font-size: 15px;
+    padding: 10px 20px;
+    transition: 0.6s all;
+}
+.hero_img_text a:hover {
+    background-color: var(--green-clr);
+}
+
+.hero_nav_btns:first-child {
+    /* border: 1px solid red; */
+    background-color: var(--green-clr);
+    color: var(--white-clr);
+    left: -50px;
+    height: 40px;
+    width: 40px;
+    padding: 10px;
+    font-size: 30px;
+    transition: 0.6s all;
+}
+.hero_nav_btns:first-child:hover {
+    background-color: var(--darkest-gray);
+}
+.hero_nav_btns:nth-child(3) {
+    /* border: 1px solid red; */
+    background-color: var(--green-clr);
+    color: var(--white-clr);
+    right: -50px;
+    height: 40px;
+    width: 40px;
+    padding: 10px;
+    font-size: 30px;
+    transition: 0.6s all;
+}
+.hero_nav_btns:nth-child(3):hover {
+    background-color: var(--darkest-gray);
+}
+
+.hero_main_wrapper:hover .hero_nav_btns:first-child {
+    left: 10px;
+}
+.hero_main_wrapper:hover .hero_nav_btns:nth-child(3) {
+    right: 10px;
+}
+
+@keyframes slideIn {
+    0% {
+        transform: translateY(-60px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.animated-text {
+    animation: slideIn 0.5s forwards;
+}
+
+@media(max-width: 425px) {
+    .hero_main_wrapper {
+        height: 70vh;
+    }
+    
+    .hero_img_text {
+        /* border: 1px solid red; */
+        position: absolute;
+        left: 15%;
+        top: 20%;
+    }
+    .hero_img_text h1 {
+        font-size: 36px;
+    }
+    .hero_img_text h6 {
+        font-size: 28px;
+        margin-top: 40px;
+    }
+    .hero_img_text p {
+        font-size: 16px;
+        font-weight: 300;
+        color: var(--darkest-gray);
+        width: 80%;
+        margin-top: 10px;
+        margin-bottom: 16px;
+    }
+    
 }

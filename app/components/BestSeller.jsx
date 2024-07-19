@@ -10,8 +10,8 @@ const BestSeller = () => {
     return (
         <div>
             <div className="new_arrival py-5">
-                <h2 className='mb-4 font-semibold text-4xl text-center light_black_font'>Best Seller</h2>
-                <p className='text-center text-sm light_black_font'>Browse The Collection of Top Products</p>
+                <h2 data-aos="fade-up" data-aos-duration="500" className='mb-4 font-semibold text-4xl text-center light_black_font'>Best Seller</h2>
+                <p data-aos="fade-up" data-aos-duration="600" className='text-center text-sm light_black_font'>Browse The Collection of Top Products</p>
                 <div className="container mt-4">
                     <Swiper
                         spaceBetween={10}

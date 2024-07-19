@@ -36,8 +36,8 @@ const Testimonials = () => {
         <div>
             <div className="testimonials py-5">
                 <div className="container">
-                    <h3 className='mb-2 font-semibold text-3xl text-center light_black_font'>Client Review</h3>
-                    <p className='text-center text-sm light_black_font mb-4'>What clients say about us</p>
+                    <h3 data-aos="fade-up" data-aos-duration="600" className='mb-2 font-semibold text-3xl text-center light_black_font'>Client Review</h3>
+                    <p data-aos="fade-up" data-aos-duration="700" className='text-center text-sm light_black_font mb-4'>What clients say about us</p>
 
                     <div className="feedback_scrollable">
                         {testimonials.map((testimonial, index) => (
@@ -50,10 +50,10 @@ const Testimonials = () => {
                                     {/* <img src="/assets/images/testimonial/quotes-1.svg" alt="Quote" /> */}
                                 </div>
                                 <div className="main_feedback">
-                                    <p className='text-sm light_black_font leading-6'>{testimonial.feedback}</p>
-                                    <p className='text-xl green_font font-semibold mt-3'>{testimonial.name}</p>
-                                    <p className='text-xl light_black_font font-bold'>{testimonial.position}</p>
-                                    <div className="stars flex align-middle mr-3">
+                                    <p data-aos="fade-up" data-aos-duration="600" className='text-sm light_black_font leading-6'>{testimonial.feedback}</p>
+                                    <p data-aos="fade-up" data-aos-duration="700" className='text-xl green_font font-semibold mt-3'>{testimonial.name}</p>
+                                    <p data-aos="fade-up" data-aos-duration="800" className='text-xl light_black_font font-bold'>{testimonial.position}</p>
+                                    <div data-aos="fade-up" data-aos-duration="1000" className="stars flex align-middle mr-3">
                                         {[...Array(5)].map((_, i) => (
                                             <span key={i} className='colored_star'><FaStar /></span>
                                         ))}

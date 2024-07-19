@@ -15,6 +15,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import Variations from '../components/Variations';
 import ExploreFeeds from '../components/ExploreFeeds';
+import Magnify from '../components/Magnify'
 import { FaStar, FaCheck, FaRegHeart } from 'react-icons/fa6';
 import { BiLike } from "react-icons/bi";
 import { BiDislike } from "react-icons/bi";
@@ -36,25 +37,6 @@ const Page = () => {
     const { value: value4, reset: resetValue4 } = useCountUp({ isCounting, duration: 1, start: 0, end: progressValues[3] });
     const { value: value5, reset: resetValue5 } = useCountUp({ isCounting, duration: 1, start: 0, end: progressValues[4] });
 
-
-    // Data array containing information for each image
-    const imageData = [
-        {
-            id: 1,
-            src: '/assets/image/gift12.jpg',
-            alt: 'Gift 12',
-        },
-        {
-            id: 2,
-            src: '/assets/image/gift13.jpg',
-            alt: 'Gift 13',
-        },
-        {
-            id: 3,
-            src: '/assets/image/gift14.jpg',
-            alt: 'Gift 14',
-        },
-    ];
 
     const productData = {
         productName: "Shiva Gold Statue",
@@ -78,6 +60,15 @@ const Page = () => {
             { id: 2, src: "/assets/image/gift13.jpg", "alt": "Gift 13" },
             { id: 3, src: "/assets/image/gift14.jpg", "alt": "Gift 14" }
         ],
+        variations_images: [
+            { id: 1, src: "/assets/image/gift5.jpg", "alt": "Gift 12" },
+            { id: 2, src: "/assets/image/gift7.jpg", "alt": "Gift 13" },
+            { id: 3, src: "/assets/image/gift12.jpg", "alt": "Gift 14" },
+            { id: 3, src: "/assets/image/gift14.jpg", "alt": "Gift 14" },
+            { id: 3, src: "/assets/image/gift15.jpg", "alt": "Gift 14" },
+            { id: 3, src: "/assets/image/gift7.jpg", "alt": "Gift 14" }
+        ],
+
         tabs: {
             general_info: {
                 content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor ratione expedita consectetur tempore ab saepe ad modi voluptatem quibusdam illum. Possimus voluptates reprehenderit, assumenda in, beatae architecto at ad nesciunt ratione aliquam tenetur aperiam deserunt aliquid modi. Exercitationem suscipit doloremque tempora voluptates fugiat, aut pariatur inventore alias dignissimos sit beatae!"
@@ -182,10 +173,11 @@ const Page = () => {
                                             key={image.id}
                                             className={index === activeProductTab ? 'active' : 'hidden'}
                                         >
-                                            <img
+                                            {/* <img
                                                 src={image.src}
                                                 alt={image.alt}
-                                            />
+                                            /> */}
+                                            <Magnify imageSrc={productData.images[activeProductTab].src} alt={productData.images[activeProductTab].alt} />
                                         </div>
                                     ))}
                                 </div>
@@ -223,7 +215,8 @@ const Page = () => {
                                 <a href="#"><span><HiOutlineShoppingBag /></span> &nbsp; add to cart </a>
                             </div>
                             <h2 className="text-xl font-semibold light_black_font mt-4">Variations</h2>
-                            <Variations variations={productData.variations} />
+                            <Variations images={productData.variations_images}/>
+                            {/* <Variations variations={productData.variations} /> */}
                             {/* <Variations /> */}
                         </div>
                     </div>

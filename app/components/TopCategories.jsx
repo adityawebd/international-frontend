@@ -12,8 +12,8 @@ const TopCategories = () => {
     return (
         <div>
             <div className="top_categories py-5">
-                <h2 className='mb-2 font-semibold text-4xl text-center light_black_font'>Top Categories</h2>
-                <p className='text-center text-sm light_black_font'>Browse The Collection of Top Products</p>
+                <h2 data-aos="fade-up" data-aos-duration="500" className='mb-2 font-semibold text-4xl text-center light_black_font'>Top Categories</h2>
+                <p data-aos="fade-up" data-aos-duration="600" className='text-center text-sm light_black_font'>Browse The Collection of Top Products</p>
 
                 <div className="container">
                     <div className="tabs_wrapper mt-4">
