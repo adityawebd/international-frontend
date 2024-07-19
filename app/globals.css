@@ -279,14 +279,16 @@ body {
     text-transform: uppercase;
     background-color: var(--white-clr);
     border: 1px solid var(--primary-clr);
-    padding: 5px 20px;
+    /* padding: 5px 20px; */
     color: var(--darkest-gray);
     top: 50px;
     right: 0;
 }
-
-.navbar_icons .user_dropdown div {
-    padding: 4px 10px 5px 0;
+.navbar_icons .user_dropdown div a  {
+    padding: 5px 20px;
+    /* border: 1px solid red; */
+    width: 100%;
+    display: block;
 }
 
 .navbar_icons .user_dropdown div:first-child {
@@ -560,11 +562,26 @@ body {
     background-color: var(--white-clr);
     height: 100%;
     width: 100%;
+
+    overflow: hidden;
+    transition: transform 1.6s ease;
 }
 
-.swiper-wrapper .products_card img {
+.swiper-wrapper .products_card figure {
     height: 80%;
     width: 100%;
+    overflow: hidden;
+    /* transition: scale 1s all; */
+    border-radius: 20px;
+    
+}
+.swiper-wrapper .products_card img {
+    height: 100%;
+    width: 100%;
+    transition: transform 1.6s ease;
+}
+.swiper-wrapper .products_card img:hover {
+    transform: scale(1.1);
 }
 
 .products_card .card_content {
@@ -3102,4 +3119,16 @@ footer .limited_edition {
         border-radius: 50%;
     }
 
+}
+
+
+
+
+
+/* ------------------------=-------------
+-------------- Hersection ------------
+-------------------------------------- */
+
+.hero_img_text {
+    border: 1px solid red;
 }
