@@ -20,6 +20,8 @@ const page = () => {
       console.log('Username:', username);
       console.log('Password:', password);
 
+      console.log("hello ")
+
       // alert on successful registration
       alert("Login Succesful!")
       // Set state to trigger redirection
