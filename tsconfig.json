@@ -28,7 +28,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "app/api/auth/[...nextauth]/route.js", "app/api/cartdata/route.js", "app/api/register/route.ts", "app/lib/auth.js", "utils/config/dbConfig.ts", "utils/models/banner.js", "app/components/CartItem.jsx", "app/components/Cart.jsx"  ],
   "exclude": [
     "node_modules"
   ]

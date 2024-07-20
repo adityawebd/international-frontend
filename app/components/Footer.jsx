@@ -33,7 +33,7 @@ const Footer = () => {
                             <ul>
                                 <li className='text-sm light_black_font mt-2'><a href="/profile">My Account</a></li>
                                 <li className='text-sm light_black_font mt-2'><a href="/track-order">Track Your Order</a></li>
-                                <li className='text-sm light_black_font mt-2'><a href="/wishlist">Wishlist</a></li>
+                                {/* <li className='text-sm light_black_font mt-2'><a href="/wishlist">Wishlist</a></li> */}
                                 <li className='text-sm light_black_font mt-2'><a href="/user-history">Your Product History</a></li>
                             </ul>
                         </div>

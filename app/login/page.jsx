@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import Breadcrumbs from '../components/Breadcrumbs'
+import { signIn } from "next-auth/react";
 
 const page = () => {
 
@@ -10,8 +11,13 @@ const page = () => {
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
   const [redirectToHome, setRedirectToHome] = useState(false);
+  const [error, setError] = useState("");
+  const [user, setUser] = useState({
+    username: "",
+    password: "",
+  });
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const errors = validateForm();
     if (Object.keys(errors).length === 0) {
@@ -19,6 +25,17 @@ const page = () => {
       // For demonstration purposes, assume login is successful
       console.log('Username:', username);
       console.log('Password:', password);
+
+      const res = await signIn("credentials", {
+        email: username,
+        password: password,
+        redirect: false,
+      });
+
+      if (res?.error) {
+        console.log(res);
+        setError("error");
+      }
 
       console.log("hello ")
 
@@ -59,6 +76,8 @@ const page = () => {
       window.location.href = '/'; // Replace with your desired URL
     }
   }, [redirectToHome]);
+
+  
 
   return (
     <div>

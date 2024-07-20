@@ -1,4 +1,6 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import AOS from 'aos';
+import 'aos/dist/aos.css'
 
 import BestSellCard from './BestSellCard'
 
@@ -7,16 +9,20 @@ import { Autoplay, Navigation, A11y } from 'swiper/modules';
 import 'swiper/css';
 
 const MonthlyBestSell = ({ price, ...props }) => {
+    
+  useEffect(() => { //animate on scroll
+    AOS.init();
+  }, [])
     return (
         <div>
             <div className="monthly_best_sell">
                 <div className="container py-5">
-                    <h2 className='mb-4 font-semibold text-2xl'><span>Monthly</span> Best Sell</h2>
+                    <h2 data-aos="fade-down" data-aos-duration="1000" className='mb-4 font-semibold text-2xl'><span>Monthly</span> Best Sell</h2>
 
                     <div className="row">
                         <div className="col-md-3">
                             <div className="best_sell_banner_wrapper">
-                                <div className="banner">
+                                <div  data-aos="zoom-in-right" data-aos-duration="1000"  className="banner">
                                     <img src="/assets/imgs/banner/banner-9.jpg" className='rounded-2xl' alt="" />
                                 </div>
 

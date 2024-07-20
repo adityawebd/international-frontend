@@ -1,85 +1,12 @@
-    import React, { useState } from 'react';
-    import { FaStar } from "react-icons/fa6";
+import React, { useState } from 'react';
+import { FaStar } from "react-icons/fa6";
 
-    const NewCom = () => {
-        const [activeTestimonial, setActiveTestimonial] = useState(0); // Default to the first testimonial
+const NewCom = () => {
 
-        const testimonials = [
-            {
-                id: 1,
-                feedback: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis sint minima consequatur deleniti repellat rerum non. Voluptatibus quia maxime esse! Doloribus mollitia esse dicta quasi?",
-                name: "Jhon Doe",
-                position: "General Manager",
-                img: "/assets/images/testimonial/1.jpg"
-            },
-            {
-                id: 2,
-                feedback: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis sint minima consequatur deleniti repellat rerum non. Voluptatibus quia maxime esse! Doloribus mollitia esse dicta quasi?",
-                name: "Jane Doe",
-                position: "Marketing Director",
-                img: "/assets/images/testimonial/2.jpg"
-            },
-            {
-                id: 3,
-                feedback: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis sint minima consequatur deleniti repellat rerum non. Voluptatibus quia maxime esse! Doloribus mollitia esse dicta quasi?",
-                name: "Alice Smith",
-                position: "CEO",
-                img: "/assets/images/testimonial/3.jpg"
-            }
-        ];
 
-        const handleClick = (index) => {
-            setActiveTestimonial(index);
-        };
+    return (
+        <div><div class="sticky-header-next-sec ec-main-slider section section-space-pb"><div class="ec-slider swiper-container main-slider-nav main-slider-dot swiper-container-initialized swiper-container-horizontal"><div class="swiper-wrapper" id="swiper-wrapper-a758df9b2c8616cc" aria-live="off" style="transition: all 2000ms ease 0s; transform: translate3d(-4170px, 0px, 0px);"><div class="ec-slide-item swiper-slide d-flex ec-slide-2 swiper-slide-duplicate swiper-slide-next swiper-slide-duplicate-prev" data-swiper-slide-index="1" role="group" aria-label="1 / 4" style="width: 1390px;"><div class="container align-self-center"><div class="row"><div class="col-xl-6 col-lg-7 col-md-7 col-sm-7 align-self-center"><div class="ec-slide-content slider-animation"><h1 class="ec-slide-title">Best Statue Sets</h1><h2 class="ec-slide-stitle">Sale Offer</h2><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do</p><a href="#" class="btn btn-lg btn-secondary">Order Now</a></div></div></div></div></div><div class="ec-slide-item swiper-slide d-flex ec-slide-1 swiper-slide-duplicate-active" data-swiper-slide-index="0" role="group" aria-label="2 / 4" style="width: 1390px;"><div class="container align-self-center"><div class="row"><div class="col-xl-6 col-lg-7 col-md-7 col-sm-7 align-self-center"><div class="ec-slide-content slider-animation"><h1 class="ec-slide-title">New Statue Collection</h1><h2 class="ec-slide-stitle">Sale Offer</h2><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do</p><a href="#" class="btn btn-lg btn-secondary">Order Now</a></div></div></div></div></div><div class="ec-slide-item swiper-slide d-flex ec-slide-2 swiper-slide-prev swiper-slide-duplicate-next" data-swiper-slide-index="1" role="group" aria-label="3 / 4" style="width: 1390px;"><div class="container align-self-center"><div class="row"><div class="col-xl-6 col-lg-7 col-md-7 col-sm-7 align-self-center"><div class="ec-slide-content slider-animation"><h1 class="ec-slide-title">Best Statue Sets</h1><h2 class="ec-slide-stitle">Sale Offer</h2><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do</p><a href="#" class="btn btn-lg btn-secondary">Order Now</a></div></div></div></div></div><div class="ec-slide-item swiper-slide d-flex ec-slide-1 swiper-slide-duplicate swiper-slide-active" data-swiper-slide-index="0" role="group" aria-label="4 / 4" style="width: 1390px;"><div class="container align-self-center"><div class="row"><div class="col-xl-6 col-lg-7 col-md-7 col-sm-7 align-self-center"><div class="ec-slide-content slider-animation"><h1 class="ec-slide-title">New Statue Collection</h1><h2 class="ec-slide-stitle">Sale Offer</h2><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do</p><a href="#" class="btn btn-lg btn-secondary">Order Now</a></div></div></div></div></div></div><div class="swiper-pagination swiper-pagination-white swiper-pagination-clickable swiper-pagination-bullets"><span class="swiper-pagination-bullet swiper-pagination-bullet-active" tabindex="0" role="button" aria-label="Go to slide 1"></span><span class="swiper-pagination-bullet" tabindex="0" role="button" aria-label="Go to slide 2"></span></div><div class="swiper-buttons"><div class="swiper-button-next" tabindex="0" role="button" aria-label="Next slide" aria-controls="swiper-wrapper-a758df9b2c8616cc"></div><div class="swiper-button-prev" tabindex="0" role="button" aria-label="Previous slide" aria-controls="swiper-wrapper-a758df9b2c8616cc"></div></div><span class="swiper-notification" aria-live="assertive" aria-atomic="true"></span></div></div></div>
+    )
+}
 
-        return (
-            <div>
-                <div className="testimonials py-5">
-                    <div className="container">
-                        <h3 className='mb-2 font-semibold text-3xl text-center light_black_font'>Client Review</h3>
-                        <p className='text-center text-sm light_black_font'>What clients say about us</p>
-
-                        <div className="feedback_scrollable">
-                            {testimonials.map((testimonial, index) => (
-                                <div
-                                    key={testimonial.id}
-                                    className={`testimonials_wrapper ${activeTestimonial === index ? 'active' : ''}`}
-                                    style={{ transform: `translateX(${-100 * activeTestimonial}%)` }}
-                                >
-                                    <div className="quote_1">
-                                        <img src="/assets/images/testimonial/quotes-1.svg" alt="Quote" />
-                                    </div>
-                                    <div className="main_feedback">
-                                        <p className='text-sm light_black_font leading-6'>{testimonial.feedback}</p>
-                                        <p className='text-xl green_font font-semibold mt-3'>{testimonial.name}</p>
-                                        <p className='text-xl light_black_font font-bold'>{testimonial.position}</p>
-                                        <div className="stars flex align-middle mr-3">
-                                            {[...Array(5)].map((_, i) => (
-                                                <span key={i} className='colored_star'><FaStar /></span>
-                                            ))}
-                                        </div>
-                                    </div>
-                                    <div className="quote_2">
-                                        <img src="/assets/images/testimonial/quotes-2.svg" alt="Quote" />
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                        <div className="testimonials_avatar">
-                            {testimonials.map((testimonial, index) => (
-                                <img
-                                    key={testimonial.id}
-                                    src={testimonial.img}
-                                    alt={`Avatar ${index + 1}`}
-                                    onClick={() => handleClick(index)}
-                                    className={`avatar ${activeTestimonial === index ? 'active' : ''}`}
-                                />
-                            ))}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        )
-    }
-
-    export default NewCom;
+export default NewCom;

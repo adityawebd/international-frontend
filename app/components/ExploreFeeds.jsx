@@ -41,28 +41,44 @@ const ExploreFeeds = () => {
                         className="swiper-wrapper mx-auto mb-4"
                     >
                         <SwiperSlide>
-                            <img src="/assets/image/gift2.jpg" alt="" />
+                            <figure>
+                                <img src="/assets/image/gift2.jpg" alt="" />
+                            </figure>
                         </SwiperSlide>
                         <SwiperSlide>
-                            <img src="/assets/image/gift3.jpg" alt="" />
+                            <figure>
+                                <img src="/assets/image/gift3.jpg" alt="" />
+                            </figure>
                         </SwiperSlide>
                         <SwiperSlide>
-                            <img src="/assets/image/gift4.jpg" alt="" />
+                            <figure>
+                                <img src="/assets/image/gift4.jpg" alt="" />
+                            </figure>
                         </SwiperSlide>
                         <SwiperSlide>
-                            <img src="/assets/image/gift5.jpg" alt="" />
+                            <figure>
+                                <img src="/assets/image/gift5.jpg" alt="" />
+                            </figure>
                         </SwiperSlide>
                         <SwiperSlide>
-                            <img src="/assets/image/gift6.jpg" alt="" />
+                            <figure>
+                                <img src="/assets/image/gift6.jpg" alt="" />
+                            </figure>
                         </SwiperSlide>
                         <SwiperSlide>
-                            <img src="/assets/image/gift7.jpg" alt="" />
+                            <figure>
+                                <img src="/assets/image/gift7.jpg" alt="" />
+                            </figure>
                         </SwiperSlide>
                         <SwiperSlide>
-                            <img src="/assets/image/gift8.jpg" alt="" />
+                            <figure>
+                                <img src="/assets/image/gift8.jpg" alt="" />
+                            </figure>
                         </SwiperSlide>
                         <SwiperSlide>
-                            <img src="/assets/image/gift10.jpg" alt="" />
+                            <figure>
+                                <img src="/assets/image/gift10.jpg" alt="" />
+                            </figure>
                         </SwiperSlide>
                     </Swiper>
                 </div>

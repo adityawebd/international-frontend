@@ -13,22 +13,10 @@ const page = () => {
     return (
         <div>
             <Navbar />
-            <Breadcrumbs page_title="Cart" />
-
-            <div className="userprofile_page py-5">
-                <div className="container">
-                   <div className="row">
-                    <div className="col-md-2 col-sm-12">
-                        <Sidebar />
-                    </div>
-                    <div className="col-md-10 col-sm-12">
+            <Breadcrumbs page_title="Cart" />                                         
+                    <div className="m-4">
                         <Cart />
                     </div>
-                   </div>
-                </div>
-            </div>
-
-
             <NewArrival />
             <Footer />
         </div>

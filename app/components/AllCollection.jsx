@@ -5,11 +5,11 @@ const AllCollection = () => {
     return (
         <div>
             <div className="all_collection py-5">
-                <h2 className='mb-4 font-semibold text-4xl text-center light_black_font'>Shop All Collection</h2>
+                <h2 data-aos="fade-up" data-aos-duration="600" className='mb-4 font-semibold text-4xl text-center light_black_font'>Shop All Collection</h2>
 
                 <div className="container">
                     <div className="row">
-                        <div className="col-md-6">
+                        <div className="col-md-6"  data-aos="zoom-in-right" data-aos-duration="1000">
                             <AllCollectionCard
                                 title="New Arrivals"
                                 tagline="Gold Special Gifts"
@@ -20,7 +20,7 @@ const AllCollection = () => {
                                 order_link="/all-products"
                             />
                         </div>
-                        <div className="col-md-6">
+                        <div className="col-md-6"  data-aos="zoom-in-left" data-aos-duration="1000">
                             <AllCollectionCard
                                 title="New Trending"
                                 tagline="Best Gold Gifts"
