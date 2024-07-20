@@ -10,7 +10,7 @@ const useCalculateTotal = (callback: Callback) => {
   useEffect(() => {
     let total = 0;
     if (cart) {
-      total = cart.reduce((acc, product) => acc + product.price * (product.quantity || 0), 0);
+      total = cart.reduce((acc:any, product:any) => acc + product.price * (product.quantity || 0), 0);
     }
 
     if (callback) {

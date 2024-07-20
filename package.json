@@ -5,8 +5,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start -p 6969",
-    "lint": "next lint"
+    "start": "next start ",
+    "lint": "next lint",
+    "type-check": "tsc --noEmit",
+     "build-no-type-check": "next build && npm run type-check"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -34,6 +36,7 @@
     "zustand": "^4.5.4"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/node": "20.14.9",
     "@types/react": "18.3.3",
     "postcss": "^8",
