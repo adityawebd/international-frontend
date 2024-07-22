@@ -8,7 +8,7 @@
     "start": "next start ",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
-     "build-no-type-check": "next build && npm run type-check"
+    "build-no-type-check": "next build && npm run type-check"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
@@ -25,6 +25,7 @@
     "next": "14.2.4",
     "next-auth": "^4.24.7",
     "nodemailer": "^6.9.14",
+    "rc-slider": "^11.1.0",
     "react": "^18",
     "react-bootstrap": "^2.10.3",
     "react-dom": "^18",
