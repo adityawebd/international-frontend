@@ -39,31 +39,35 @@ export const useCartStore = create(
         }
       },
 
-      updateQuantity: (product, quantity) => {
+      updateQuantity: (product) => {
         const cart = get().cart;
         const cartItem = cart.find(item => item._id === product._id);
 
-        if (quantity > 0) {
-          if (cartItem) {
-            const updatedCart = cart.map(item =>
-              item._id === product._id
-                ? { ...item, quantity }
-                : item
-            );
-            const oldQuantity = cartItem.quantity || 0;
-            set(state => ({
-              cart: updatedCart,
-              totalItems: state.totalItems + (quantity - oldQuantity),
-              totalPrice: state.totalPrice + (product.price * (quantity - oldQuantity)),
-            }));
-          } else {
-            const updatedCart = [...cart, { ...product, quantity }];
-            set(state => ({
-              cart: updatedCart,
-              totalItems: state.totalItems + quantity,
-              totalPrice: state.totalPrice + (product.price * quantity),
-            }));
+        if (cartItem && cartItem.quantity >0) {
+
+          if(cartItem && cartItem.quantity <5)
+            {
+              const updatedCart = cart.map(item =>
+                item._id === product._id
+                  ? { ...item, quantity: (item.quantity ) + 1 }
+                  : item
+              );
+              set(state => ({
+                cart: updatedCart,
+                totalItems: state.totalItems + 1,
+                totalPrice: state.totalPrice + product.price,
+              }));
+
           }
+          
+        } else {
+          // Remove item if quantity is 1 or less
+          const updatedCart = cart.filter(item => item._id !== product._id);
+          set(state => ({
+            cart: updatedCart,
+            totalItems: state.totalItems + 1,
+            totalPrice: state.totalPrice + product.price,
+          }));
         }
       },
 

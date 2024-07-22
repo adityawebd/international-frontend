@@ -112,7 +112,7 @@ const FilterComponent = ({ onFilterChange }) => {
 
             <h3 className="text-2xl font-semibold light_black_font">Colors</h3>
             {/* <div>
-                {Color.map(color => (
+                {colors.map(color => (
                     <label key={color}>
                         <input
                             type="checkbox"
