@@ -13,7 +13,7 @@ const Profile = () => {
     phoneNumber: session.user.number,
     address: session.user.address,
     shippingAddress: session.user.address,
-    lastName: session.user.lastName
+    lastName: session.user.lname
   });
 
   const handleEdit = () => {
