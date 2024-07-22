@@ -61,7 +61,7 @@ export default function CartItem({ product }) {
           className="h-10 w-10 rounded-full mr-4"
         />
       </td>
-      <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+      <td className="px-6 py-4 font-semibold ">
         {product.title}
       </td>
       <td className="px-6 py-4">
@@ -73,7 +73,7 @@ export default function CartItem({ product }) {
           <button onClick={(e) => addToCart2(e, product)}>+</button>
         </div>
       </td>
-      <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
+      <td className="px-6 py-4 font-semibold">
         ₹<span>{product.quantity * product.price}</span>
       </td>
       <td className="px-6 py-4">

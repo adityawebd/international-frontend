@@ -15,7 +15,7 @@ const ProductCard = ({ product }) => {
     return (
         <div className="w-[300px] rounded-md border mb-2 mr-2 reposnive_product_card">
             <img
-                src={product.image}
+                src={product.images[0]}
                 alt="product-image"
                 className="h-[200px] w-full rounded-t-md object-cover"
             />
