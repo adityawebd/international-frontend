@@ -3,7 +3,7 @@ import React from 'react'
 const ClientBrands = () => {
     return (
         <div>
-            <div className="client_brands py-5">
+            <div className="client_brands py-5 border-2">
                 <div className="container">
                     <div className="row">
                         <div data-aos="zoom-in-right" data-aos-duration="400" className="col-6 col-lg-3 mt-4 flex justify-center align-middle">

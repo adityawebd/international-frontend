@@ -124,6 +124,7 @@ const Navbar = () => {
             )}
           </div>
         </div>
+        
         <div className='navbar'>
           <div className="navbar_brand">
             <a href="/">
