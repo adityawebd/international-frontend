@@ -207,9 +207,10 @@ body {
 }
 
 .search_card_wrapper {
-    /* border: solid red; */
+    /* border: 1px solid red; */
     display: flex;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: start;
     align-items: center;
     flex-wrap: wrap;
 }
@@ -304,6 +305,43 @@ body {
 .navbar_icons .user_dropdown ul li:last-child {
     padding: 4px 0;
 }
+
+/* --------- */
+.username_after_login {
+    /* border: 1px solid red; */
+    position: absolute;
+    bottom: 0;
+    right: 40px;
+    width: 200px;
+    height: 20px;
+    margin-top: -20px;
+    cursor:auto;
+
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+.username_after_login a {
+    text-align: right;
+    color: var(--green-clr);
+    font-weight: 600;
+}
+/* --------- */
+/* --------- */
+.cart_length_btn {
+    position: relative;
+}
+.cart_length {
+    background-color: var(--green-clr);
+    color: var(--white-clr);
+    border-radius: 50%;
+    padding: 2px 5px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin-top: -20px;
+}
+/* --------- */
 
 /* -------------- responsive controls ------------------ */
 
@@ -2039,6 +2077,28 @@ footer .limited_edition {
 /* --------------------------------
 ---------- cart ---------------
 -------------------------------- */
+
+.cart_page .cart_btns a {
+    background-color: var(--darkest-gray);
+    color: white;
+    font-size: 15px;
+    padding: 8px 24px;
+    transition: 0.6s all ease;
+}
+.cart_page .cart_btns a:hover {
+    background-color: var(--green-clr);
+}
+.cart_page .cart_btns button{
+    background-color: var(--green-clr);
+    color: white;
+    font-size: 15px;
+    padding: 8px 24px;
+    transition: 0.6s all ease;
+}
+.cart_page .cart_btns button:hover {
+    background-color: var(--darkest-gray);
+}
+
 .cart_page_right {
     border: 1px solid var(--e-gray);
 }

@@ -10,7 +10,6 @@ import { useCartStore } from '../../stores/useCartStore';
 import useFromStore from '../../hooks/useFromStore';
 
 
-
 const Navbar = () => {
   const { currency, setCurrency } = useContext(CurrencyContext); // Use context
   const [isVisible, setIsVisible] = useState(false);
@@ -21,7 +20,11 @@ const Navbar = () => {
   const [currencyDropdownVisible, setCurrencyDropdownVisible] = useState(false);
   const [userDropdownVisible, setUserDropdownVisible] = useState(false);
 
-
+  async function logout() {
+        
+    await signOut();
+    window.location.href = '/';
+  }
 
   const cart = useFromStore(useCartStore, (state) => state.cart);
   // Toggle search bar visibility
@@ -130,23 +133,27 @@ const Navbar = () => {
           <div className='navbar_body'>
             <div className='search_bar'>
               <input type='text'
-               placeholder='Search your products...'
-                onClick={toggleSearchBar} 
+                placeholder='Search your products...'
+                onClick={toggleSearchBar}
                 value={query}
                 onChange={handleSearch}
-                />
+              />
               <span className="search-icon"><IoSearch onClick={toggleSearchBar} /></span>
 
               <div ref={searchBarRef} className={`search_bar_body ${isVisible ? 'show_searchDiv_with_animation' : ''}`} onClick={(e) => e.stopPropagation()}>
-
-              {results.map((result) => (
                 <div className="search_card_wrapper">
-                  <div className="search_card">
-                    <img src={result.images[0]} alt={result.title} />
-                    <div className="desc">{result.title}</div>
-                  </div>
+                  {results.length > 0 ? (
+                    results.map((result) => (
+                      <div className="search_card" key={result.id}>
+                        <img src={result.images[0]} alt={result.title} />
+                        <div className="desc">{result.title}</div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className='text-center py-2'>No products available</div>
+                  )}
                 </div>
-                ))}
+
 
 
               </div>
@@ -154,21 +161,40 @@ const Navbar = () => {
             <div className='navbar_icons'>
 
               <div className='cart_icon user_dropdown_btn' onClick={toggleUserDropdown} ref={userDropdownRef}><span><CiUser /></span>
+                {
+                  session ? (
+                    <>
+                      <div className="username_after_login">
+                        <a className='text-sm ' href="/profile"> Welcome {session.user.fname}</a>
+                      </div>
+                      {userDropdownVisible && (
+                        <div className="user_dropdown">
+                          <div><a onClick={logout}>LOGOUT</a></div>
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <div>
+                      {userDropdownVisible && (
+                        <div className="user_dropdown">
+                          <div><a href="/login">LOGIN</a></div>
+                          <div><a href="/register">REGISTER</a></div>
+                        </div>
+                      )}
+                    </div>
+                  )
+                }
 
-              {session ? (
-                <a className='text-sm' href="/profile"> wellcome {session.user.fname}</a>
-                ):(
-                  <div>
-                {userDropdownVisible && (
-                  <div className="user_dropdown">
-                    <div><a href="/login">LOGIN</a></div>
-                    <div><a href="/register">REGISTER</a></div>
-                  </div>
-                )}</div>)}
-              
               </div>
 
-              <div className='cart_icon'><a href="/cart"><span ><CiShoppingBasket /><span className='text-xs'>{cart?.length}</span></span></a></div>
+              <div className='cart_icon cart_length_btn'>
+                <a href="/cart">
+                  <span >
+                    <CiShoppingBasket />
+                    <span className='text-xs cart_length'>{cart?.length}</span>
+                  </span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
