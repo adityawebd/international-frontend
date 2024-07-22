@@ -37,9 +37,9 @@ const ProductTimer = () => {
                 <div className="container">
                     <div className="row">
 
-                        {products1.map((product) =>(
+                        {products1.map((product, index) =>(
                         <div className="col-lg-6 col-md-6 col-sm-6">
-                            <div className="product_timer_header flex justify-between align-middle border-b-2">
+                            <div className="product_timer_header flex justify-between align-middle border-b-2" key={index}>
                                 <h2 data-aos="fade-up" data-aos-duration="400" className='mb-2 font-semibold text-2xl text-center light_black_font'>Featured Items</h2>
 
                                 
