@@ -172,25 +172,7 @@ const FilterComponent = ({ onFilterChange }) => {
                         {range.label}
                     </label>
                 ))}
-<<<<<<< HEAD
-            </div> */}
-
-            <h3 className="text-2xl font-semibold light_black_font">Colors</h3>
-            {/* <div>
-                {colors.map(color => (
-                    <label key={color}>
-                        <input
-                            type="checkbox"
-                            checked={selectedColors.includes(color)}
-                            onChange={() => handleColorChange(color)}
-                        />
-                        {color}
-                    </label>
-                ))}
-            </div> */}
-=======
             </div>
->>>>>>> 91f9c42de19bd4225224f1ccf5b7a4b52d906e5e
 
             <button onClick={resetFilters}>Reset Filters</button>
         </div>
