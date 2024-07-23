@@ -94,8 +94,8 @@ export default function ProductsPage({ initialProducts, initialCategories }) {
 
 export async function getServerSideProps() {
   // Fetch data from your API
-  const productsResponse = await axios.get('http://localhost:3000/api/product');
-  const categoriesResponse = await axios.get('http://localhost:3000/api/cat');
+  const productsResponse = await axios.get('http://194.238.19.190:3001/api/product');
+  const categoriesResponse = await axios.get('http://194.238.19.190:3001/api/cat');
 
   return {
     props: {
