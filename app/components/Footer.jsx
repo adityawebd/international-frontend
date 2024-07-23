@@ -7,7 +7,7 @@ const Footer = () => {
         <div>
             <footer>
                 <div className="limited_edition text-center text-md text-white py-3">
-                    Win a contest! Get this limited-edition <a className='underline' href="/all-products">View Detail</a>
+                    Win a contest! Get this limited-edition <a className='underline' href="/products">View Detail</a>
                 </div>
                 <div className="container py-5">
                     <div className="row pb-5">

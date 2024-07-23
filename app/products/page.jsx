@@ -75,7 +75,7 @@ const Page = () => {
             <div className="all_products_container">
               {products.map((product) => (
                 <div className="products_card">
-                  <a href='' key={product._id}>
+                  <a href={`/product/${product._id}`} key={product._id}>
                     <figure>
                       <img src={product.images[0]} alt={product.title} />
                     </figure>

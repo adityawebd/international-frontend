@@ -34,8 +34,8 @@ export default function Home() {
         <PromisesBanner />
         <WoodStatue />
         <ClientBrands />
-        <Testimonials />
-        <ExploreFeeds />
+        {/* <Testimonials /> */}
+        {/* <ExploreFeeds /> */}
         <Footer />
       </CurrencyProvider>
     </main>

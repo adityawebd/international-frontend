@@ -213,7 +213,7 @@ const Page = () => {
                             </div>
                             <div className="cart_btns">
                                 <button>buy now </button>
-                                <button><span><HiOutlineShoppingBag /></span> &nbsp; add to cart </button>
+                                <button onClick={(e) => addToCart1(e, productData)}><span><HiOutlineShoppingBag /></span> &nbsp; add to cart </button>
                             </div>
                             <h2 className="text-xl font-semibold light_black_font mt-4">Variations</h2>
                             <Variations images={productData.variations_images}/>

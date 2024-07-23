@@ -20,7 +20,7 @@ const WoodStatue = () => {
                 </div>
                 <h2 data-aos="fade-up" data-aos-duration="550" className='text-3xl font-semibold light_black_font uppercase mt-2'>Super Quality Statue</h2>
                 <h2 data-aos="fade-up" data-aos-duration="600" className='text-4xl font-semibold light_black_font uppercase mt-2'>₹40.00 Only</h2>
-                <a data-aos="fade-up" data-aos-duration="650" href="/product">SHOP NOW</a>
+                <a data-aos="fade-up" data-aos-duration="650" href="/products">SHOP NOW</a>
               </div>
             </div>
           </div>
