@@ -15,7 +15,6 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <link rel="apple-icon" href="/assets/international-gift-fav.png" sizes="any" />
 
       <body suppressContentEditableWarning
         suppressHydrationWarning
