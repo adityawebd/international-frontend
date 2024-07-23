@@ -17,8 +17,8 @@ const page = () => {
                     <div className="m-4">
                         <Cart />
                     </div>
-            <NewArrival />
-            <Footer />
+                <NewArrival />
+                <Footer />
         </div>
     )
 }

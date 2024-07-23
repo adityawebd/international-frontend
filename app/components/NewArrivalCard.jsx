@@ -24,7 +24,7 @@ const NewArrivalCard = (props) => {
                     <img className='rounded-2xl' src={props.img_src} alt={props.img_title} />
                 </figure>
                 <div className="card_content">
-                    <div className="sku_id"> {props.sku_id} </div>
+                    {/* <div className="sku_id"> {props.sku_id} </div> */}
                     <div className="product_card_items">
                         <div className="product_card_text">
                             <div className="title"> {props.title}</div>

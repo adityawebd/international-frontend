@@ -38,25 +38,25 @@ const ProductTopbar = () => {
         <div>
             <div className="product_topbar py-2">
                 <div className="container">
-                    <div className="product_topbar_wrapper">
-                        <div className="row z-50">
+                    <div className="">
+                        <div className="z-50 product_topbar_wrapper">
                             {categories.map((category, index) => (
                                 <div
                                     key={category._id}
                                     style={{ cursor: 'pointer' }}
-                                    className="col-lg-2 col-sm-6"
+                                    className=""
                                     onMouseEnter={() => togglePopover(index)}
                                     onMouseLeave={() => togglePopover(index)}
                                 >
-                                    <div className="d-flex justify-content-center align-items-center fw-700 gap-2">
+                                    <div className="pt_card_parent">
                                         <Image
-                                            className="rounded-circle"
+                                            className=""
                                             src={`/assets/image/gift14.jpg`} // Assuming category has an image field
                                             alt={category.name}
                                             width={50}
                                             height={50}
                                         />
-                                        <div className="text-black tracking-wider fs-6 text-start">
+                                        <div className="text-black tracking-wider fs-6 text-start px-2">
                                             {category.name.split(' ').map((word, idx) => (
                                                 <div key={idx}>{word}</div>
                                             ))}
@@ -65,29 +65,28 @@ const ProductTopbar = () => {
                                     </div>
                                     {showPopovers[index] && (
                                         <div
-                                            className="position-absolute bg-light rounded-4 shadow-lg p-4"
-                                            style={{ zIndex: 2, borderRadius: '20px' }}
+                                            className="pt_card_child"
                                         >
                                             <div className="col">
                                                 <a href={`/allproducts`}>
                                                     <div className="fs-5 fw-600 text-start px-3">{category.name}</div>
                                                 </a>
-                                                <div className="d-flex align-items-center fw-700 gap-4 mt-4">
+                                                <div className="pt_card_child_wrapper">
                                                     {getCategoryProducts(category._id).map((product) => (
                                                         <div
                                                             key={product._id}
-                                                            className="d-flex flex-column justify-content-center align-items-center fw-700 gap-2"
+                                                            className="pt_card"
                                                         >
                                                             <a href={`/products/${product._id}`} >
                                                                 <Image
-                                                                    className="rounded-circle"
+                                                                    className=""
                                                                     src={`${product.images[0]}`} // Assuming product has an image field
                                                                     alt={product.title}
                                                                     width={50}
                                                                     height={50}
                                                                 />
                                                             </a>
-                                                            <div >{product.title}</div>
+                                                            <div className="pt_card_title">{product.title}</div>
                                                         </div>
                                                     ))}
                                                 </div>
