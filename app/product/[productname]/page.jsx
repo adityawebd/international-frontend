@@ -3,7 +3,7 @@ const convertPrice = (price, currency, exchangeRates) => {
     const rate = exchangeRates[currency];
     return price * rate;
 };
-
+import { FaUserCircle } from "react-icons/fa";
 import React, { useState, useEffect, useContext } from "react";
 import { CurrencyContext } from "../../CurrencyContext";
 import Stack from "@mui/joy/Stack";
@@ -23,6 +23,8 @@ import { IoMdInformationCircleOutline } from "react-icons/io";
 import { MdVerified } from "react-icons/md";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import axios from "axios";
+import Breadcrumbs from '../../components/Breadcrumbs'
+
 
 const Page = ({ params }) => {
     const urldata = decodeURIComponent(params.productname);
@@ -114,10 +116,17 @@ const Page = ({ params }) => {
         e.preventDefault();  // Prevent default form submission or link behavior
         addToCart(item);
     };
+    const addToCart2 = (e, item) => {
+          // Prevent default form submission or link behavior
+        addToCart(item);
+        window.location.replace('/cart')
+    };
 
     return (
         <div>
             <Navbar />
+      <Breadcrumbs page_title="Product Details" />
+
             <div className="product mt-3">
                 <div className="container">
                     <div className="row">
@@ -180,17 +189,14 @@ const Page = ({ params }) => {
                                 </div>
                                 <div className="review">{productData.reviews?.length} Reviews</div>
                             </div>
-                            <p className="text-base light_black_font">
+                            <p className="text-base light_black_font mt-3">
                                 {productData.description}
                             </p>
-                            <div className="cart_btns">
-                                <button>buy now </button>
-                                <a onClick={(e) => addToCart1(e, productData)} >
-                                    <span>
-                                        <HiOutlineShoppingBag />
-                                    </span>{" "}
-                                    &nbsp; add to cart{" "}
-                                </a>
+                            <div className="cart_btns mt-4  ">
+
+                                <button onClick={(e) => addToCart2(e, productData)} >buy now </button>
+                                <button onClick={(e) => addToCart1(e, productData)}><span><HiOutlineShoppingBag /></span> &nbsp; add to cart </button>
+
                             </div>
                             <h2 className="text-xl font-semibold light_black_font mt-4">
                                 Variations
@@ -243,7 +249,7 @@ const Page = ({ params }) => {
                             {activeTab === "general_info" && (
                                 <div className="p-4 rounded-xl bg-gray-50">
                                     <p className="text-sm text-gray-500">
-                                        Lorem ipsum
+                                        {productData.description}
                                     </p>
                                 </div>
                             )}
@@ -251,24 +257,25 @@ const Page = ({ params }) => {
                                 <div className="p-4 rounded-xl bg-gray-50">
                                     <p className="text-sm text-gray-500">
                                         {" "}
-                                        freoiio
+                                        addinnal info
                                     </p>
                                 </div>
                             )}
                             {activeTab === "reviews" && (
                                 <div className="p-4 rounded-xl bg-gray-50">
                                     <div className="row">
-                                        <div className="col-md-4 left_review_section">
+                                        {/* <div className="col-md-4 left_review_section">
                                             <div className="average_rating_div">
-                                                <div className="rating_number">
-                                                    <span>{averageRating}</span>
-                                                </div>
-                                                <div className="average_review">
-                                                    <p className="text-lg font-medium text-gray-900">
-                                                        Average Review
-                                                    </p>
-                                                    <div className="flex align-middle">
-                                                        <div className="stars flex align-middle mr-3">
+                                            </div>
+                                        </div> */}
+                                        <div className="col-md-12 right_review_section px-5">
+                                            <div className="average_review mb-4">
+                                                <p className="text-lg font-medium text-gray-900">
+                                                    Average Review: &nbsp;
+                                                    <span className="green_font">{averageRating}</span>
+                                                </p>
+                                                <div className="flex align-middle">
+                                                    {/* <div className="stars flex align-middle mr-3">
                                                             {Array.isArray(averageRating) && averageRating.length > 0 ? (
                                                                 averageRating.map((_, index) => (
                                                                     <span key={index} className="colored_star">
@@ -278,60 +285,12 @@ const Page = ({ params }) => {
                                                             ) : (
                                                                 <span>No rating available</span>
                                                             )}
-                                                        </div>
-                                                        <div className="review">
-                                                            {productData.reviews?.length} Reviews
-                                                        </div>
+                                                        </div> */}
+                                                    <div className="review mt-3">
+                                                        Total Reviews: {productData.reviews?.length} 
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="rating_percentage flex align-middle">
-                                                <ul className="flex flex-col w-full">
-                                                    <li>
-                                                        <span className="percent">
-                                                            <div>{value5}%</div>
-                                                        </span>
-                                                        <span className="stars flex align-middle">
-                                                            <FaStar /> <FaStar /> <FaStar /> <FaStar />{" "}
-                                                            <FaStar />
-                                                        </span>
-                                                    </li>
-                                                    <li>
-                                                        <span className="percent">
-                                                            <div>{value4}%</div>
-                                                        </span>
-                                                        <span className="stars flex align-middle">
-                                                            <FaStar /> <FaStar /> <FaStar /> <FaStar />{" "}
-                                                        </span>
-                                                    </li>
-                                                    <li>
-                                                        <span className="percent">
-                                                            <div>{value3}%</div>
-                                                        </span>
-                                                        <span className="stars flex align-middle">
-                                                            <FaStar /> <FaStar /> <FaStar />{" "}
-                                                        </span>
-                                                    </li>
-                                                    <li>
-                                                        <span className="percent">
-                                                            <div>{value2}%</div>
-                                                        </span>
-                                                        <span className="stars flex align-middle">
-                                                            <FaStar /> <FaStar />{" "}
-                                                        </span>
-                                                    </li>
-                                                    <li>
-                                                        <span className="percent">
-                                                            <div>{value1}%</div>
-                                                        </span>
-                                                        <span className="stars flex align-middle">
-                                                            <FaStar />{" "}
-                                                        </span>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div className="col-md-8 right_review_section">
                                             <div className="review_items">
 
                                                 {Array.isArray(productData.reviews) && productData.reviews.length > 0 ? (
@@ -339,22 +298,20 @@ const Page = ({ params }) => {
                                                         const rating = parseInt(review.rating, 10) || 0; // Default to 0 if rating is invalid
 
                                                         return (
-                                                            <div className="review_item" key={index}>
+                                                            <div className="review_item mb-4" key={index}>
                                                                 <div className="author_info flex align-middle">
-                                                                    <div className="author_image">
-                                                                        <img
-                                                                            src={review.authorImage}
-                                                                            alt="author image"
-                                                                        />
+                                                                    <div className="author_image mr-3">
+                                                                        <FaUserCircle size={25} />
                                                                     </div>
-                                                                    <div className="author_about flex align-middle">
-                                                                        <div className="author_name font-semibold">
-                                                                            {review.authorName}
+                                                                    <div className="author_about flex flex-col align-middle">
+                                                                        <div className="author_name font-semibold flex">
+                                                                            {review.name} <span className="author_badge pt-1 pl-1 green_font">
+                                                                                <MdVerified />
+                                                                            </span>
                                                                         </div>
-                                                                        <div className="author_date text-sm">
-                                                                            {review.date}
-                                                                        </div>
-                                                                        <div className="author_rating flex align-middle">
+
+
+                                                                        <div className="author_rating flex align-middle mt-2 mb-1">
                                                                             <div className="author_stars flex align-middle mr-1">
                                                                                 {[...Array(rating)].map((_, i) => (
                                                                                     <span key={i} className="colored_star">
@@ -362,16 +319,17 @@ const Page = ({ params }) => {
                                                                                     </span>
                                                                                 ))}
                                                                             </div>
-                                                                            <div className="author_badge">
-                                                                                <MdVerified />
-                                                                            </div>
+                                                                            
+                                                                        </div>
+                                                                        <div className="author_date text-sm">
+                                                                            {review.comment}
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                                 <div className="review_content mt-2">
                                                                     <p className="text-sm">{review.text}</p>
                                                                 </div>
-                                                                <div className="review_action flex align-middle mt-2">
+                                                                {/* <div className="review_action flex align-middle mt-2">
                                                                     <div className="flex align-middle mr-3">
                                                                         <span className="flex align-middle mr-1">
                                                                             <BiLike />
@@ -388,7 +346,7 @@ const Page = ({ params }) => {
                                                                         </span>
                                                                         <span>{review.hearts || 0}</span>
                                                                     </div>
-                                                                </div>
+                                                                </div> */}
                                                             </div>
                                                         );
                                                     })
