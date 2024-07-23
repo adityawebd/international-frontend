@@ -29,6 +29,8 @@ const MonthlyBestSell = ({ price, ...props }) => {
 
         fetchData();
     }, []);
+
+    
     return (
         <div>
             <div className="monthly_best_sell">

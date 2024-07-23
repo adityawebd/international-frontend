@@ -6,9 +6,15 @@ const convertPrice = (price, currency, exchangeRates) => {
 import React, { useContext } from 'react';
 import { CurrencyContext } from '../CurrencyContext';
 import { IoCart } from "react-icons/io5";
-
+import { useCartStore } from "../../stores/useCartStore"
 
 const NewArrivalCard = (props) => {
+    const addToCart = useCartStore(state => state.addToCart)
+    const addToCart1 = (e, item) => {
+        e.preventDefault();  // Prevent default form submission or link behavior
+        addToCart(item);
+    };
+
     const { currency, exchangeRates } = useContext(CurrencyContext);
     // console.log("currency: ",currency)
     // console.log("exchangeRates are",exchangeRates)
@@ -33,7 +39,7 @@ const NewArrivalCard = (props) => {
                                 <span>{currency === 'INR' ? '₹' : '$'} {convertedActualPrice.toFixed(2)}</span>
                             </div>
                         </div>
-                        <div className="cart_icon"> <IoCart /> </div>
+                        {/* <div className="cart_icon"> <IoCart  onClick={(e) => addToCart1(e, props)} /> </div> */}
                     </div>
                 </div>
             </a>

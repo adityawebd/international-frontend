@@ -68,7 +68,7 @@ const ProductTopbar = () => {
                                             className="pt_card_child"
                                         >
                                             <div className="col">
-                                                <a href={`/allproducts`}>
+                                                <a href={`/products`}>
                                                     <div className="fs-5 fw-600 text-start px-3">{category.name}</div>
                                                 </a>
                                                 <div className="pt_card_child_wrapper">
@@ -77,7 +77,7 @@ const ProductTopbar = () => {
                                                             key={product._id}
                                                             className="pt_card"
                                                         >
-                                                            <a href={`/products/${product._id}`} >
+                                                            <a href={`/product/${product._id}`} >
                                                                 <Image
                                                                     className=""
                                                                     src={`${product.images[0]}`} // Assuming product has an image field

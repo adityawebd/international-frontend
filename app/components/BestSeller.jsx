@@ -1,12 +1,29 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
 import BestSellCard from './BestSellCard'
 import NewArrivalCard from './NewArrivalCard'
 
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, A11y } from 'swiper/modules';
 import 'swiper/css';
+import axios from 'axios';
 
 const BestSeller = () => {
+    const [product, setProduct] = useState([]);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                console.log("before reaponce")
+                const response = await axios.get('/api/product');
+
+                console.log("the responce is ", response);
+                setProduct(response.data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
     return (
         <div>
             <div className="new_arrival py-5">
@@ -41,94 +58,19 @@ const BestSeller = () => {
                         modules={[Autoplay, Navigation, A11y]}
                         className="swiper-wrapper mx-auto mb-4"
                     >
+                        {product.map((product) => (
                         <SwiperSlide>
                             <NewArrivalCard
-                                card_link="/product"
-                                img_src="/assets/image/gift17.jpg"
-                                img_title=""
-                                sku_id="667a6274b4d48f8a84ed4c63"
-                                title="Shiva Gold Statue Aditya"
-                                discounted_price="550"
-                                actual_price="684"
+                                card_link={`/product/${product._id}`}
+                                img_src={product.images[0]}
+                                img_title={product.title}
+                                sku_id={product.sku}
+                                title={product.title}
+                                discounted_price={product.discountedPrice}
+                                actual_price={product.price}   
                             />
                         </SwiperSlide>
-                        <SwiperSlide>
-                            <NewArrivalCard
-                                card_link="/product"
-                                img_src="/assets/image/gift17.jpg"
-                                img_title=""
-                                sku_id="667a6274b4d48f8a84ed4c63"
-                                title="Shiva Gold Statue Aditya"
-                                discounted_price="550"
-                                actual_price="684"
-                            />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <NewArrivalCard
-                                card_link="/product"
-                                img_src="/assets/image/gift17.jpg"
-                                img_title=""
-                                sku_id="667a6274b4d48f8a84ed4c63"
-                                title="Shiva Gold Statue Aditya"
-                                discounted_price="550"
-                                actual_price="684"
-                            />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <NewArrivalCard
-                                card_link="/product"
-                                img_src="/assets/image/gift17.jpg"
-                                img_title=""
-                                sku_id="667a6274b4d48f8a84ed4c63"
-                                title="Shiva Gold Statue Aditya"
-                                discounted_price="550"
-                                actual_price="684"
-                            />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <NewArrivalCard
-                                card_link="/product"
-                                img_src="/assets/image/gift17.jpg"
-                                img_title=""
-                                sku_id="667a6274b4d48f8a84ed4c63"
-                                title="Shiva Gold Statue Aditya"
-                                discounted_price="550"
-                                actual_price="684"
-                            />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <NewArrivalCard
-                                card_link="/product"
-                                img_src="/assets/image/gift17.jpg"
-                                img_title=""
-                                sku_id="667a6274b4d48f8a84ed4c63"
-                                title="Shiva Gold Statue Aditya"
-                                discounted_price="550"
-                                actual_price="684"
-                            />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <NewArrivalCard
-                                card_link="/product"
-                                img_src="/assets/image/gift17.jpg"
-                                img_title=""
-                                sku_id="667a6274b4d48f8a84ed4c63"
-                                title="Shiva Gold Statue Aditya"
-                                discounted_price="550"
-                                actual_price="684"
-                            />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <NewArrivalCard
-                                card_link="/product"
-                                img_src="/assets/image/gift17.jpg"
-                                img_title=""
-                                sku_id="667a6274b4d48f8a84ed4c63"
-                                title="Shiva Gold Statue Aditya"
-                                discounted_price="550"
-                                actual_price="684"
-                            />
-                        </SwiperSlide>
+                        ))}
                     </Swiper>
                 </div>
             </div>
