@@ -184,6 +184,7 @@ const Page = ({ params }) => {
                                 {productData.description}
                             </p>
                             <div className="cart_btns">
+                                <button>buy now </button>
                                 <a onClick={(e) => addToCart1(e, productData)} >
                                     <span>
                                         <HiOutlineShoppingBag />

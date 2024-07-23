@@ -27,7 +27,7 @@ const HeroSection = () => {
           heading: "New Statue Collection",
           offer: "SALE OFFER",
           para: "Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.",
-          btn_link: "all-products"
+          btn_link: "products"
         }
       ]
     },
@@ -38,10 +38,10 @@ const HeroSection = () => {
       text: [
         {
           id: 1,
-          heading: "Best Statue Sets",
+          heading: "BEST STATUE SETS",
           offer: "SALE OFFER",
           para: "Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.",
-          btn_link: "all-products"
+          btn_link: "products"
         }
       ]
     },

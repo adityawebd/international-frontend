@@ -984,6 +984,7 @@ body {
 
 
 /* --------------------- new arrival starts -------------- */
+
 .new_arrival .swiper-slide {
     width: 306.111px;
 }
@@ -1027,6 +1028,7 @@ body {
 /* --------------------- new arrival ends -------------- */
 
 /* --------------------- all_collection_card starts -------------- */
+
 .all_collection_card {
     padding: 0 30px;
     background-color: var(--e-gray);
@@ -1144,11 +1146,6 @@ body {
 
 
 /* --------------------- tab starts -------------- */
-.tabs_wrapper {
-    /* border: 1px solid #000; */
-
-}
-
 .tabs_wrapper button {
     display: flex;
     justify-content: start;
@@ -1287,6 +1284,7 @@ body {
 
 
 /* --------------------- tproduct_timer_body starts  -------------- */
+
 .product_timer_body {
     background-color: var(--e-gray);
     padding: 50px 30px;
@@ -1400,6 +1398,7 @@ body {
 
 
 /* --------------------- promises_banner starts  -------------- */
+
 .promises_banner figure {
     /* border: 1px solid red; */
     width: 100%;

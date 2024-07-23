@@ -19,7 +19,8 @@ export default function RootLayout({ children }) {
 
       <body suppressContentEditableWarning
         suppressHydrationWarning
-        className={inter.className}>
+        className={inter.className}
+      >
         <CurrencyProvider>
           <AuthProvider>
             {children}

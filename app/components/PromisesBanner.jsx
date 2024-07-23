@@ -27,7 +27,7 @@ const PromisesBanner = () => {
                     <p className='text-base text-center font-bold'>Free Shipping</p>
                     <small className='light_black_font text-center'>Free shipping on all US order or orders above ₹200</small>
                 </div>
-                <div data-aos="zoom-in-left" data-aos-duration="800" className="col-6 col-lg-3 flex flex-col justify-center align-middle mt-4">
+                <div className="col-6 col-lg-3 flex flex-col justify-center align-middle mt-4">
                     <figure>
                         <img src="/assets/images/icons/service_4.svg" alt="" />
                     </figure>
