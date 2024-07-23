@@ -3,53 +3,65 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import Breadcrumbs from '../components/Breadcrumbs'
+import axios from 'axios';
+
 
 const page = () => {
 
-    const [firstname, setFirstName] = useState('');
-    const [lastname, setLastName] = useState('');
-    const [username, setUsername] = useState('');
+    const [firstName, setfirstName] = useState('');
+    const [lastName, setlastName] = useState('');
+    const [email, setemail] = useState('');
     const [password, setPassword] = useState('');
-    const [phone, setPhone] = useState('');
-    const [addressOne, setAddressOne] = useState('');
+    const [phoneNumber, setphoneNumber] = useState('');
+    const [address, setaddress] = useState('');
     const [addressTwo, setAddressTwo] = useState('');
     const [addressThree, setAddressThree] = useState('');
-    const [postCode, setPostCode] = useState('');
+    const [postalCode, setpostalCode] = useState('');
     const [city, setCity] = useState('');
-    const [state, setState] = useState('');
+    const [region, setregion] = useState('');
     const [country, setCountry] = useState('');
-
+    const [error, setError] = useState("");
     const [errors, setErrors] = useState({});
     const [redirectToHome, setRedirectToHome] = useState(false);
 
     // Hard-coded list of countries
     const countries = ["United States", "Canada", "India", "Australia", "United Kingdom", "Germany", "France", "Japan"];
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const errors = validateForm();
         if (Object.keys(errors).length === 0) {
             // Simulate backend authentication (replace with actual backend call)
             // For demonstration purposes, assume login is successful
-            console.log('First Name:', firstname);
-            console.log('Last Name:', lastname);
-            console.log('Username:', username);
-            console.log('Password:', password);
-            console.log('Phone Number:', phone);
-            console.log('Address Line 1:', addressOne);
-            console.log('Address Line 2:', addressTwo);
-            console.log('Address Line 3:', addressThree);
-            console.log('Post Code:', postCode);
-            console.log('City:', city);
-            console.log('State:', state);
-            console.log('Country:', country);
 
-            // alert on successful registration
-            alert("Registration Succesful!")
-            // Set state to trigger redirection
+            const user={
+                firstName,
+                lastName,
+                email,
+                password,
+                phoneNumber,
+                address,
+                city,
+                postalCode,
+                country,
+                region,
+            }
+
+            
+            const res = await axios.post("/api/register", user);
+            
+            if (res.status == 200 || res.status == 201) {
+                console.log("user added successfully");
+                // setNotification({ message: 'successfully Register' , status: 'success' });
+                alert("Registration Succesful!")
+            }
+            if(res.status == 400 || res.status == 401)
+                alert(res.error)
+            
             setRedirectToHome(true);
         } else {
             setErrors(errors);
+            // setNotification({ message: 'Something went wrong' , status: 'error' });
         }
     };
 
@@ -59,17 +71,17 @@ const page = () => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
         // Validate first name
-        if (!firstname.trim()) {
-            errors.firstname = 'First Name is required';
-        } else if (firstname.length < 3) {
-            errors.firstname = 'First name should not be less than 3 characters';
+        if (!firstName.trim()) {
+            errors.firstName = 'First Name is required';
+        } else if (firstName.length < 3) {
+            errors.firstName = 'First name should not be less than 3 characters';
         }
 
-        // Validate username (email)
-        if (!username.trim()) {
-            errors.username = 'Email is required';
-        } else if (!emailRegex.test(username)) {
-            errors.username = 'Please enter a valid email address';
+        // Validate email (email)
+        if (!email.trim()) {
+            errors.email = 'Email is required';
+        } else if (!emailRegex.test(email)) {
+            errors.email = 'Please enter a valid email address';
         }
 
         // Validate password
@@ -93,7 +105,7 @@ const page = () => {
         <div>
             <Navbar />
             <Breadcrumbs page_title="Register" />
-
+            
 
             <div className="register py-5">
                 <div className="container">
@@ -108,40 +120,40 @@ const page = () => {
                                     <input
                                         type="text"
                                         id="firstName"
-                                        value={firstname}
-                                        onChange={(e) => setFirstName(e.target.value)}
-                                        className={errors.firstname && 'error'}
+                                        value={firstName}
+                                        onChange={(e) => setfirstName(e.target.value)}
+                                        className={errors.firstName && 'error'}
                                         placeholder='Enter first name'
                                         required
                                     />
-                                    {errors.firstname && <p className="error-message">{errors.firstname}</p>}
+                                    {errors.firstName && <p className="error-message">{errors.firstName}</p>}
                                 </div>
                                 <div className="col-md-6 col-lg-6 col-sm-12 form-group">
                                     <label htmlFor="lastName">Last Name</label>
                                     <input
                                         type="text"
                                         id="lastName"
-                                        value={lastname}
-                                        onChange={(e) => setLastName(e.target.value)}
-                                        className={errors.lastname && 'error'}
+                                        value={lastName}
+                                        onChange={(e) => setlastName(e.target.value)}
+                                        className={errors.lastName && 'error'}
                                         placeholder='Enter last name'
                                     />
-                                    {errors.lastname && <p className="error-message">{errors.lastname}</p>}
+                                    {errors.lastName && <p className="error-message">{errors.lastName}</p>}
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="col-md-6 col-lg-6 col-sm-12 form-group">
-                                    <label htmlFor="username">Email Address<span className='asterik'>*</span></label>
+                                    <label htmlFor="email">Email Address<span className='asterik'>*</span></label>
                                     <input
                                         type="text"
-                                        id="username"
-                                        value={username}
-                                        onChange={(e) => setUsername(e.target.value)}
-                                        className={errors.username && 'error'}
+                                        id="email"
+                                        value={email}
+                                        onChange={(e) => setemail(e.target.value)}
+                                        className={errors.email && 'error'}
                                         placeholder='Email'
                                         required
                                     />
-                                    {errors.username && <p className="error-message">{errors.username}</p>}
+                                    {errors.email && <p className="error-message">{errors.email}</p>}
                                 </div>
                                 <div className="col-md-6 col-lg-6 col-sm-12 form-group">
                                     <label htmlFor="password">Create Password<span className='asterik'>*</span></label>
@@ -159,45 +171,45 @@ const page = () => {
                             </div>
                             <div className="row">
                                 <div className="col-md-6 col-lg-6 col-sm-12 form-group">
-                                    <label htmlFor="phone">Phone Number<span className='asterik'>*</span></label>
+                                    <label htmlFor="phoneNumber">Phone Number<span className='asterik'>*</span></label>
                                     <input
                                         type="text"
-                                        id="phone"
-                                        value={phone}
-                                        onChange={(e) => setPhone(e.target.value)}
-                                        className={errors.phone && 'error'}
+                                        id="phoneNumber"
+                                        value={phoneNumber}
+                                        onChange={(e) => setphoneNumber(e.target.value)}
+                                        className={errors.phoneNumber && 'error'}
                                         placeholder='Enter phone number'
                                         required
                                     />
-                                    {errors.phone && <p className="error-message">{errors.phone}</p>}
+                                    {errors.phoneNumber && <p className="error-message">{errors.phoneNumber}</p>}
                                 </div>
                                 <div className="col-md-6 col-lg-6 col-sm-12 form-group">
-                                    <label htmlFor="postCode">Post Code<span className='asterik'>*</span></label>
+                                    <label htmlFor="postalCode">Post Code<span className='asterik'>*</span></label>
                                     <input
                                         type="text"
-                                        id="postCode"
-                                        value={postCode}
-                                        onChange={(e) => setPostCode(e.target.value)}
-                                        className={errors.postCode && 'error'}
+                                        id="postalCode"
+                                        value={postalCode}
+                                        onChange={(e) => setpostalCode(e.target.value)}
+                                        className={errors.postalCode && 'error'}
                                         placeholder='Enter post code'
                                         required
                                     />
-                                    {errors.postCode && <p className="error-message">{errors.postCode}</p>}
+                                    {errors.postalCode && <p className="error-message">{errors.postalCode}</p>}
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="col-md-6 col-lg-6 col-sm-12 form-group">
-                                    <label htmlFor="addressOne">Address<span className='asterik'>*</span></label>
+                                    <label htmlFor="address">Address<span className='asterik'>*</span></label>
                                     <input
                                         type="text"
-                                        id="addressOne"
-                                        value={addressOne}
-                                        onChange={(e) => setAddressOne(e.target.value)}
-                                        className={errors.addressOne && 'error'}
+                                        id="address"
+                                        value={address}
+                                        onChange={(e) => setaddress(e.target.value)}
+                                        className={errors.address && 'error'}
                                         placeholder='Enter address line 1'
                                         required
                                     />
-                                    {errors.addressOne && <p className="error-message">{errors.addressOne}</p>}
+                                    {errors.address && <p className="error-message">{errors.address}</p>}
                                 </div>
                                 <div className="col-md-6 col-lg-6 col-sm-12 form-group">
                                     <label htmlFor="city">City<span className='asterik'>*</span></label>
@@ -228,17 +240,17 @@ const page = () => {
                                     {errors.addressTwo && <p className="error-message">{errors.addressTwo}</p>}
                                 </div>
                                 <div className="col-md-6 col-lg-6 col-sm-12 form-group">
-                                    <label htmlFor="state">State<span className='asterik'>*</span></label>
+                                    <label htmlFor="region">State<span className='asterik'>*</span></label>
                                     <input
                                         type="text"
-                                        id="state"
-                                        value={state}
-                                        onChange={(e) => setState(e.target.value)}
-                                        className={errors.state && 'error'}
+                                        id="region"
+                                        value={region}
+                                        onChange={(e) => setregion(e.target.value)}
+                                        className={errors.region && 'error'}
                                         placeholder='Enter state'
                                         required
                                     />
-                                    {errors.state && <p className="error-message">{errors.state}</p>}
+                                    {errors.region && <p className="error-message">{errors.region}</p>}
                                 </div>
                             </div>
                             <div className="row">

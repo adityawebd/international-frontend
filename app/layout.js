@@ -2,6 +2,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { CurrencyProvider } from '../app/CurrencyContext'; // Adjust the path as needed
+import AuthProvider from '../components/Provider';
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -19,7 +20,11 @@ export default function RootLayout({ children }) {
       <body suppressContentEditableWarning
         suppressHydrationWarning
         className={inter.className}>
-        <CurrencyProvider>{children}</CurrencyProvider>
+        <CurrencyProvider>
+          <AuthProvider>
+            {children}
+          </AuthProvider>
+        </CurrencyProvider>
 
       </body>
     </html>

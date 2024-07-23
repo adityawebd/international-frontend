@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Swipe from "react-easy-swipe";
 import AOS from 'aos';
 import 'aos/dist/aos.css'
+import axios from 'axios';
 
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 
@@ -15,7 +16,7 @@ import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
  * @returns React component
  */
 const HeroSection = () => {
-  const images = [
+  const [images, setImages] = useState([
     {
       id: 1,
       src: "/assets/image/1.jpg",
@@ -26,44 +27,50 @@ const HeroSection = () => {
           heading: "New Statue Collection",
           offer: "SALE OFFER",
           para: "Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.",
-          btn_link: ""
+          btn_link: "all-products"
         }
       ]
     },
     {
-      id: 2, src: "/assets/image/2.jpg", alt: "Image 2", text: [
+      id: 2,
+      src: "/assets/image/2.jpg",
+      alt: "Image 2",
+      text: [
         {
           id: 1,
           heading: "Best Statue Sets",
           offer: "SALE OFFER",
           para: "Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.",
-          btn_link: ""
+          btn_link: "all-products"
         }
       ]
     },
     {
-      id: 3, src: "/assets/image/1.jpg", alt: "Image 3", text: [
+      id: 3,
+      src: "/assets/image/1.jpg",
+      alt: "Image 3",
+      text: [
         {
           id: 1,
           heading: "New Statue Collection",
           offer: "SALE OFFER",
           para: "Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.",
-          btn_link: ""
+          btn_link: "all-products"
         }
       ]
     },
-    {
-      id: 4, src: "/assets/image/2.jpg", alt: "Image 4", text: [
-        {
-          id: 1,
-          heading: "Best Statue Sets",
-          offer: "SALE OFFER",
-          para: "Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.",
-          btn_link: ""
-        }
-      ]
-    },
-  ];
+  ]);
+
+  useEffect(() => {
+    axios.get('/api/banner').then(response => {
+      const apiImages = response.data.map(item => item.images[0]);
+      const updatedImages = images.map((image, index) => ({
+        ...image,
+        src: apiImages[index] ? apiImages[index] : image.src,
+      }));
+      setImages(updatedImages);
+    });
+  }, []);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
 

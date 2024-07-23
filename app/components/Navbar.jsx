@@ -5,6 +5,10 @@ import { IoSearch } from "react-icons/io5";
 import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/fa";
 import { CurrencyContext } from '../CurrencyContext'; // Importing the context
 import ProductTopbar from '../components/ProductTopbar'
+import { useSession, signIn, signOut } from "next-auth/react";
+import { useCartStore } from '../../stores/useCartStore';
+import useFromStore from '../../hooks/useFromStore';
+
 
 const Navbar = () => {
   const { currency, setCurrency } = useContext(CurrencyContext); // Use context
@@ -16,6 +20,13 @@ const Navbar = () => {
   const [currencyDropdownVisible, setCurrencyDropdownVisible] = useState(false);
   const [userDropdownVisible, setUserDropdownVisible] = useState(false);
 
+  async function logout() {
+        
+    await signOut();
+    window.location.href = '/';
+  }
+
+  const cart = useFromStore(useCartStore, (state) => state.cart);
   // Toggle search bar visibility
   const toggleSearchBar = (event) => {
     event.stopPropagation(); // Prevent click propagation
@@ -69,6 +80,27 @@ const Navbar = () => {
     setUserDropdownVisible((prev) => !prev);
   };
 
+
+  const { data: session } = useSession();
+
+
+  // serching the product
+
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState([]);
+
+  const handleSearch = async (e) => {
+    setQuery(e.target.value);
+
+    if (e.target.value.trim() === '') {
+      setResults([]);
+      return;
+    }
+
+    const res = await fetch(`/api/search?query=${e.target.value}`);
+    const data = await res.json();
+    setResults(data);
+  };
   return (
     <div>
       <nav>
@@ -92,6 +124,7 @@ const Navbar = () => {
             )}
           </div>
         </div>
+        
         <div className='navbar'>
           <div className="navbar_brand">
             <a href="/">
@@ -100,30 +133,69 @@ const Navbar = () => {
           </div>
           <div className='navbar_body'>
             <div className='search_bar'>
-              <input type='text' placeholder='Search your products...' onClick={toggleSearchBar} />
+              <input type='text'
+                placeholder='Search your products...'
+                onClick={toggleSearchBar}
+                value={query}
+                onChange={handleSearch}
+              />
               <span className="search-icon"><IoSearch onClick={toggleSearchBar} /></span>
 
               <div ref={searchBarRef} className={`search_bar_body ${isVisible ? 'show_searchDiv_with_animation' : ''}`} onClick={(e) => e.stopPropagation()}>
                 <div className="search_card_wrapper">
-                  <div className="search_card">
-                    <img src="/assets/image/gift5.jpg" alt="Product" />
-                    <div className="desc">Product Description</div>
-                  </div>
+                  {results.length > 0 ? (
+                    results.map((result) => (
+                      <div className="search_card" key={result.id}>
+                        <img src={result.images[0]} alt={result.title} />
+                        <div className="desc">{result.title}</div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className='text-center py-2'>No products available</div>
+                  )}
                 </div>
+
+
+
               </div>
             </div>
             <div className='navbar_icons'>
 
               <div className='cart_icon user_dropdown_btn' onClick={toggleUserDropdown} ref={userDropdownRef}><span><CiUser /></span>
-                {userDropdownVisible && (
-                  <div className="user_dropdown">
-                    <div><a href="/login">LOGIN</a></div>
-                    <div><a href="/register">REGISTER</a></div>
-                  </div>
-                )}
+                {
+                  session ? (
+                    <>
+                      <div className="username_after_login">
+                        <a className='text-sm ' href="/profile"> Welcome {session.user.fname}</a>
+                      </div>
+                      {userDropdownVisible && (
+                        <div className="user_dropdown">
+                          <div><a onClick={logout}>LOGOUT</a></div>
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <div>
+                      {userDropdownVisible && (
+                        <div className="user_dropdown">
+                          <div><a href="/login">LOGIN</a></div>
+                          <div><a href="/register">REGISTER</a></div>
+                        </div>
+                      )}
+                    </div>
+                  )
+                }
+
               </div>
 
-              <div className='cart_icon'><a href="/cart"><span><CiShoppingBasket /></span></a></div>
+              <div className='cart_icon cart_length_btn'>
+                <a href="/cart">
+                  <span >
+                    <CiShoppingBasket />
+                    <span className='text-xs cart_length'>{cart?.length}</span>
+                  </span>
+                </a>
+              </div>
             </div>
           </div>
         </div>

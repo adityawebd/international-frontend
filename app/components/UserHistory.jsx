@@ -1,43 +1,29 @@
 'use client'
 import React, { useState, useEffect } from 'react';
+import axios from "axios";
+import { useSession, signIn, signOut } from "next-auth/react"
+
 
 const UserHistory = () => {
 
-  const [products, setProducts] = useState([]);
+  const { data: session } = useSession();
+
+  const [orders, setProducts] = useState([]);
 
   useEffect(() => {
-    // Fetch or set your product data here
-    const fetchProducts = async () => {
-      // Simulate fetching data from the backend
-      // Replace this with your actual API call
-      const productData = [
-        {
-          id: 1,
-          name: 'Diamond Statue',
-          description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia, doloribus?',
-          price: '₹660',
-          image: 'assets/image/gift15.jpg',
-          date: "16 July 2024",
-          stockStatus: 'In Stock',
-          view_btn_link: "",
-        },
-        {
-          id: 2,
-          name: 'Gold Buddha',
-          description: 'Elegant and beautiful gold necklace. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia, doloribus?',
-          price: '₹1,250',
-          image: 'assets/image/gift16.jpg',
-          date: "13 August 2024",
-          stockStatus: 'Out of Stock',
-          view_btn_link: ""
-        },
-      ];
+    if (session) {
+      const fetchData = async () => {
+        try {
+          const response = await axios.get(`/api/order?email=${session.user.email}`);
+          setProducts(response.data); // Assuming response structure { message: '...', user: {...} }
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      };
 
-      setProducts(productData);
-    };
-
-    fetchProducts();
-  }, []);
+      fetchData();
+    }
+  }, [session]);
 
   return (
     <div>
@@ -47,41 +33,63 @@ const UserHistory = () => {
         <div className="table_wrapper">
           <table>
             <thead>
-              <tr>
-                <th className='id'>ID</th>
-                <th className='img'>Image</th>
-                <th className='name'>Name</th>
-                <th className='date'>Date</th>
-                <th className='price'>Price</th>
-                <th className='status'>Status</th>
-                <th className='action'>Actions</th>
-              </tr>
+            <tr className="bg-gray-100">
+        <th className="border border-gray-300 px-4 py-2">Date</th>
+        <th className="border border-gray-300 px-4 py-2">Image</th>
+        <th className="border border-gray-300 px-4 py-2">Paid</th>
+        <th className="border border-gray-300 px-4 py-2">Status</th>
+        <th className="border border-gray-300 px-4 py-2">Recipient</th>
+        <th className="border border-gray-300 px-4 py-2">Products</th>
+        <th className="border border-gray-300 px-4 py-2">Quantity</th>
+        
+
+      </tr>
             </thead>
-              {products.length > 0 ? (
-                <tbody>
-                  {products.map((product) => (
-                    <tr key={product.id}>
-                      <td className='pl-2'>{product.id}</td>
-                      <td className='product_img'>
-                        <img src={product.image} alt={product.name} />
-                      </td>
-                      <td className='pl-2'><p className='text-lg green_font'>{product.name}</p>{product.description}</td>
-                      <td className='pl-2'>{product.date}</td>
-                      <td className='pl-2'>{product.price}</td>
-                      <td className='pl-2'>{product.stockStatus}</td>
-                      <td className='pl-2'>
-                        <a href="" className='view_btn text-sm'>VIEW</a>
-                      </td>
-                    </tr>
+            {orders.length > 0 ? (
+              <tbody>
+              {orders.length > 0 && orders.map(order => (
+              <tr key={order._id} className="border border-gray-300">
+                <td className="border border-gray-300 px-4 py-2">{(new Date(order.createdAt)).toLocaleString()}</td>
+                <td>{order.images}</td>
+                <td className={`border border-gray-300 px-4 py-2 ${order.paid ? 'text-green-600' : 'text-red-600'}`}>
+                  {order.paid ? 'YES' : 'NO'}
+                </td>
+                <td ></td>
+                <td className="border border-gray-300 px-4 py-2">
+                  <div className="text-sm"><span className="font-bold">Name : </span>{order.name}</div>
+                  <div className="text-xs"><span className="font-bold">Email : </span>{order.email}</div>
+                  <div className="text-xs"><span className="font-bold">Sreet Address : </span>{order.streetAddress}</div>
+                  <div className="text-xs"><span className="font-bold">City : </span>{order.city}</div>
+                  <div className="text-xs"><span className="font-bold">postalcode : </span> {order.postalCode}</div> 
+                  <div className="text-xs"><span className="font-bold">Country : </span>{order.country}</div>
+                  
+                </td>
+                <td className="border border-gray-300 px-4 py-2">
+                  {order.line_items.map((l, index) => (
+                    <div key={index} className="text-sm">
+                      {l.price_data?.product_data.name}
+                    </div>
                   ))}
-                </tbody>
-              ) : (
-                <tbody>
-                  <tr>
-                    <td colSpan="6" className="text-center p-3">No products in wishlist</td>
-                  </tr>
-                </tbody>
-              )}
+                </td>
+                <td className="border border-gray-300 px-4 py-2">
+                  {order.line_items.map((l, index) => (
+                    <div key={index} className="text-sm">
+                      {l.quantity}
+                    </div>
+                  ))}
+                </td>
+        
+                
+              </tr>
+              ))}
+            </tbody>
+            ) : (
+              <tbody>
+                <tr>
+                  <td colSpan="7" className="text-center p-3">No products in wishlist</td>
+                </tr>
+              </tbody>
+            )}
           </table>
         </div>
       </div>

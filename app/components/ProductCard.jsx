@@ -7,20 +7,21 @@ import React, { useContext } from 'react';
 import { CurrencyContext } from '../CurrencyContext';
 
 const ProductCard = ({ product }) => {
+    console.log("product card product", product);
     const { currency, exchangeRates } = useContext(CurrencyContext);
-    const convertedPrice = convertPrice(product.discounted_price, currency, exchangeRates);
-    const convertedActualPrice = convertPrice(product.actual_price, currency, exchangeRates);
+    const convertedPrice = convertPrice(product.discountedPrice, currency, exchangeRates);
+    const convertedActualPrice = convertPrice(product.price, currency, exchangeRates);
 
     return (
         <div className="w-[300px] rounded-md border mb-2 mr-2 reposnive_product_card">
             <img
-                src={product.image}
+                src={product.images[0]}
                 alt="product-image"
                 className="h-[200px] w-full rounded-t-md object-cover"
             />
             <div className="py-4 px-2 reposnive_product_card_content">
                 <h1 className="inline-flex items-center text-lg font-semibold product_title">
-                    {product.name} &nbsp;
+                    {product.title} &nbsp;
                     {/* <ArrowUpRight className="h-4 w-4" /> */}
                 </h1>
                 <p className="mt-1 text-sm text-gray-600 product_desc">

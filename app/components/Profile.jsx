@@ -1,45 +1,52 @@
 import React, { useState } from 'react';
+import { useSession, signIn, signOut } from "next-auth/react"
+
+
 
 const Profile = () => {
+
+ 
+
+  const { data: session } = useSession();
   const [isEditing, setIsEditing] = useState(false);
 
   const [profile, setProfile] = useState({
-    name: 'Aditya Raj',
-    email: 'example@gmail.com',
-    number: '+91 1234567890',
-    address: 'RG Trade Tower, 509, NSP',
-    shippingAddress: 'RG Trade Tower, 509, NSP'
+    firstName: session.user.fname,
+    email: session.user.email,
+    phoneNumber: session.user.number,
+    address: session.user.address,
+    shippingAddress: session.user.address,
+    lastName: session.user.lname
   });
 
   const handleEdit = () => {
     setIsEditing(true);
   };
 
-  const handleSave = () => {
-    setIsEditing(false);
+  
+  const handleSave = async () => {
+    try {
+      const response = await fetch('/api/updateProfile', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(profile)
+      });
+  
+      if (response.ok) {
+        setIsEditing(false);
+        console.log('Profile updated successfully');
+        // Handle successful response if needed
+      } else {
+        const errorData = await response.json();
+        console.error('Failed to update profile:', errorData);
+        // Handle error response if needed
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
-
-  // const handleSave = async () => {                                 // enable this when dealing this backend
-  //   try {
-  //     const response = await fetch('/api/updateProfile', {
-  //       method: 'PUT',
-  //       headers: {
-  //         'Content-Type': 'application/json'
-  //       },
-  //       body: JSON.stringify(profile)
-  //     });
-
-  //     if (response.ok) {
-  //       setIsEditing(false);
-  //       // Handle successful response if needed
-  //     } else {
-  //       // Handle error response if needed
-  //       console.error('Failed to update profile');
-  //     }
-  //   } catch (error) {
-  //     console.error('Error:', error);
-  //   }
-  // };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -54,9 +61,9 @@ const Profile = () => {
           <div className="user_img">
             <img src="/assets/avatar-2.jpg" alt="" />
           </div>
-          <h2 className="name text-center text-xl font-semibold light_black_font mt-2">{profile.name}</h2>
+          <h2 className="name text-center text-xl font-semibold light_black_font mt-2">{profile.firstName}&nbsp;{profile.lastName}</h2>
         </div>
-        <p>Hello <span className='text-lg font-medium '>{profile.name}</span></p>
+        <p>Hello <span className='text-lg font-medium '>{profile.firstName}&nbsp;{profile.lastName}</span></p>
         <p className='pr-5 pb-4 mb-4 light_black_font border-b'>From your account you can easily view and track orders. You can manage and change your account information like address, contact information and history of orders.</p>
 
 
@@ -80,12 +87,12 @@ const Profile = () => {
             {isEditing ? (
               <input
                 type="text"
-                name="number"
-                value={profile.number}
+                name="phoneNumber"
+                value={profile.phoneNumber}
                 onChange={handleChange}
               />
             ) : (
-              <span>{profile.number}</span>
+              <span>{profile.phoneNumber}</span>
             )}
           </div>
           <div className="profile-item">

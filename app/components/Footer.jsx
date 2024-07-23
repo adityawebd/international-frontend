@@ -23,7 +23,7 @@ const Footer = () => {
                             <h3 className='text-lg font-bold tracking-widest light_black_font border-b-2 pb-2'>Information</h3>
                             <ul>
                                 <li className='text-sm light_black_font mt-2'><a href="/about-us">About us</a></li>
-                                <li className='text-sm light_black_font mt-2'><a href="/all-product">All Products</a></li>
+                                <li className='text-sm light_black_font mt-2'><a href="/all-products">All Products</a></li>
                                 <li className='text-sm light_black_font mt-2'><a href="/cart">Cart</a></li>
                                 <li className='text-sm light_black_font mt-2'><a href="/contact-us">Contact us</a></li>
                             </ul>
@@ -33,7 +33,7 @@ const Footer = () => {
                             <ul>
                                 <li className='text-sm light_black_font mt-2'><a href="/profile">My Account</a></li>
                                 <li className='text-sm light_black_font mt-2'><a href="/track-order">Track Your Order</a></li>
-                                <li className='text-sm light_black_font mt-2'><a href="/wishlist">Wishlist</a></li>
+                                {/* <li className='text-sm light_black_font mt-2'><a href="/wishlist">Wishlist</a></li> */}
                                 <li className='text-sm light_black_font mt-2'><a href="/user-history">Your Product History</a></li>
                             </ul>
                         </div>

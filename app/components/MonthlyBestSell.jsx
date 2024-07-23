@@ -1,18 +1,34 @@
-import React, {useEffect} from 'react';
+import React, {useEffect,useState} from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css'
-
 import BestSellCard from './BestSellCard'
-
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, A11y } from 'swiper/modules';
 import 'swiper/css';
+import axios from 'axios';
 
 const MonthlyBestSell = ({ price, ...props }) => {
     
   useEffect(() => { //animate on scroll
     AOS.init();
   }, [])
+
+  const [product, setProduct] = useState([]);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                console.log("before reaponce")
+                const response = await axios.get('/api/product');
+
+                console.log("the responce is ", response);
+                setProduct(response.data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+    }, []);
     return (
         <div>
             <div className="monthly_best_sell">
@@ -57,94 +73,22 @@ const MonthlyBestSell = ({ price, ...props }) => {
                                 modules={[Autoplay, Navigation, A11y]}
                                 className="swiper-wrapper mx-auto mb-4"
                             >
+
+                                {product.map((product) =>(
                                 <SwiperSlide>
+
                                     <BestSellCard
-                                        card_link="/product"
-                                        img_src="/assets/image/gift17.jpg"
-                                        img_title=""
-                                        sku_id="667a6274b4d48f8a84ed4c63"
-                                        title="Shiva Gold Statue "
-                                        discounted_price="759"
-                                        actual_price="1000"
+                                        card_link={`/product/${product._id}`}
+                                        img_src={product.images[0]}
+                                        img_title={product.title}
+                                        sku_id={product.sku}
+                                        title={product.title}
+                                        discounted_price={product.discountedPrice}
+                                        actual_price={product.price}
                                     />
                                 </SwiperSlide>
-                                <SwiperSlide>
-                                    <BestSellCard
-                                        card_link="/product"
-                                        img_src="/assets/image/gift17.jpg"
-                                        img_title=""
-                                        sku_id="667a6274b4d48f8a84ed4c63"
-                                        title="Shiva Gold Statue "
-                                        discounted_price="759"
-                                        actual_price="884"
-                                    />
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <BestSellCard
-                                        card_link="/product"
-                                        img_src="/assets/image/gift17.jpg"
-                                        img_title=""
-                                        sku_id="667a6274b4d48f8a84ed4c63"
-                                        title="Shiva Gold Statue "
-                                        discounted_price="759"
-                                        actual_price="884"
-                                    />
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <BestSellCard
-                                        card_link="/product"
-                                        img_src="/assets/image/gift17.jpg"
-                                        img_title=""
-                                        sku_id="667a6274b4d48f8a84ed4c63"
-                                        title="Shiva Gold Statue "
-                                        discounted_price="759"
-                                        actual_price="884"
-                                    />
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <BestSellCard
-                                        card_link="/product"
-                                        img_src="/assets/image/gift17.jpg"
-                                        img_title=""
-                                        sku_id="667a6274b4d48f8a84ed4c63"
-                                        title="Shiva Gold Statue "
-                                        discounted_price="759"
-                                        actual_price="884"
-                                    />
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <BestSellCard
-                                        card_link="/product"
-                                        img_src="/assets/image/gift17.jpg"
-                                        img_title=""
-                                        sku_id="667a6274b4d48f8a84ed4c63"
-                                        title="Shiva Gold Statue "
-                                        discounted_price="759"
-                                        actual_price="884"
-                                    />
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <BestSellCard
-                                        card_link="/product"
-                                        img_src="/assets/image/gift17.jpg"
-                                        img_title=""
-                                        sku_id="667a6274b4d48f8a84ed4c63"
-                                        title="Shiva Gold Statue "
-                                        discounted_price="759"
-                                        actual_price="884"
-                                    />
-                                </SwiperSlide>
-                                <SwiperSlide>
-                                    <BestSellCard
-                                        card_link="/product"
-                                        img_src="/assets/image/gift17.jpg"
-                                        img_title=""
-                                        sku_id="667a6274b4d48f8a84ed4c63"
-                                        title="Shiva Gold Statue "
-                                        discounted_price="759"
-                                        actual_price="884"
-                                    />
-                                </SwiperSlide>
+                                ))}
+                                
                             </Swiper>
                         </div>
                     </div>
