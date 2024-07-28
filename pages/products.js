@@ -1,6 +1,6 @@
 // pages/index.js or pages/products.js
 
-import React, { useState } from "react";
+import React, { useState,useEffect  } from "react";
 import Filter from "../app/components/Filter";
 
 export async function getStaticProps() {
@@ -19,37 +19,54 @@ export async function getStaticProps() {
 }
 const ProductsPage = ({ categories, products }) => {
   const [filteredProducts, setFilteredProducts] = useState(products);
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const [filters, setFilters] = useState({});
 
+  useEffect(() => {
+    applyFilters(filters);
+  }, [selectedCategory, filters]);
+
+  const handleCategoryChange = (categoryId) => {
+    setSelectedCategory(categoryId);
+    setFilters({});
+  };
+
   const handleFilterChange = (propertyName, value) => {
-    const newFilters = { ...filters, [propertyName]: value };
-    setFilters(newFilters);
-    applyFilters(newFilters);
+    setFilters(prevFilters => ({ ...prevFilters, [propertyName]: value }));
   };
 
   const applyFilters = (filters) => {
     let filtered = products;
-    Object.keys(filters).forEach((propertyName) => {
+
+    if (selectedCategory) {
+      filtered = filtered.filter(product => product.category === selectedCategory);
+    }
+
+    Object.keys(filters).forEach(propertyName => {
       if (filters[propertyName]) {
-        filtered = filtered.filter((product) => {
+        filtered = filtered.filter(product => {
           return product.properties?.[propertyName] === filters[propertyName];
         });
       }
     });
+
     setFilteredProducts(filtered);
   };
 
   return (
     <div>
-      <div className="avi">
-        <Filter categories={categories} onFilterChange={handleFilterChange} />
-      </div>
+      <Filter categories={categories} onCategoryChange={handleCategoryChange} onFilterChange={handleFilterChange} />
       <div className="product-list">
-        {filteredProducts.map((product) => (
+        {filteredProducts.map(product => (
           <div key={product._id} className="product-item">
             <h2>{product.title}</h2>
             <p>{product.description}</p>
             <p>Price: ${product.price}</p>
+            <ul>
+              {product.properties && Object.entries(product.properties).map(([key, value]) => (
+                <li key={key}><strong>{key}:</strong> {value}</li>
+              ))}
+            </ul>
             {/* Add more product details as needed */}
           </div>
         ))}

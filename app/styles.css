@@ -17,6 +17,19 @@
     display: flex;
  
   }
-  .avi{
+  .avi1{
     margin: 4px;
+    padding: 10px;
   }
+
+  /* styles.css */
+
+
+.product-item ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.product-item li {
+  margin: 4px 0;
+}
