@@ -1,0 +1,22 @@
+/* styles.css */
+
+.product-list {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .product-item {
+    border: 1px solid #ddd;
+    padding: 16px;
+    margin: 16px;
+    flex: 1 1 200px;
+  }
+  
+  .avi
+  {
+    display: flex;
+ 
+  }
+  .avi{
+    margin: 4px;
+  }
