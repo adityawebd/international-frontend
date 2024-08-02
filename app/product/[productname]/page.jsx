@@ -10,7 +10,7 @@ import Stack from "@mui/joy/Stack";
 import Typography from "@mui/joy/Typography";
 import CircularProgress from "@mui/joy/CircularProgress";
 import { useCountUp } from "use-count-up";
-import { useCartStore } from "../../../stores/useCartStore"
+import { useCartStore } from "../../../stores/useCartStore";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import Variations from "../../components/Variations";
@@ -23,8 +23,7 @@ import { IoMdInformationCircleOutline } from "react-icons/io";
 import { MdVerified } from "react-icons/md";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
 import axios from "axios";
-import Breadcrumbs from '../../components/Breadcrumbs'
-
+import Breadcrumbs from "../../components/Breadcrumbs";
 
 const Page = ({ params }) => {
     const urldata = decodeURIComponent(params.productname);
@@ -35,13 +34,29 @@ const Page = ({ params }) => {
     const [isCounting, setIsCounting] = useState(false);
     const [progressValues, setProgressValues] = useState([0, 0, 0, 0, 0]);
     const [productData, setProductData] = useState(null);
-    const addToCart = useCartStore(state => state.addToCart)
+    const [sku,setSku]=useState([])
+    const [skuData,setSkuData]=useState([])
+    const addToCart = useCartStore((state) => state.addToCart);
 
     useEffect(() => {
-        axios.get(`/api/productDetail?condition=${urldata}`).then(response => {
-            setProductData(response.data[0]); // Assuming the API returns an array of products
+        axios.get(`/api/productDetail?condition=${urldata}`).then((response) => {
+            setProductData(response.data[0]); 
+            setSku(response.data[0].sku)// Assuming the API returns an array of products
         });
     }, [urldata]);
+
+
+    
+
+    useEffect(() => {
+        axios.get(`/api/productskuDetail?condition=${sku}`).then((response) => {
+            setSkuData(response.data); 
+            // Assuming the API returns an array of products
+        });
+    }, [sku]);
+
+
+    console.log("sku data is",skuData)
 
     const { value: value1, reset: resetValue1 } = useCountUp({
         isCounting,
@@ -77,7 +92,10 @@ const Page = ({ params }) => {
     const { currency, exchangeRates } = useContext(CurrencyContext);
 
     const calculateAverageRating = (reviews) => {
-        const totalRating = reviews?.reduce((acc, review) => acc + parseInt(review.rating), 0);
+        const totalRating = reviews?.reduce(
+            (acc, review) => acc + parseInt(review.rating),
+            0
+        );
         const averageRating = totalRating / reviews?.length;
         return Math.round(averageRating);
     };
@@ -102,30 +120,45 @@ const Page = ({ params }) => {
         } else {
             setIsCounting(false);
         }
-    }, [activeTab, resetValue1, resetValue2, resetValue3, resetValue4, resetValue5]);
+    }, [
+        activeTab,
+        resetValue1,
+        resetValue2,
+        resetValue3,
+        resetValue4,
+        resetValue5,
+    ]);
 
     if (!productData) {
         return <div>Loading...</div>;
     }
 
-    const convertedPrice = convertPrice(productData.discountedPrice, currency, exchangeRates);
-    const convertedActualPrice = convertPrice(productData.price, currency, exchangeRates);
+    const convertedPrice = convertPrice(
+        productData.discountedPrice,
+        currency,
+        exchangeRates
+    );
+    const convertedActualPrice = convertPrice(
+        productData.price,
+        currency,
+        exchangeRates
+    );
     const averageRating = calculateAverageRating(productData.reviews);
 
     const addToCart1 = (e, item) => {
-        e.preventDefault();  // Prevent default form submission or link behavior
+        e.preventDefault(); // Prevent default form submission or link behavior
         addToCart(item);
     };
     const addToCart2 = (e, item) => {
-          // Prevent default form submission or link behavior
+        // Prevent default form submission or link behavior
         addToCart(item);
-        window.location.replace('/cart')
+        window.location.replace("/cart");
     };
 
     return (
         <div>
             <Navbar />
-      <Breadcrumbs page_title="Product Details" />
+            <Breadcrumbs page_title="Product Details" />
 
             <div className="product mt-3">
                 <div className="container">
@@ -152,7 +185,9 @@ const Page = ({ params }) => {
                                     {productData.images.map((image, index) => (
                                         <div
                                             key={index}
-                                            className={index === activeProductTab ? "active" : "hidden"}
+                                            className={
+                                                index === activeProductTab ? "active" : "hidden"
+                                            }
                                         >
                                             <Magnify
                                                 imageSrc={productData.images[activeProductTab]}
@@ -164,9 +199,7 @@ const Page = ({ params }) => {
                             </div>
                         </div>
                         <div className="col-md-6 product_about_wrapper">
-                            <h3 className="text-xl font-semibold">
-                                {productData.title}
-                            </h3>
+                            <h3 className="text-xl font-semibold">{productData.title}</h3>
                             <p className="green_font font-semibold price">
                                 {currency === "INR" ? "₹" : "$"} {convertedPrice.toFixed(2)}{" "}
                                 &nbsp;
@@ -187,21 +220,35 @@ const Page = ({ params }) => {
                                         <span>No rating available</span>
                                     )}
                                 </div>
-                                <div className="review">{productData.reviews?.length} Reviews</div>
+                                <div className="review">
+                                    {productData.reviews?.length} Reviews
+                                </div>
                             </div>
                             <p className="text-base light_black_font mt-3">
                                 {productData.description}
                             </p>
                             <div className="cart_btns mt-4  ">
-
-                                <button onClick={(e) => addToCart2(e, productData)} >buy now </button>
-                                <button onClick={(e) => addToCart1(e, productData)}><span><HiOutlineShoppingBag /></span> &nbsp; add to cart </button>
-
+                                <button onClick={(e) => addToCart2(e, productData)}>
+                                    buy now{" "}
+                                </button>
+                                <button onClick={(e) => addToCart1(e, productData)}>
+                                    <span>
+                                        <HiOutlineShoppingBag />
+                                    </span>{" "}
+                                    &nbsp; add to cart{" "}
+                                </button>
                             </div>
                             <h2 className="text-xl font-semibold light_black_font mt-4">
                                 Variations
                             </h2>
-                            {/* <Variations images={productData.variations_images} /> */}
+                            {skuData.map((data)=>(
+                            //  <Variations key={data._id} images={data.images} /> 
+                            <a href={`/product/${data._id}`}>
+                                <div>
+                                    <img src={data.images[0]} alt={data.title} height={100} width={100} />
+                                </div>
+                            </a>
+                            ))}
                         </div>
                     </div>
                     <div className="row product_details mt-4">
@@ -213,8 +260,8 @@ const Page = ({ params }) => {
                                 <li className="me-2" role="presentation">
                                     <button
                                         className={`inline-block mt-2 px-4 py-2 ${activeTab === "general_info"
-                                            ? "green_bg_white_font"
-                                            : "hover:text-gray-600 hover:border-gray-300"
+                                                ? "green_bg_white_font"
+                                                : "hover:text-gray-600 hover:border-gray-300"
                                             }`}
                                         onClick={() => handleTabClick("general_info")}
                                     >
@@ -224,8 +271,8 @@ const Page = ({ params }) => {
                                 <li className="me-2" role="presentation">
                                     <button
                                         className={`inline-block mt-2 px-4 py-2 ${activeTab === "additional_info"
-                                            ? "green_bg_white_font"
-                                            : "hover:text-gray-600 hover:border-gray-300"
+                                                ? "green_bg_white_font"
+                                                : "hover:text-gray-600 hover:border-gray-300"
                                             }`}
                                         onClick={() => handleTabClick("additional_info")}
                                     >
@@ -235,8 +282,8 @@ const Page = ({ params }) => {
                                 <li className="me-2" role="presentation">
                                     <button
                                         className={`inline-block mt-2 px-4 py-2 ${activeTab === "reviews"
-                                            ? "green_bg_white_font"
-                                            : "hover:text-gray-600 hover:border-gray-300"
+                                                ? "green_bg_white_font"
+                                                : "hover:text-gray-600 hover:border-gray-300"
                                             }`}
                                         onClick={() => handleTabClick("reviews")}
                                     >
@@ -255,10 +302,7 @@ const Page = ({ params }) => {
                             )}
                             {activeTab === "additional_info" && (
                                 <div className="p-4 rounded-xl bg-gray-50">
-                                    <p className="text-sm text-gray-500">
-                                        {" "}
-                                        addinnal info
-                                    </p>
+                                    <p className="text-sm text-gray-500"> addinnal info</p>
                                 </div>
                             )}
                             {activeTab === "reviews" && (
@@ -287,13 +331,13 @@ const Page = ({ params }) => {
                                                             )}
                                                         </div> */}
                                                     <div className="review mt-3">
-                                                        Total Reviews: {productData.reviews?.length} 
+                                                        Total Reviews: {productData.reviews?.length}
                                                     </div>
                                                 </div>
                                             </div>
                                             <div className="review_items">
-
-                                                {Array.isArray(productData.reviews) && productData.reviews.length > 0 ? (
+                                                {Array.isArray(productData.reviews) &&
+                                                    productData.reviews.length > 0 ? (
                                                     productData.reviews.map((review, index) => {
                                                         const rating = parseInt(review.rating, 10) || 0; // Default to 0 if rating is invalid
 
@@ -305,21 +349,23 @@ const Page = ({ params }) => {
                                                                     </div>
                                                                     <div className="author_about flex flex-col align-middle">
                                                                         <div className="author_name font-semibold flex">
-                                                                            {review.name} <span className="author_badge pt-1 pl-1 green_font">
+                                                                            {review.name}{" "}
+                                                                            <span className="author_badge pt-1 pl-1 green_font">
                                                                                 <MdVerified />
                                                                             </span>
                                                                         </div>
 
-
                                                                         <div className="author_rating flex align-middle mt-2 mb-1">
                                                                             <div className="author_stars flex align-middle mr-1">
                                                                                 {[...Array(rating)].map((_, i) => (
-                                                                                    <span key={i} className="colored_star">
+                                                                                    <span
+                                                                                        key={i}
+                                                                                        className="colored_star"
+                                                                                    >
                                                                                         <FaStar />
                                                                                     </span>
                                                                                 ))}
                                                                             </div>
-                                                                            
                                                                         </div>
                                                                         <div className="author_date text-sm">
                                                                             {review.comment}
@@ -353,7 +399,6 @@ const Page = ({ params }) => {
                                                 ) : (
                                                     <div>No reviews available</div>
                                                 )}
-
                                             </div>
                                         </div>
                                     </div>
