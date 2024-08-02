@@ -27,7 +27,7 @@ const HeroSection = () => {
           heading: "New Statue Collection",
           offer: "SALE OFFER",
           para: "Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.",
-          btn_link: "products"
+          btn_link: "productss"
         }
       ]
     },
@@ -41,7 +41,7 @@ const HeroSection = () => {
           heading: "BEST STATUE SETS",
           offer: "SALE OFFER",
           para: "Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.",
-          btn_link: "products"
+          btn_link: "productss"
         }
       ]
     },
@@ -55,7 +55,7 @@ const HeroSection = () => {
           heading: "New Statue Collection",
           offer: "SALE OFFER",
           para: "Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.",
-          btn_link: "products"
+          btn_link: "productss"
         }
       ]
     },
@@ -127,7 +127,7 @@ const HeroSection = () => {
               className={`w-full h-full absolute transition-transform duration-1000 ${index === currentSlide ? 'opacity-100' : 'opacity-0'}`}
               style={{ transform: `translateX(${(index - currentSlide) * 100}%)` }}
             >
-              <Image
+              <img
                 src={image.src}
                 alt={image.alt}
                 layout="fill"

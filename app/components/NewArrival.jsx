@@ -32,8 +32,8 @@ const NewArrival = () => {
     return (
         <div>
             <div className="new_arrival py-5">
-                <h2 data-aos="fade-up" data-aos-duration="400" className='mb-4 font-semibold text-4xl text-center light_black_font'>New Arrivals</h2>
-                <p data-aos="fade-up" data-aos-duration="450" className='text-center text-sm light_black_font'>Browse The Collection of Top Products</p>
+                <h2 data-aos="fade-up" className='mb-4 font-semibold text-4xl text-center light_black_font'>New Arrivals</h2>
+                <p data-aos="fade-up" className='text-center text-sm light_black_font'>Browse The Collection of Top Products</p>
                 <div className="container mt-4">
                     <Swiper
                         spaceBetween={10}
@@ -64,8 +64,8 @@ const NewArrival = () => {
                         className="swiper-wrapper mx-auto mb-4"
                     >
 
-                        {product.map((product) => (
-                            <SwiperSlide>
+                        {product.map((product,index) => (
+                            <SwiperSlide key={index}>
                                 <NewArrivalCard
                                 card_link={`/product/${product._id}`}
                                 img_src={product.images[0]}

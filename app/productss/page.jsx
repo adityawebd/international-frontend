@@ -3,114 +3,145 @@ import { useEffect, useState, useContext } from 'react';
 import { CurrencyContext } from '../CurrencyContext';
 import { fetchCategories } from '../../services/categoryService';
 import { fetchProducts } from '../../services/productService';
-
-
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import NewArrival from '../components/NewArrival'
-import Breadcrumbs from '../components/Breadcrumbs'
+import NewArrival from '../components/NewArrival';
+import Breadcrumbs from '../components/Breadcrumbs';
+import Filter from '../components/Filter';
 
 const convertPrice = (price, currency, exchangeRates) => {
   const rate = exchangeRates[currency];
   return price * rate;
 };
 
+const fetchCategoriesAndProducts = async () => {
+  const categoryRes = await fetch("http://localhost:3000/api/category");
+  const productRes = await fetch("http://localhost:3000/api/product");
+
+  const categories = await categoryRes.json();
+  const products = await productRes.json();
+
+  return { categories, products };
+};
+
 const Page = () => {
+  const { currency, exchangeRates } = useContext(CurrencyContext);
+
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState('');
-
-  const { currency, exchangeRates } = useContext(CurrencyContext);
-  const convertedPrice = convertPrice(products.discountedPrice, currency, exchangeRates);
-  const convertedActualPrice = convertPrice(products.price, currency, exchangeRates);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [filters, setFilters] = useState({});
+  const [priceRange, setPriceRange] = useState([0, 1000]);
+  const [sortOrder, setSortOrder] = useState('');
 
   useEffect(() => {
-    const loadData = async () => {
-      const categoriesData = await fetchCategories();
-      setCategories(categoriesData);
-    };
+    async function loadData() {
+      const { categories, products } = await fetchCategoriesAndProducts();
+      setCategories(categories);
+      setProducts(products);
+      setFilteredProducts(products);
+    }
 
     loadData();
   }, []);
 
   useEffect(() => {
-    const loadProducts = async () => {
-      const productsData = await fetchProducts();
-      if (selectedCategory) {
-        const filteredProducts = productsData.filter(
-          product => product.category === selectedCategory
-        );
-        setProducts(filteredProducts);
-      } else {
-        setProducts(productsData);
-      }
-    };
+    applyFilters(filters);
+  }, [selectedCategory, filters, products, priceRange, sortOrder]);
 
-    loadProducts();
-  }, [selectedCategory]);
+  const handleCategoryChange = (categoryId) => {
+    setSelectedCategory(categoryId);
+    setFilters({});
+  };
+
+  const handleFilterChange = (propertyName, value) => {
+    setFilters(prevFilters => ({ ...prevFilters, [propertyName]: value }));
+  };
+
+  const handlePriceChange = (range) => {
+    setPriceRange(range);
+  };
+
+  const handleSortChange = (order) => {
+    setSortOrder(order);
+  };
+
+  const applyFilters = (filters) => {
+    let filtered = products;
+
+    if (selectedCategory) {
+      filtered = filtered.filter(product => product.category === selectedCategory);
+    }
+
+    Object.keys(filters).forEach(propertyName => {
+      if (filters[propertyName]) {
+        filtered = filtered.filter(product => {
+          return product.properties?.[propertyName] === filters[propertyName];
+        });
+      }
+    });
+
+    filtered = filtered.filter(product => {
+      const price = convertPrice(product.discountedPrice, currency, exchangeRates);
+      return price >= priceRange[0] && price <= priceRange[1];
+    });
+
+    if (sortOrder === 'asc') {
+      filtered.sort((a, b) => a.discountedPrice - b.discountedPrice);
+    } else if (sortOrder === 'desc') {
+      filtered.sort((a, b) => b.discountedPrice - a.discountedPrice);
+    }
+
+    setFilteredProducts(filtered);
+  };
 
   return (
     <>
       <Navbar />
       <Breadcrumbs page_title="All Product" />
-
-      <div className="container py-4">
+      <div className='container'>
         <div className="row">
-          <div className="col-md-12">
-            <div className="filters_wrapper">
-              <select
-                className="mb-4"
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-              >
-                <option value=''>All Categories</option>
-                {categories.map((category) => (
-                  <option key={category._id} value={category._id}>
-                    {category.name}
-                  </option>
-                ))}
-              </select>
-            </div>
+          <div className="col-md-3 py-4">
+            <Filter
+              categories={categories}
+              onCategoryChange={handleCategoryChange}
+              onFilterChange={handleFilterChange}
+              onPriceChange={handlePriceChange}
+              onSortChange={handleSortChange}
+            />
+          </div>
+          <div className="col-md-9">
 
-            <div className="all_products_container">
-              {products.map((product) => (
-                <div className="products_card">
-                  <a href={`/product/${product._id}`} key={product._id}>
-                    <figure>
-                      <img src={product.images[0]} alt={product.title} />
-                    </figure>
-
-                    <div className="card_content">
-                      <div className="title">{product.title}</div>
-                      {/* <p className="price">Price: ₹{product.price}</p> */}
-                      <div className="price">
-                        {currency === 'INR' ? '₹' : '$'} {convertPrice(product.discountedPrice, currency, exchangeRates).toFixed(2)} &nbsp;
-                        <span>{currency === 'INR' ? '₹' : '$'} {convertPrice(product.price, currency, exchangeRates).toFixed(2)}</span>
-                      </div>
+            <div className="container py-4">
+              <div className="row">
+                <div className="col-md-12 p-0">
+                  <div className='all_products_container'>
+                    <div className="product-list">
+                      {filteredProducts.map(product => (
+                        <div key={product._id} className="products_card">
+                          <a href={`/product/${product._id}`}>
+                            <figure>
+                              <img className='rounded-2xl' src={product.images[0]} alt={product.title} />
+                            </figure>
+                            <div className='card_content'>
+                              <div className="title">{product.title}</div>
+                              <div className="price">
+                                {currency === 'INR' ? '₹' : '$'} {convertPrice(product.discountedPrice, currency, exchangeRates).toFixed(2)} &nbsp;
+                                <span>{currency === 'INR' ? '₹' : '$'} {convertPrice(product.price, currency, exchangeRates).toFixed(2)}</span>
+                              </div>
+                            </div>
+                          </a>
+                        </div>
+                      ))}
                     </div>
-
-
-                    {/* <p className="mb-2">{product.description}</p> */}
-                    {/* {product.images.map((image, index) => ( */}
-                    {/* <img key={index} src={image} alt={product.title} className="w-full h-auto mb-2" /> */}
-                    {/* ))} */}
-                    {/* <div>
-                {product.reviews && product.reviews.map((review, index) => (
-                  <div key={index} className="border-t pt-2 mt-2">
-                    <strong>{review.name}</strong>
-                    <p>Rating: {review.rating}</p>
-                    <p>{review.comment}</p>
                   </div>
-                ))}
-                </div> */}
-                  </a>
                 </div>
-              ))}
+              </div>
             </div>
           </div>
         </div>
       </div>
-
       <NewArrival />
       <Footer />
     </>

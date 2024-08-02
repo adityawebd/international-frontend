@@ -6,10 +6,11 @@ import { IoIosArrowDown, IoIosCloseCircleOutline } from "react-icons/io";
 import axios from "axios";
 
 const ProductTopbar = () => {
-
     const [categories, setCategories] = useState([]);
     const [products, setProducts] = useState([]);
     const [showPopovers, setShowPopovers] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         fetch('/api/categories')
@@ -29,11 +30,30 @@ const ProductTopbar = () => {
         });
     };
 
-    const getCategoryProducts = (categoryId) => {
-        return products.filter((product) => product.category === categoryId);
+    const handleCategoryClick = (categoryId) => {
+        setSelectedCategory(categoryId);
+        setIsModalOpen(true);
     };
 
-    console.log("categories ", categories)
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setSelectedCategory(null);
+    };
+
+    const handleOverlayClick = (e) => {
+        // Close modal if click is outside the modal content
+        if (e.target.classList.contains('modal-overlay')) {
+            closeModal();
+        }
+    };
+
+    const getCategoryProducts = (categoryId) => {
+        return products.filter((product) => product._id === categoryId);
+    };
+    // getCategoryProducts(selectedCategory)
+    const categoryProducts = selectedCategory ? selectedCategory : ['Hey'];
+    console.log("categoryProducts: ", categoryProducts)
+
     return (
         <div>
             <div className="product_topbar py-2">
@@ -47,9 +67,10 @@ const ProductTopbar = () => {
                                     className=""
                                     onMouseEnter={() => togglePopover(index)}
                                     onMouseLeave={() => togglePopover(index)}
+                                    onClick={() => handleCategoryClick(category._id)}
                                 >
                                     <div className="pt_card_parent">
-                                        <Image
+                                        <img
                                             className=""
                                             src={`/assets/image/gift14.jpg`} // Assuming category has an image field
                                             alt={category.name}
@@ -63,44 +84,28 @@ const ProductTopbar = () => {
                                         </div>
                                         <IoIosArrowDown />
                                     </div>
-                                    {showPopovers[index] && (
-                                        <div
-                                            className="pt_card_child"
-                                        >
-                                            <div className="col">
-                                                <a href={`/products`}>
-                                                    <div className="fs-5 fw-600 text-start px-3">{category.name}</div>
-                                                </a>
-                                                <div className="pt_card_child_wrapper">
-                                                    {getCategoryProducts(category._id).map((product) => (
-                                                        <div
-                                                            key={product._id}
-                                                            className="pt_card"
-                                                        >
-                                                            <a href={`/product/${product._id}`} >
-                                                                <Image
-                                                                    className=""
-                                                                    src={`${product.images[0]}`} // Assuming product has an image field
-                                                                    alt={product.title}
-                                                                    width={50}
-                                                                    height={50}
-                                                                />
-                                                            </a>
-                                                            <div className="pt_card_title">{product.title}</div>
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )}
                                 </div>
                             ))}
                         </div>
                     </div>
                 </div>
             </div>
+
+            {isModalOpen && (
+                <div className="modal-overlay" onClick={handleOverlayClick}>
+                    <div className="modal-content">
+                        <IoIosCloseCircleOutline
+                            onClick={closeModal}
+                            style={{ cursor: 'pointer', fontSize: '24px' }}
+                        />
+                        <div className="modal-body">
+                            {categoryProducts}
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
-    )
+    );
 }
 
-export default ProductTopbar
+export default ProductTopbar;
