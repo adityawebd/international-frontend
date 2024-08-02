@@ -3560,6 +3560,8 @@ footer .limited_edition {
     padding: 20px;
     position: relative;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
 }
 
 .modal-body {
@@ -3592,6 +3594,33 @@ footer .limited_edition {
     width: 50px;
     height: 50px;
     margin-right: 10px;
+}
+
+.modal-body .category-name {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--green-clr);
+}
+.modal-body .category-subCategory-wrapper {
+    border-radius: 10px;
+    color: var(--darkest-gray);
+}
+.modal-body .category-subCategory {
+    font-size: 18px;
+    font-weight: 500;
+    padding: 10px 0 10px 10px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    background-color: var(--e-gray);
+    width: 100%;
+    text-align: left;
+    transition: 0.4s all;
+}
+.modal-body .category-subCategory:hover {
+    background-color: var(--primary-clr);
+    color: var(--black-clr);
 }
 
 

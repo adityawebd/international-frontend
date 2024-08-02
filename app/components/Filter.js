@@ -8,6 +8,8 @@ const Filter = ({ categories = [], onCategoryChange, onFilterChange, onPriceChan
   const [priceRange, setPriceRange] = useState([0, 100000]);
   const [sortOrder, setSortOrder] = useState('');
 
+  
+
   const handleCategoryChange = (e) => {
     const categoryId = e.target.value;
     const category = categories.find(cat => cat._id === categoryId);

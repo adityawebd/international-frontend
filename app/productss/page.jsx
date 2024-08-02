@@ -1,27 +1,17 @@
 'use client'
 import { useEffect, useState, useContext } from 'react';
 import { CurrencyContext } from '../CurrencyContext';
-import { fetchCategories } from '../../services/categoryService';
-import { fetchProducts } from '../../services/productService';
+import { fetchCategoriesAndProducts } from '../../app/services/categoryService'; 
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import NewArrival from '../components/NewArrival';
 import Breadcrumbs from '../components/Breadcrumbs';
 import Filter from '../components/Filter';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const convertPrice = (price, currency, exchangeRates) => {
   const rate = exchangeRates[currency];
   return price * rate;
-};
-
-const fetchCategoriesAndProducts = async () => {
-  const categoryRes = await fetch("http://localhost:3000/api/category");
-  const productRes = await fetch("http://localhost:3000/api/product");
-
-  const categories = await categoryRes.json();
-  const products = await productRes.json();
-
-  return { categories, products };
 };
 
 const Page = () => {
@@ -34,17 +24,38 @@ const Page = () => {
   const [filters, setFilters] = useState({});
   const [priceRange, setPriceRange] = useState([0, 1000]);
   const [sortOrder, setSortOrder] = useState('');
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  
+  const data1 = searchParams.get('category');
+  const data2 = searchParams.get('filter');
+  
+  console.log("data in productsss is ", data1,data2);
 
   useEffect(() => {
     async function loadData() {
-      const { categories, products } = await fetchCategoriesAndProducts();
-      setCategories(categories);
-      setProducts(products);
-      setFilteredProducts(products);
+      try {
+        const { categories, products } = await fetchCategoriesAndProducts();
+        setCategories(categories);
+        setProducts(products);
+        setFilteredProducts(products);
+
+        // Apply filters based on URL data
+        if (data1,data2) {
+          // const parsedData = JSON.parse(data); // Assuming `data` is JSON string
+          if (data1) setSelectedCategory(data1) 
+          // if (data2) setFilters(data1);
+          // if (parsedData.priceRange) setPriceRange(parsedData.priceRange);
+          // if (parsedData.sortOrder) setSortOrder(parsedData.sortOrder);
+          console.log("url id is",data1,data2)
+        }
+      } catch (error) {
+        console.error('Failed to fetch categories and products:', error);
+      }
     }
 
     loadData();
-  }, []);
+  }, [data1,data2]);
 
   useEffect(() => {
     applyFilters(filters);
@@ -112,7 +123,6 @@ const Page = () => {
             />
           </div>
           <div className="col-md-9">
-
             <div className="container py-4">
               <div className="row">
                 <div className="col-md-12 p-0">
