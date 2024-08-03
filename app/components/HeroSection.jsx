@@ -131,7 +131,7 @@ const HeroSection = () => {
                 src={image.src}
                 alt={image.alt}
                 layout="fill"
-                objectFit="cover"
+                objectfit="cover"
                 className="animate-fadeIn"
               />
               {index === currentSlide && (
