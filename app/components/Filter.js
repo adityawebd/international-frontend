@@ -5,7 +5,7 @@ import 'rc-slider/assets/index.css';
 
 const Filter = ({ categories = [], onCategoryChange, onFilterChange, onPriceChange, onSortChange }) => {
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [priceRange, setPriceRange] = useState([0, 100000]);
+  const [priceRange, setPriceRange] = useState([0, 10000]);
   const [sortOrder, setSortOrder] = useState('');
 
   
@@ -72,7 +72,7 @@ const Filter = ({ categories = [], onCategoryChange, onFilterChange, onPriceChan
         <Slider
           range
           min={0}
-          max={100000}
+          max={10000}
           defaultValue={priceRange}
           onChange={handlePriceChange}
         />

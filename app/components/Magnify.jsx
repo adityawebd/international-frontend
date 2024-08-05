@@ -1,10 +1,13 @@
 import React, { useRef, useState, useEffect } from 'react';
+import { IoIosCloseCircle } from "react-icons/io";
+
 
 const Magnify = ({ imageSrc, alt }) => {
   const picBoxRef = useRef(null);
   const zoomRef = useRef(null);
   const mouseZoomRef = useRef(null);
   const [deviceType, setDeviceType] = useState('mouse');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const isTouchDevice = () => {
     try {
@@ -22,10 +25,14 @@ const Magnify = ({ imageSrc, alt }) => {
 
     const events = {
       mouse: {
+        enter: 'mouseenter',
+        leave: 'mouseleave',
         move: 'mousemove',
       },
       touch: {
+        start: 'touchstart',
         move: 'touchmove',
+        end: 'touchend',
       },
     };
 
@@ -53,33 +60,82 @@ const Magnify = ({ imageSrc, alt }) => {
           mouseZoomRef.current.style.display = 'block';
         }
 
-        const posX = ((x - picBoxRef.current.getBoundingClientRect().left) / imageWidth).toFixed(4) * 100;
-        const posY = ((y - picBoxRef.current.getBoundingClientRect().top) / imageHeight).toFixed(4) * 100;
+        const posX = ((x - picBoxRef.current.getBoundingClientRect().left) / imageWidth) * 100;
+        const posY = ((y - picBoxRef.current.getBoundingClientRect().top) / imageHeight) * 100;
 
         zoomRef.current.style.backgroundPosition = `${posX}% ${posY}%`;
-
         mouseZoomRef.current.style.top = `${y}px`;
         mouseZoomRef.current.style.left = `${x}px`;
       } catch (e) {}
     };
 
-    const picBoxElement = picBoxRef.current;
-    const moveEvent = events[deviceType].move;
+    const handleEnter = () => {
+      zoomRef.current.style.display = 'block';
+      mouseZoomRef.current.style.display = 'block';
+    };
 
+    const handleLeave = () => {
+      hideElements();
+    };
+
+    const picBoxElement = picBoxRef.current;
+    const enterEvent = events[deviceType].enter;
+    const moveEvent = events[deviceType].move;
+    const leaveEvent = events[deviceType].leave;
+
+    picBoxElement.addEventListener(enterEvent, handleEnter);
     picBoxElement.addEventListener(moveEvent, handleMove);
+    picBoxElement.addEventListener(leaveEvent, handleLeave);
 
     return () => {
+      picBoxElement.removeEventListener(enterEvent, handleEnter);
       picBoxElement.removeEventListener(moveEvent, handleMove);
+      picBoxElement.removeEventListener(leaveEvent, handleLeave);
     };
   }, [deviceType]);
 
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <div className="card">
-      <div id="picbox" ref={picBoxRef} className="picbox">
+      <div
+        id="picbox"
+        ref={picBoxRef}
+        className="picbox"
+        onClick={openModal}
+      >
         <img id="product_img" src={imageSrc} alt={alt} />
       </div>
-      <div id="mouse_zoom" ref={mouseZoomRef} className="imgZoomLens"></div>
-      <div id="zoom" ref={zoomRef} className="imgZoomResult" style={{ backgroundImage: `url(${imageSrc})` }}></div>
+      <div
+        id="mouse_zoom"
+        ref={mouseZoomRef}
+        className="imgZoomLens"
+      ></div>
+      <div
+        id="zoom"
+        ref={zoomRef}
+        className="imgZoomResult"
+        style={{ backgroundImage: `url(${imageSrc})` }}
+      ></div>
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black product_img_modal_wrapper">
+          <div className="relative product_img_modal_content">
+            <button
+              className="absolute top-0 right-0 p-2"
+              onClick={closeModal}
+            >
+              <IoIosCloseCircle size={20} />
+            </button>
+            <img src={imageSrc} alt={alt} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

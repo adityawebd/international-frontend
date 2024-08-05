@@ -87,10 +87,9 @@ const ProductTopbar = () => {
                                         />
                                         <div className="text-black tracking-wider fs-6 text-start px-2">
                                             {category.name.split(' ').map((word, idx) => (
-                                                <div key={idx}>{word}</div>
+                                                <div key={idx} className="topbar_word">{word}</div>
                                             ))}
                                         </div>
-                                        <IoIosArrowDown />
                                     </button>
                                 </div>
                             ))}

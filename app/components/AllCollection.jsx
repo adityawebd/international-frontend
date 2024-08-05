@@ -9,7 +9,7 @@ const AllCollection = () => {
 
                 <div className="container">
                     <div className="row">
-                        <div className="col-md-6"  data-aos="zoom-in-right" data-aos-duration="1000">
+                        <div className="col-md-6" data-aos="fade-up" data-aos-duration="1000">
                             <AllCollectionCard
                                 title="New Arrivals"
                                 tagline="Gold Special Gifts"
@@ -20,7 +20,7 @@ const AllCollection = () => {
                                 order_link="/products"
                             />
                         </div>
-                        <div className="col-md-6"  data-aos="zoom-in-left" data-aos-duration="1000">
+                        <div className="col-md-6" data-aos="fade-up" data-aos-duration="1000">
                             <AllCollectionCard
                                 title="New Trending"
                                 tagline="Best Gold Gifts"

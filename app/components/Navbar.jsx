@@ -21,7 +21,7 @@ const Navbar = () => {
   const [userDropdownVisible, setUserDropdownVisible] = useState(false);
 
   async function logout() {
-        
+
     await signOut();
     window.location.href = '/';
   }
@@ -104,16 +104,13 @@ const Navbar = () => {
   return (
     <div>
       <nav>
-        <div className="navbar_header">
+        {/* <div className="navbar_header">
           <div className="icons">
             <a href="#"><FaFacebookF /></a>
             <a href="#"><FaTwitter /></a>
             <a href="#"><FaInstagram /></a>
             <a href="#"><FaLinkedinIn /></a>
           </div>
-          {/* <div className="offer">
-            Free Shipping this week order above - ₹75
-          </div> */}
           <div className="currency" onClick={toggleCurrencyDropdown} ref={currencyDropdownRef}>
             CURRENCY: {currency}
             {currencyDropdownVisible && (
@@ -123,8 +120,8 @@ const Navbar = () => {
               </div>
             )}
           </div>
-        </div>
-        
+        </div> */}
+
         <div className='navbar'>
           <div className="navbar_brand">
             <a href="/">
@@ -154,9 +151,6 @@ const Navbar = () => {
                     <div className='text-center py-2'>No products available</div>
                   )}
                 </div>
-
-
-
               </div>
             </div>
             <div className='navbar_icons'>
@@ -199,6 +193,36 @@ const Navbar = () => {
             </div>
           </div>
         </div>
+
+        <div className="lg:hidden responsive_navbar">
+          <div className="navbar_body">
+            <div className='search_bar'>
+              <input type='text'
+                placeholder='Search your products...'
+                onClick={toggleSearchBar}
+                value={query}
+                onChange={handleSearch}
+              />
+              <span className="search-icon"><IoSearch onClick={toggleSearchBar} /></span>
+
+              <div ref={searchBarRef} className={`search_bar_body ${isVisible ? 'show_searchDiv_with_animation' : ''}`} onClick={(e) => e.stopPropagation()}>
+                <div className="search_card_wrapper">
+                  {results.length > 0 ? (
+                    results.map((result) => (
+                      <div className="search_card" key={result.id}>
+                        <img src={result.images[0]} alt={result.title} />
+                        <div className="desc">{result.title}</div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className='text-center py-2'>No products available</div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <ProductTopbar />
       </nav>
     </div>

@@ -4,7 +4,7 @@ const convertPrice = (price, currency, exchangeRates) => {
     return price * rate;
 };
 import { FaUserCircle } from "react-icons/fa";
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { CurrencyContext } from "../../CurrencyContext";
 import Stack from "@mui/joy/Stack";
 import Typography from "@mui/joy/Typography";
@@ -22,6 +22,13 @@ import { BiDislike } from "react-icons/bi";
 import { IoMdInformationCircleOutline } from "react-icons/io";
 import { MdVerified } from "react-icons/md";
 import { HiOutlineShoppingBag } from "react-icons/hi2";
+import { FaCircleChevronDown } from "react-icons/fa6";
+import { FaCircleChevronUp } from "react-icons/fa6";
+
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Navigation, A11y } from 'swiper/modules';
+import 'swiper/css';
+
 import axios from "axios";
 import Breadcrumbs from "../../components/Breadcrumbs";
 
@@ -34,29 +41,30 @@ const Page = ({ params }) => {
     const [isCounting, setIsCounting] = useState(false);
     const [progressValues, setProgressValues] = useState([0, 0, 0, 0, 0]);
     const [productData, setProductData] = useState(null);
-    const [sku,setSku]=useState([])
-    const [skuData,setSkuData]=useState([])
+    const [sku, setSku] = useState([])
+    const [skuData, setSkuData] = useState([])
     const addToCart = useCartStore((state) => state.addToCart);
+    const imgTabRef = useRef(null);
 
     useEffect(() => {
         axios.get(`/api/productDetail?condition=${urldata}`).then((response) => {
-            setProductData(response.data[0]); 
+            setProductData(response.data[0]);
             setSku(response.data[0].sku)// Assuming the API returns an array of products
         });
     }, [urldata]);
 
 
-    
+
 
     useEffect(() => {
         axios.get(`/api/productskuDetail?condition=${sku}`).then((response) => {
-            setSkuData(response.data); 
+            setSkuData(response.data);
             // Assuming the API returns an array of products
         });
     }, [sku]);
 
 
-    console.log("sku data is",skuData)
+    console.log("sku data is", skuData)
 
     const { value: value1, reset: resetValue1 } = useCountUp({
         isCounting,
@@ -155,6 +163,19 @@ const Page = ({ params }) => {
         window.location.replace("/cart");
     };
 
+    const scrollImages = (direction) => {
+        const container = imgTabRef.current;
+        if (container) {
+            if (direction === 'up') {
+                container.scrollBy({ top: -160, behavior: 'smooth' });
+                // console.log('up clicked')
+            } else if (direction === 'down') {
+                container.scrollBy({ top: 160, behavior: 'smooth' });
+                // console.log('down clicked')
+            }
+        }
+    };
+
     return (
         <div>
             <Navbar />
@@ -165,7 +186,10 @@ const Page = ({ params }) => {
                     <div className="row">
                         <div className="col-md-6 product_img_wrapper">
                             <div className="product_img_wrapper_container">
-                                <div className="product_img_tab_btns">
+                                <div className="scroll_button" onClick={() => scrollImages('up')}>
+                                    <FaCircleChevronUp />
+                                </div>
+                                <div className="product_img_tab_btns" ref={imgTabRef}>
                                     {productData.images.map((image, index) => (
                                         <button
                                             key={index}
@@ -180,6 +204,9 @@ const Page = ({ params }) => {
                                             />
                                         </button>
                                     ))}
+                                </div>
+                                <div className="scroll_button" onClick={() => scrollImages('down')}>
+                                    <FaCircleChevronDown />
                                 </div>
                                 <div className="product_img_tab_content">
                                     {productData.images.map((image, index) => (
@@ -238,17 +265,47 @@ const Page = ({ params }) => {
                                     &nbsp; add to cart{" "}
                                 </button>
                             </div>
-                            <h2 className="text-xl font-semibold light_black_font mt-4">
-                                Variations
-                            </h2>
-                            {skuData.map((data)=>(
-                            //  <Variations key={data._id} images={data.images} /> 
-                            <a href={`/product/${data._id}`}>
-                                <div>
-                                    <img src={data.images[0]} alt={data.title} height={100} width={100} />
-                                </div>
-                            </a>
-                            ))}
+                            <div className="product_variations">
+                                <h2 className="text-xl font-semibold light_black_font mt-4">
+                                    Variations
+                                </h2>
+                                <Swiper
+                                    spaceBetween={10}
+                                    slidesPerView={1.5}
+                                    loop={true}
+                                    autoplay={{
+                                        delay: 4500,
+                                        disableOnInteraction: false,
+                                        pauseOnMouseEnter: true
+                                    }}
+                                    pagination={{ clickable: true }}
+                                    scrollbar={{ draggable: true }}
+                                    breakpoints={{
+                                        500: {
+                                            slidesPerView: 3.4,
+                                        },
+                                        780: {
+                                            slidesPerView: 3.8,
+                                        },
+                                        1300: {
+                                            slidesPerView: 4.6,
+                                        },
+                                    }}
+                                    modules={[Autoplay, Navigation, A11y]}
+                                    className="swiper-wrapper mx-auto mb-4"
+                                >
+                                    {skuData.map((data) => (
+                                        //  <Variations key={data._id} images={data.images} /> 
+                                        <SwiperSlide key={data._id}>
+                                            <a href={`/product/${data._id}`}>
+                                                <div>
+                                                    <img src={data.images[0]} alt={data.title} height={100} width={100} />
+                                                </div>
+                                            </a>
+                                        </SwiperSlide>
+                                    ))}
+                                </Swiper>
+                            </div>
                         </div>
                     </div>
                     <div className="row product_details mt-4">
@@ -260,8 +317,8 @@ const Page = ({ params }) => {
                                 <li className="me-2" role="presentation">
                                     <button
                                         className={`inline-block mt-2 px-4 py-2 ${activeTab === "general_info"
-                                                ? "green_bg_white_font"
-                                                : "hover:text-gray-600 hover:border-gray-300"
+                                            ? "green_bg_white_font"
+                                            : "hover:text-gray-600 hover:border-gray-300"
                                             }`}
                                         onClick={() => handleTabClick("general_info")}
                                     >
@@ -271,8 +328,8 @@ const Page = ({ params }) => {
                                 <li className="me-2" role="presentation">
                                     <button
                                         className={`inline-block mt-2 px-4 py-2 ${activeTab === "additional_info"
-                                                ? "green_bg_white_font"
-                                                : "hover:text-gray-600 hover:border-gray-300"
+                                            ? "green_bg_white_font"
+                                            : "hover:text-gray-600 hover:border-gray-300"
                                             }`}
                                         onClick={() => handleTabClick("additional_info")}
                                     >
@@ -282,8 +339,8 @@ const Page = ({ params }) => {
                                 <li className="me-2" role="presentation">
                                     <button
                                         className={`inline-block mt-2 px-4 py-2 ${activeTab === "reviews"
-                                                ? "green_bg_white_font"
-                                                : "hover:text-gray-600 hover:border-gray-300"
+                                            ? "green_bg_white_font"
+                                            : "hover:text-gray-600 hover:border-gray-300"
                                             }`}
                                         onClick={() => handleTabClick("reviews")}
                                     >

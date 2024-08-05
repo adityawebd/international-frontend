@@ -34,15 +34,17 @@ const page = () => {
 
       if (res?.error) {
         console.log(res);
+        alert("Something Went Wrong! Invalid Email or Password")
         setError("error");
+        setRedirectToHome(false);
+      } else {
+
+        // alert on successful registration
+        alert("Login Succesful!")
+        // Set state to trigger redirection
+        setRedirectToHome(true);
       }
 
-      console.log("hello ")
-
-      // alert on successful registration
-      alert("Login Succesful!")
-      // Set state to trigger redirection
-      setRedirectToHome(true);
     } else {
       setErrors(errors);
     }
@@ -77,7 +79,7 @@ const page = () => {
     }
   }, [redirectToHome]);
 
-  
+
 
   return (
     <div>
