@@ -3,6 +3,9 @@ import React, { useState, useEffect, useRef, useContext } from 'react';
 import { CiUser, CiShoppingBasket } from "react-icons/ci";
 import { IoSearch } from "react-icons/io5";
 import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/fa";
+import { IoCartOutline } from "react-icons/io5";
+import { LuUser } from "react-icons/lu";
+import { MdOutlineShoppingCart } from "react-icons/md";
 import { CurrencyContext } from '../CurrencyContext'; // Importing the context
 import ProductTopbar from '../components/ProductTopbar'
 import { useSession, signIn, signOut } from "next-auth/react";
@@ -142,10 +145,10 @@ const Navbar = () => {
                 <div className="search_card_wrapper">
                   {results.length > 0 ? (
                     results.map((result) => (
-                      <div className="search_card" key={result.id}>
+                      <a href={`/product/${result._id}`} className="search_card" key={result.id}>
                         <img src={result.images[0]} alt={result.title} />
                         <div className="desc">{result.title}</div>
-                      </div>
+                      </a>
                     ))
                   ) : (
                     <div className='text-center py-2'>No products available</div>
@@ -155,7 +158,7 @@ const Navbar = () => {
             </div>
             <div className='navbar_icons'>
 
-              <div className='cart_icon user_dropdown_btn' onClick={toggleUserDropdown} ref={userDropdownRef}><span><CiUser /></span>
+              <div className='cart_icon user_dropdown_btn' onClick={toggleUserDropdown} ref={userDropdownRef}><span><LuUser /></span>
                 {
                   session ? (
                     <>
@@ -185,7 +188,7 @@ const Navbar = () => {
               <div className='cart_icon cart_length_btn'>
                 <a href="/cart">
                   <span >
-                    <CiShoppingBasket />
+                    <MdOutlineShoppingCart />
                     <span className='text-xs cart_length'>{cart?.length}</span>
                   </span>
                 </a>
@@ -223,7 +226,7 @@ const Navbar = () => {
           </div>
         </div>
 
-        <ProductTopbar />
+        {/* <ProductTopbar /> */}
       </nav>
     </div>
   )

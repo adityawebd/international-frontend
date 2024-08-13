@@ -31,6 +31,9 @@ import 'swiper/css';
 
 import axios from "axios";
 import Breadcrumbs from "../../components/Breadcrumbs";
+import NewArrival from '../../components/NewArrival'
+import { Check, CheckCircle } from "lucide-react";
+import { Checkbox } from "@material-tailwind/react";
 
 const Page = ({ params }) => {
     const urldata = decodeURIComponent(params.productname);
@@ -42,6 +45,7 @@ const Page = ({ params }) => {
     const [progressValues, setProgressValues] = useState([0, 0, 0, 0, 0]);
     const [productData, setProductData] = useState(null);
     const [sku, setSku] = useState([])
+    const [quantity, setQuantity] = useState(1); // Local state for quantity
     const [skuData, setSkuData] = useState([])
     const addToCart = useCartStore((state) => state.addToCart);
     const imgTabRef = useRef(null);
@@ -176,6 +180,27 @@ const Page = ({ params }) => {
         }
     };
 
+
+    const addToCartHandler = (e, item) => {
+        e.preventDefault();
+        addToCart({ ...item, quantity });
+    };
+
+    // const increaseQuantity = () => setQuantity((prev) => prev + 1);
+    const increaseQuantity = () => {
+        setQuantity((prev) => {
+            const newQuantity = prev + 1;
+            // Call addToCartHandler with the updated quantity
+            addToCartHandler(new Event('click'), { ...productData, quantity: newQuantity });
+            return newQuantity;
+        });
+    };
+    const decreaseQuantity = () => {
+        // if (quantity > 1) setQuantity((prev) => prev - 1);
+        setQuantity((prev) => (prev > 1 ? prev - 1 : 1)); // Prevent decrementing below 1
+    };
+
+
     return (
         <div>
             <Navbar />
@@ -225,16 +250,22 @@ const Page = ({ params }) => {
                                 </div>
                             </div>
                         </div>
+
+
                         <div className="col-md-6 product_about_wrapper">
                             <h3 className="text-xl font-semibold">{productData.title}</h3>
-                            <p className="green_font font-semibold price">
+                            <p className="green_font font-semibold price mt-2">
                                 {currency === "INR" ? "₹" : "$"} {convertedPrice.toFixed(2)}{" "}
                                 &nbsp;
                                 <span>
                                     {currency === "INR" ? "₹" : "$"}{" "}
                                     {convertedActualPrice.toFixed(2)}
                                 </span>
+                                <div className="text-xs">Inclusive of all taxes</div>
                             </p>
+                            <div className="my-2">
+                                <img src="/assets/images/icons/payment.png" alt="" />
+                            </div>
                             <div className="rating_div flex align-middle mt-2">
                                 <div className="stars flex align-middle mr-3">
                                     {averageRating ? (
@@ -244,16 +275,33 @@ const Page = ({ params }) => {
                                             </span>
                                         ))
                                     ) : (
-                                        <span>No rating available</span>
+                                        <span>No Ratings</span>
                                     )}
                                 </div>
                                 <div className="review">
-                                    {productData.reviews?.length} Reviews
+                                    {productData.reviews?.length ? productData.reviews?.length : "No"} Reviews
                                 </div>
                             </div>
                             <p className="text-base light_black_font mt-3">
-                                {productData.description}
+                                <span className="text-black font-semibold">Short Description: </span>
+                                {productData.shortDescriptionPoints?.map((point, index) => (
+                                    <ul key={index}>
+                                        <li><span className="flex gap-2"><CheckCircle /> {point}</span></li>
+
+                                    </ul>
+                                ))}
                             </p>
+
+                            <td className="pt-2">
+                                <div className=" flex items-center justify-center border border-black rounded-full px-4 py-1 my-2">
+                                    <button onClick={decreaseQuantity}>-</button>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <span>{quantity}</span>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <button onClick={increaseQuantity}>+</button>
+                                </div>
+                            </td>
+
                             <div className="cart_btns mt-4  ">
                                 <button onClick={(e) => addToCart2(e, productData)}>
                                     buy now{" "}
@@ -359,7 +407,18 @@ const Page = ({ params }) => {
                             )}
                             {activeTab === "additional_info" && (
                                 <div className="p-4 rounded-xl bg-gray-50">
-                                    <p className="text-sm text-gray-500"> addinnal info</p>
+                                    <p className="text-sm text-gray-500">
+                                        {productData?.properties && (
+                                            <ul>
+                                                {Object.entries(productData.properties).map(([key, value]) => (
+                                                    <li key={key}>
+                                                        <strong>{key}:</strong> {value}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        )}
+
+                                    </p>
                                 </div>
                             )}
                             {activeTab === "reviews" && (
@@ -464,7 +523,8 @@ const Page = ({ params }) => {
                         </div>
                     </div>
                 </div>
-                <ExploreFeeds />
+
+                <NewArrival />
             </div>
             <Footer />
         </div>

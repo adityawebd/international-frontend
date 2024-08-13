@@ -13,7 +13,7 @@ const Footer = () => {
                     <div className="row pb-5">
                         <div className="col-md-3">
                             <a href="/">
-                                <img src="/assets/image/logo-gift1.png" alt="Logo" />
+                                <img src="/assets/image/logo-gift.png" alt="Logo" />
                             </a>
                             <div className="text-sm light_black_font mt-3">We International Gift, located at Uttam Nager, New Delhi </div>
                             <div className='text-sm light_black_font mt-2'> <span className='font-bold'>Call Us: </span> +91-8800217402</div>

@@ -110,7 +110,7 @@ const ProductContent = () => {
   return (
     <div className='container'>
       <div className="row">
-        <div className="col-md-3 py-4">
+        <div className="col-md-2 py-4">
           <Filter
             categories={categories}
             onCategoryChange={handleCategoryChange}
@@ -119,7 +119,7 @@ const ProductContent = () => {
             onSortChange={handleSortChange}
           />
         </div>
-        <div className="col-md-9">
+        <div className="col-md-10">
           <div className="container py-4">
             <div className="row">
               <div className="col-md-12 p-0">

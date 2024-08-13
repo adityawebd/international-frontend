@@ -8,6 +8,7 @@ const Magnify = ({ imageSrc, alt }) => {
   const mouseZoomRef = useRef(null);
   const [deviceType, setDeviceType] = useState('mouse');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [zoomLevel, setZoomLevel] = useState(1);
 
   const isTouchDevice = () => {
     try {
@@ -66,7 +67,7 @@ const Magnify = ({ imageSrc, alt }) => {
         zoomRef.current.style.backgroundPosition = `${posX}% ${posY}%`;
         mouseZoomRef.current.style.top = `${y}px`;
         mouseZoomRef.current.style.left = `${x}px`;
-      } catch (e) {}
+      } catch (e) { }
     };
 
     const handleEnter = () => {
@@ -102,6 +103,17 @@ const Magnify = ({ imageSrc, alt }) => {
     setIsModalOpen(false);
   };
 
+  const zoomIn = () => {
+    setZoomLevel(prevZoom => Math.min(prevZoom + 0.2, 3)); // Max zoom level of 3
+  };
+
+  const zoomOut = () => {
+    setZoomLevel(prevZoom => Math.max(prevZoom - 0.2, 1)); // Min zoom level of 1
+  };
+
+  const resetZoom = () => setZoomLevel(1); // Reset zoom to original size
+
+
   return (
     <div className="card">
       <div
@@ -132,7 +144,35 @@ const Magnify = ({ imageSrc, alt }) => {
             >
               <IoIosCloseCircle size={20} />
             </button>
-            <img src={imageSrc} alt={alt} />
+            {/* <img src={imageSrc} alt={alt} /> */}
+            <div className="modal_btns_product_img mb-2">
+              <button
+                className=""
+                onClick={zoomOut}
+              >
+                -
+              </button>
+              <button
+                className=""
+                onClick={zoomIn}
+              >
+                +
+              </button>
+              <button
+                className="reset-button"
+                onClick={resetZoom}
+              >
+                Reset
+              </button>
+            </div>
+            <figure>
+              <img
+                src={imageSrc}
+                alt={alt}
+                style={{ transform: `scale(${zoomLevel})`, transition: 'transform 0.3s ease' }}
+              />
+            </figure>
+            
           </div>
         </div>
       )}

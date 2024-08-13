@@ -4,7 +4,7 @@ import { MdKeyboardDoubleArrowRight } from "react-icons/md";
 const Breadcrumbs = (props) => {
     return (
         <div>
-            <div className="bg_gray py-3">
+            <div className="bg_gray breadcrumbs_wrapper py-3">
                 <div className="container">
                     <div className="flex justify-between align-middle">
                         <h3 className='font-medium'>{props.page_title}</h3>
