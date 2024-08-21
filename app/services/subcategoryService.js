@@ -1,6 +1,6 @@
 // services/categoryService.js
 export const fetchCategoriesAndProducts = async () => {
-    const categoryRes = await fetch("/api/category");
+    const categoryRes = await fetch("/api/subcategories");
     const productRes = await fetch("/api/product");
   
     const categories = await categoryRes.json();

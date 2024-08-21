@@ -408,9 +408,9 @@ const Page = ({ params }) => {
                             {activeTab === "additional_info" && (
                                 <div className="p-4 rounded-xl bg-gray-50">
                                     <p className="text-sm text-gray-500">
-                                        {productData?.properties && (
+                                        {productData?.property && (
                                             <ul>
-                                                {Object.entries(productData.properties).map(([key, value]) => (
+                                                {Object.entries(productData.property).map(([key, value]) => (
                                                     <li key={key}>
                                                         <strong>{key}:</strong> {value}
                                                     </li>

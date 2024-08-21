@@ -3,18 +3,18 @@ import PropTypes from 'prop-types';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 
-const Filter = ({ categories = [], onCategoryChange, onFilterChange, onPriceChange, onSortChange }) => {
-  const [selectedCategory, setSelectedCategory] = useState(null);
+const Filter = ({ categories = [], onsubcategoryChange, onFilterChange, onPriceChange, onSortChange }) => {
+  const [selectedsubcategory, setSelectedsubcategory] = useState(null);
   const [priceRange, setPriceRange] = useState([0, 10000]);
   const [sortOrder, setSortOrder] = useState('');
 
   
 
-  const handleCategoryChange = (e) => {
-    const categoryId = e.target.value;
-    const category = categories.find(cat => cat._id === categoryId);
-    setSelectedCategory(category);
-    onCategoryChange(categoryId);
+  const handlesubcategoryChange = (e) => {
+    const subcategoryId = e.target.value;
+    const subcategory = categories.find(cat => cat._id === subcategoryId);
+    setSelectedsubcategory(subcategory);
+    onsubcategoryChange(subcategoryId);
   };
 
   const handlePropertyChange = (e, propertyName) => {
@@ -32,10 +32,10 @@ const Filter = ({ categories = [], onCategoryChange, onFilterChange, onPriceChan
   };
 
   const handleResetFilters = () => {
-    setSelectedCategory(null);
+    setSelectedsubcategory(null);
     setPriceRange([0, 100000]);
     setSortOrder('');
-    onCategoryChange('');
+    onsubcategoryChange('');
     onFilterChange('', '');
     onPriceChange([0, 100000]);
     onSortChange('');
@@ -44,18 +44,18 @@ const Filter = ({ categories = [], onCategoryChange, onFilterChange, onPriceChan
   return (
     <div className='filter_div'>
       <div className='categories'>
-        <div className='category_main'>
-          <label>Category</label>
-          <select onChange={handleCategoryChange}>
+        <div className='subcategory_main'>
+          <label>subcategory</label>
+          <select onChange={handlesubcategoryChange}>
             <option value="">All</option>
-            {categories.map(category => (
-              <option key={category._id} value={category._id}>{category.name}</option>
+            {categories.map(subcategory => (
+              <option key={subcategory._id} value={subcategory._id}>{subcategory.name}</option>
             ))}
           </select>
         </div>
 
-        {selectedCategory && selectedCategory.properties.map(property => (
-          <div className='category_sub' key={property.name}>
+        {selectedsubcategory && selectedsubcategory.property.map(property => (
+          <div className='subcategory_sub' key={property.name}>
             <label>{property.name}</label>
             <select onChange={(e) => handlePropertyChange(e, property.name)}>
               <option value="">All</option>
@@ -110,7 +110,7 @@ const Filter = ({ categories = [], onCategoryChange, onFilterChange, onPriceChan
 
 Filter.propTypes = {
   categories: PropTypes.array.isRequired,
-  onCategoryChange: PropTypes.func.isRequired,
+  onsubcategoryChange: PropTypes.func.isRequired,
   onFilterChange: PropTypes.func.isRequired,
   onPriceChange: PropTypes.func.isRequired,
   onSortChange: PropTypes.func.isRequired,

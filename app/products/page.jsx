@@ -1,7 +1,7 @@
 'use client'
 import { Suspense, useEffect, useState, useContext } from 'react';
 import { CurrencyContext } from '../CurrencyContext';
-import { fetchCategoriesAndProducts } from '../services/categoryService'; 
+import { fetchCategoriesAndProducts } from '../services/subcategoryService'; 
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import NewArrival from '../components/NewArrival';
@@ -20,7 +20,7 @@ const ProductContent = () => {
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedsubcategory, setSelectedsubcategory] = useState(null);
   const [filters, setFilters] = useState({});
   const [priceRange, setPriceRange] = useState([0, 1000]);
   const [sortOrder, setSortOrder] = useState('');
@@ -43,7 +43,7 @@ const ProductContent = () => {
         // Apply filters based on URL data
         if (data1 || data2) {
           // const parsedData = JSON.parse(data); // Assuming `data` is JSON string
-          if (data1) setSelectedCategory(data1);
+          if (data1) setSelectedsubcategory(data1);
           // if (data2) setFilters(data1);
           // if (parsedData.priceRange) setPriceRange(parsedData.priceRange);
           // if (parsedData.sortOrder) setSortOrder(parsedData.sortOrder);
@@ -59,10 +59,10 @@ const ProductContent = () => {
 
   useEffect(() => {
     applyFilters(filters);
-  }, [selectedCategory, filters, products, priceRange, sortOrder]);
+  }, [selectedsubcategory, filters, products, priceRange, sortOrder]);
 
-  const handleCategoryChange = (categoryId) => {
-    setSelectedCategory(categoryId);
+  const handlesubcategoryChange = (subcategoryId) => {
+    setSelectedsubcategory(subcategoryId);
     setFilters({});
   };
 
@@ -81,14 +81,14 @@ const ProductContent = () => {
   const applyFilters = (filters) => {
     let filtered = products;
 
-    if (selectedCategory) {
-      filtered = filtered.filter(product => product.category === selectedCategory);
+    if (selectedsubcategory) {
+      filtered = filtered.filter(product => product.subcategory === selectedsubcategory);
     }
 
     Object.keys(filters).forEach(propertyName => {
       if (filters[propertyName]) {
         filtered = filtered.filter(product => {
-          return product.properties?.[propertyName] === filters[propertyName];
+          return product.property?.[propertyName] === filters[propertyName];
         });
       }
     });
@@ -113,7 +113,7 @@ const ProductContent = () => {
         <div className="col-md-2 py-4">
           <Filter
             categories={categories}
-            onCategoryChange={handleCategoryChange}
+            onsubcategoryChange={handlesubcategoryChange}
             onFilterChange={handleFilterChange}
             onPriceChange={handlePriceChange}
             onSortChange={handleSortChange}

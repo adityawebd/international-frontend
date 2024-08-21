@@ -110,7 +110,7 @@ const ProductTopbar = () => {
                                             <button
                                                 key={index}
                                                 className="category-subCategory"
-                                                onClick={() => handleFilter(property.values[0])}
+                                                onClick={() => handleFilter(property.name)}
                                             >
                                                 {property.name}
                                             </button>
