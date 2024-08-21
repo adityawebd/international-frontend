@@ -18,9 +18,11 @@ const ProductContent = () => {
   const { currency, exchangeRates } = useContext(CurrencyContext);
 
   const [categories, setCategories] = useState([]);
+  const [categori,setCategori] =useState([])
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedsubcategory, setSelectedsubcategory] = useState(null);
+  const [selectedcategory, setSelectedcategory] = useState(null);
   const [filters, setFilters] = useState({});
   const [priceRange, setPriceRange] = useState([0, 1000]);
   const [sortOrder, setSortOrder] = useState('');
@@ -35,11 +37,14 @@ const ProductContent = () => {
   useEffect(() => {
     async function loadData() {
       try {
-        const { categories, products } = await fetchCategoriesAndProducts();
+        const { categories, products,categori} = await fetchCategoriesAndProducts();
         setCategories(categories);
+        setCategori(categori)
         setProducts(products);
         setFilteredProducts(products);
 
+
+        
         // Apply filters based on URL data
         if (data1 || data2) {
           // const parsedData = JSON.parse(data); // Assuming `data` is JSON string
@@ -57,16 +62,29 @@ const ProductContent = () => {
     loadData();
   }, [data1, data2]);
 
+  console.log("data from api",categori)
+
+
   useEffect(() => {
     applyFilters(filters);
-  }, [selectedsubcategory, filters, products, priceRange, sortOrder]);
+  }, [selectedsubcategory,selectedcategory, filters, products, priceRange, sortOrder]);
 
   const handlesubcategoryChange = (subcategoryId) => {
     setSelectedsubcategory(subcategoryId);
     setFilters({});
   };
 
-  const handleFilterChange = (propertyName, value) => {
+
+  const handlecategoryChange = (categoryId) => {
+    setSelectedcategory(categoryId);
+    setFilters({});
+  };
+
+  const handleFilterChange = (propertyName, value  ) => {
+    setFilters(prevFilters => ({ ...prevFilters, [propertyName]: value }));
+  };
+
+  const handleFilterChanges = (propertyName, value  ) => {
     setFilters(prevFilters => ({ ...prevFilters, [propertyName]: value }));
   };
 
@@ -85,13 +103,19 @@ const ProductContent = () => {
       filtered = filtered.filter(product => product.subcategory === selectedsubcategory);
     }
 
+    if (selectedcategory) {
+      filtered = filtered.filter(product => product.category === selectedcategory);
+    }
+
     Object.keys(filters).forEach(propertyName => {
       if (filters[propertyName]) {
         filtered = filtered.filter(product => {
+          console.log("filterde property is",propertyName)
           return product.property?.[propertyName] === filters[propertyName];
         });
       }
     });
+    
 
     filtered = filtered.filter(product => {
       const price = convertPrice(product.discountedPrice, currency, exchangeRates);
@@ -113,8 +137,11 @@ const ProductContent = () => {
         <div className="col-md-2 py-4">
           <Filter
             categories={categories}
+            categori={categori}
+            oncategoryChange={handlecategoryChange}
             onsubcategoryChange={handlesubcategoryChange}
             onFilterChange={handleFilterChange}
+            onFilterChanges={handleFilterChanges}
             onPriceChange={handlePriceChange}
             onSortChange={handleSortChange}
           />
