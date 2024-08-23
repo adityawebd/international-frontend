@@ -174,15 +174,16 @@ const page = () => {
                             <div className="contact_links mt-4">
                                 <div className="flex light_black_font text-base mb-3">
                                     <span className='green_font'><MapPin /></span> &nbsp;&nbsp;
-                                    <p> <b>Address:</b> 5th floor , Unit-509, RG Trade Tower, Netaji Subhash Place, Shakurpur, New Delhi, Delhi, 110034</p>
+                                    <p> <b>Address:</b> Warehouse 5, Plot No. - 337, Om Vihar Phase - 1, Uttam Nagar, New Delhi - 59, Delhi,
+                                    West Delhi, 110059.</p>
                                 </div>
                                 <div className="flex light_black_font text-base mb-4">
                                     <span className='green_font'><Phone /></span> &nbsp;&nbsp;
-                                    <p> <b>Call Us:</b> +91 83681 23312</p>
+                                    <p> <b>Call Us:</b> +91 8800217402                                    </p>
                                 </div>
                                 <div className="flex light_black_font text-base">
                                     <span className='green_font'><Mail /></span> &nbsp;&nbsp;
-                                    <p> <b>Email:</b> rapiddigitalgrowth@gmail.com</p>
+                                    <p> <b>Email:</b> Rakesh@InternationalGift.in</p>
                                 </div>
                             </div>
                         </div>

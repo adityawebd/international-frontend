@@ -13,7 +13,7 @@ const page = () => {
       <Breadcrumbs page_title="Cancellation Refund Policy" />
 
       <div className="about_page py-5">
-        <div className="container">
+        <div className="container-sm">
           <div className="row">
             <div className="">
               <h2 className='text-3xl font-semibold text-black'>Cancellation Refund Policy</h2>
