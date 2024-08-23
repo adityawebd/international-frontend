@@ -99,6 +99,21 @@ const Filter = ({
             ))}
           </select>
 
+          {selectedcategory &&
+          selectedcategory.properties.map((property) => (
+            <div className="subcategory_sub" key={property.name}>
+              <label>{property.name}</label>
+              <select onChange={(e) => handlePropertyChange(e, property.name)}>
+                <option value="">All</option>
+                {property.values.map((value) => (
+                  <option key={value} value={value}>
+                    {value}
+                  </option>
+                ))}
+              </select>
+            </div>
+          ))}
+
           
             {/* {selectedcategory &&
               selectedcategory.properties.map((property) => (

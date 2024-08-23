@@ -12,6 +12,10 @@ const Cart = () => {
     const [showCouponInput, setShowCouponInput] = useState(false);
     const { data: session } = useSession();
     const cart = useFromStore(useCartStore, (state) => state.cart);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const [orderData ,setOrderData] = useState([]);
+
 
     let total = 0;
     if (cart) {
@@ -33,6 +37,7 @@ const Cart = () => {
         setShowCouponInput(!showCouponInput);
     };
 
+    // console.log("cart is",cart)
 
     useEffect(() => {
         const totalAmount = cart ? cart.reduce((acc, product) => acc + product.price * (product.quantity || 0), 0) : 0;
@@ -42,10 +47,24 @@ const Cart = () => {
                 amount: totalAmount.toString(),
                 buyer_name: session.user?.name || '',
                 email: session.user?.email || '',
-                phone: session.user?.number || ''
+                phone: session.user?.number || '',
+                cart:cart || '',
+                // quentity: cart[0]?.quantity || '',
+                // title: cart[0]?.title || '',
+                // sku: cart[0]?.sku || '',
+                Weight: cart[0]?.property?.Weight || '',
+                // images: cart[0]?.images[0] || '',
+                address: session.user?.address || '',
+                city: session.user.city || '',
+                postalCode: session.user.postalCode || '',
+                country: session.user.country || '',
+                region: session.user.region || '',
+                
             });
         }
     }, [cart, session]);
+
+    // console.log("data in cart",cart)
 
     const handleCheckout = async (e) => {
         e.preventDefault();
@@ -55,7 +74,7 @@ const Cart = () => {
             try {
                 const response = await axios.post('/api/create-payment', formData);
                 const paymentRequest = response.data;
-                console.log(paymentRequest);
+                // console.log(paymentRequest);
 
                 const longurl = paymentRequest.payment_request.longurl;
                 window.location.href = longurl; // Redirect to Instamojo payment page
@@ -65,6 +84,96 @@ const Cart = () => {
             }
         }
     };
+
+
+    const handleCheckoutCOD = async (e) => {
+        e.preventDefault();
+
+        // window.location.href = '/create-order',formData;
+        if (!session) {
+            window.location.href = '/login'; // Redirects to login page
+        } else {
+            try {
+                const response = await axios.post('/api/create-oreder', formData);
+                const paymentRequest = response.data.order;
+                setOrderData(response.data.order)
+
+                const longurl = paymentRequest.payment_request.longurl;
+                window.location.href = longurl; // Redirect to Instamojo payment page
+            } catch (error) {
+                setPaymentStatus('Payment request failed. Please try again.');
+                console.error('Error creating payment request:', error);
+            }
+            setIsModalOpen(true); // Show the modal
+        }
+    };
+
+
+    // console.log("delevry ressponce is ",orderData);
+
+    // Modal Component
+    const Modal = ({ isOpen, onClose }) => {
+
+        if (!isOpen) return null;
+
+
+        return (
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 w-full">
+                <div className="bg-white p-6 rounded-lg shadow-lg w-10/12">
+                    <h2 className="text-xl font-semibold mb-4">Confirm Order</h2>
+                    <div className="container-sm ">
+                        <div className="flex flex-col justify-center items-center ">
+                            <div className="text-lg md:text-xl lg:text-2xl font-bold">Thank You for Ordering:</div>
+
+                            {/* Table to display order details */}
+                            <div className="w-full overflow-x-auto mt-4">
+                                <table className="min-w-full bg-white border border-gray-200">
+                                    <thead>
+                                        <tr>
+                                            <th className="px-2 md:px-6 py-2 md:py-3 border-b text-left text-xs md:text-sm font-medium text-gray-700">Order ID</th>
+                                            <th className="px-2 md:px-6 py-2 md:py-3 border-b text-left text-xs md:text-sm font-medium text-gray-700">Channel Order ID</th>
+                                            <th className="px-2 md:px-6 py-2 md:py-3 border-b text-left text-xs md:text-sm font-medium text-gray-700">Shipment ID</th>
+                                            <th className="px-2 md:px-6 py-2 md:py-3 border-b text-left text-xs md:text-sm font-medium text-gray-700">Courier Name</th>
+                                            <th className="px-2 md:px-6 py-2 md:py-3 border-b text-left text-xs md:text-sm font-medium text-gray-700">Status</th>
+                                            <th className="px-2 md:px-6 py-2 md:py-3 border-b text-left text-xs md:text-sm font-medium text-gray-700">Status Code</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {/* {orderData.map((order, index) => ( */}
+                                            <tr>
+                                                <td className="px-2 md:px-6 py-2 md:py-4 border-b text-xs md:text-sm text-gray-700">{orderData.order_id}</td>
+                                                <td className="px-2 md:px-6 py-2 md:py-4 border-b text-xs md:text-sm text-gray-700">{orderData.channel_order_id}</td>
+                                                <td className="px-2 md:px-6 py-2 md:py-4 border-b text-xs md:text-sm text-gray-700">{orderData.shipment_id}</td>
+                                                <td className="px-2 md:px-6 py-2 md:py-4 border-b text-xs md:text-sm text-gray-700">{orderData.courier_name || 'N/A'}</td>
+                                                <td className="px-2 md:px-6 py-2 md:py-4 border-b text-xs md:text-sm text-gray-700">{orderData.status}</td>
+                                                <td className="px-2 md:px-6 py-2 md:py-4 border-b text-xs md:text-sm text-gray-700">{orderData.status_code || 'N/A'}</td>
+                                            </tr>
+                                        {/* ))} */}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div className="flex justify-end">
+                        <button
+                            className="mr-2 bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400"
+                            onClick={onClose}
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            className="bg-green-700 text-white px-4 py-2 rounded hover:bg-green-800"
+                            onClick={onClose}  // Replace with COD logic if needed
+                        >
+                            Confirm
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    };
+
 
     return (
         <div>
@@ -99,6 +208,7 @@ const Cart = () => {
                                         <div className="cart_btns flex justify-between">
                                             <a className='' href="/">Continue Shopping</a>
                                             <button type="button" className="" onClick={handleCheckout}>Check Out</button>
+                                            <button type="button" className="" onClick={handleCheckoutCOD}>Cash on Delivery</button>
                                         </div>
                                     </div>
                                 </div>
@@ -144,11 +254,15 @@ const Cart = () => {
                                             />
                                         </div>
                                         {showCouponInput && (
-                                            <input
-                                                type="text"
-                                                id="coupon"
-                                                placeholder="eg. GIFT100"
-                                            />
+                                            <>
+
+                                                <input
+                                                    type="text"
+                                                    id="coupon"
+                                                    placeholder="eg. GIFT100"
+                                                />
+                                                <button type="button" className='bg-green-700 text-white p-2 rounded-lg'>Apply</button>
+                                            </>
                                         )}
                                     </div>
 
@@ -162,6 +276,9 @@ const Cart = () => {
                     </div>
                 </div>
             </div>
+
+            {/* Modal */}
+            <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
         </div>
     );
 };

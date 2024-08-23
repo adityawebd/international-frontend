@@ -16,7 +16,7 @@ export default async function handler(req, res) {
     if (req.method == "GET") {
         try {
             const query = {email: email };
-            const data = await Order.find(query)
+            const data = await Order.find(query).sort({createdAt:-1})
             
             res.status(200).json(data)
         }

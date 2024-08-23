@@ -39,8 +39,8 @@ const UserHistory = () => {
         <th className="border border-gray-300 px-4 py-2">Paid</th>
         <th className="border border-gray-300 px-4 py-2">Status</th>
         <th className="border border-gray-300 px-4 py-2">Recipient</th>
-        <th className="border border-gray-300 px-4 py-2">Products</th>
-        <th className="border border-gray-300 px-4 py-2">Quantity</th>
+        <th className="border border-gray-300 px-4 py-2">Products & Quantity</th>
+        <th className="border border-gray-300 px-4 py-2">Other Details</th>
         
 
       </tr>
@@ -50,11 +50,16 @@ const UserHistory = () => {
               {orders.length > 0 && orders.map(order => (
               <tr key={order._id} className="border border-gray-300">
                 <td className="border border-gray-300 px-4 py-2">{(new Date(order.createdAt)).toLocaleString()}</td>
-                <td>{order.images}</td>
+                <td>
+                {order.cart?.map((item,index)=>(
+                   <img height="100px" width="100px" className='rounded-full' src={item.images} alt='images'/>
+                ))}
+                </td>
+                
                 <td className={`border border-gray-300 px-4 py-2 ${order.paid ? 'text-green-600' : 'text-red-600'}`}>
                   {order.paid ? 'YES' : 'NO'}
                 </td>
-                <td ></td>
+                <td  className="border border-gray-300 px-4 py-2"> {order.status}</td>
                 <td className="border border-gray-300 px-4 py-2">
                   <div className="text-sm"><span className="font-bold">Name : </span>{order.name}</div>
                   <div className="text-xs"><span className="font-bold">Email : </span>{order.email}</div>
@@ -65,18 +70,24 @@ const UserHistory = () => {
                   
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
-                  {order.line_items.map((l, index) => (
-                    <div key={index} className="text-sm">
-                      {l.price_data?.product_data.name}
-                    </div>
-                  ))}
+
+                {order.cart?.map((item,index)=>(
+                  <>
+                  <div>Product is :{item.title} </div>
+                  <div>Quantity is :{item.quantity} </div>
+                  </>
+                  
+                ))}
+                  
+
                 </td>
                 <td className="border border-gray-300 px-4 py-2">
-                  {order.line_items.map((l, index) => (
-                    <div key={index} className="text-sm">
-                      {l.quantity}
-                    </div>
-                  ))}
+                <div className="text-sm"><span className="font-bold">Channel Order Id : </span>{order.channel_order_id}</div>
+                  <div className="text-xs"><span className="font-bold">Order ID : </span>
+                  <a className="text-blue-600" href={`https://shiprocket.co/tracking/order/${order.channel_order_id}?company_id=52252`}>{order.order_id}</a></div>
+
+                  <div className="text-xs"><span className="font-bold">Shipment Id : </span>{order.shipment_id}</div>
+                  
                 </td>
         
                 
