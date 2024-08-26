@@ -23,6 +23,7 @@ const ProductContent = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedsubcategory, setSelectedsubcategory] = useState(null);
   const [selectedcategory, setSelectedcategory] = useState(null);
+  const [properties, setProperties] = useState(null);
   const [filters, setFilters] = useState({});
   const [priceRange, setPriceRange] = useState([0, 1000]);
   const [sortOrder, setSortOrder] = useState('');
@@ -47,7 +48,7 @@ const ProductContent = () => {
         
         // Apply filters based on URL data
         if (data1 || data2) {
-          // const parsedData = JSON.parse(data); // Assuming `data` is JSON string
+          // const parsedData = JSON.parse(data); // Assuming data is JSON string
           if (data1) setSelectedsubcategory(data1);
           // if (data2) setFilters(data1);
           // if (parsedData.priceRange) setPriceRange(parsedData.priceRange);
@@ -67,7 +68,7 @@ const ProductContent = () => {
 
   useEffect(() => {
     applyFilters(filters);
-  }, [selectedsubcategory,selectedcategory, filters, products, priceRange, sortOrder]);
+  }, [selectedsubcategory,selectedcategory,properties, filters, products, priceRange, sortOrder]);
 
   const handlesubcategoryChange = (subcategoryId) => {
     setSelectedsubcategory(subcategoryId);
@@ -80,13 +81,27 @@ const ProductContent = () => {
     setFilters({});
   };
 
-  const handleFilterChange = (propertyName, value  ) => {
-    setFilters(prevFilters => ({ ...prevFilters, [propertyName]: value }));
+
+  const handleFilterChanges = (value) => {
+    setProperties(value);
+    setFilters({});
   };
 
-  const handleFilterChanges = (propertyName, value  ) => {
+  const handleFilterChange = (propertyName, value  ) => {
     setFilters(prevFilters => ({ ...prevFilters, [propertyName]: value }));
+
+    console.log("data in handleFilterChange is ",propertyName, value)
   };
+
+  // const handleFilterChanges = ( value  ) => {
+
+  //   console.log("data in handleFilterChanges is ", value )
+  //   setFilters(prevFilters => ({ ...prevFilters, value }));
+   
+  // };
+
+ 
+  
 
   const handlePriceChange = (range) => {
     setPriceRange(range);
@@ -107,6 +122,10 @@ const ProductContent = () => {
       filtered = filtered.filter(product => product.category === selectedcategory);
     }
 
+    if (properties) {
+      filtered = filtered.filter(product => product.properties === properties );
+    }
+
     Object.keys(filters).forEach(propertyName => {
       if (filters[propertyName]) {
         filtered = filtered.filter(product => {
@@ -115,7 +134,10 @@ const ProductContent = () => {
         });
       }
     });
+
     
+  
+
 
     filtered = filtered.filter(product => {
       const price = convertPrice(product.discountedPrice, currency, exchangeRates);

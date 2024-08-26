@@ -50,14 +50,14 @@ const Filter = ({
 
   const handlePropertyChange = (e, propertyName) => {
     const { value } = e.target;
-    console.log("propertyName in",propertyName)
+    console.log("propertyName in", propertyName);
     onFilterChange(propertyName, value);
   };
 
   const handlePropertiesChange = (e, propertyName) => {
     const { value } = e.target;
-    console.log("propertyName",propertyName)
-    onFilterChange(propertyName, value);
+    console.log("propertyName", propertyName);
+    onFilterChanges(propertyName, value);
   };
 
   const handlePriceChange = (range) => {
@@ -76,7 +76,7 @@ const Filter = ({
     setSortOrder("");
     onsubcategoryChange("");
     onFilterChange("", "");
-    onFilterChanges("")
+    onFilterChanges("");
     onPriceChange([0, 100000]);
     onSortChange("");
   };
@@ -99,7 +99,7 @@ const Filter = ({
             ))}
           </select>
 
-          {selectedcategory &&
+          {/* {selectedcategory &&
           selectedcategory.properties.map((property) => (
             <div className="subcategory_sub" key={property.name}>
               <label>{property.name}</label>
@@ -112,20 +112,41 @@ const Filter = ({
                 ))}
               </select>
             </div>
-          ))}
+          ))} */}
 
           
-            {/* {selectedcategory &&
-              selectedcategory.properties.map((property) => (
-                <select onChange={(e) => handlePropertiesChange(e,property.name)}
-          >
-            <option value="">All</option>
+              {/* <select
+                onChange={(e) => handlePropertiesChange(e, property.name)}
+              >
+                
+            
+                <option value="">All</option>
+                {selectedcategory && selectedcategory.properties.map((property) => (
                 <option key={property.name} value={property.name}>
                   {property.name}
                 </option>
-                </select>
-              ))} */}
-         
+                 ))}
+              </select> */}
+
+
+<select
+  onChange={(e) => handlePropertiesChange(e, e.target.value)}
+>
+  <option value="">All</option>
+  {selectedcategory && selectedcategory.properties.map((property) => (
+    <option key={property.name} value={property.name}>
+      {property.name}
+      {/* {property.map((value) => (
+        <option key={value} value={value}>
+          {value}
+        </option>
+      ))} */}
+    </option>
+  ))}
+</select>
+
+
+           
 
           <label>Sub filter</label>
 
