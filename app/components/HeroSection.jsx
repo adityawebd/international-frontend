@@ -27,7 +27,7 @@ const HeroSection = () => {
           id: 1,
           heading: "New Statue Collection",
           offer: "SALE OFFER",
-          para: "Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.",
+          para: "Elevate Your Space – Stunning Statues on Sale Now!",
           btn_link: "products"
         }
       ]
@@ -41,7 +41,7 @@ const HeroSection = () => {
           id: 1,
           heading: "BEST STATUE SETS",
           offer: "SALE OFFER",
-          para: "Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.",
+          para: "Transform Your Home – Beautiful Statues, Special Offers!",
           btn_link: "products"
         }
       ]
@@ -55,7 +55,7 @@ const HeroSection = () => {
           id: 1,
           heading: "New Statue Collection",
           offer: "SALE OFFER",
-          para: "Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.",
+          para: "Elevate Your Space – Stunning Statues on Sale Now!",
           btn_link: "products"
         }
       ]

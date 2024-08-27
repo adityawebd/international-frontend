@@ -50,7 +50,7 @@ const ProductContent = () => {
         if (data1 || data2) {
           // const parsedData = JSON.parse(data); // Assuming data is JSON string
           if (data1) setSelectedsubcategory(data1);
-          // if (data2) setFilters(data1);
+          // if (data2) setProperties(data2);
           // if (parsedData.priceRange) setPriceRange(parsedData.priceRange);
           // if (parsedData.sortOrder) setSortOrder(parsedData.sortOrder);
           console.log("url id is", data1, data2);

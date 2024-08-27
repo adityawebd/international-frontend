@@ -88,10 +88,11 @@ const Filter = ({
     <div className="filter_div">
       <div className="categories">
         <div className="subcategory_main">
-          <label>Filter</label>
+          <label className="filter_label">Filter</label>
 
-          <select onChange={handlecategoryChange}>
-            <option value="">All</option>
+          <select onChange={handlecategoryChange} className="select_div no-arrow">
+            <option value="" className="option_div">All</option>
+            
             {categori.map((categorys) => (
               <option key={categorys._id} value={categorys._id}>
                 {categorys.name}
@@ -113,9 +114,7 @@ const Filter = ({
               </select>
             </div>
           ))} */}
-
-          
-              {/* <select
+          {/* <select
                 onChange={(e) => handlePropertiesChange(e, property.name)}
               >
                 
@@ -128,29 +127,24 @@ const Filter = ({
                  ))}
               </select> */}
 
-
-<select
-  onChange={(e) => handlePropertiesChange(e, e.target.value)}
->
-  <option value="">All</option>
-  {selectedcategory && selectedcategory.properties.map((property) => (
-    <option key={property.name} value={property.name}>
-      {property.name}
-      {/* {property.map((value) => (
+          <select onChange={(e) => handlePropertiesChange(e, e.target.value)}  className="select_div no-arrow">
+            <option value="">All</option>
+            {selectedcategory &&
+              selectedcategory.properties.map((property) => (
+                <option key={property.name} value={property.name}>
+                  {property.name}
+                  {/* {property.map((value) => (
         <option key={value} value={value}>
           {value}
         </option>
       ))} */}
-    </option>
-  ))}
-</select>
+                </option>
+              ))}
+          </select>
 
+          <label className="filter_label mt-4">More</label>
 
-           
-
-          <label>Sub filter</label>
-
-          <select onChange={handlesubcategoryChange}>
+          <select onChange={handlesubcategoryChange} className="select_div no-arrow">
             <option value="">All</option>
             {categories.map((subcategory) => (
               <option key={subcategory._id} value={subcategory._id}>
@@ -163,8 +157,8 @@ const Filter = ({
         {selectedsubcategory &&
           selectedsubcategory.property.map((property) => (
             <div className="subcategory_sub" key={property.name}>
-              <label>{property.name}</label>
-              <select onChange={(e) => handlePropertyChange(e, property.name)}>
+              <label className="filter_label mt-4">{property.name}</label>
+              <select onChange={(e) => handlePropertyChange(e, property.name)} className="select_div no-arrow">
                 <option value="">All</option>
                 {property.values.map((value) => (
                   <option key={value} value={value}>
@@ -177,7 +171,7 @@ const Filter = ({
       </div>
 
       <div className="price_div">
-        <label>Price Range</label>
+        <label className="filter_label mb-4">Price Range</label>
         <Slider
           range
           min={0}
@@ -210,8 +204,8 @@ const Filter = ({
       </div>
 
       <div className="sort_div">
-        <label>Sort By</label>
-        <select onChange={handleSortChange}>
+        <label className="filter_label">Sort By</label>
+        <select onChange={handleSortChange} className="select_div no-arrow">
           <option value="">Newest</option>
           <option value="asc">Price: Low to High</option>
           <option value="desc">Price: High to Low</option>

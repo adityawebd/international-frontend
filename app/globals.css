@@ -3432,6 +3432,21 @@ footer .limited_edition {
 
 
 /* -------------filter-component---------- */
+.no-arrow {
+    -webkit-appearance: none;  /* Remove default arrow in Safari */
+    -moz-appearance: none;     /* Remove default arrow in Firefox */
+    appearance: none;          /* Remove default arrow in modern browsers */
+    background: transparent;   /* Remove any background image */
+    padding-right: 20px;       /* Adjust padding if necessary */
+    /* Optional: Add your custom styles */
+  }
+  
+  /* Hide the default arrow in IE */
+  .no-arrow::-ms-expand {
+    display: none;
+  }
+
+  
 .filter_div {
     /* border: 1px solid red; */
     padding-left: 50px;
@@ -3440,70 +3455,31 @@ footer .limited_edition {
 @media(min-width: 426px) and (max-width: 1024px) {
     .filter_div {
         padding-left: 0;
-
     }
 }
 
-.filter_div label {
-    color: var(--green-clr);
+.filter_div .filter_label {
+    color: var(--green-clr);    
+    display: block;
+    font-weight: 700;
     font-size: 20px;
-    margin-bottom: 20px;
-    font-weight: 600 !important;
 }
-
-.filter_div .categories {
-    border-bottom: 1px solid var(--e-gray);
-    padding: 20px 0;
-}
-
-.filter_div .category_main {
-    /* border: 1px solid red; */
-}
-
-.filter_div .category_main label {
-    /* border: 1px solid red; */
+.filter_div .select_div {
     width: 100%;
-}
-
-.filter_div .category_main select {
-    /* border: 1px solid red; */
-    width: 100%;
-    padding-left: 20px;
+    color: #888888 !important;
+    margin-top: 14px;
+    border: 2px solid #ededed;
+    border-radius: 6px;
+    padding-left: 10px;
+    padding-top: 6px;
+    padding-bottom: 6px;
     outline: none;
-    -webkit-appearance: none;
-    /* For Chrome, Safari, and Opera */
-    -moz-appearance: none;
-    /* For Firefox */
-    appearance: none;
-    /* For modern browsers */
-    background: transparent;
 }
-
-.filter_div .category_sub {
-    /* border: 1px solid red; */
+.filter_div option {
+    color: #888888 !important;
 }
-
-.filter_div .category_sub label {
-    /* border: 1px solid red; */
-    width: 100%;
-    margin-bottom: 10px;
-    margin-top: 10px;
-    padding-left: 30px;
-    color: var(--green-clr);
-}
-
-.filter_div .category_sub select {
-    /* border: 1px solid red; */
-    width: 100%;
-    padding-left: 50px;
-    outline: none;
-    -webkit-appearance: none;
-    /* For Chrome, Safari, and Opera */
-    -moz-appearance: none;
-    /* For Firefox */
-    appearance: none;
-    /* For modern browsers */
-    background: transparent;
+.filter_div option:first-child {
+    color: var(--darkest-gray) !important;
 }
 
 .filter_div .price_div {
@@ -3552,34 +3528,13 @@ footer .limited_edition {
 .filter_div .sort_div {
     /* border: 1px solid red; */
     border-bottom: 1px solid var(--e-gray);
-    padding: 20px 0;
+    padding: 0 0 20px 0;
     margin: 20px 0;
 
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
-
-.filter_div .sort_div select {
-    outline: none;
-    border: 1px solid var(--e-gray);
-    border-radius: 4px;
-
-    -webkit-appearance: none;
-    /* For Chrome, Safari, and Opera */
-    -moz-appearance: none;
-    /* For Firefox */
-    appearance: none;
-    /* For modern browsers */
-    background: transparent;
-    padding: 0px 10px 0px 10px;
-
-}
-
-.filter_div .sort_div select option {
-    color: var(--primary-clr);
-}
-
 
 .reset_button {
     background-color: var(--green-clr);

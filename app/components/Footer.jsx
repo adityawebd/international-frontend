@@ -40,9 +40,7 @@ const Footer = () => {
                         <div className="col-md-2 mt-2">
                             <h3 className='text-lg font-bold tracking-widest light_black_font border-b-2 pb-2'>Services</h3>
                             <ul>
-                                <li className='text-sm light_black_font mt-2'><a href="/customer-services">Customer Services</a></li>
                                 <li className='text-sm light_black_font mt-2'><a href="/privacy-policy">Privacy Policy</a></li>
-                                <li className='text-sm light_black_font mt-2'><a href="/cancellation-refund-policy">Cancellation Refund Policy</a></li>
                                 <li className='text-sm light_black_font mt-2'><a href="/tnc">Terms & Conditions</a></li>
                             </ul>
                         </div>
