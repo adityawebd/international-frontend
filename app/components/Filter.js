@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
-import { select } from "@material-tailwind/react";
 
 const Filter = ({
   categories = [],
@@ -16,23 +15,30 @@ const Filter = ({
 }) => {
   const [selectedsubcategory, setSelectedsubcategory] = useState(null);
   const [selectedcategory, setSelectedcategory] = useState(null);
-  const [selectedp, setSelectedp] = useState(null);
-
-  // const handlePropertiesChange = (event) => {
-  //   const selectedValue = event.target.value;
-  //   setSelectedp(selectedValue);
-  // };
-
-  console.log("onFilterChanges is ", onFilterChanges);
-
-  const [priceRange, setPriceRange] = useState([0, 10000]);
+  const [priceRange, setPriceRange] = useState([0, 5000]);
   const [sortOrder, setSortOrder] = useState("");
+  const [activeAccordions, setActiveAccordions] = useState({
+    category: true,
+    subcategory: true,
+    price: true,
+    sort: true,
+  });
 
-  const handlesubcategoryChange = (e) => {
-    const subcategoryId = e.target.value;
-    const subcategory = categories.find((cat) => cat._id === subcategoryId);
-    setSelectedsubcategory(subcategory);
-    onsubcategoryChange(subcategoryId);
+  useEffect(() => {
+    // Initially set all accordions to open
+    setActiveAccordions({
+      category: true,
+      subcategory: true,
+      price: true,
+      sort: true,
+    });
+  }, []);
+
+  const toggleAccordion = (accordion) => {
+    setActiveAccordions((prev) => ({
+      ...prev,
+      [accordion]: !prev[accordion],
+    }));
   };
 
   const handlecategoryChange = (e) => {
@@ -42,22 +48,14 @@ const Filter = ({
     oncategoryChange(categoryId);
   };
 
-  // const handlePropertiesChange = (e) => {
-  //   const pname = e.target.value;
-  //   const pName = categori.find((cat) => cat.name === pname);
-  //   setSelectedp(pName);
-  // };
-
   const handlePropertyChange = (e, propertyName) => {
-    const { value } = e.target;
-    console.log("propertyName in", propertyName);
-    onFilterChange(propertyName, value);
+    const { value, checked } = e.target;
+    onFilterChange(propertyName, value, checked);
   };
 
   const handlePropertiesChange = (e, propertyName) => {
-    const { value } = e.target;
-    console.log("propertyName", propertyName);
-    onFilterChanges(propertyName, value);
+    const { value, checked } = e.target;
+    onFilterChanges(propertyName, value, checked);
   };
 
   const handlePriceChange = (range) => {
@@ -72,144 +70,182 @@ const Filter = ({
   const handleResetFilters = () => {
     setSelectedsubcategory(null);
     setSelectedcategory(null);
-    setPriceRange([0, 100000]);
+    setPriceRange([0, 5000]);
     setSortOrder("");
     onsubcategoryChange("");
     onFilterChange("", "");
-    onFilterChanges("");
-    onPriceChange([0, 100000]);
+    onFilterChanges("", "");
+    onPriceChange([0, 5000]);
     onSortChange("");
   };
 
-  console.log("category is", categori);
-  // console.log('categories is',categories)
-
   return (
     <div className="filter_div">
-      <div className="categories">
-        <div className="subcategory_main">
-          <label className="filter_label">Filter</label>
-
-          <select onChange={handlecategoryChange} className="select_div no-arrow">
-            <option value="" className="option_div">All</option>
-            
-            {categori.map((categorys) => (
-              <option key={categorys._id} value={categorys._id}>
-                {categorys.name}
-              </option>
-            ))}
-          </select>
-
-          {/* {selectedcategory &&
-          selectedcategory.properties.map((property) => (
-            <div className="subcategory_sub" key={property.name}>
-              <label>{property.name}</label>
-              <select onChange={(e) => handlePropertyChange(e, property.name)}>
-                <option value="">All</option>
-                {property.values.map((value) => (
-                  <option key={value} value={value}>
-                    {value}
-                  </option>
+      {/* Category Accordion */}
+      <div className="accordion">
+        <button
+          onClick={() => toggleAccordion("category")}
+          className="accordion-button flex justify-between items-center"
+        >
+          Category
+          <span className="accordion-arrow">
+            {activeAccordions.category ? "-" : "+"}
+          </span>
+        </button>
+        {activeAccordions.category && (
+          <div className="accordion-content">
+            <div>
+              {/* <label className="filter_label">Category</label> */}
+              <div className="checkbox-container">
+                {categori.map((categorys) => (
+                  <div key={categorys._id} className="flex gap-2 justify-start items-start">
+                    <input
+                      type="checkbox"
+                      className="mt-1"
+                      value={categorys._id}
+                      onChange={handlecategoryChange}
+                    />
+                    <label>{categorys.name}</label>
+                  </div>
                 ))}
-              </select>
+              </div>
             </div>
-          ))} */}
-          {/* <select
-                onChange={(e) => handlePropertiesChange(e, property.name)}
+          </div>
+        )}
+      </div>
+
+      {/* Subcategory Accordion */}
+      <div className="accordion">
+        <button
+          onClick={() => toggleAccordion("subcategory")}
+          className="accordion-button flex justify-between items-center"
+        >
+          Subcategory
+          <span className="accordion-arrow">
+            {activeAccordions.subcategory ? "-" : "+"}
+          </span>
+        </button>
+        {activeAccordions.subcategory && (
+          <div className="accordion-content">
+            <div>
+              {/* <label className="filter_label">Subcategory</label> */}
+              <div className="checkbox-container">
+                {categories.map((subcategory) => (
+                  <div key={subcategory._id}>
+                  <div className="flex gap-2 justify-start items-start">
+                    <input
+                      type="checkbox"
+                      className="mt-1"
+                      value={subcategory._id}
+                      onChange={() => onsubcategoryChange(subcategory._id)}
+                    />
+                    <label>{subcategory.name}</label>
+                    </div>
+
+                    {/* Displaying all properties and their values by default */}
+                    {subcategory.property.map((property) => (
+                      <div className="subcategory_sub" key={property.name}>
+                        <label className="filter_label">{property.name}</label>
+                        <div className="checkbox-container">
+                          {property.values.map((value) => (
+                            <div key={value} className="flex gap-2 justify-start items-start">
+                              <input
+                                type="checkbox"
+                                className="mt-1"
+                                value={value}
+                                onChange={(e) =>
+                                  handlePropertyChange(e, property.name)
+                                }
+                              />
+                              <label>{value}</label>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Price Range Accordion */}
+      <div className="accordion">
+        <button
+          onClick={() => toggleAccordion("price")}
+          className="accordion-button flex justify-between items-center"
+        >
+          Price
+          <span className="accordion-arrow">
+            {activeAccordions.price ? "-" : "+"}
+          </span>
+        </button>
+        {activeAccordions.price && (
+          <div className="accordion-content pt-3">
+            {/* <label className="filter_label">Price Range</label> */}
+            <Slider
+              range
+              min={0}
+              max={5000}
+              defaultValue={priceRange}
+              onChange={handlePriceChange}
+            />
+            <div className="price_inputs flex justify-between w-full mt-2">
+              <label>
+                Min Price:
+                <input
+                  type="number"
+                  className="inline border rounded w-[80px] p-2 mt-2 outline-none"
+                  value={priceRange[0]}
+                  onChange={(e) =>
+                    handlePriceChange([Number(e.target.value), priceRange[1]])
+                  }
+                />
+              </label>
+              <label>
+                Max Price:
+                <input
+                  type="number"
+                  className="inline border rounded w-[80px] p-2 mt-2 outline-none"
+                  value={priceRange[1]}
+                  onChange={(e) =>
+                    handlePriceChange([priceRange[0], Number(e.target.value)])
+                  }
+                />
+              </label>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Sort Accordion */}
+      <div className="accordion">
+        <button
+          onClick={() => toggleAccordion("sort")}
+          className="accordion-button flex justify-between items-center"
+        >
+          Sort By
+          <span className="accordion-arrow">
+            {activeAccordions.sort ? "-" : "+"}
+          </span>
+        </button>
+        {activeAccordions.sort && (
+          <div className="accordion-content">
+            {/* <label className="filter_label">Sort By</label> */}
+            <div className="checkbox-container">
+              <select
+                onChange={handleSortChange}
+                className="select_div no-arrow"
               >
-                
-            
-                <option value="">All</option>
-                {selectedcategory && selectedcategory.properties.map((property) => (
-                <option key={property.name} value={property.name}>
-                  {property.name}
-                </option>
-                 ))}
-              </select> */}
-
-          <select onChange={(e) => handlePropertiesChange(e, e.target.value)}  className="select_div no-arrow">
-            <option value="">All</option>
-            {selectedcategory &&
-              selectedcategory.properties.map((property) => (
-                <option key={property.name} value={property.name}>
-                  {property.name}
-                  {/* {property.map((value) => (
-        <option key={value} value={value}>
-          {value}
-        </option>
-      ))} */}
-                </option>
-              ))}
-          </select>
-
-          <label className="filter_label mt-4">More</label>
-
-          <select onChange={handlesubcategoryChange} className="select_div no-arrow">
-            <option value="">All</option>
-            {categories.map((subcategory) => (
-              <option key={subcategory._id} value={subcategory._id}>
-                {subcategory.name}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        {selectedsubcategory &&
-          selectedsubcategory.property.map((property) => (
-            <div className="subcategory_sub" key={property.name}>
-              <label className="filter_label mt-4">{property.name}</label>
-              <select onChange={(e) => handlePropertyChange(e, property.name)} className="select_div no-arrow">
-                <option value="">All</option>
-                {property.values.map((value) => (
-                  <option key={value} value={value}>
-                    {value}
-                  </option>
-                ))}
+                <option value="">Newest</option>
+                <option value="asc">Price: Low to High</option>
+                <option value="desc">Price: High to Low</option>
               </select>
             </div>
-          ))}
-      </div>
-
-      <div className="price_div">
-        <label className="filter_label mb-4">Price Range</label>
-        <Slider
-          range
-          min={0}
-          max={10000}
-          defaultValue={priceRange}
-          onChange={handlePriceChange}
-        />
-        <div className="price_inputs">
-          <label>
-            Min Price:
-            <input
-              type="number"
-              value={priceRange[0]}
-              onChange={(e) =>
-                handlePriceChange([Number(e.target.value), priceRange[1]])
-              }
-            />
-          </label>
-          <label>
-            Max Price:
-            <input
-              type="number"
-              value={priceRange[1]}
-              onChange={(e) =>
-                handlePriceChange([priceRange[0], Number(e.target.value)])
-              }
-            />
-          </label>
-        </div>
-      </div>
-
-      <div className="sort_div">
-        <label className="filter_label">Sort By</label>
-        <select onChange={handleSortChange} className="select_div no-arrow">
-          <option value="">Newest</option>
-          <option value="asc">Price: Low to High</option>
-          <option value="desc">Price: High to Low</option>
-        </select>
+          </div>
+        )}
       </div>
 
       <button className="reset_button" onClick={handleResetFilters}>

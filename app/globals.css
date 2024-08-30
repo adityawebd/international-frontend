@@ -125,7 +125,7 @@ body {
 .navbar {
     border-top: 1px solid var(--e-gray);
     border-bottom: 1px solid var(--e-gray);
-    padding: 5px 200px;
+    padding: 5px 45px;
     display: flex;
 }
 
@@ -190,7 +190,7 @@ body {
 .navbar_body .search_bar {
     /* border: 1px solid blue; */
     position: relative;
-    width: 80%;
+    width: 70%;
     margin-left: 50px;
 }
 
@@ -252,7 +252,11 @@ body {
 
 .search_card_wrapper .search_card .desc {
     padding: 5px;
-    font-size: 12px
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 6px;
 }
 
 /* Add animation styles */
@@ -274,8 +278,8 @@ body {
 }
 
 .navbar_icons {
-    /* border: 1px solid red; */
-    width: 20%;
+    /* border: 1px solid red;   */
+    width: 30%;
     display: flex;
     justify-content: end;
     align-items: center;
@@ -329,12 +333,6 @@ body {
 /* --------- */
 .username_after_login {
     /* border: 1px solid red; */
-    position: absolute;
-    bottom: 0;
-    right: 40px;
-    width: 200px;
-    height: 20px;
-    margin-top: -20px;
     cursor: auto;
 
     display: flex;
@@ -425,8 +423,12 @@ body {
         /* border: 1px solid blue; */
         width: 50%;
         margin-left: 0;
-        opacity: 0;
+        /* opacity: 0; */
     }
+    .navbar_body .search_bar_hidden {
+        display: none;
+    }
+
 
     .responsive_navbar .navbar_body .search_bar {
         /* border: 1px solid red; */
@@ -486,8 +488,8 @@ body {
     }
 
     .navbar_icons {
-        width: 50%;
-        /* border: 1px solid red; */
+        width: 100%;
+        /* border: 1px solid green; */
     }
 
     .navbar_icons .cart_icon {
@@ -497,26 +499,11 @@ body {
     }
 
     /* --------- */
-    .username_after_login {
-        /* border: 1px solid red; */
-        position: absolute;
-        bottom: -15px;
-        right: 20px;
-        width: 120px;
-        height: 20px;
-        margin-top: -20px;
-        cursor: auto;
-
-        display: flex;
-        justify-content: end;
-        align-items: center;
-    }
-
     .username_after_login a {
         text-align: right;
         color: var(--green-clr);
         font-weight: 600;
-        font-size: 14px;
+        font-size: 11px;
     }
 
     /* --------- */
@@ -528,7 +515,7 @@ body {
         border-radius: 50%;
         padding: 0px 5px;
         position: absolute;
-        bottom: -7px;
+        bottom: 0px;
         right: -3px;
         margin-top: -20px;
         font-size: 7px;
@@ -3452,17 +3439,38 @@ footer .limited_edition {
     padding-left: 50px;
 }
 
+@media(max-width: 425px) {
+    .filter_div {
+        /* border: 1px solid red; */
+        padding: 0 20px;
+    }
+}
+
 @media(min-width: 426px) and (max-width: 1024px) {
     .filter_div {
         padding-left: 0;
     }
 }
 
+.filter_div .accordion-button {
+    color: var(--green-clr) !important;  
+    font-weight: 700;
+    font-size: 16px !important; 
+    background: none !important; 
+    outline: none !important; 
+    margin-bottom: 10px !important;
+    padding-left: 0 !important;
+}
+.filter_div .accordion {
+    margin-bottom: 30px !important;
+}
+
 .filter_div .filter_label {
     color: var(--green-clr);    
     display: block;
     font-weight: 700;
-    font-size: 20px;
+    font-size: 16px;
+    margin-top: 30px;
 }
 .filter_div .select_div {
     width: 100%;
@@ -3504,7 +3512,7 @@ footer .limited_edition {
 
 .filter_div .price_div .price_inputs {
     /* border: 1px solid red; */
-    display: flex;
+    display: flex !important;
     justify-content: space-between;
     margin-top: 20px;
 }
@@ -3517,7 +3525,7 @@ footer .limited_edition {
 }
 
 .filter_div .price_div .price_inputs label input {
-    width: 80px;
+    width: 80px !important;
     padding: 6px;
     border: 1px solid var(--primary-clr);
     border-radius: 4px;
@@ -3537,9 +3545,9 @@ footer .limited_edition {
 }
 
 .reset_button {
-    background-color: var(--green-clr);
-    color: var(--white-clr);
-    padding: 8px 24px;
+    background-color: var(--green-clr) !important;
+    color: var(--white-clr) !important;
+    padding: 8px 24px !important;
 }
 
 /* -------------filter-component---------- */
@@ -4405,4 +4413,10 @@ footer .limited_edition {
         padding: 12px 24px;
         transition: 0.6s all;
     } */
+}
+
+  
+
+.accordion-button::after {
+    display: none;
 }

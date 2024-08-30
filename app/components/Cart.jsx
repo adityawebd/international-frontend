@@ -184,7 +184,7 @@ const Cart = () => {
                         <div className="col-lg-8 col-md-8 col-sm-12">
                             <form action="#">
                                 <div className="table-content cart-table-content" id="table-container">
-                                    <li className="flex justify-between items-center gap-4 mb-2 shadow-md p-4">
+                                    <li className="flex justify-between items-center gap-4 mb-2 shadow-md p-4 w-full overflow-x-auto">
                                         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                                             <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                                 <tr>
@@ -205,10 +205,10 @@ const Cart = () => {
                                 </div>
                                 <div className="row">
                                     <div className="col-lg-12">
-                                        <div className="cart_btns flex justify-between">
-                                            <a className='' href="/">Continue Shopping</a>
-                                            <button type="button" className="" onClick={handleCheckout}>Check Out</button>
-                                            <button type="button" className="" onClick={handleCheckoutCOD}>Cash on Delivery</button>
+                                        <div className="cart_btns flex justify-between max-sm:flex-col text-center">
+                                            <a className='mb-2' href="/products">Continue Shopping</a>
+                                            <button type="button" className="mb-2" onClick={handleCheckout}>Check Out</button>
+                                            <button type="button" className="mb-2" onClick={handleCheckoutCOD}>Cash on Delivery</button>
                                         </div>
                                     </div>
                                 </div>

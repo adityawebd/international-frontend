@@ -132,7 +132,7 @@ const Navbar = () => {
             </a>
           </div>
           <div className='navbar_body'>
-            <div className='search_bar'>
+            <div className='search_bar search_bar_hidden'>
               <input type='text'
                 placeholder='Search your products...'
                 onClick={toggleSearchBar}
@@ -156,21 +156,21 @@ const Navbar = () => {
                 </div>
               </div>
             </div>
-            <div className='navbar_icons'>
 
-              <div className='cart_icon user_dropdown_btn' onClick={toggleUserDropdown} ref={userDropdownRef}><span><LuUser /></span>
+            <div className='navbar_icons'>
+              <div className='cart_icon user_dropdown_btn w-full flex flex-row-reverse' onClick={toggleUserDropdown} ref={userDropdownRef}><span><LuUser className="max-sm:w-[20px]" /></span>
                 {
                   session ? (
-                    <>
+                    <div className="flex items-end">
                       <div className="username_after_login">
-                        <a className='text-sm ' href="/profile"> Welcome {session.user.fname}</a>
+                        <a className='text-sm no-underline' href="/profile"> Welcome {session.user.fname} </a>
                       </div>
                       {userDropdownVisible && (
                         <div className="user_dropdown">
                           <div><a onClick={logout}>LOGOUT</a></div>
                         </div>
                       )}
-                    </>
+                    </div>
                   ) : (
                     <div>
                       {userDropdownVisible && (
@@ -188,7 +188,7 @@ const Navbar = () => {
               <div className='cart_icon cart_length_btn'>
                 <a href="/cart">
                   <span >
-                    <MdOutlineShoppingCart />
+                    <MdOutlineShoppingCart className="max-sm:w-[20px] text-black" />
                     <span className='text-xs cart_length'>{cart?.length}</span>
                   </span>
                 </a>
@@ -199,7 +199,7 @@ const Navbar = () => {
 
         <div className="lg:hidden responsive_navbar">
           <div className="navbar_body">
-            <div className='search_bar'>
+            <div className='search_bar '>
               <input type='text'
                 placeholder='Search your products...'
                 onClick={toggleSearchBar}
