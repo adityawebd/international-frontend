@@ -15,6 +15,38 @@
     --star-clr: #FD8F8F;
 }
 
+
+/* 8888888888888888888888888888888888888888888888888888 */
+
+.filter-container {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .accordion {
+    cursor: pointer;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .accordion-content {
+    padding: 10px;
+    display: block;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .accordion h5 {
+    margin: 0;
+  }
+  
+  .filter-container input[type="checkbox"],
+  .filter-container input[type="radio"] {
+    margin-right: 8px;
+  }
+  
+/* ************************************************** */
+
 body {
     font-family: "Montserrat", sans-serif;
 }
