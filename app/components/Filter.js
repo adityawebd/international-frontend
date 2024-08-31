@@ -266,24 +266,53 @@
 // };
 
 // export default Filter;
-
+// import PropTypes from "prop-types";
 import { useState } from "react";
+import Slider from "rc-slider";
+import "rc-slider/assets/index.css";
 
 const Filter = ({
   categories,
-  categori,
   oncategoryChange,
   onsubcategoryChange,
   onFilterChange,
-  onFilterChanges,
   onPriceChange,
   onSortChange,
 }) => {
-  console.log("receving catogry is", categories);
-  const [openAccordion, setOpenAccordion] = useState(null);
+  console.log("receiving category is", categories);
+
+  // Set all main accordions open initially
+  const [openAccordions, setOpenAccordions] = useState({
+    colors: true,
+    price: true,
+    sort: true,
+  });
+
+  // Set all nested accordions open initially
+  const [openNestedAccordions, setOpenNestedAccordions] = useState({});
+
+  // Price range state
+  const [priceRange, setPriceRange] = useState([0, 5000]);
+
+  // Sort state
+  const [sortOption, setSortOption] = useState("");
+
+  const [filters, setFilters] = useState({});
+
 
   const toggleAccordion = (accordion) => {
-    setOpenAccordion(openAccordion === accordion ? null : accordion);
+    setOpenAccordions((prevState) => ({
+      ...prevState,
+      [accordion]: !prevState[accordion], // Toggle the state for the clicked accordion
+    }));
+  };
+
+  const toggleNestedAccordion = (categoryIndex, propertyIndex) => {
+    const accordionKey = `${categoryIndex}-${propertyIndex}`;
+    setOpenNestedAccordions((prevState) => ({
+      ...prevState,
+      [accordionKey]: !prevState[accordionKey], // Toggle the state for the nested accordion
+    }));
   };
 
   const handleCheckboxChange = (property, value) => {
@@ -291,9 +320,15 @@ const Filter = ({
     onFilterChange(property, value);
   };
 
-  const handlePriceChange = (event) => {
-    const value = event.target.value.split("-").map(Number);
+  const handlePriceChange = (value) => {
+    setPriceRange(value);
     onPriceChange(value);
+  };
+
+  const handleSortChange = (event) => {
+    const selectedSortOption = event.target.value;
+    setSortOption(selectedSortOption);
+    onSortChange(selectedSortOption);
   };
 
   const handleCategoryChange = (event) => {
@@ -304,213 +339,163 @@ const Filter = ({
     onsubcategoryChange(event.target.value);
   };
 
+  const handleResetFilters = () => {
+    setFilters({});
+    setPriceRange([0, 5000]);
+    setSortOption("");
+    onFilterChange({}); // Clear filters for parent component
+    onPriceChange([0, 5000]); // Reset price filter in parent component
+    onSortChange(""); // Reset sort option in parent component
+  };
+
   return (
     <div className="filter-container">
-      <h4>Filters</h4>
+      <h4 className="text-black text-2xl font-semibold">Filters</h4>
+
+
+      {/* Price Range Accordion */}
       <div>
         <div
-          className="accordion"
-          onClick={() => toggleAccordion("categories")}
+          className="accordion border-0 accordion_fixed_div_name"
+          onClick={() => toggleAccordion("price")}
         >
-          <h5>Categories</h5>
-        </div>
-        {openAccordion === "categories" && (
-          <div className="accordion-content">
-            {categories.map((category) => (
-              <div key={category._id}>
-                <label>
-                  <input
-                    type="radio"
-                    name="category"
-                    value={category._id}
-                    onChange={handleCategoryChange}
-                  />
-                  {category.name}
-                </label>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      <div>
-        <div
-          className="accordion"
-          onClick={() => toggleAccordion("subcategories")}
-        >
-          <h5>Subcategories</h5>
-        </div>
-        {openAccordion === "subcategories" && (
-          <div className="accordion-content">
-            {categori.map((subcategory) => (
-              <div key={subcategory._id}>
-                <label>
-                  <input
-                    type="radio"
-                    name="subcategory"
-                    value={subcategory._id}
-                    onChange={handleSubcategoryChange}
-                  />
-                  {subcategory.name}
-                </label>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      <div>
-        <div className="accordion" onClick={() => toggleAccordion("colors")}>
-          <h5>Color</h5>
-        </div>
-        {openAccordion === "colors" && (
-          <div className="accordion-content">
-            {/* <p>{categories[0]?.property[0]?.name}</p> */}
-            {categories?.map((category, categoryIndex) => (
-              <div key={categoryIndex}>
-                
-                {category?.property?.map((property, propertyIndex) => (
-                  <>
-                  <p>{property?.name}</p>
-                  <div key={propertyIndex}>
-                    {property?.values?.map((value, valueIndex) => (
-                      <div key={valueIndex}>
-                        <label>
-                          <input
-                            type="checkbox"
-                            name={property.name} // Use the property name as the checkbox name
-                            value={value} // Use the value from the values array
-                            onChange={(e) =>
-                              handleCheckboxChange(
-                                property.name,
-                                e.target.value
-                              )
-                            }
-                          />
-                          {value}
-                        </label>
-                      </div>
-                    ))}
-                  </div>
-                  </>
-                ))}
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      <div>
-        <div className="accordion" onClick={() => toggleAccordion("materials")}>
-          <h5>Material</h5>
-        </div>
-        {openAccordion === "materials" && (
-          <div className="accordion-content">
-            {["Cotton", "Polyester", "Leather", "Wool"].map((material) => (
-              <div key={material}>
-                <label>
-                  <input
-                    type="checkbox"
-                    name="material"
-                    value={material}
-                    onChange={(e) =>
-                      handleCheckboxChange("material", e.target.value)
-                    }
-                  />
-                  {material}
-                </label>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      <div>
-        <div className="accordion" onClick={() => toggleAccordion("occasions")}>
-          <h5>Occasion</h5>
-        </div>
-        {openAccordion === "occasions" && (
-          <div className="accordion-content">
-            {["Casual", "Formal", "Party", "Sports"].map((occasion) => (
-              <div key={occasion}>
-                <label>
-                  <input
-                    type="checkbox"
-                    name="occasion"
-                    value={occasion}
-                    onChange={(e) =>
-                      handleCheckboxChange("occasion", e.target.value)
-                    }
-                  />
-                  {occasion}
-                </label>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      <div>
-        <div className="accordion" onClick={() => toggleAccordion("price")}>
           <h5>Price Range</h5>
         </div>
-        {openAccordion === "price" && (
-          <div className="accordion-content">
-            <label>
-              <input
-                type="radio"
-                name="price"
-                value="0-1000"
-                onChange={handlePriceChange}
-              />
-              $0 - $1000
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="price"
-                value="1000-2000"
-                onChange={handlePriceChange}
-              />
-              $1000 - $2000
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="price"
-                value="2000-3000"
-                onChange={handlePriceChange}
-              />
-              $2000 - $3000
-            </label>
+        {openAccordions.price && (
+          <div className="accordion-content pt-3 border-0 px-3">
+            <Slider
+              range
+              min={0}
+              max={5000}
+              defaultValue={priceRange}
+              onChange={handlePriceChange}
+            />
+            <div className="price_inputs flex justify-between w-full mt-2">
+              <label>
+                <span className="text-xs green_font">Min Price:</span>
+                <input
+                  type="number"
+                  className="inline border rounded w-[80px] p-2 mt-2 outline-none"
+                  value={priceRange[0]}
+                  onChange={(e) =>
+                    handlePriceChange([Number(e.target.value), priceRange[1]])
+                  }
+                />
+              </label>
+              <label>
+              <span className="text-xs green_font">Max Price:</span>
+                <input
+                  type="number"
+                  className="inline border rounded w-[80px] p-2 mt-2 outline-none"
+                  value={priceRange[1]}
+                  onChange={(e) =>
+                    handlePriceChange([priceRange[0], Number(e.target.value)])
+                  }
+                />
+              </label>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Sort Accordion */}
+      <div>
+        <div
+          className="accordion border-0 accordion_fixed_div_name"
+          onClick={() => toggleAccordion("sort")}
+        >
+          <h5>Sort By</h5>
+        </div>
+        {openAccordions.sort && (
+          <div className="accordion-content border-0 px-3">
+            <div className="checkbox-container">
+              <select
+                onChange={handleSortChange}
+                className="select_div no-arrow border px-2 outline-none"
+                value={sortOption}
+              >
+                <option value="">Newest</option>
+                <option value="asc">Price: Low to High</option>
+                <option value="desc">Price: High to Low</option>
+              </select>
+            </div>
           </div>
         )}
       </div>
 
       <div>
-        <div className="accordion" onClick={() => toggleAccordion("sizes")}>
-          <h5>Size Range</h5>
+        <div
+          className="accordion border-0 hidden"
+          onClick={() => toggleAccordion("colors")}
+        >
+          {/* <h5>Color</h5> */}
         </div>
-        {openAccordion === "sizes" && (
-          <div className="accordion-content">
-            {["Small", "Medium", "Large", "X-Large"].map((size) => (
-              <div key={size}>
-                <label>
-                  <input
-                    type="checkbox"
-                    name="size"
-                    value={size}
-                    onChange={(e) =>
-                      handleCheckboxChange("size", e.target.value)
-                    }
-                  />
-                  {size}
-                </label>
+        {openAccordions.colors && (
+          <div className="accordion-content border-0">
+            {categories?.map((category, categoryIndex) => (
+              <div key={categoryIndex} className="aditya1">
+                {category?.property?.map((property, propertyIndex) => {
+                  const nestedAccordionKey = `${categoryIndex}-${propertyIndex}`;
+                  return (
+                    <div key={propertyIndex}>
+                      <div
+                        className="nested-accordion flex items-center justify-between"
+                        onClick={() =>
+                          toggleNestedAccordion(categoryIndex, propertyIndex)
+                        }
+                      >
+                        <p className="accordion_fixed_div_name">
+                          {property?.name}
+                        </p>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation(); // Prevent triggering parent accordion toggle
+                            toggleNestedAccordion(categoryIndex, propertyIndex);
+                          }}
+                          className="toggle-button outline-none"
+                        >
+                          {openNestedAccordions[nestedAccordionKey] ? "-" : "+"}
+                        </button>
+                      </div>
+                      {openNestedAccordions[nestedAccordionKey] !== false && (
+                        <div className="accordion_fixed_div text-gray-500">
+                          {property?.values?.map((value, valueIndex) => (
+                            <div key={valueIndex} className="aditya2">
+                              <label className="flex items-start">
+                                <input
+                                  type="checkbox"
+                                  name={property.name} // Use the property name as the checkbox name
+                                  value={value} // Use the value from the values array
+                                  className="mt-1"
+                                  onChange={(e) =>
+                                    handleCheckboxChange(
+                                      property.name,
+                                      e.target.value
+                                    )
+                                  }
+                                />
+                                {value}
+                              </label>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             ))}
           </div>
         )}
       </div>
+
+      <button
+        onClick={handleResetFilters}
+        className="reset-filters-button mt-4 px-4 py-2 bg_green text-white rounded"
+      >
+        Reset Filters
+      </button>
+
     </div>
   );
 };

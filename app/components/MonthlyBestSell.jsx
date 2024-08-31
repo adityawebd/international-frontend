@@ -5,6 +5,7 @@ import BestSellCard from './BestSellCard'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, A11y } from 'swiper/modules';
 import 'swiper/css';
+import 'swiper/css/navigation';
 import axios from 'axios';
 
 const MonthlyBestSell = ({ price, ...props }) => {
@@ -70,7 +71,7 @@ const MonthlyBestSell = ({ price, ...props }) => {
                                         slidesPerView: 3.6,
                                     },
                                 }}
-                                // navigation={true}
+                                navigation={true}
                                 //  modules={[Autoplay, Pagination, Navigation]}
                                 modules={[Autoplay, Navigation, A11y]}
                                 className="swiper-wrapper mx-auto mb-4"

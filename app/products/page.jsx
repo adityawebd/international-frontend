@@ -7,6 +7,7 @@ import Footer from '../components/Footer';
 import NewArrival from '../components/NewArrival';
 import Breadcrumbs from '../components/Breadcrumbs';
 import Filter from '../components/Filter';
+import BackToTopButton from '../components/BackToTopButton';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 const convertPrice = (price, currency, exchangeRates) => {
@@ -155,6 +156,7 @@ const ProductContent = () => {
   };
 
   return (
+    <>
     <div className='container'>
       <div className="row">
         <div className="col-md-2 py-4">
@@ -199,6 +201,7 @@ const ProductContent = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
@@ -211,6 +214,7 @@ const Page = () => (
     </Suspense>
     <NewArrival />
     <Footer />
+    <BackToTopButton />
   </>
 );
 

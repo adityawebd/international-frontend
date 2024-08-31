@@ -2,6 +2,7 @@ import React from 'react'
 import Navbar from '../components/Navbar'
 import Breadcrumbs from '../components/Breadcrumbs'
 import Footer from '../components/Footer'
+import BackToTopButton from '../components/BackToTopButton'
 
 import { GoDotFill } from "react-icons/go";
 
@@ -115,6 +116,7 @@ const page = () => {
 
 
       <Footer />
+      <BackToTopButton />
     </div>
   )
 }

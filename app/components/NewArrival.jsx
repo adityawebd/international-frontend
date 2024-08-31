@@ -5,6 +5,7 @@ import 'aos/dist/aos.css'
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Navigation, A11y } from 'swiper/modules';
 import 'swiper/css';
+import 'swiper/css/navigation';
 import axios from 'axios';
 
 
@@ -58,7 +59,7 @@ const NewArrival = () => {
                                 slidesPerView: 4.6,
                             },
                         }}
-                        // navigation={true}
+                        navigation={true}
                         //  modules={[Autoplay, Pagination, Navigation]}
                         modules={[Autoplay, Navigation, A11y]}
                         className="swiper-wrapper mx-auto mb-4"

@@ -6,6 +6,7 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import NewArrival from '../components/NewArrival'
 import Breadcrumbs from '../components/Breadcrumbs'
+import BackToTopButton from '../components/BackToTopButton'
 
 import Sidebar from '../components/Sidebar'
 
@@ -19,6 +20,7 @@ const page = () => {
                     </div>
                 <NewArrival />
                 <Footer />
+                <BackToTopButton />
         </div>
     )
 }
