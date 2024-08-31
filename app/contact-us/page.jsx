@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../components/Navbar'
 import Breadcrumbs from '../components/Breadcrumbs'
 import Footer from '../components/Footer'
+import BackToTopButton from '../components/BackToTopButton'
 
 import { MapPin, Phone, Mail } from 'lucide-react'
 
@@ -193,6 +194,7 @@ const page = () => {
 
 
             <Footer />
+            <BackToTopButton />
         </div>
     )
 }

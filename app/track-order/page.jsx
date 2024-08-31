@@ -7,6 +7,7 @@ import NewArrival from '../components/NewArrival';
 
 import Sidebar from '../components/Sidebar'
 import TrackOrder from '../components/TrackOrder'
+import BackToTopButton from '../components/BackToTopButton'
 
 const page = () => {
     return (
@@ -31,6 +32,7 @@ const page = () => {
 
             <NewArrival />
             <Footer />
+            <BackToTopButton />
 
         </div>
     )

@@ -7,6 +7,7 @@ import NewArrival from '../components/NewArrival';
 import { useSession, signIn, signOut } from "next-auth/react"
 import Sidebar from '../components/Sidebar'
 import UserHistory from '../components/UserHistory'
+import BackToTopButton from '../components/BackToTopButton'
 
 const page = () => {
     const { data: session } = useSession();
@@ -45,6 +46,7 @@ const page = () => {
 
             <NewArrival />
             <Footer />
+    <BackToTopButton />
 
         </div>
     )

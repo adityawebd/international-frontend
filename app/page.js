@@ -18,6 +18,7 @@ import Testimonials from "./components/Testimonials";
 import ExploreFeeds from "./components/ExploreFeeds";
 import NewCom from "./components/NewCom";
 import Footer from "./components/Footer";
+import BackToTopButton from "./components/BackToTopButton";
 
 export default function Home() {
   return (
@@ -37,6 +38,7 @@ export default function Home() {
         {/* <Testimonials /> */}
         {/* <ExploreFeeds /> */}
         <Footer />
+    <BackToTopButton />
       </CurrencyProvider>
     </main>
   );

@@ -7,6 +7,7 @@ import Footer from '../../components/Footer';
 import NewArrival from '../../components/NewArrival';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import Filter from '../../components/Filter';
+import BackToTopButton from '../../components/BackToTopButton';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 const convertPrice = (price, currency, exchangeRates) => {
@@ -263,6 +264,7 @@ const Page = ({params}) => {
     </Suspense>
     <NewArrival />
     <Footer />
+    <BackToTopButton />
   </>
   )
 };

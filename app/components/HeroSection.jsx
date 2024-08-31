@@ -146,7 +146,7 @@ const HeroSection = () => {
                           <h1 className="animated-text">{textItem.heading}</h1>
                           <h6 className="animated-text">{textItem.offer}</h6>
                           <p className="animated-text">{textItem.para}</p>
-                          <a className="animated-text" href={textItem.btn_link}>ORDER NOW</a>
+                          {/* <a className="animated-text" href={textItem.btn_link}>ORDER NOW</a> */}
                         </div>
                       ))
                     ) : (
