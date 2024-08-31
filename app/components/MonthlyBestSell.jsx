@@ -14,21 +14,24 @@ const MonthlyBestSell = ({ price, ...props }) => {
   }, [])
 
   const [product, setProduct] = useState([]);
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                console.log("before reaponce")
-                const response = await axios.get('/api/product');
+  const type='MonthlyBestSell'
 
-                console.log("the responce is ", response);
-                setProduct(response.data);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
+    
+  useEffect(() => {
+      const fetchData = async () => {
+          try {
+              console.log("before reaponce")
+              const response = await axios.get(`/api/productnewarrival?properties=${type}`);
 
-        fetchData();
-    }, []);
+              console.log("the responce is ", response);
+              setProduct(response.data);
+          } catch (error) {
+              console.error('Error fetching data:', error);
+          }
+      };
+
+      fetchData();
+  }, []);
 
     
     return (

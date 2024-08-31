@@ -9,11 +9,14 @@ import axios from 'axios';
 
 const BestSeller = () => {
     const [product, setProduct] = useState([]);
+    const type='BestSeller'
+
+    
     useEffect(() => {
         const fetchData = async () => {
             try {
                 console.log("before reaponce")
-                const response = await axios.get('/api/product');
+                const response = await axios.get(`/api/productnewarrival?properties=${type}`);
 
                 console.log("the responce is ", response);
                 setProduct(response.data);

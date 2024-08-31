@@ -48,7 +48,7 @@ export default async function handler(req, res) {
         name: item.title,
         sku: item.sku+[index],
         units: item.quantity,
-        selling_price: item.discountedPrice || item.price,  // Use discountedPrice if available, otherwise price
+        selling_price: item.discountedPrice,  // Use discountedPrice if available, otherwise price
         // discount: item.price - item.discountedPrice,  // Calculate discount
         tax: '',  // Set this according to your logic
         hsn: '',  // Set this according to your logic

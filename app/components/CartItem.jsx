@@ -74,7 +74,7 @@ export default function CartItem({ product }) {
         </div>
       </td>
       <td className="px-6 py-4 font-semibold">
-        ₹<span>{product.quantity * product.price}</span>
+        ₹<span>{product.quantity * product.discountedPrice}</span>
       </td>
       <td className="px-6 py-4">
         <button

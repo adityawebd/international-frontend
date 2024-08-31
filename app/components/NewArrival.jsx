@@ -13,12 +13,14 @@ const NewArrival = () => {
         AOS.init();
     }, [])
 
+    const type='NewArrival'
+
     const [product, setProduct] = useState([]);
     useEffect(() => {
         const fetchData = async () => {
             try {
                 console.log("before reaponce")
-                const response = await axios.get('/api/product');
+                const response = await axios.get(`/api/productnewarrival?properties=${type}`);
 
                 console.log("the responce is ", response);
                 setProduct(response.data);
