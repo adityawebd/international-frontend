@@ -34,11 +34,12 @@ const ProductContent = () => {
   const data2 = searchParams.get('filter');
 
   console.log("data in productss is ", data1, data2);
+  const product="data 1"
 
   useEffect(() => {
     async function loadData() {
       try {
-        const { categories, products,categori} = await fetchCategoriesAndProducts();
+        const { categories, products,categori} = await fetchCategoriesAndProducts({product});
         setCategories(categories);
         setCategori(categori)
         setProducts(products);

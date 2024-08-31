@@ -15,7 +15,7 @@ const ProductTopbar = () => {
 
     const handleFilter = (property) => {
         if (selectedCategory) {
-            router.push(`/products?category=${selectedCategory}&filter=${property}`);
+            router.push(`/products/${property}`);
         }
     };
 
