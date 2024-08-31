@@ -25,8 +25,6 @@ export default function RootLayout({ children }) {
             {children}
           </AuthProvider>
         </CurrencyProvider>
-
-
       </body>
     </html>
   );
