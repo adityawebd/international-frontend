@@ -17,12 +17,29 @@ const ProductTimer = () => {
     const convertedPrice = convertPrice('200', currency, exchangeRates);
     const convertedActualPrice = convertPrice('400', currency, exchangeRates);
 
-    const [products1, setProducts1] = useState([]);
+    const [productsid1, setProductsid1] = useState('');
+    const [productsid2, setProductsid2] = useState('');
+
     useEffect(() => {
         axios.get('/api/feature').then(response => {
-            setProducts1(response.data);
+            setProductsid1(response.data[0].productId);
+            setProductsid2(response.data[1].productId);
         });
     }, []);
+
+    const [products1, setproducts1] = useState([]);
+    useEffect(() => {
+        if (productsid1 && productsid2) {
+          axios
+            .get(`/api/products?ids=${productsid1},${productsid2}`)
+            .then((response) => {
+                setproducts1(response.data);
+            })
+            .catch((error) => {
+              console.error('Error fetching products:', error);
+            });
+        }
+      }, [productsid1, productsid2]);
 
     const [products2, setProducts2] = useState([]);
     useEffect(() => {
@@ -38,7 +55,7 @@ const ProductTimer = () => {
                     <div className="row">
 
                         {products1.map((product, index) =>(
-                        <div className="col-lg-6 col-md-6 col-sm-6">
+                        <div className="col-lg-6 col-md-6 col-sm-6" key={index}>
                             <div className="product_timer_header flex justify-between align-middle border-b-2" key={index}>
                                 <h2 data-aos="fade-up" data-aos-duration="400" className='mb-2 font-semibold text-2xl text-center light_black_font'>Featured Items</h2>
 
@@ -47,7 +64,7 @@ const ProductTimer = () => {
                             <div className="product_timer_body mt-4">
                                 <div className="scrollable_card">
                                     <figure>
-                                        <img src={product.image} alt={product.name} height={100} width={100} />
+                                        <img src={product.images[0]} alt={product.name} height={100} width={100} />
                                     </figure>
                                     <div className="product_timer_content">
                                         <h3 data-aos="fade-up" data-aos-duration="400">{product.title}</h3>
@@ -73,7 +90,7 @@ const ProductTimer = () => {
                                         {/* <div data-aos="fade-up" data-aos-duration="440" className="booking"> <span className='font-semibold light_black_font'>Total Booking: </span> 25 </div> */}
                                         <div data-aos="fade-up" data-aos-duration="450" className="btns py-2">
                                             {/* <a href="">REMIND ME</a> */}
-                                            <a href="/product">BUY NOW</a>
+                                            <a href={`/product${product._id}`}>BUY NOW</a>
                                         </div>
                                     </div>
                                 </div>

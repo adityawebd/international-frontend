@@ -14,6 +14,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (req.method === 'GET') {
     try {
       // Fetch data from MongoDB using Mongoose model
+      if (req.query?.ids) {
+        const idsArray = req.query.ids.split(',');
+        res.json(await Product.find({ _id: { $in: idsArray } }));
+      } else if (req.query?.id) {
+        res.json(await Product.findOne({ _id: req.query.id }));
+      } else {
+        res.json(await Product.find());
+      }
       
       const query = {_id: condition };
       const data = await Product.find(query); // Assuming Product is your Mongoose model

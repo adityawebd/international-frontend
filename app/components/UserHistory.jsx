@@ -49,7 +49,7 @@ const UserHistory = () => {
               <tbody>
               {orders.length > 0 && orders.map(order => (
               <tr key={order._id} className="border border-gray-300">
-                <td className="border border-gray-300 px-4 py-2">{(new Date(order.createdAt)).toLocaleString()}</td>
+                <td className="border border-gray-300 px-4 py-2">{(new Date(order.updatedAt)).toLocaleString()}</td>
                 <td>
                 {order.cart?.map((item,index)=>(
                    <img height="100px" width="100px" className='rounded-full' src={item.images[0] || item.images} alt='images'/>
