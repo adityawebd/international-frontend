@@ -8,7 +8,7 @@ mongooseConnect();
 
 console.log("Connecting to MongoDB")
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+export default async function handler(req, res) {
 
     const {condition}=req.query;
   if (req.method === 'GET') {
