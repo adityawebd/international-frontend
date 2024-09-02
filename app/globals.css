@@ -1480,6 +1480,7 @@ font-weight: 700 !important;
 .product_timer_body figure {
   /* border: 1px solid red; */
   width: 40%;
+  height: 260px;
   margin-right: 20px;
   overflow: hidden;
 }

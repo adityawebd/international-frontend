@@ -63,7 +63,7 @@ const ProductTimer = () => {
                             </div>
                             <div className="product_timer_body mt-4">
                                 <div className="scrollable_card">
-                                    <figure>
+                                    <figure className="col-md-6">
                                         <img src={product.images[0]} alt={product.name} height={100} width={100} />
                                     </figure>
                                     <div className="product_timer_content">
@@ -86,11 +86,11 @@ const ProductTimer = () => {
                                             <span>{currency === 'INR' ? '₹' : '$'} {convertedActualPrice.toFixed(2)}</span>
                                         </div>
 
-                                        <p data-aos="fade-up" data-aos-duration="430" className='desc text-sm'>{product.description}.</p>
+                                        <p data-aos="fade-up" data-aos-duration="430" className='desc text-sm'>{product.description} </p>
                                         {/* <div data-aos="fade-up" data-aos-duration="440" className="booking"> <span className='font-semibold light_black_font'>Total Booking: </span> 25 </div> */}
                                         <div data-aos="fade-up" data-aos-duration="450" className="btns py-2">
                                             {/* <a href="">REMIND ME</a> */}
-                                            <a href={`/product${product._id}`}>BUY NOW</a>
+                                            <a href={`/product/${product._id}`}>BUY NOW</a>
                                         </div>
                                     </div>
                                 </div>

@@ -273,9 +273,11 @@ import "rc-slider/assets/index.css";
 
 const Filter = ({
   categories,
+  categori,
   oncategoryChange,
   onsubcategoryChange,
   onFilterChange,
+  onFilterChanges,
   onPriceChange,
   onSortChange,
 }) => {

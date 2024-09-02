@@ -4,7 +4,7 @@ import AllCollectionCard  from './AllCollectionCard'
 const AllCollection = () => {
     return (
         <div>
-            <div className="all_collection py-5">
+            <div className="all_collection py-5" id="all_collection">
                 <h2 data-aos="fade-up" data-aos-duration="600" className='mb-4 font-semibold text-4xl text-center light_black_font'>Shop All Collection</h2>
 
                 <div className="container">
@@ -17,7 +17,7 @@ const AllCollection = () => {
                                 discount="30"
                                 img_src="/assets/image/cat-1-1-removebg-preview.png"
                                 img_title=""
-                                order_link="/products"
+                                order_link="#best_seller"
                             />
                         </div>
                         <div className="col-md-6" data-aos="fade-up" data-aos-duration="1000">
@@ -28,7 +28,7 @@ const AllCollection = () => {
                                 discount="30"
                                 img_src="/assets/image/cat-1-2-removebg-preview.png"
                                 img_title=""
-                                order_link="/products"
+                                order_link="#new_arrival"
                             />
                         </div>
                     </div>

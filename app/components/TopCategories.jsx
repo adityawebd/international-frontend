@@ -21,10 +21,10 @@ const TopCategories = () => {
                             <div className="col-md-3 col-sm">
                                 <nav className="flex flex-col space-y-2" aria-label="Tabs" role="tablist">
                                     {[
-                                        { id: '1', category: 'Religious Idol', products: '440 Products', img: 'cat_1.png', hoverImg: 'cat_1_1.png' },
-                                        { id: '2', category: 'Decorative Item', products: '440 Products', img: 'cat_2.png', hoverImg: 'cat_2_1.png' },
-                                        { id: '3', category: 'Dry Fruit Bowl', products: '440 Products', img: 'cat_3.png', hoverImg: 'cat_3_1.png' },
-                                        { id: '4', category: 'Car Idol', products: '440 Products', img: 'cat_4.png', hoverImg: 'cat_4_1.png' }
+                                        { id: '1', category: 'Religious Idol', products: '440 Products', img: 'religious_idol.png', hoverImg: 'religious_idol_hover.png' },
+                                        { id: '2', category: 'Decorative Item', products: '440 Products', img: 'decorative_item.png', hoverImg: 'decorative_item_hover.png' },
+                                        { id: '3', category: 'Gift Items', products: '440 Products', img: 'cat_3.png', hoverImg: 'cat_3_1.png' },
+                                        { id: '4', category: 'Car Idol', products: '440 Products', img: 'car_idol.png', hoverImg: 'car_idol_hover.png' }
                                     ].map(({ id, category, products, img, hoverImg }) => (
                                         <button
                                             key={id}
@@ -42,7 +42,7 @@ const TopCategories = () => {
                                             </figure>
                                             <div className="tab_btn_text">
                                                 <div className="category">{category}</div>
-                                                <div className="no_of_products">{products}</div>
+                                                {/* <div className="no_of_products">{category.length}</div> */}
                                             </div>
                                         </button>
                                     ))}
@@ -50,10 +50,10 @@ const TopCategories = () => {
                             </div>
                             <div className="col-md-9 col-sm">
                                 {[
-                                    { id: '1', img_src: '/assets/images/cat-banner/cat-11.jpg', btn_link: '/products' },
-                                    { id: '2', img_src: '/assets/images/cat-banner/cat-22.jpg', btn_link: '/products' },
-                                    { id: '3', img_src: '/assets/images/cat-banner/cat-33.jpg', btn_link: '/products' },
-                                    { id: '4', img_src: '/assets/images/cat-banner/cat-11.jpg', btn_link: '/products' }
+                                    { id: '1', img_src: '/assets/images/cat-banner/cat-11.jpg', btn_link: '#monthly_best_sell' },
+                                    { id: '2', img_src: '/assets/images/cat-banner/gift_bg.jpg', btn_link: '#all_collection' },
+                                    { id: '3', img_src: '/assets/images/cat-banner/cat-22.jpg', btn_link: '#new_arrival' },
+                                    { id: '4', img_src: '/assets/images/cat-banner/car_idol_bg.jpg', btn_link: '#best_seller' }
                                 ].map(({ id, img_src, btn_link }) => (
                                     <div
                                         key={id}

@@ -37,7 +37,7 @@ const MonthlyBestSell = ({ price, ...props }) => {
     
     return (
         <div>
-            <div className="monthly_best_sell">
+            <div className="monthly_best_sell" id="monthly_best_sell">
                 <div className="container py-5">
                     <h2 data-aos="fade-down" data-aos-duration="1000" className='mb-4 font-semibold text-2xl'><span>Monthly</span> Best Sell</h2>
 
