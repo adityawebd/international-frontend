@@ -19,6 +19,7 @@ import ExploreFeeds from "./components/ExploreFeeds";
 import NewCom from "./components/NewCom";
 import Footer from "./components/Footer";
 import BackToTopButton from "./components/BackToTopButton";
+import WhatsappButton from "./components/WhatsappButton";
 
 export default function Home() {
   return (
@@ -38,7 +39,8 @@ export default function Home() {
         {/* <Testimonials /> */}
         {/* <ExploreFeeds /> */}
         <Footer />
-    <BackToTopButton />
+        <BackToTopButton />
+        <WhatsappButton />
       </CurrencyProvider>
     </main>
   );

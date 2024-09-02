@@ -34,7 +34,7 @@ const BackToTopButton = () => {
       {showButton && (
         <button
           onClick={scrollToTop}
-          className="back_top_top_button z-100 fixed bottom-8 right-8 p-2 rounded-full shadow-lg hover:bg_green transition duration-300"
+          className="back_top_top_button z-100 fixed bottom-24 right-8 p-2 rounded-full shadow-lg hover:bg_green transition duration-300"
           style={{
             width: '50px',
             height: '50px',

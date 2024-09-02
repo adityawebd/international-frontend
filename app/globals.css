@@ -81,6 +81,10 @@ font-size: 16px !important;
 font-weight: 700 !important;
 }
 
+
+.whatsapp_button {
+  z-index: 9999 !important;
+}
 /* --------- navbar styling starts ------------- */
 .navbar_header {
   display: flex;
