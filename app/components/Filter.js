@@ -317,9 +317,15 @@ const Filter = ({
     }));
   };
 
-  const handleCheckboxChange = (property, value) => {
-    console.log("filter data sending", property, value);
+  const handleCheckboxChange = (property, value,checked) => {
+    if(checked)
+    {
+    console.log("filter data sending", property, value,checked);
     onFilterChange(property, value);
+    }
+    else{
+      onFilterChange(property, null);
+    }
   };
 
   const handlePriceChange = (value) => {
@@ -345,7 +351,15 @@ const Filter = ({
     setFilters({});
     setPriceRange([0, 5000]);
     setSortOption("");
-    onFilterChange({}); // Clear filters for parent component
+    
+    document.querySelectorAll('.filter-container input[type="checkbox"]').forEach((checkbox) => {
+      checkbox.checked = false;
+    }); 
+    categories.forEach((category) => {
+      category?.property?.forEach((property) => {
+        onFilterChange(property.name, null); // Clear filters for each property in the parent component
+      });
+    });// Clear filters for parent component
     onPriceChange([0, 5000]); // Reset price filter in parent component
     onSortChange(""); // Reset sort option in parent component
   };
@@ -470,10 +484,7 @@ const Filter = ({
                                   value={value} // Use the value from the values array
                                   className="mt-1"
                                   onChange={(e) =>
-                                    handleCheckboxChange(
-                                      property.name,
-                                      e.target.value
-                                    )
+                                    handleCheckboxChange(property.name,e.target.value,e.target.checked)
                                   }
                                 />
                                 {value}
