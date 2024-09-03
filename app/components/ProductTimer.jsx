@@ -86,7 +86,7 @@ const ProductTimer = () => {
                                             <span>{currency === 'INR' ? '₹' : '$'} {convertedActualPrice.toFixed(2)}</span>
                                         </div>
 
-                                        <p data-aos="fade-up" data-aos-duration="430" className='desc text-sm'>{product.description} </p>
+                                        {/* <p data-aos="fade-up" data-aos-duration="430" className='desc text-sm'>{product.description} </p> */}
                                         {/* <div data-aos="fade-up" data-aos-duration="440" className="booking"> <span className='font-semibold light_black_font'>Total Booking: </span> 25 </div> */}
                                         <div data-aos="fade-up" data-aos-duration="450" className="btns py-2">
                                             {/* <a href="">REMIND ME</a> */}
