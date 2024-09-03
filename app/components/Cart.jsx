@@ -14,21 +14,21 @@ const Cart = () => {
     const cart = useFromStore(useCartStore, (state) => state.cart);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const [orderData ,setOrderData] = useState([]);
+    const [orderData, setOrderData] = useState([]);
 
 
     let total = 0;
     if (cart) {
-        total = cart.reduce((acc, product) => acc + product.price * (product.quantity || 0), 0);
+        total = cart.reduce((acc, product) => acc + product.discountedPrice * (product.quantity || 0), 0);
     }
 
-    const [formData, setFormData] = useState({
-        amount: '',
-        purpose: 'testing',
-        buyer_name: '',
-        email: '',
-        phone: ''
-    });
+    // const [formData, setFormData] = useState({
+    //     amount: '',
+    //     purpose: 'testing',
+    //     buyer_name: '',
+    //     email: '',
+    //     phone: ''
+    // });
     const [paymentStatus, setPaymentStatus] = useState(null);
     const router = useRouter();
 
@@ -39,30 +39,73 @@ const Cart = () => {
 
     // console.log("cart is",cart)
 
+    // useEffect(() => {
+    //     const totalAmount = cart ? cart.reduce((acc, product) => acc + product.price * (product.quantity || 0), 0) : 0;
+    //     if (session) {
+    //         setFormData({
+    //             ...formData,
+    //             amount: totalAmount.toString(),
+    //             buyer_name: session.user?.name || '',
+    //             email: session.user?.email || '',
+    //             phone: session.user?.number || '',
+    //             cart:cart || '',
+    //             // quentity: cart[0]?.quantity || '',
+    //             // title: cart[0]?.title || '',
+    //             // sku: cart[0]?.sku || '',
+    //             Weight: cart[0]?.property?.Weight || '',
+    //             // images: cart[0]?.images[0] || '',
+    //             address: session.user?.address || '',
+    //             city: session.user.city || '',
+    //             postalCode: session.user.postalCode || '',
+    //             country: session.user.country || '',
+    //             region: session.user.region || '',
+
+    //         });
+    //     }
+    // }, [cart, session]);
+
+
+    const [formData, setFormData] = useState({
+        
+        buyer_name: '',
+        email: '',
+        phone: '',
+        cart: [],
+        Weight: '',
+        address: '',
+        city: '',
+        postalCode: '',
+        country: '',
+        region: '',
+    });
+
     useEffect(() => {
-        const totalAmount = cart ? cart.reduce((acc, product) => acc + product.price * (product.quantity || 0), 0) : 0;
+        const totalAmount = cart ? cart.reduce((acc, product) => acc + product.discountedPrice * (product.quantity || 0), 0) : 0;
         if (session) {
-            setFormData({
-                ...formData,
-                amount: totalAmount.toString(),
-                buyer_name: session.user?.name || '',
-                email: session.user?.email || '',
-                phone: session.user?.number || '',
-                cart:cart || '',
-                // quentity: cart[0]?.quantity || '',
-                // title: cart[0]?.title || '',
-                // sku: cart[0]?.sku || '',
-                Weight: cart[0]?.property?.Weight || '',
-                // images: cart[0]?.images[0] || '',
-                address: session.user?.address || '',
-                city: session.user.city || '',
-                postalCode: session.user.postalCode || '',
-                country: session.user.country || '',
-                region: session.user.region || '',
-                
-            });
+            setFormData(prevFormData => ({
+                ...prevFormData,
+                amount:  totalAmount.toString(),
+                buyer_name: prevFormData.buyer_name || session.user?.name || '',
+                email: prevFormData.email || session.user?.email || '',
+                phone: prevFormData.phone || session.user?.number || '',
+                cart: cart || prevFormData.cart,
+                Weight: prevFormData.Weight || cart[0]?.property?.Weight || '',
+                address: prevFormData.address || session.user?.address || '',
+                city: prevFormData.city || session.user?.city || '',
+                postalCode: prevFormData.postalCode || session.user?.postalCode || '',
+                country: prevFormData.country || session.user?.country || '',
+                region: prevFormData.region || session.user?.region || '',
+            }));
         }
     }, [cart, session]);
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value
+        });
+    };
 
     // console.log("data in cart",cart)
 
@@ -140,14 +183,14 @@ const Cart = () => {
                                     </thead>
                                     <tbody>
                                         {/* {orderData.map((order, index) => ( */}
-                                            <tr>
-                                                <td className="px-2 md:px-6 py-2 md:py-4 border-b text-xs md:text-sm text-gray-700">{orderData.order_id}</td>
-                                                <td className="px-2 md:px-6 py-2 md:py-4 border-b text-xs md:text-sm text-gray-700">{orderData.channel_order_id}</td>
-                                                <td className="px-2 md:px-6 py-2 md:py-4 border-b text-xs md:text-sm text-gray-700">{orderData.shipment_id}</td>
-                                                <td className="px-2 md:px-6 py-2 md:py-4 border-b text-xs md:text-sm text-gray-700">{orderData.courier_name || 'N/A'}</td>
-                                                <td className="px-2 md:px-6 py-2 md:py-4 border-b text-xs md:text-sm text-gray-700">{orderData.status}</td>
-                                                <td className="px-2 md:px-6 py-2 md:py-4 border-b text-xs md:text-sm text-gray-700">{orderData.status_code || 'N/A'}</td>
-                                            </tr>
+                                        <tr>
+                                            <td className="px-2 md:px-6 py-2 md:py-4 border-b text-xs md:text-sm text-gray-700">{orderData.order_id}</td>
+                                            <td className="px-2 md:px-6 py-2 md:py-4 border-b text-xs md:text-sm text-gray-700">{orderData.channel_order_id}</td>
+                                            <td className="px-2 md:px-6 py-2 md:py-4 border-b text-xs md:text-sm text-gray-700">{orderData.shipment_id}</td>
+                                            <td className="px-2 md:px-6 py-2 md:py-4 border-b text-xs md:text-sm text-gray-700">{orderData.courier_name || 'N/A'}</td>
+                                            <td className="px-2 md:px-6 py-2 md:py-4 border-b text-xs md:text-sm text-gray-700">{orderData.status}</td>
+                                            <td className="px-2 md:px-6 py-2 md:py-4 border-b text-xs md:text-sm text-gray-700">{orderData.status_code || 'N/A'}</td>
+                                        </tr>
                                         {/* ))} */}
                                     </tbody>
                                 </table>
@@ -222,7 +265,7 @@ const Cart = () => {
 
                                 <small className='light_black_font'>Enter your destination to get a shipping  estimate</small>
 
-                                <form>
+                                {/* <form>
                                     <div>
                                         <label htmlFor="country" className='text-sm font-semibold mt-4'>Country<span className='asterik'>*</span></label>
                                         <select name="ec_cart_country" id="ec-cart-select-country" className="ec-cart-select" defaultValue={session?.user.country}>
@@ -262,6 +305,111 @@ const Cart = () => {
                                                     placeholder="eg. GIFT100"
                                                 />
                                                 <button type="button" className='bg-green-700 text-white p-2 rounded-lg'>Apply</button>
+                                            </>
+                                        )}
+                                    </div>
+
+                                    <div className='total_amount py-3 mt-5'>
+                                        <div className='text-sm font-semibold'>Total Amount</div>
+                                        <div className="font-semibold">₹{total}</div>
+                                    </div>
+                                </form> */}
+
+                                <form>
+                                    <div>
+                                        <label htmlFor="country" className='text-sm font-semibold mt-4'>
+                                            Country<span className='asterik'>*</span>
+                                        </label>
+                                        <input 
+                                        required
+                                            type="text"
+                                            name="country"
+                                            placeholder="country"
+                                            value={formData.country}
+                                            onChange={handleInputChange}
+                                        />
+                                        {/* <select
+                                            name="country"
+                                            id="ec-cart-select-country"
+                                            className="ec-cart-select"
+                                            value={formData.country}
+                                            onChange={handleInputChange}
+                                        >
+                                            <option value="">Select a country</option>
+                                            <option value={session?.user.country}>INDIA</option>
+                                        </select> */}
+                                    </div>
+                                    <div>
+                                        <label htmlFor="region" className='text-sm font-semibold mt-4'>
+                                            State/Province<span className='asterik'>*</span>
+                                        </label>
+                                        <input
+                                        required
+                                            type="text"
+                                            name="region"
+                                            placeholder="region"
+                                            value={formData.region}
+                                            onChange={handleInputChange}
+                                        />
+                                        {/* <select
+                                            name="region"
+                                            id="ec-cart-select-state"
+                                            className="ec-cart-select"
+                                            value={formData.region}
+                                            onChange={handleInputChange}
+                                        >
+                                            <option value={session?.user.region}>{session?.user.region}</option>
+                                        </select> */}
+                                    </div>
+                                    <div>
+                                        <label htmlFor="postalCode" className='text-sm font-semibold mt-4'>
+                                            Address Line<span className='asterik'>*</span>
+                                        </label>
+                                        <input
+                                        required
+                                            type="text"
+                                            name="address"
+                                            placeholder="address"
+                                            value={formData.address}
+                                            onChange={handleInputChange}
+                                        />
+                                    </div>
+                                    <div>
+                                        <label htmlFor="postalCode" className='text-sm font-semibold mt-4'>
+                                            Zip/Postal Code<span className='asterik'>*</span>
+                                        </label>
+                                        <input
+                                        required
+                                            type="text"
+                                            name="postalCode"
+                                            placeholder="Zip/Postal Code"
+                                            value={formData.postalCode}
+                                            onChange={handleInputChange}
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <div className="flex justify-between align-middle">
+                                            <label htmlFor="coupon" className='text-sm font-semibold mt-4'>
+                                                Have a Coupon Code?
+                                            </label>
+                                            <input
+                                                type="checkbox"
+                                                id="coupon-checkbox"
+                                                onChange={handleCouponCheckboxChange}
+                                                checked={showCouponInput}
+                                            />
+                                        </div>
+                                        {showCouponInput && (
+                                            <>
+                                                <input
+                                                    type="text"
+                                                    id="coupon"
+                                                    placeholder="eg. GIFT100"
+                                                />
+                                                <button type="button" className='bg-green-700 text-white p-2 rounded-lg'>
+                                                    Apply
+                                                </button>
                                             </>
                                         )}
                                     </div>
