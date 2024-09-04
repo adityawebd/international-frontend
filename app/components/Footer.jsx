@@ -7,7 +7,7 @@ const Footer = () => {
         <div>
             <footer>
                 <div className="limited_edition text-center text-md text-white py-3">
-                    Win a contest! Get this limited-edition <a className='underline' href="/products">View Detail</a>
+                    Discover the World of Unique Gifts!
                 </div>
                 <div className="container py-5">
                     <div className="row pb-5">
@@ -23,7 +23,6 @@ const Footer = () => {
                             <h3 className='text-lg font-bold tracking-widest light_black_font border-b-2 pb-2'>Information</h3>
                             <ul>
                                 <li className='text-sm light_black_font mt-2'><a href="/about-us">About us</a></li>
-                                <li className='text-sm light_black_font mt-2'><a href="/products">All Products</a></li>
                                 <li className='text-sm light_black_font mt-2'><a href="/cart">Cart</a></li>
                                 <li className='text-sm light_black_font mt-2'><a href="/contact-us">Contact us</a></li>
                             </ul>

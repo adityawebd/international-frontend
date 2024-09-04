@@ -249,7 +249,7 @@ const Cart = () => {
                                 <div className="row">
                                     <div className="col-lg-12">
                                         <div className="cart_btns flex justify-between max-sm:flex-col text-center">
-                                            <a className='mb-2' href="/products">Continue Shopping</a>
+                                            <a className='mb-2' href="/">Continue Shopping</a>
                                             <button type="button" className="mb-2" onClick={handleCheckout}>Check Out</button>
                                             <button type="button" className="mb-2" onClick={handleCheckoutCOD}>Cash on Delivery</button>
                                         </div>

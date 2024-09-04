@@ -112,7 +112,7 @@ const Filter = ({
                         // id={propertyIndex}
                         href={`#${propertyIndex}`}
                         key={propertyIndex}
-                        className=" inline mr-3 text-white bg_green rounded px-4 py-2"
+                        className=" inline mr-3 rounded reset_button"
                         onClick={onFilterButtonClick}
                       >
                         {property?.name}

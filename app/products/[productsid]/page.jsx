@@ -302,10 +302,10 @@ const ProductContent = ({urldata}) => {
   return (
     <div className='container'>
       <div className="row">
-        <div className="col-md-2 py-4 overflow-hidden overflow-x-auto">
+        <div className="col-md-2 overflow-hidden overflow-x-auto">
           <div className='horizontal_filter flex items-center'>
             <button 
-              className="reset_button d-md-none flex items-center gap-2 rounded" 
+              className="reset_button d-md-none flex items-center gap-2 rounded my-4" 
               onClick={toggleFilter}>
               {/* {showFilter ? "Hide Filter" : "Show Filter"} */}
               <FaFilter />Filter
