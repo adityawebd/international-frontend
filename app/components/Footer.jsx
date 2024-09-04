@@ -23,7 +23,6 @@ const Footer = () => {
                             <h3 className='text-lg font-bold tracking-widest light_black_font border-b-2 pb-2'>Information</h3>
                             <ul>
                                 <li className='text-sm light_black_font mt-2'><a href="/about-us">About us</a></li>
-                                <li className='text-sm light_black_font mt-2'><a href="/products">All Products</a></li>
                                 <li className='text-sm light_black_font mt-2'><a href="/cart">Cart</a></li>
                                 <li className='text-sm light_black_font mt-2'><a href="/contact-us">Contact us</a></li>
                             </ul>
