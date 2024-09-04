@@ -155,21 +155,34 @@ const ProductContent = () => {
     setFilteredProducts(filtered);
   };
 
+  const [showFilter, setShowFilter] = useState(false);
+
+  const toggleFilter = () => {
+    setShowFilter(!showFilter);
+  };
+
   return (
     <>
     <div className='container'>
       <div className="row">
         <div className="col-md-2 py-4">
-          <Filter
-            categories={categories}
-            categori={categori}
-            oncategoryChange={handlecategoryChange}
-            onsubcategoryChange={handlesubcategoryChange}
-            onFilterChange={handleFilterChange}
-            onFilterChanges={handleFilterChanges}
-            onPriceChange={handlePriceChange}
-            onSortChange={handleSortChange}
-          />
+          <button 
+            className="btn btn-primary" 
+            onClick={toggleFilter}>
+            {showFilter ? "Hide Filter" : "Show Filter"}
+          </button>
+          <div className={`filter-page-container ${showFilter ? 'd-block' : 'd-none'} d-md-block`}>
+            <Filter
+              categories={categories}
+              categori={categori}
+              oncategoryChange={handlecategoryChange}
+              onsubcategoryChange={handlesubcategoryChange}
+              onFilterChange={handleFilterChange}
+              onFilterChanges={handleFilterChanges}
+              onPriceChange={handlePriceChange}
+              onSortChange={handleSortChange}
+            />
+          </div>
         </div>
         <div className="col-md-10">
           <div className="container py-4">

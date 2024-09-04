@@ -1057,6 +1057,7 @@ font-weight: 700 !important;
   .products_card .card_content .price span {
     font-size: 13px;
   }
+  
 }
 
 @media (min-width: 426px) and (max-width: 768px) {
@@ -3362,6 +3363,78 @@ footer .limited_edition {
   text-decoration: line-through;
 }
 
+@media(max-width:425px) {
+  .all_products_container .products_card {
+    border: 1px solid var(--e-gray);
+    margin: 0 10px 10px 0;
+    border-radius: 16px;
+    padding: 10px;
+    background-color: var(--white-clr);
+    height: 100%;
+    width: 100%;
+
+    overflow: hidden;
+    transition: transform 1.6s ease;
+    display: flex;
+  }
+  .all_products_container .products_card a {
+    /* border: 1px solid red; */
+    /* display: flex; */
+    width: 100%;
+    display: flex;
+  }
+
+  .all_products_container figure {
+    /* border: 1px solid red; */
+    border: 1px solid var(--e-gray);
+    height: 100%;
+    width: 30%;
+    overflow: hidden;
+    /* transition: scale 1s all; */
+    border-radius: 20px;
+  }
+
+  .all_products_container figure img {
+    height: 100%;
+    width: 100%;
+    transition: transform 1.6s ease;
+  }
+
+  .all_products_container figure img:hover {
+    transform: scale(1.1);
+  }
+
+  .all_products_container .card_content {
+    /* border: 1px solid red; */
+    width: 70%;
+    border-radius: 10px;
+    padding: 10px 0 0 10px;
+  }
+
+  .all_products_container .card_content .title {
+    /* border: 1px solid red; */
+    font-weight: 600;
+    font-size: 18px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 6px;
+  }
+
+  .all_products_container .price {
+    font-size: 16px;
+    color: var(--green-clr);
+    font-weight: 600;
+  }
+
+  .all_products_container .price span {
+    font-size: 15px;
+    color: var(--primary-clr);
+    font-weight: 400;
+    text-decoration: line-through;
+  }
+}
+
 /* -------------filter-component---------- */
 .no-arrow {
   -webkit-appearance: none; /* Remove default arrow in Safari */
@@ -3469,6 +3542,43 @@ footer .limited_edition {
 
   
 /* ************************************************** */
+
+.filter-page-container {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 80%;
+  height: 100%;
+  background-color: white;
+  z-index: 1000;
+  transition: right 0.3s ease-in-out;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+  overflow-y: auto; 
+}
+.filter-page-container.show {
+  right: 0;
+}
+.horizontal_filter {
+  /* border: 1px solid green; */
+  /* width: 2000px; */
+  display: inline-flex; 
+  white-space: nowrap;
+  overflow-x: auto;
+}
+.hori_filter_container {
+  /* border: 1px solid red; */
+  width: 100% !important;
+  overflow-x: auto !important;
+}
+@media (min-width: 768px) {
+  .filter-page-container {
+    position: static;
+    right: 0;
+    width: 100%;
+    height: auto;
+    box-shadow: none;
+  }
+}
 
 .filter_div .price_div .price_inputs {
   /* border: 1px solid red; */

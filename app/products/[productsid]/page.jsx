@@ -1,5 +1,5 @@
 'use client'
-import { Suspense, useEffect, useState, useContext } from 'react';
+import { Suspense, useEffect, useState, useContext, useRef } from 'react';
 import { CurrencyContext } from '../../CurrencyContext';
 import { fetchCategoriesAndProducts } from '../../services/subcategoryService'; 
 import Navbar from '../../components/Navbar';
@@ -7,8 +7,11 @@ import Footer from '../../components/Footer';
 import NewArrival from '../../components/NewArrival';
 import Breadcrumbs from '../../components/Breadcrumbs';
 import Filter from '../../components/Filter';
+import FilterHorizontal from '../../components/FilterHorizontal';
 import BackToTopButton from '../../components/BackToTopButton';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { FaFilter } from "react-icons/fa6";
+
 
 const convertPrice = (price, currency, exchangeRates) => {
   const rate = exchangeRates[currency];
@@ -203,21 +206,64 @@ const ProductContent = ({urldata}) => {
 //   setFilteredProducts(filtered);
 // };
 
+  const [showFilter, setShowFilter] = useState(false);
+  const filterRef = useRef(null);
+
+  const toggleFilter = () => {
+    setShowFilter(!showFilter);
+  };
+  const handleClickOutside = (event) => {
+    if (filterRef.current && !filterRef.current.contains(event.target)) {
+      setShowFilter(false);
+    }
+  };
+  useEffect(() => {
+    if (showFilter) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showFilter]);
+
+  const handleFilterClose = () => {
+    setShowFilter(true); // Close the filter component
+  };
 
   return (
     <div className='container'>
       <div className="row">
-        <div className="col-md-2 py-4">
-          <Filter
-            categories={categories}
-            categori={categori}
-            oncategoryChange={handlecategoryChange}
-            onsubcategoryChange={handlesubcategoryChange}
-            onFilterChange={handleFilterChange}
-            onFilterChanges={handleFilterChanges}
-            onPriceChange={handlePriceChange}
-            onSortChange={handleSortChange}
-          />
+        <div className="col-md-2 py-4 overflow-hidden overflow-x-auto">
+          <div className='horizontal_filter flex items-center'>
+            <button 
+              className="reset_button d-md-none flex items-center gap-2 rounded" 
+              onClick={toggleFilter}>
+              {/* {showFilter ? "Hide Filter" : "Show Filter"} */}
+              <FaFilter />Filter
+            </button>
+            <FilterHorizontal
+                categories={categories}
+                categori={categori}
+                onFilterButtonClick={handleFilterClose}
+                onClick={toggleFilter}
+            />
+          </div>
+          <div ref={filterRef} className={`filter-page-container ${showFilter ? 'show' : ''} d-md-block`}>
+            <Filter
+              categories={categories}
+              categori={categori}
+              oncategoryChange={handlecategoryChange}
+              onsubcategoryChange={handlesubcategoryChange}
+              onFilterChange={handleFilterChange}
+              onFilterChanges={handleFilterChanges}
+              onPriceChange={handlePriceChange}
+              onSortChange={handleSortChange}
+              onClose={toggleFilter} // Pass the close handler
+            />
+          </div>
         </div>
         <div className="col-md-10">
           <div className="container py-4">
