@@ -792,8 +792,10 @@ const Page = ({ params }) => {
                       </div>
 
                       <div className="mt-5">
-                        {/* Write a review section  */}
-                        {hasPurchasedCourse ? (
+
+                        {session ? (<>
+                        
+                          {hasPurchasedCourse ? (
                           <div className="mt-5">
                             <div className="section-title">
                               <h4 className="text-lg text-blackClr font-bold">
@@ -860,6 +862,16 @@ const Page = ({ params }) => {
                             </p>
                           </div>
                         )}
+                        
+                        </>):(<><p> Login first To Write Review</p>
+                        <a className="cart_btns mt-4" href="/login">
+                        <button>Login</button>
+                        
+                        </a>
+                        </>)}
+
+                        
+                       
                       </div>
                     </div>
                   </div>
