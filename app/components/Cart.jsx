@@ -16,6 +16,9 @@ const Cart = () => {
 
     const [orderData, setOrderData] = useState([]);
 
+    const [message, setMessage] = useState("");
+    const [messageURL, setMessageURL] = useState("");
+
 
     let total = 0;
     if (cart) {
@@ -63,7 +66,23 @@ const Cart = () => {
     //         });
     //     }
     // }, [cart, session]);
+    const [storedMessage, setStoredMessage] = useState(null);
+  const [storedImageUrl, setStoredImageUrl] = useState(null);
 
+
+    useEffect(() => {
+    // Check if we're in the browser (client-side)
+    if (typeof window !== 'undefined') {
+      const message = sessionStorage.getItem('message');
+      const imageUrl = sessionStorage.getItem('imageUrl');
+
+      setStoredMessage(message);
+      setStoredImageUrl(imageUrl);
+    }
+  }, []);
+
+
+console.log('session data is ',storedMessage,storedImageUrl)
 
     const [formData, setFormData] = useState({
         
@@ -77,6 +96,8 @@ const Cart = () => {
         postalCode: '',
         country: '',
         region: '',
+        storedMessage:'',
+        storedImageUrl:'',
     });
 
     useEffect(() => {
@@ -95,6 +116,8 @@ const Cart = () => {
                 postalCode: prevFormData.postalCode || session.user?.postalCode || '',
                 country: prevFormData.country || session.user?.country || '',
                 region: prevFormData.region || session.user?.region || '',
+                storedMessage:storedMessage || '',
+                storedImageUrl:storedImageUrl || '',
             }));
         }
     }, [cart, session]);

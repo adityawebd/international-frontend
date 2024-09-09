@@ -17,6 +17,8 @@ const OrderSchema = new Schema({
   status:String,
   quentity:String,
   cart:Object,
+  storedMessage:String,
+  storedImageUrl:String,
 }, {
   timestamps: true,
 });
