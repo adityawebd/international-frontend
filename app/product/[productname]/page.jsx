@@ -604,6 +604,8 @@ const Page = ({ params }) => {
                             height={100}
                             width={100}
                           />
+                          <p className="font-semibold"> name : {data.title}</p>
+                          <p className="font-semibold"> Price : ₹{data.discountedPrice}</p>
                         </div>
                       </a>
                     </SwiperSlide>
