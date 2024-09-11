@@ -132,7 +132,7 @@ export default async function handler(req, res) {
         // const query = {email: email };
         const line_items=title
         const data = await Order.create({
-          line_items,buyer_name,email,city,postalCode,buyer_name,images,order_id,channel_order_id,shipment_id,status,quentity,cart,storedMessage,
+          line_items,buyer_name,email,phone,city,postalCode,buyer_name,images,order_id,channel_order_id,shipment_id,status,quentity,cart,storedMessage,
           storedImageUrl,
           address,country,paid:false,})
         res.status(200).json(data)
