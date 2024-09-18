@@ -67,22 +67,28 @@ const Cart = () => {
     //     }
     // }, [cart, session]);
     const [storedMessage, setStoredMessage] = useState(null);
-  const [storedImageUrl, setStoredImageUrl] = useState(null);
+    const [storedusername, setStoredusername] = useState(null);
+    const [storednumber, setStorednumber] = useState(null);
+    const [storedImageUrl, setStoredImageUrl] = useState([]);
 
 
     useEffect(() => {
     // Check if we're in the browser (client-side)
     if (typeof window !== 'undefined') {
       const message = sessionStorage.getItem('message');
-      const imageUrl = sessionStorage.getItem('imageUrl');
+      const username = sessionStorage.getItem('username');
+      const number = sessionStorage.getItem('number');
+      const imageUrl = sessionStorage.getItem('imageUrls');
 
       setStoredMessage(message);
+      setStoredusername(username);
+      setStorednumber(number);
       setStoredImageUrl(imageUrl);
     }
   }, []);
 
 
-console.log('session data is ',storedMessage,storedImageUrl)
+console.log('session data is ',storedMessage,storedImageUrl,storednumber,storedusername)
 
     const [formData, setFormData] = useState({
         
@@ -118,6 +124,8 @@ console.log('session data is ',storedMessage,storedImageUrl)
                 region: prevFormData.region || session.user?.region || '',
                 storedMessage:storedMessage || '',
                 storedImageUrl:storedImageUrl || '',
+                storedusername:storedusername || '',
+                storednumber:storednumber || '',
             }));
         }
     }, [cart, session]);

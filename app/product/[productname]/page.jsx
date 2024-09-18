@@ -30,17 +30,33 @@ import StarRating from "../../components/StarRating";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, A11y } from "swiper/modules";
 import "swiper/css";
-
+import useFromStore from "../../../hooks/useFromStore";
 import axios from "axios";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import NewArrival from "../../components/NewArrival";
 import StarRating2 from "../../components/StarRating2";
 import { Check, CheckCircle } from "lucide-react";
 import { Checkbox } from "@material-tailwind/react";
+import { Bounce, ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Page = ({ params }) => {
   const urldata = decodeURIComponent(params.productname);
   // console.log("urldata is",urldata);
+
+  const notify = () => toast.success('Product added to cart', {
+    position: "top-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    transition: Bounce,
+  });
+
+
 
   const [activeTab, setActiveTab] = useState("general_info");
   const [activeProductTab, setActiveProductTab] = useState(0); // State to track active tab
@@ -56,12 +72,18 @@ const Page = ({ params }) => {
   const [reviewData, setReviewData] = useState({ reviews: [] });
   const [showModal, setShowModal] = useState(false);
   const [message, setMessage] = useState("");
-  const [file, setFile] = useState(null);
+  const [username, setusername] = useState("");
+  const [number, setnumber] = useState("");
+  const [files, setFiles] = useState([]);
 
   const [rating, setRating] = useState(0);
   const [reviewText, setReviewText] = useState("");
   const { data: session } = useSession();
   const [usersessions, setUsersessions] = useState([]);
+
+  // Initial quantity
+  const [isDisabled, setIsDisabled] = useState(false); // State to control button disabled status
+
 
   useEffect(() => {
     axios.get(`/api/productDetail?condition=${urldata}`).then((response) => {
@@ -119,6 +141,29 @@ const Page = ({ params }) => {
     };
     fetchData();
   }, [session]);
+
+
+  const cart = useFromStore(useCartStore, (state) => state.cart);
+  console.log("cart data is", cart)
+
+  useEffect(() => {
+    // Ensure cart is defined and is an array
+    if (Array.isArray(cart)) {
+      const existingProduct = cart.find((item) => item._id === productData?._id);
+
+      console.log("cart item", existingProduct);
+      if (existingProduct) {
+        setQuantity(existingProduct.quantity || 1); // Set quantity to the existing one or 1 if not found
+        if (existingProduct.quantity >= maxQuantity) {
+          setIsDisabled(true); // Disable the button if maxQuantity is reached
+        } else {
+          setIsDisabled(false); // Ensure the button is enabled if below maxQuantity
+        }
+      } else {
+        setIsDisabled(false); // Ensure the button is enabled if product is not in cart
+      }
+    }
+  }, [cart, productData]);
 
   console.log("sku data is", skuData);
 
@@ -209,10 +254,21 @@ const Page = ({ params }) => {
   );
   const averageRating = calculateAverageRating(productData.reviews);
 
+
+
   const addToCart1 = (e, item) => {
-    e.preventDefault(); // Prevent default form submission or link behavior
+    e.preventDefault();
+    // Prevent default form submission or link behavior
     addToCart(item);
+    // Prevent default form submission or link behavior
+
+    notify();
+    // Prevent default form submission or link behavior
+
   };
+
+
+
   const addToCart2 = (e, item) => {
     // Prevent default form submission or link behavior
     addToCart(item);
@@ -237,18 +293,28 @@ const Page = ({ params }) => {
     addToCart({ ...item, quantity });
   };
 
-  // const increaseQuantity = () => setQuantity((prev) => prev + 1);
+
+  const maxQuantity = productData?.stockQuantity - 7
   const increaseQuantity = () => {
     setQuantity((prev) => {
       const newQuantity = prev + 1;
+
+      // Check if newQuantity exceeds or hits the limit
+      if (newQuantity >= maxQuantity) {
+        setIsDisabled(true); // Disable button if limit is reached
+      }
+
       // Call addToCartHandler with the updated quantity
       addToCartHandler(new Event("click"), {
         ...productData,
         quantity: newQuantity,
       });
-      return newQuantity;
+
+      return newQuantity <= maxQuantity ? newQuantity : prev; // Prevent going above the limit
     });
   };
+
+
   const decreaseQuantity = () => {
     // if (quantity > 1) setQuantity((prev) => prev - 1);
     setQuantity((prev) => (prev > 1 ? prev - 1 : 1)); // Prevent decrementing below 1
@@ -256,45 +322,107 @@ const Page = ({ params }) => {
 
   var hasPurchasedCourse = true;
 
+  // const handleFileChange = (e) => {
+  //   setFile(e.target.files[0]);
+  // };
+
   const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+    // Convert FileList to Array and check length
+    const selectedFiles = Array.from(e.target.files);
+    
+    if (selectedFiles.length > 5) {
+      alert("You can only select up to 5 files.");
+      return;
+    }
+  
+    setFiles(selectedFiles);
   };
 
   // Handle form submission
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   if (!file) {
+  //     alert("Please select a file to upload");
+  //     return;
+  //   }
+
+  //   const formData = new FormData();
+  //   formData.append("file", file);
+
+  //   try {
+  //     // Make the POST request to upload the file
+  //     const { data } = await axios.post("/api/upload", formData, {
+  //       headers: {
+  //         "Content-Type": "multipart/form-data",
+  //       },
+  //     });
+
+  //     // Log the uploaded file URL
+  //     console.log("Uploaded File URL:", data.link);
+
+  //     if (typeof window !== "undefined") {
+  //       sessionStorage.setItem("message", message);
+  //       sessionStorage.setItem("imageUrl", data.link);
+  //       alert("Data saved in session");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error uploading file:", error);
+  //   } finally {
+  //     // Close the modal
+  //     setShowModal(false);
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!file) {
-      alert("Please select a file to upload");
+    if (!files || files.length === 0) {
+      alert("Please select files to upload");
+      return;
+    }
+
+    if (files.length > 5) {
+      alert("You can only upload a maximum of 5 files");
       return;
     }
 
     const formData = new FormData();
-    formData.append("file", file);
+
+    // Append each file to the FormData object
+    for (let i = 0; i < files.length; i++) {
+      formData.append("files", files[i]);
+    }
 
     try {
-      // Make the POST request to upload the file
+      // Make the POST request to upload the files
       const { data } = await axios.post("/api/upload", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
 
-      // Log the uploaded file URL
-      console.log("Uploaded File URL:", data.link);
+      // Log the uploaded file URLs
+      console.log("Uploaded File URLs:", data.links);
 
       if (typeof window !== "undefined") {
         sessionStorage.setItem("message", message);
-        sessionStorage.setItem("imageUrl", data.link);
-        alert("Data saved in session");
+        sessionStorage.setItem("username", username);
+        sessionStorage.setItem("number", number);
+
+        // Store all image URLs in sessionStorage as a JSON string
+        sessionStorage.setItem("imageUrls", JSON.stringify(data.links));
+
+        alert("Data Uploaded");
       }
     } catch (error) {
-      console.error("Error uploading file:", error);
+      console.error("Error uploading files:", error);
     } finally {
       // Close the modal
       setShowModal(false);
     }
   };
+
 
   const handleRatingChange = (newRating) => {
     console.log("Rating Changed:", newRating);
@@ -378,6 +506,7 @@ const Page = ({ params }) => {
     <div>
       <Navbar />
       <Breadcrumbs page_title="Product Details" />
+      <ToastContainer />
 
       <div className="product mt-3">
         <div className="container">
@@ -480,7 +609,7 @@ const Page = ({ params }) => {
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <span>{quantity}</span>
                   &nbsp;&nbsp;&nbsp;&nbsp;
-                  <button onClick={increaseQuantity}>+</button>
+                  <button onClick={increaseQuantity} disabled={isDisabled} >+</button>
                 </div>
               </td>
 
@@ -496,6 +625,22 @@ const Page = ({ params }) => {
                   </span>{" "}
                   &nbsp; add to cart{" "}
                 </button>
+
+                {/* <button onClick={notify}>Notify!</button> */}
+                {/* <ToastContainer
+                  position="top-right"
+                  autoClose={5000}
+                  hideProgressBar={false}
+                  newestOnTop={false}
+                  closeOnClick
+                  rtl={false}
+                  pauseOnFocusLoss
+                  draggable
+                  pauseOnHover
+                  theme="light"
+                  transition:Bounce/> */}
+
+
               </div>
               {productData.custom ? (
                 <div className="cart_btns mt-4  ">
@@ -517,7 +662,7 @@ const Page = ({ params }) => {
                       </h2>
 
                       {/* Form inside the modal */}
-                      <form onSubmit={handleSubmit}>
+                      {/* <form onSubmit={handleSubmit}>
                         <div className="mb-4">
                           <label className="block text-sm font-medium text-gray-700 mb-2">
                             Message:
@@ -559,7 +704,78 @@ const Page = ({ params }) => {
                             Submit
                           </button>
                         </div>
+                      </form> */}
+                      <form onSubmit={handleSubmit}>
+                      <div className="mb-4">
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Enter The Name Here:
+                          </label>
+                          <input
+                            type="text"
+                            value={username}
+                            onChange={(e) => setusername(e.target.value)}
+                            placeholder="Enter your Name (Under 20 Character)"
+                            className="w-full border border-gray-300 rounded p-2"
+                            required
+                          />
+                        </div>
+                        <div className="mb-4">
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Message:
+                          </label>
+                          <input
+                            type="text"
+                            value={message}
+                            onChange={(e) => setMessage(e.target.value)}
+                            placeholder="Enter your message( Under 80 Character)"
+                            className="w-full border border-gray-300 rounded p-2"
+                            required
+                          />
+                        </div>
+                        <div className="mb-4">
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Enter Your Whats app Number:
+                          </label>
+                          <input
+                            type="text"
+                            value={number}
+                            onChange={(e) => setnumber(e.target.value)}
+                            placeholder=" Whats app Number"
+                            className="w-full border border-gray-300 rounded p-2"
+                            required
+                          />
+                        </div>
+
+                        <div className="mb-4">
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Upload Files:
+                          </label>
+                          <input
+                            type="file"
+                            onChange={handleFileChange}
+                            className="w-full"
+                            multiple // Allow multiple file selection
+                            required
+                          />
+                        </div>
+
+                        <div className="flex justify-end">
+                          <button
+                            type="button"
+                            onClick={() => setShowModal(false)}
+                            className="bg-gray-500 text-white px-4 py-2 mr-2 rounded"
+                          >
+                            Cancel
+                          </button>
+                          <button
+                            type="submit"
+                            className="bg-blue-500 text-white px-4 py-2 rounded"
+                          >
+                            Submit
+                          </button>
+                        </div>
                       </form>
+
                     </div>
                   </div>
                 ) : null}
@@ -622,11 +838,10 @@ const Page = ({ params }) => {
               >
                 <li className="me-2" role="presentation">
                   <button
-                    className={`inline-block mt-2 px-4 py-2 ${
-                      activeTab === "general_info"
-                        ? "green_bg_white_font"
-                        : "hover:text-gray-600 hover:border-gray-300"
-                    }`}
+                    className={`inline-block mt-2 px-4 py-2 ${activeTab === "general_info"
+                      ? "green_bg_white_font"
+                      : "hover:text-gray-600 hover:border-gray-300"
+                      }`}
                     onClick={() => handleTabClick("general_info")}
                   >
                     General Information
@@ -634,11 +849,10 @@ const Page = ({ params }) => {
                 </li>
                 <li className="me-2" role="presentation">
                   <button
-                    className={`inline-block mt-2 px-4 py-2 ${
-                      activeTab === "additional_info"
-                        ? "green_bg_white_font"
-                        : "hover:text-gray-600 hover:border-gray-300"
-                    }`}
+                    className={`inline-block mt-2 px-4 py-2 ${activeTab === "additional_info"
+                      ? "green_bg_white_font"
+                      : "hover:text-gray-600 hover:border-gray-300"
+                      }`}
                     onClick={() => handleTabClick("additional_info")}
                   >
                     Additional Information
@@ -646,11 +860,10 @@ const Page = ({ params }) => {
                 </li>
                 <li className="me-2" role="presentation">
                   <button
-                    className={`inline-block mt-2 px-4 py-2 ${
-                      activeTab === "reviews"
-                        ? "green_bg_white_font"
-                        : "hover:text-gray-600 hover:border-gray-300"
-                    }`}
+                    className={`inline-block mt-2 px-4 py-2 ${activeTab === "reviews"
+                      ? "green_bg_white_font"
+                      : "hover:text-gray-600 hover:border-gray-300"
+                      }`}
                     onClick={() => handleTabClick("reviews")}
                   >
                     Reviews
@@ -761,14 +974,14 @@ const Page = ({ params }) => {
                         )} */}
 
                         <div
-                          
+
                         >
                           {reviewData?.reviews &&
-                          reviewData?.reviews.length > 0 ? (
+                            reviewData?.reviews.length > 0 ? (
                             reviewData?.reviews?.map((reviewer, index) => (
                               <div key={index} className="flex gap-4 mb-5">
                                 <div>
-                                <FaUserCircle size={25} />
+                                  <FaUserCircle size={25} />
                                 </div>
                                 <div>
                                   <h5 className="text-sm text-textClr font-semibold mb-2">
@@ -794,84 +1007,84 @@ const Page = ({ params }) => {
                       <div className="mt-5">
 
                         {session ? (<>
-                        
+
                           {hasPurchasedCourse ? (
-                          <div className="mt-5">
-                            <div className="section-title">
-                              <h4 className="text-lg text-blackClr font-bold">
-                                Write your review
-                              </h4>
-                              <hr className="text-textClr my-3" />
+                            <div className="mt-5">
+                              <div className="section-title">
+                                <h4 className="text-lg text-blackClr font-bold">
+                                  Write your review
+                                </h4>
+                                <hr className="text-textClr my-3" />
+                              </div>
+
+                              <div className="mb-4 star_clr">
+                                <StarRating2
+                                  rating={rating}
+                                  onRatingChange={handleRatingChange}
+                                />
+                              </div>
+
+                              <textarea
+                                value={reviewText}
+                                onChange={handleCommentChange}
+                                placeholder="Write your review"
+                                className="w-full h-24 p-2 border rounded outline-none"
+                              ></textarea>
+
+                              <button
+                                onClick={handleSubmitReview}
+                                className="bg_green text-sm text-white py-2 px-4 rounded mt-3"
+                              >
+                                Add Review
+                              </button>
                             </div>
+                          ) : (
+                            <div className="mt-5">
+                              <div className="section-title">
+                                <h4 className="text-lg text-blackClr font-bold">
+                                  Write your review
+                                </h4>
+                                <hr className="text-textClr my-3" />
+                              </div>
 
-                            <div className="mb-4 star_clr">
-                              <StarRating2
-                                rating={rating}
-                                onRatingChange={handleRatingChange}
-                              />
+                              <p className="text-center text-textClr">
+                                <span className="text-textClr font-bold text-lg block">
+                                  Purchase Required
+                                </span>
+                                <span className="block mb-4">
+                                  To write a review, you must purchase this
+                                  course.
+                                </span>
+                                <span className="">
+                                  <Link
+                                    href="/cart"
+                                    className="bg_green text-sm text-white py-2 px-4 rounded mt-3 mr-4"
+                                    prefetch={true}
+                                  >
+                                    Buy Now
+                                  </Link>
+                                  OR
+                                  <Link
+                                    href="/login"
+                                    className="bg_green text-sm text-white py-2 px-4 rounded mt-3 ml-4"
+                                    prefetch={true}
+                                  >
+                                    Login
+                                  </Link>
+                                </span>
+                              </p>
                             </div>
+                          )}
 
-                            <textarea
-                              value={reviewText}
-                              onChange={handleCommentChange}
-                              placeholder="Write your review"
-                              className="w-full h-24 p-2 border rounded outline-none"
-                            ></textarea>
+                        </>) : (<><p> Login first To Write Review</p>
+                          <a className="cart_btns mt-4" href="/login">
+                            <button>Login</button>
 
-                            <button
-                              onClick={handleSubmitReview}
-                              className="bg_green text-sm text-white py-2 px-4 rounded mt-3"
-                            >
-                              Add Review
-                            </button>
-                          </div>
-                        ) : (
-                          <div className="mt-5">
-                            <div className="section-title">
-                              <h4 className="text-lg text-blackClr font-bold">
-                                Write your review
-                              </h4>
-                              <hr className="text-textClr my-3" />
-                            </div>
-
-                            <p className="text-center text-textClr">
-                              <span className="text-textClr font-bold text-lg block">
-                                Purchase Required
-                              </span>
-                              <span className="block mb-4">
-                                To write a review, you must purchase this
-                                course.
-                              </span>
-                              <span className="">
-                                <Link
-                                  href="/cart"
-                                  className="bg_green text-sm text-white py-2 px-4 rounded mt-3 mr-4"
-                                  prefetch={true}
-                                >
-                                  Buy Now
-                                </Link>
-                                OR
-                                <Link
-                                  href="/login"
-                                  className="bg_green text-sm text-white py-2 px-4 rounded mt-3 ml-4"
-                                  prefetch={true}
-                                >
-                                  Login
-                                </Link>
-                              </span>
-                            </p>
-                          </div>
-                        )}
-                        
-                        </>):(<><p> Login first To Write Review</p>
-                        <a className="cart_btns mt-4" href="/login">
-                        <button>Login</button>
-                        
-                        </a>
+                          </a>
                         </>)}
 
-                        
-                       
+
+
                       </div>
                     </div>
                   </div>

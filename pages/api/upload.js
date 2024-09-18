@@ -2,7 +2,7 @@ import multiparty from 'multiparty';
 import fs from 'fs';
 import path from 'path';
 import { v2 as cloudinary } from 'cloudinary';
-import { connect } from "../../utils/config/dbConfig";
+import { connect } from '../../utils/config/dbConfig';
 
 // Configure Cloudinary
 cloudinary.config({
@@ -24,39 +24,39 @@ export default async function handle(req, res) {
     });
   });
 
-  if (!files.file || !files.file.length) {
-    return res.status(400).json({ error: 'No file uploaded' });
+  if (!files.files || !files.files.length) {
+    return res.status(400).json({ error: 'No files uploaded' });
   }
 
-  // Single file upload
-  const file = files.file[0]; // Only process the first file in the array
-  const ext = path.extname(file.originalFilename);
-  const newFilename = Date.now() + ext;
-  const tempFilePath = path.join('./', newFilename);
-
-  // Move file to temporary path
-  fs.renameSync(file.path, tempFilePath);
+  const uploadedLinks = [];
 
   try {
-    // Upload to Cloudinary
-    const response = await cloudinary.uploader.upload(tempFilePath, {
-      folder: process.env.CLOUDINARY_FOLDER, // Optional: specify a folder in Cloudinary
-    });
+    // Process each file
+    for (const file of files.files) {
+      const ext = path.extname(file.originalFilename);
+      const newFilename = Date.now() + ext;
+      const tempFilePath = path.join('./', newFilename);
 
-    // Return the Cloudinary URL
-    const uploadedLink = response.secure_url;
+      // Move file to temporary path
+      fs.renameSync(file.path, tempFilePath);
 
-    // Log the uploaded link (for backend debugging)
-    console.log('Uploaded file URL:', uploadedLink);
+      // Upload to Cloudinary
+      const response = await cloudinary.uploader.upload(tempFilePath, {
+        folder: process.env.CLOUDINARY_FOLDER, // Optional: specify a folder in Cloudinary
+      });
 
-    // Return the link as JSON response
-    return res.json({ link: uploadedLink });
+      // Add the uploaded link to the array
+      uploadedLinks.push(response.secure_url);
+
+      // Clean up the temporary file
+      fs.unlinkSync(tempFilePath);
+    }
+
+    // Return the array of links as JSON response
+    return res.json({ links: uploadedLinks });
   } catch (error) {
     console.error('Cloudinary upload error:', error);
-    return res.status(500).json({ error: 'Failed to upload file to Cloudinary' });
-  } finally {
-    // Clean up the temporary file
-    fs.unlinkSync(tempFilePath);
+    return res.status(500).json({ error: 'Failed to upload files to Cloudinary' });
   }
 }
 
