@@ -18,3 +18,29 @@ export const sendOtpEmail = async (email, otp) => {
 
   await transporter.sendMail(mailOptions);
 };
+
+
+export const orderConfermation =async(email , orderid)=>{
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: email,
+    subject: 'Order Confirmation',
+    text: `Your order has been confirmed with order ID: ${orderid}`,
+  };
+
+  await transporter.sendMail(mailOptions);
+}
+
+
+
+
+export const orderCancelation = async(email,orderid) =>{
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: email,
+    subject: 'Order Cancelation',
+    text: `Your order with order ID: ${orderid} has been cancelled`,
+  };
+
+  await transporter.sendMail(mailOptions);
+} 
