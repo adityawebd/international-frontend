@@ -37,7 +37,7 @@ const Checkout = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle form submission, e.g., send data to backend
-    console.log('Form submitted:', profile);
+    //console.log('Form submitted:', profile);
   };
 
 

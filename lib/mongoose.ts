@@ -26,7 +26,7 @@
 //         useNewUrlParser: true,
 //         useUnifiedTopology: true,
 //       });
-//       console.log('Connected to MongoDB');
+//       //console.log('Connected to MongoDB');
 //       return mongoose.connection;
 //     } catch (error) {
 //       console.error('Error connecting to MongoDB:', error);
@@ -46,7 +46,7 @@ const mongooseConnect = async (): Promise<void> => {
 
     await mongoose.connect(dbURI || 'mongodb+srv://avipurohit27:avinash27@cluster0.4jj9vnf.mongodb.net/gift');
 
-    console.log('MongoDB connected successfully');
+    //console.log('MongoDB connected successfully');
   } catch (error) {
     console.error('MongoDB connection error:', error);
     process.exit(1); // Exit process with failure

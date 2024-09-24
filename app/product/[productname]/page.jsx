@@ -42,7 +42,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 const Page = ({ params }) => {
   const urldata = decodeURIComponent(params.productname);
-  // console.log("urldata is",urldata);
+  // //console.log("urldata is",urldata);
 
   const notify = () => toast.success('Product added to cart', {
     position: "top-center",
@@ -107,14 +107,14 @@ const Page = ({ params }) => {
           const response = await axios.get(`/api/reviews?condition=${review}`);
           setReviewData(response.data);
 
-          console.log("the updated module data is", response.data);
+          //console.log("the updated module data is", response.data);
 
           // Set teacher if moduleData has at least one item
 
           const count = response.data.length;
           return count;
         } catch (error) {
-          console.log(error);
+          //console.log(error);
         }
       }
     };
@@ -127,16 +127,16 @@ const Page = ({ params }) => {
       try {
         if (session?.user?.email) {
           const email = session.user.email;
-          console.log("Fetching user data in setting for email:", email);
+          //console.log("Fetching user data in setting for email:", email);
           const response = await axios.get(`/api/user?condition=${email}`);
           setUsersessions(response.data);
 
           // setEnrolledcourseData(response.data?.boughtcourses);
-          // console.log("boughtcourses", response.data?.boughtcourses)
+          // //console.log("boughtcourses", response.data?.boughtcourses)
           // setCompletecourseData(response.data?.completcourses);
         }
       } catch (error) {
-        console.log(error);
+        //console.log(error);
       }
     };
     fetchData();
@@ -144,14 +144,14 @@ const Page = ({ params }) => {
 
 
   const cart = useFromStore(useCartStore, (state) => state.cart);
-  console.log("cart data is", cart)
+  //console.log("cart data is", cart)
 
   useEffect(() => {
     // Ensure cart is defined and is an array
     if (Array.isArray(cart)) {
       const existingProduct = cart.find((item) => item._id === productData?._id);
 
-      console.log("cart item", existingProduct);
+      //console.log("cart item", existingProduct);
       if (existingProduct) {
         setQuantity(existingProduct.quantity || 1); // Set quantity to the existing one or 1 if not found
         if (existingProduct.quantity >= maxQuantity) {
@@ -165,7 +165,7 @@ const Page = ({ params }) => {
     }
   }, [cart, productData]);
 
-  console.log("sku data is", skuData);
+  //console.log("sku data is", skuData);
 
   const { value: value1, reset: resetValue1 } = useCountUp({
     isCounting,
@@ -280,10 +280,10 @@ const Page = ({ params }) => {
     if (container) {
       if (direction === "up") {
         container.scrollBy({ top: -160, behavior: "smooth" });
-        // console.log('up clicked')
+        // //console.log('up clicked')
       } else if (direction === "down") {
         container.scrollBy({ top: 160, behavior: "smooth" });
-        // console.log('down clicked')
+        // //console.log('down clicked')
       }
     }
   };
@@ -329,12 +329,12 @@ const Page = ({ params }) => {
   const handleFileChange = (e) => {
     // Convert FileList to Array and check length
     const selectedFiles = Array.from(e.target.files);
-    
+
     if (selectedFiles.length > 5) {
       alert("You can only select up to 5 files.");
       return;
     }
-  
+
     setFiles(selectedFiles);
   };
 
@@ -359,7 +359,7 @@ const Page = ({ params }) => {
   //     });
 
   //     // Log the uploaded file URL
-  //     console.log("Uploaded File URL:", data.link);
+  //     //console.log("Uploaded File URL:", data.link);
 
   //     if (typeof window !== "undefined") {
   //       sessionStorage.setItem("message", message);
@@ -403,7 +403,7 @@ const Page = ({ params }) => {
       });
 
       // Log the uploaded file URLs
-      console.log("Uploaded File URLs:", data.links);
+      //console.log("Uploaded File URLs:", data.links);
 
       if (typeof window !== "undefined") {
         sessionStorage.setItem("message", message);
@@ -425,7 +425,7 @@ const Page = ({ params }) => {
 
 
   const handleRatingChange = (newRating) => {
-    console.log("Rating Changed:", newRating);
+    //console.log("Rating Changed:", newRating);
     setRating(newRating);
   };
 
@@ -434,7 +434,7 @@ const Page = ({ params }) => {
   };
 
   const handleSubmitReview = async () => {
-    console.log("Submit Review Function Called");
+    //console.log("Submit Review Function Called");
     const name = usersessions.firstName + usersessions.lastName;
     if (rating && reviewText) {
       const newReview = {
@@ -457,7 +457,7 @@ const Page = ({ params }) => {
           setReviewText("");
           alert("Review Submitted");
           window.location.reload();
-          console.log("Review Submitted:", newReview);
+          //console.log("Review Submitted:", newReview);
         } else {
           console.error("Failed to submit review:", response.data.error);
           alert("Failed to submit review. Please try again.");
@@ -490,7 +490,7 @@ const Page = ({ params }) => {
     //       setReviewText("");
     //       alert("Review Submitted");
     //       window.location.reload()
-    //       console.log("Review Submitted:", newReview);
+    //       //console.log("Review Submitted:", newReview);
     //     } else {
     //       console.error("Failed to submit review:", response.data.error);
     //       alert("Failed to submit review. Please try again.");
@@ -706,7 +706,7 @@ const Page = ({ params }) => {
                         </div>
                       </form> */}
                       <form onSubmit={handleSubmit}>
-                      <div className="mb-4">
+                        <div className="mb-4">
                           <label className="block text-sm font-medium text-gray-700 mb-2">
                             Enter The Name Here:
                           </label>
@@ -874,9 +874,12 @@ const Page = ({ params }) => {
             <div>
               {activeTab === "general_info" && (
                 <div className="p-4 rounded-xl bg-gray-50">
-                  <p className="text-sm text-gray-500">
+                  {/* <p className="text-sm text-gray-500">
                     {productData.description}
-                  </p>
+                  </p> */}
+
+                  <div className='text-lg blog_content' style={{ all: 'initial' }}
+                    dangerouslySetInnerHTML={{ __html: productData?.description }} />
                 </div>
               )}
               {activeTab === "additional_info" && (

@@ -32,12 +32,12 @@ export async function getServerSideProps(req,res) {
 
     const orderId = generateOrderNumber();
 
-    // console.log("orderId", orderId);
+    // //console.log("orderId", orderId);
     const todayDate = getTodayDate();
-    // console.log("todayDate", todayDate);
+    // //console.log("todayDate", todayDate);
 
 
-    console.log(req.body)
+    //console.log(req.body)
 
     // Step 2: Send a request to create an order with the token
     const orderData = {

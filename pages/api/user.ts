@@ -7,18 +7,18 @@ import Customer from "../../utils/models/customer"
 
 mongooseConnect()
 
-console.log("mongoose Connect")
+//console.log("mongoose Connect")
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
     
     if (req.method == "GET") {
         try {
             const {condition}=req.query;
-            console.log("from teacher", condition);
+            //console.log("from teacher", condition);
 
             const query = { email: condition };
             const module = await Customer.findOne(query)
-            console.log("from lession", module);
+            //console.log("from lession", module);
             res.status(200).json(module)
         }
         catch (error) {
@@ -28,7 +28,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     if (req.method === "PUT") {
         try {
-            // console.log(req.body)
+            // //console.log(req.body)
             const { id } = req.body; // Extract `id` from the request query parameters
             const updateData = req.body; // Extract the update data from the request body
 

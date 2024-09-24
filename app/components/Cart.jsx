@@ -13,9 +13,9 @@ const Cart = () => {
     const { data: session } = useSession();
     const cart = useFromStore(useCartStore, (state) => state.cart);
     const [isModalOpen, setIsModalOpen] = useState(false);
-
+    const [loading, setLoading] = useState(false);
     const [orderData, setOrderData] = useState([]);
-
+    const [price, setPrice] = useState();
     const [message, setMessage] = useState("");
     const [messageURL, setMessageURL] = useState("");
 
@@ -40,7 +40,7 @@ const Cart = () => {
         setShowCouponInput(!showCouponInput);
     };
 
-    // console.log("cart is",cart)
+    // //console.log("cart is",cart)
 
     // useEffect(() => {
     //     const totalAmount = cart ? cart.reduce((acc, product) => acc + product.price * (product.quantity || 0), 0) : 0;
@@ -88,7 +88,7 @@ const Cart = () => {
   }, []);
 
 
-console.log('session data is ',storedMessage,storedImageUrl,storednumber,storedusername)
+//console.log('session data is ',storedMessage,storedImageUrl,storednumber,storedusername)
 
     const [formData, setFormData] = useState({
         
@@ -109,6 +109,7 @@ console.log('session data is ',storedMessage,storedImageUrl,storednumber,storedu
     useEffect(() => {
         const totalAmount = cart ? cart.reduce((acc, product) => acc + product.discountedPrice * (product.quantity || 0), 0) : 0;
         if (session) {
+            setPrice(totalAmount);
             setFormData(prevFormData => ({
                 ...prevFormData,
                 amount:  totalAmount.toString(),
@@ -183,10 +184,10 @@ console.log('session data is ',storedMessage,storedImageUrl,storednumber,storedu
             }
 
             const data = await response.json();
-            // //console.log('Order created:', data);
+            // ////console.log('Order created:', data);
 
 
-            // //console.log(cart)
+            // ////console.log(cart)
             // Proceed with Razorpay payment handling here
             const options = {
                 key: process.env.RAZORPAY_KEY_ID, // Your Razorpay Key ID
@@ -196,7 +197,7 @@ console.log('session data is ',storedMessage,storedImageUrl,storednumber,storedu
                 description: 'Purchase Description',
                 order_id: data.id, // Order ID from the backend
                 handler: (response) => {
-                    handlePaymentSuccess(response, usersessions._id, cart);
+                    handlePaymentSuccess(response);
                   },
                 prefill: {
                     name: session.user?.name,
@@ -218,7 +219,7 @@ console.log('session data is ',storedMessage,storedImageUrl,storednumber,storedu
     };
 
 
-    const handlePaymentSuccess = async (response, userId, cart) => {
+    const handlePaymentSuccess = async (response) => {
         try {
             const res = await fetch('/api/create-payment', {
                 method: 'POST',
@@ -237,7 +238,7 @@ console.log('session data is ',storedMessage,storedImageUrl,storednumber,storedu
             const data = await res.json();
 
             if (data.success) {
-                alert('Payment successful and courses updated!');
+                alert('Payment successful and Order created');
 
             } else {
                 alert('Payment verification failed. Please contact support.');
@@ -257,7 +258,7 @@ console.log('session data is ',storedMessage,storedImageUrl,storednumber,storedu
     //         try {
     //             const response = await axios.post('/api/create-payment', formData);
     //             const paymentRequest = response.data;
-    //             // console.log(paymentRequest);
+    //             // //console.log(paymentRequest);
 
     //             const longurl = paymentRequest.payment_request.longurl;
     //             window.location.href = longurl; // Redirect to Instamojo payment page
@@ -292,7 +293,7 @@ console.log('session data is ',storedMessage,storedImageUrl,storednumber,storedu
     };
 
 
-    // console.log("delevry ressponce is ",orderData);
+    // //console.log("delevry ressponce is ",orderData);
 
     // Modal Component
     const Modal = ({ isOpen, onClose }) => {

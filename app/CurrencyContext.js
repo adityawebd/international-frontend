@@ -26,7 +26,7 @@ const fetchExchangeRates = async () => {
   try {
     const response = await fetch(API_URL);
     const data = await response.json();
-    console.log("Data is: ",data)
+    //console.log("Data is: ",data)
     if (data.result === 'success') {
       return data.conversion_rates;
     } else {

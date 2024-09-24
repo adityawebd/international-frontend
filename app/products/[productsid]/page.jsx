@@ -38,7 +38,7 @@ const ProductContent = ({urldata}) => {
   const data1 = searchParams.get('category');
   const data2 = searchParams.get('filter');
 
-  console.log("data in productss is ", data1, data2);
+  //console.log("data in productss is ", data1, data2);
   const product=urldata
 
   useEffect(() => {
@@ -62,7 +62,7 @@ const ProductContent = ({urldata}) => {
         // Apply filters based on URL data
         if (data1 || data2) {
           if (data1) setSelectedsubcategory(data1);
-          console.log("url id is", data1, data2);
+          //console.log("url id is", data1, data2);
         }
       } catch (error) {
         console.error('Failed to fetch categories and products:', error);
@@ -75,7 +75,7 @@ const ProductContent = ({urldata}) => {
 
    
 
-  console.log("data from api",categori)
+  //console.log("data from api",categori)
 
 
   useEffect(() => {
@@ -102,7 +102,7 @@ const ProductContent = ({urldata}) => {
   // const handleFilterChange = (propertyName, value  ) => {
   //   setFilters(prevFilters => ({ ...prevFilters, [propertyName]: value }));
 
-  //   console.log("data in handleFilterChange is ",propertyName, value)
+  //   //console.log("data in handleFilterChange is ",propertyName, value)
   // };
 
   const handleFilterChange = (propertyName, value) => {
@@ -111,7 +111,7 @@ const ProductContent = ({urldata}) => {
       [propertyName]: value
     }));
   
-    console.log("Updated Filters: ", propertyName, value);
+    //console.log("Updated Filters: ", propertyName, value);
   };
 
 
@@ -144,13 +144,13 @@ const ProductContent = ({urldata}) => {
   //     return updatedFilters;
   //   });
   
-  //   console.log("Updated Filters:", propertyName, value);
+  //   //console.log("Updated Filters:", propertyName, value);
   // };
   
 
   // const handleFilterChanges = ( value  ) => {
 
-  //   console.log("data in handleFilterChanges is ", value )
+  //   //console.log("data in handleFilterChanges is ", value )
   //   setFilters(prevFilters => ({ ...prevFilters, value }));
    
   // };
@@ -184,7 +184,7 @@ const ProductContent = ({urldata}) => {
     // Object.keys(filters).forEach(propertyName => {
     //   if (filters[propertyName]) {
     //     filtered = filtered.filter(product => {
-    //       console.log("filterde property is",propertyName,filters[propertyName])
+    //       //console.log("filterde property is",propertyName,filters[propertyName])
     //       return product.property?.[propertyName] === filters[propertyName];
     //     });
     //   }
@@ -197,7 +197,7 @@ const ProductContent = ({urldata}) => {
           const productValue = product.property?.[propertyName];
     
           // Log to debug and verify data
-          console.log("Filtering by property:", propertyName, "Filter value:", filters[propertyName], "Product value:", productValue);
+          //console.log("Filtering by property:", propertyName, "Filter value:", filters[propertyName], "Product value:", productValue);
     
           // Handle single value or array of values
           if (Array.isArray(filters[propertyName])) {

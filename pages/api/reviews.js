@@ -60,7 +60,7 @@ export default async function handler(req, res) {
         // Find the module's review data
         const query = { product_id: condition };
         const module = await Review.findOne(query);
-        console.log("from module", module);
+        //console.log("from module", module);
         res.status(200).json(module);
       } catch (error) {
         res.status(500).json({ error: "internal error" });

@@ -20,10 +20,10 @@ const NewArrival = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                console.log("before reaponce")
+                //console.log("before reaponce")
                 const response = await axios.get(`/api/productnewarrival?properties=${type}`);
 
-                console.log("the responce is ", response);
+                //console.log("the responce is ", response);
                 setProduct(response.data);
             } catch (error) {
                 console.error('Error fetching data:', error);

@@ -21,7 +21,7 @@ export const authOptions = {
         try {
           await connect();
           const user = await Customer.findOne({ email });
-          console.log("user is", user);
+          //console.log("user is", user);
           if (!user) {
             return null;
           }
@@ -32,10 +32,10 @@ export const authOptions = {
           if (!passwordsMatch) {
             return null;
           }
-          console.log("matched passwords");
+          //console.log("matched passwords");
           return user;
         } catch (error) {
-          console.log("Error:", error);
+          //console.log("Error:", error);
         }
       },
     }),
@@ -65,18 +65,18 @@ export const authOptions = {
           });
           const res = await newCustomer.save();
           if (res.status === 200 || res.status === 201) {
-            console.log(res);
+            //console.log(res);
             return user;
           }
         } catch (err) {
-          console.log(err);
+          //console.log(err);
         }
       }
       return user;
     },
     async jwt({ token, user }) {
       if (user) {
-        // console.log("user in jwt", user);
+        // //console.log("user in jwt", user);
         const { _id, firstName, lastName, email, phoneNumber, address, city, postalCode, country, region, timestamp } = user;
         token.id = _id;
         token.name = `${firstName} ${lastName}`;
@@ -108,7 +108,7 @@ export const authOptions = {
         session.user.country = token.country;
         session.user.region = token.region;
       }
-      // console.log(session);
+      // //console.log(session);
       return session;
     },
   },

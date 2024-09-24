@@ -15,7 +15,7 @@ const Filter = ({
   onClose,
   responsive_filter_ID
 }) => {
-  console.log("receiving category is", categories);
+  //console.log("receiving category is", categories);
 
   // Set all main accordions open initially
   const [openAccordions, setOpenAccordions] = useState({
@@ -54,7 +54,7 @@ const Filter = ({
   const handleCheckboxChange = (property, value,checked) => {
     if(checked)
     {
-    console.log("filter data sending", property, value,checked);
+    //console.log("filter data sending", property, value,checked);
     onFilterChange(property, value);
     }
     else{

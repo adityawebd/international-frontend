@@ -23,11 +23,11 @@ export default function Payment() {
         try {
             const response = await axios.post('/api/create-payment', formData);
             const paymentRequest = response.data;
-            console.log(paymentRequest);
+            //console.log(paymentRequest);
 
             
 
-            console.log("long url ",paymentRequest.payment_request.longurl);
+            //console.log("long url ",paymentRequest.payment_request.longurl);
             const longurl = paymentRequest.payment_request.longurl;
             window.location.href = longurl; // Redirect to Instamojo payment page
         } catch (error) {

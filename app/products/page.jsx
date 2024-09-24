@@ -34,7 +34,7 @@ const ProductContent = () => {
   const data1 = searchParams.get('category');
   const data2 = searchParams.get('filter');
 
-  console.log("data in productss is ", data1, data2);
+  //console.log("data in productss is ", data1, data2);
   const product="data 1"
 
   useEffect(() => {
@@ -55,7 +55,7 @@ const ProductContent = () => {
           // if (data2) setProperties(data2);
           // if (parsedData.priceRange) setPriceRange(parsedData.priceRange);
           // if (parsedData.sortOrder) setSortOrder(parsedData.sortOrder);
-          console.log("url id is", data1, data2);
+          //console.log("url id is", data1, data2);
         }
       } catch (error) {
         console.error('Failed to fetch categories and products:', error);
@@ -65,7 +65,7 @@ const ProductContent = () => {
     loadData();
   }, [data1, data2]);
 
-  console.log("data from api",categori)
+  //console.log("data from api",categori)
 
 
   useEffect(() => {
@@ -92,12 +92,12 @@ const ProductContent = () => {
   const handleFilterChange = (propertyName, value  ) => {
     setFilters(prevFilters => ({ ...prevFilters, [propertyName]: value }));
 
-    console.log("data in handleFilterChange is ",propertyName, value)
+    //console.log("data in handleFilterChange is ",propertyName, value)
   };
 
   // const handleFilterChanges = ( value  ) => {
 
-  //   console.log("data in handleFilterChanges is ", value )
+  //   //console.log("data in handleFilterChanges is ", value )
   //   setFilters(prevFilters => ({ ...prevFilters, value }));
    
   // };
@@ -131,7 +131,7 @@ const ProductContent = () => {
     Object.keys(filters).forEach(propertyName => {
       if (filters[propertyName]) {
         filtered = filtered.filter(product => {
-          console.log("filterde property is",propertyName)
+          //console.log("filterde property is",propertyName)
           return product.property?.[propertyName] === filters[propertyName];
         });
       }

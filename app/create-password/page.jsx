@@ -18,8 +18,8 @@ const page = () => {
         if (Object.keys(errors).length === 0) {
             // Simulate backend authentication (replace with actual backend call)
             // For demonstration purposes, assume login is successful
-            console.log('Password:', password);
-            console.log('Confirm Password:', confirmPassword);
+            //console.log('Password:', password);
+            //console.log('Confirm Password:', confirmPassword);
 
             // alert on successful registration
             alert("Password Created Successfully!")

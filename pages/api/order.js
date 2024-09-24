@@ -9,7 +9,7 @@ mongooseConnect()
 
 
 
-console.log("mongoose Connect")
+//console.log("mongoose Connect")
 export default async function handler(req, res) {
 
     const {email}=req.query;
@@ -22,7 +22,7 @@ export default async function handler(req, res) {
         }
         catch (error) {
             res.status(500).json({error: 'internal error'})
-            console.log(error)
+            //console.log(error)
         }
     }
     else

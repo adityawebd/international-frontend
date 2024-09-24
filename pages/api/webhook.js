@@ -3,7 +3,7 @@ export default (req, res) => {
         const webhookData = req.body;
 
         // Handle the webhook data here
-        console.log(webhookData);
+        //console.log(webhookData);
 
         res.status(200).send('Webhook received');
     } else {
