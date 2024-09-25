@@ -164,7 +164,7 @@ const ProductContent = () => {
   return (
     <>
     <div className='container'>
-      {/* <div className="row">
+      <div className="row">
         <div className="col-md-2 py-4">
           <button 
             className="btn btn-primary" 
@@ -212,12 +212,7 @@ const ProductContent = () => {
             </div>
           </div>
         </div>
-      </div> */}
-    </div>
-
-    <div className='h-[300px] flex flex-col justify-center items-center'>
-      <h1 className='h1'>Page Not Found</h1>
-      <a href="/" className='reset_button rounded'>Back to Home</a>
+      </div>
     </div>
     </>
   );
@@ -230,7 +225,7 @@ const Page = () => (
     <Suspense fallback={<div>Loading...</div>}>
       <ProductContent />
     </Suspense>
-    {/* <NewArrival /> */}
+    <NewArrival />
     <Footer />
     <BackToTopButton />
   </>
