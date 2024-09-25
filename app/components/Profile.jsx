@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSession, signIn, signOut } from "next-auth/react"
 import BackToTopButton from '../components/BackToTopButton'
 
@@ -10,15 +10,22 @@ const Profile = () => {
 
   const { data: session } = useSession();
   const [isEditing, setIsEditing] = useState(false);
+  const [profile, setProfile] = useState([]);
+  useEffect(() => {
+    if (session?.user) {
+      setProfile({
+        firstName: session.user.fname,
+        email: session.user.email,
+        phoneNumber: session.user.number,
+        address: session.user.address,
+        shippingAddress: session.user.address,
+        lastName: session.user.lname
+      });
+    }
+  }, [session]);
+  
 
-  const [profile, setProfile] = useState({
-    firstName: session.user.fname,
-    email: session.user.email,
-    phoneNumber: session.user.number,
-    address: session.user.address,
-    shippingAddress: session.user.address,
-    lastName: session.user.lname
-  });
+  console.log('user email',session?.user.email)
 
   const handleEdit = () => {
     setIsEditing(true);
