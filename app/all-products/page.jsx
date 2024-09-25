@@ -112,13 +112,14 @@ const page = () => {
 
                     <div className="product-page">
                         {/* <FilterComponent onFilterChange={handleFilterChange} /> */}
-                        <div className={`filter-overlay ${isFilterVisible ? 'show' : ''}`} onClick={toggleFilterVisibility} /> {/* for mobile device black overlay */}
+                        {/* for mobile device black overlay */}
+                        {/* <div className={`filter-overlay ${isFilterVisible ? 'show' : ''}`} onClick={toggleFilterVisibility} /> 
                         <div className={`filter-component-div ${isFilterVisible ? 'show' : ''}`}>
                             <FilterComponent onFilterChange={handleFilterChange} />
                         </div>
                         <div className="filter-icon" onClick={toggleFilterVisibility}>
                             <span><Filter /> All Filters</span>
-                        </div>
+                        </div> */}
 
                         <div className="product-list">
                             {filteredProducts.map(product => (

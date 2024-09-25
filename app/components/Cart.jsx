@@ -6,6 +6,9 @@ import CartItem from './CartItem';
 import { useCartStore } from '../../stores/useCartStore';
 import useFromStore from '../../hooks/useFromStore';
 import { useRouter } from 'next/navigation';
+import {Check} from 'lucide-react'
+import { Spinner } from '@nextui-org/react';
+
 
 const Cart = () => {
     const [address, setAddress] = useState([]);
@@ -18,6 +21,9 @@ const Cart = () => {
     const [price, setPrice] = useState();
     const [message, setMessage] = useState("");
     const [messageURL, setMessageURL] = useState("");
+    const [spinner, setSpinner] = useState(false);
+
+    
 
 
     let total = 0;
@@ -270,28 +276,38 @@ const Cart = () => {
     // };
 
 
+    // const handleCheckoutCOD = async (e) => {
+    //     e.preventDefault();
+
+    //     // window.location.href = '/create-order',formData;
+    //     if (!session) {
+    //         window.location.href = '/login'; // Redirects to login page
+    //     } else {
+    //         try {
+    //             const response = await axios.post('/api/create-oreder', formData);
+    //             const paymentRequest = response.data.order;
+    //             setOrderData(response.data.order)
+
+    //             const longurl = paymentRequest.payment_request.longurl;
+    //             window.location.href = longurl; // Redirect to Instamojo payment page
+    //         } catch (error) {
+    //             setPaymentStatus('Payment request failed. Please try again.');
+    //             console.error('Error creating payment request:', error);
+    //         }
+    //         setIsModalOpen(true); // Show the modal
+    //     }
+    // };
+    
     const handleCheckoutCOD = async (e) => {
-        e.preventDefault();
+        setSpinner(true); // Show spinner
 
-        // window.location.href = '/create-order',formData;
-        if (!session) {
-            window.location.href = '/login'; // Redirects to login page
-        } else {
-            try {
-                const response = await axios.post('/api/create-oreder', formData);
-                const paymentRequest = response.data.order;
-                setOrderData(response.data.order)
-
-                const longurl = paymentRequest.payment_request.longurl;
-                window.location.href = longurl; // Redirect to Instamojo payment page
-            } catch (error) {
-                setPaymentStatus('Payment request failed. Please try again.');
-                console.error('Error creating payment request:', error);
-            }
-            setIsModalOpen(true); // Show the modal
-        }
+        // Use setTimeout to simulate an async operation
+        setTimeout(() => {
+            setIsModalOpen(true); // Open the modal
+            setSpinner(false); // Hide spinner after 3 seconds
+        }, 3000);
     };
-
+    
 
     // //console.log("delevry ressponce is ",orderData);
 
@@ -304,13 +320,13 @@ const Cart = () => {
         return (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 w-full">
                 <div className="bg-white p-6 rounded-lg shadow-lg w-10/12">
-                    <h2 className="text-xl font-semibold mb-4">Confirm Order</h2>
+                    {/* <h2 className="text-xl font-semibold mb-4">Confirm Order</h2> */}
                     <div className="container-sm ">
                         <div className="flex flex-col justify-center items-center ">
-                            <div className="text-lg md:text-xl lg:text-2xl font-bold">Thank You for Ordering:</div>
+                            {/* <div className="text-lg md:text-xl lg:text-2xl font-bold">Thank You for Ordering:</div> */}
 
                             {/* Table to display order details */}
-                            <div className="w-full overflow-x-auto mt-4">
+                            {/* <div className="w-full overflow-x-auto mt-4">
                                 <table className="min-w-full bg-white border border-gray-200">
                                     <thead>
                                         <tr>
@@ -323,7 +339,6 @@ const Cart = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {/* {orderData.map((order, index) => ( */}
                                         <tr>
                                             <td className="px-2 md:px-6 py-2 md:py-4 border-b text-xs md:text-sm text-gray-700">{orderData.order_id}</td>
                                             <td className="px-2 md:px-6 py-2 md:py-4 border-b text-xs md:text-sm text-gray-700">{orderData.channel_order_id}</td>
@@ -332,25 +347,28 @@ const Cart = () => {
                                             <td className="px-2 md:px-6 py-2 md:py-4 border-b text-xs md:text-sm text-gray-700">{orderData.status}</td>
                                             <td className="px-2 md:px-6 py-2 md:py-4 border-b text-xs md:text-sm text-gray-700">{orderData.status_code || 'N/A'}</td>
                                         </tr>
-                                        {/* ))} */}
                                     </tbody>
                                 </table>
-                            </div>
+                            </div> */}
+                            <span className='text-white bg_green rounded-full p-2 mb-2'> <Check size={24} /> </span>
+                            <div className='uppercase text-2xl'>Congratulations!</div>
+                            <div className='uppercase text-md mt-4'>your order has been placed successfully</div>
+                            <div className='uppercase text-md'>YOur Order ID: <span className='green_font'>{orderData.order_id}</span></div>
 
                         </div>
                     </div>
                     <div className="flex justify-end">
-                        <button
+                        <a href='/user-history'
                             className="mr-2 bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400"
-                            onClick={onClose}
+                            // onClick={onClose}
                         >
-                            Cancel
-                        </button>
+                            VIEW
+                        </a>
                         <button
                             className="bg-green-700 text-white px-4 py-2 rounded hover:bg-green-800"
                             onClick={onClose}  // Replace with COD logic if needed
                         >
-                            Confirm
+                            OK
                         </button>
                     </div>
                 </div>
@@ -390,9 +408,24 @@ const Cart = () => {
                                 <div className="row">
                                     <div className="col-lg-12">
                                         <div className="cart_btns flex justify-between max-sm:flex-col text-center">
-                                            <a className='mb-2' href="/">Continue Shopping</a>
+                                            <a className='mb-2' href="/all-products">Continue Shopping</a>
                                             <button type="button" className="mb-2" onClick={handleRazorpayPayment}>Check Out</button>
-                                            <button type="button" className="mb-2" onClick={handleCheckoutCOD}>Cash on Delivery</button>
+                                            {/* <button type="button" className="mb-2" onClick={handleCheckoutCOD}></button> */}
+                                            {/* <button type="button" className="mb-2" onClick={handleCheckoutCOD}>
+                                                Cash on Delivery <Spinner size="sm" />
+                                            </button> */}
+                                            {/* Cash on Delivery Button with Spinner */}
+                                            <button type="button" className="mb-2" onClick={handleCheckoutCOD}>
+                                                {spinner ? (
+                                                    <>
+                                                        <div className='flex justify-between items-center gap-2'>
+                                                            Cash on Delivery <div className="spinner"></div>
+                                                        </div>
+                                                    </>
+                                                ) : (
+                                                    'Cash on Delivery'
+                                                )}
+                                            </button>
                                         </div>
                                     </div>
                                 </div>

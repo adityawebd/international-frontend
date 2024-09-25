@@ -27,9 +27,13 @@ import { FaCircleChevronDown } from "react-icons/fa6";
 import { FaCircleChevronUp } from "react-icons/fa6";
 import { useSession, signIn, signOut } from "next-auth/react";
 import StarRating from "../../components/StarRating";
+
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, A11y } from "swiper/modules";
 import "swiper/css";
+// import "swiper/swiper-bundle.min.css"; // Import Swiper CSS
+import "swiper/css/navigation"; // Import Swiper Navigation CSS
+
 import useFromStore from "../../../hooks/useFromStore";
 import axios from "axios";
 import Breadcrumbs from "../../components/Breadcrumbs";
@@ -37,26 +41,25 @@ import NewArrival from "../../components/NewArrival";
 import StarRating2 from "../../components/StarRating2";
 import { Check, CheckCircle } from "lucide-react";
 import { Checkbox } from "@material-tailwind/react";
-import { Bounce, ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { Bounce, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Page = ({ params }) => {
   const urldata = decodeURIComponent(params.productname);
   // //console.log("urldata is",urldata);
 
-  const notify = () => toast.success('Product added to cart', {
-    position: "top-center",
-    autoClose: 5000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "light",
-    transition: Bounce,
-  });
-
-
+  const notify = () =>
+    toast.success("Product added to cart", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
 
   const [activeTab, setActiveTab] = useState("general_info");
   const [activeProductTab, setActiveProductTab] = useState(0); // State to track active tab
@@ -67,6 +70,7 @@ const Page = ({ params }) => {
   const [quantity, setQuantity] = useState(1); // Local state for quantity
   const [skuData, setSkuData] = useState([]);
   const addToCart = useCartStore((state) => state.addToCart);
+  const reviewsSectionRef = useRef(null); // Ref for the reviews section
   const imgTabRef = useRef(null);
   const [review, setReview] = useState("");
   const [reviewData, setReviewData] = useState({ reviews: [] });
@@ -83,7 +87,6 @@ const Page = ({ params }) => {
 
   // Initial quantity
   const [isDisabled, setIsDisabled] = useState(false); // State to control button disabled status
-
 
   useEffect(() => {
     axios.get(`/api/productDetail?condition=${urldata}`).then((response) => {
@@ -142,14 +145,15 @@ const Page = ({ params }) => {
     fetchData();
   }, [session]);
 
-
   const cart = useFromStore(useCartStore, (state) => state.cart);
   //console.log("cart data is", cart)
 
   useEffect(() => {
     // Ensure cart is defined and is an array
     if (Array.isArray(cart)) {
-      const existingProduct = cart.find((item) => item._id === productData?._id);
+      const existingProduct = cart.find(
+        (item) => item._id === productData?._id
+      );
 
       //console.log("cart item", existingProduct);
       if (existingProduct) {
@@ -254,8 +258,6 @@ const Page = ({ params }) => {
   );
   const averageRating = calculateAverageRating(productData.reviews);
 
-
-
   const addToCart1 = (e, item) => {
     e.preventDefault();
     // Prevent default form submission or link behavior
@@ -264,10 +266,7 @@ const Page = ({ params }) => {
 
     notify();
     // Prevent default form submission or link behavior
-
   };
-
-
 
   const addToCart2 = (e, item) => {
     // Prevent default form submission or link behavior
@@ -293,8 +292,7 @@ const Page = ({ params }) => {
     addToCart({ ...item, quantity });
   };
 
-
-  const maxQuantity = productData?.stockQuantity - 7
+  const maxQuantity = productData?.stockQuantity - 7;
   const increaseQuantity = () => {
     setQuantity((prev) => {
       const newQuantity = prev + 1;
@@ -313,7 +311,6 @@ const Page = ({ params }) => {
       return newQuantity <= maxQuantity ? newQuantity : prev; // Prevent going above the limit
     });
   };
-
 
   const decreaseQuantity = () => {
     // if (quantity > 1) setQuantity((prev) => prev - 1);
@@ -423,7 +420,6 @@ const Page = ({ params }) => {
     }
   };
 
-
   const handleRatingChange = (newRating) => {
     //console.log("Rating Changed:", newRating);
     setRating(newRating);
@@ -464,9 +460,7 @@ const Page = ({ params }) => {
         }
       } catch (error) {
         console.error("Error submitting review:", error);
-        alert(
-          error.response.data.error
-        );
+        alert(error.response.data.error);
       }
     }
 
@@ -500,6 +494,20 @@ const Page = ({ params }) => {
     //     alert("An error occurred while submitting the review. Please try again.");
     //   }
     // }
+  };
+
+  // useEffect(() => {
+  //   if (urldata == skuData._id) {
+
+  //   }
+  // }, []);
+
+
+  const handleReviewsClick = () => {
+    // Set the active tab to 'reviews'
+    handleTabClick('reviews');
+    // Scroll to the reviews section
+    reviewsSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -560,8 +568,27 @@ const Page = ({ params }) => {
             </div>
 
             <div className="col-md-6 product_about_wrapper">
-              <h3 className="text-xl font-semibold">{productData.title}</h3>
-              <p className="green_font font-semibold price mt-2">
+              <h3 className=" product_main_tatile">{productData.title}</h3>
+
+              <div className="rating_div flex align-middle mt-2">
+                <div className="stars flex align-middle mr-3">
+                  {reviewData ? (
+                    <StarRating rating={reviewData?.averageRating || 5} />
+                  ) : (
+                    <span>No Ratings</span>
+                  )}
+                </div>
+                <div className="review cursor-pointer hover:underline" onClick={handleReviewsClick}>
+                  <a href="#forReviewClicked">
+                    {reviewData?.reviews.length
+                      ? reviewData?.reviews.length
+                      : "No"}{" "}
+                    Reviews
+                  </a>
+                </div>
+              </div>
+
+              <p className="green_font text-xl font-extrabold price mt-2">
                 {currency === "INR" ? "₹" : "$"} {convertedPrice.toFixed(2)}{" "}
                 &nbsp;
                 <span>
@@ -573,21 +600,7 @@ const Page = ({ params }) => {
               <div className="my-2">
                 <img src="/assets/images/icons/payment.png" alt="" />
               </div>
-              <div className="rating_div flex align-middle mt-2">
-                <div className="stars flex align-middle mr-3">
-                  {reviewData ? (
-                    <StarRating rating={reviewData?.averageRating || 5} />
-                  ) : (
-                    <span>No Ratings</span>
-                  )}
-                </div>
-                <div className="review">
-                  {reviewData?.reviews.length
-                    ? reviewData?.reviews.length
-                    : "No"}{" "}
-                  Reviews
-                </div>
-              </div>
+
               <p className="text-base light_black_font mt-3">
                 <span className="text-black font-semibold">
                   Short Description:{" "}
@@ -595,8 +608,11 @@ const Page = ({ params }) => {
                 {productData.shortDescriptionPoints?.map((point, index) => (
                   <ul key={index}>
                     <li>
-                      <span className="flex gap-2">
-                        <CheckCircle /> {point}
+                      <span className="flex">
+                        <span className="h-[12px] w-[12px] mr-4 pt-1">
+                          <CheckCircle size={20} />
+                        </span>{" "}
+                        {point}
                       </span>
                     </li>
                   </ul>
@@ -609,7 +625,9 @@ const Page = ({ params }) => {
                   &nbsp;&nbsp;&nbsp;&nbsp;
                   <span>{quantity}</span>
                   &nbsp;&nbsp;&nbsp;&nbsp;
-                  <button onClick={increaseQuantity} disabled={isDisabled} >+</button>
+                  <button onClick={increaseQuantity} disabled={isDisabled}>
+                    +
+                  </button>
                 </div>
               </td>
 
@@ -639,8 +657,6 @@ const Page = ({ params }) => {
                   pauseOnHover
                   theme="light"
                   transition:Bounce/> */}
-
-
               </div>
               {productData.custom ? (
                 <div className="cart_btns mt-4  ">
@@ -775,7 +791,6 @@ const Page = ({ params }) => {
                           </button>
                         </div>
                       </form>
-
                     </div>
                   </div>
                 ) : null}
@@ -789,11 +804,12 @@ const Page = ({ params }) => {
                   slidesPerView={1.5}
                   loop={true}
                   autoplay={{
-                    delay: 4500,
+                    delay: 2000,
                     disableOnInteraction: false,
                     pauseOnMouseEnter: true,
                   }}
                   pagination={{ clickable: true }}
+                  navigation={ true }
                   scrollbar={{ draggable: true }}
                   breakpoints={{
                     500: {
@@ -813,15 +829,29 @@ const Page = ({ params }) => {
                     //  <Variations key={data._id} images={data.images} />
                     <SwiperSlide key={data._id}>
                       <a href={`/product/${data._id}`}>
-                        <div>
+                        {/* <div className="border rounded-lg"> */}
+                        <div
+                          className={`border rounded-lg ${
+                            urldata === data._id
+                              ? "border-4 border-black-500 shadow-xl"
+                              : ""
+                          }`}
+                        >
                           <img
                             src={data.images[0]}
                             alt={data.title}
                             height={100}
                             width={100}
+                            className="rounded-t-xl"
                           />
-                          <p className="font-semibold"> name : {data.title}</p>
-                          <p className="font-semibold"> Price : ₹{data.discountedPrice}</p>
+                          <p className="font-semibold variation_title px-2">
+                            {" "}
+                            {data.title}
+                          </p>
+                          <p className="font-normal green_font px-2">
+                            {" "}
+                            ₹{data.discountedPrice}
+                          </p>
                         </div>
                       </a>
                     </SwiperSlide>
@@ -830,7 +860,7 @@ const Page = ({ params }) => {
               </div>
             </div>
           </div>
-          <div className="row product_details mt-4">
+          <div className="row product_details mt-4" id="forReviewClicked">
             <div className="mb-4 mt-2 flex justify-center align-middle">
               <ul
                 className="flex tabs_ul flex-wrap -mb-px text-sm font-medium text-center"
@@ -838,10 +868,11 @@ const Page = ({ params }) => {
               >
                 <li className="me-2" role="presentation">
                   <button
-                    className={`inline-block mt-2 px-4 py-2 ${activeTab === "general_info"
-                      ? "green_bg_white_font"
-                      : "hover:text-gray-600 hover:border-gray-300"
-                      }`}
+                    className={`inline-block mt-2 px-4 py-2 ${
+                      activeTab === "general_info"
+                        ? "green_bg_white_font"
+                        : "hover:text-gray-600 hover:border-gray-300"
+                    }`}
                     onClick={() => handleTabClick("general_info")}
                   >
                     General Information
@@ -849,10 +880,11 @@ const Page = ({ params }) => {
                 </li>
                 <li className="me-2" role="presentation">
                   <button
-                    className={`inline-block mt-2 px-4 py-2 ${activeTab === "additional_info"
-                      ? "green_bg_white_font"
-                      : "hover:text-gray-600 hover:border-gray-300"
-                      }`}
+                    className={`inline-block mt-2 px-4 py-2 ${
+                      activeTab === "additional_info"
+                        ? "green_bg_white_font"
+                        : "hover:text-gray-600 hover:border-gray-300"
+                    }`}
                     onClick={() => handleTabClick("additional_info")}
                   >
                     Additional Information
@@ -860,10 +892,11 @@ const Page = ({ params }) => {
                 </li>
                 <li className="me-2" role="presentation">
                   <button
-                    className={`inline-block mt-2 px-4 py-2 ${activeTab === "reviews"
-                      ? "green_bg_white_font"
-                      : "hover:text-gray-600 hover:border-gray-300"
-                      }`}
+                    className={`inline-block mt-2 px-4 py-2 ${
+                      activeTab === "reviews"
+                        ? "green_bg_white_font"
+                        : "hover:text-gray-600 hover:border-gray-300"
+                    }`}
                     onClick={() => handleTabClick("reviews")}
                   >
                     Reviews
@@ -878,29 +911,78 @@ const Page = ({ params }) => {
                     {productData.description}
                   </p> */}
 
-                  <div className='text-lg blog_content' style={{ all: 'initial' }}
-                    dangerouslySetInnerHTML={{ __html: productData?.description }} />
+                  <div
+                    className="text-lg product_parsed_data text-gray-500"
+                    // style={{ all: "initial" }}
+                    dangerouslySetInnerHTML={{
+                      __html: productData?.description,
+                    }}
+                  />
                 </div>
               )}
               {activeTab === "additional_info" && (
-                <div className="p-4 rounded-xl bg-gray-50">
-                  <p className="text-sm text-gray-500">
+                <>
+                  <div className="p-4 rounded-xl bg-gray-50">
                     {productData?.property && (
-                      <ul>
-                        {Object.entries(productData.property).map(
-                          ([key, value]) => (
-                            <li key={key}>
-                              <strong>{key}:</strong> {value}
-                            </li>
-                          )
-                        )}
-                      </ul>
+                      <div className="overflow-x-auto">
+                        <table className="min-w-full table-auto">
+                          <tbody className="divide-y divide-gray-200">
+                            <tr>
+                              {/* First Column: Show up to 5 entries */}
+                              <td className="w-1/2 align-top p-4">
+                                <table className="min-w-full table-auto">
+                                  <tbody>
+                                    {Object.entries(productData.property)
+                                      .slice(0, 10)
+                                      .map(([key, value], index) => (
+                                        <tr
+                                          key={index}
+                                          className="border-b border-t"
+                                        >
+                                          <td className="px-4 py-2 font-medium text-gray-700 bg-gray-100">
+                                            {key}
+                                          </td>
+                                          <td className="px-4 py-2 text-gray-500 bg-white">
+                                            {value}
+                                          </td>
+                                        </tr>
+                                      ))}
+                                  </tbody>
+                                </table>
+                              </td>
+
+                              {/* Second Column: Remaining entries after the first 5 */}
+                              <td className="w-1/2 align-top p-4">
+                                <table className="min-w-full table-auto">
+                                  <tbody>
+                                    {Object.entries(productData.property)
+                                      .slice(5)
+                                      .map(([key, value], index) => (
+                                        <tr
+                                          key={index}
+                                          className="border-b border-t"
+                                        >
+                                          <td className="px-4 py-2 font-medium text-gray-700 bg-gray-100">
+                                            {key}
+                                          </td>
+                                          <td className="px-4 py-2 text-gray-500 bg-white">
+                                            {value}
+                                          </td>
+                                        </tr>
+                                      ))}
+                                  </tbody>
+                                </table>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
                     )}
-                  </p>
-                </div>
+                  </div>
+                </>
               )}
               {activeTab === "reviews" && (
-                <div className="p-4 rounded-xl bg-gray-50">
+                <div className="p-4 rounded-xl bg-gray-50" ref={reviewsSectionRef}>
                   <div className="row">
                     {/* <div className="col-md-4 left_review_section">
                                             <div className="average_rating_div">
@@ -910,7 +992,9 @@ const Page = ({ params }) => {
                       <div className="average_review mb-4">
                         <p className="text-lg font-medium text-gray-900">
                           Average Review: &nbsp;
-                          <span className="green_font">{reviewData?.averageRating || 5}</span>
+                          <span className="green_font">
+                            {reviewData?.averageRating || "N/A"}
+                          </span>
                         </p>
                         <div className="flex align-middle">
                           {/* <div className="stars flex align-middle mr-3">
@@ -976,11 +1060,9 @@ const Page = ({ params }) => {
                           <div>No reviews available</div>
                         )} */}
 
-                        <div
-
-                        >
+                        <div>
                           {reviewData?.reviews &&
-                            reviewData?.reviews.length > 0 ? (
+                          reviewData?.reviews.length > 0 ? (
                             reviewData?.reviews?.map((reviewer, index) => (
                               <div key={index} className="flex gap-4 mb-5">
                                 <div>
@@ -1008,86 +1090,84 @@ const Page = ({ params }) => {
                       </div>
 
                       <div className="mt-5">
+                        {session ? (
+                          <>
+                            {hasPurchasedCourse ? (
+                              <div className="mt-5">
+                                <div className="section-title">
+                                  <h4 className="text-lg text-blackClr font-bold">
+                                    Write your review
+                                  </h4>
+                                  <hr className="text-textClr my-3" />
+                                </div>
 
-                        {session ? (<>
+                                <div className="mb-4 star_clr">
+                                  <StarRating2
+                                    rating={rating}
+                                    onRatingChange={handleRatingChange}
+                                  />
+                                </div>
 
-                          {hasPurchasedCourse ? (
-                            <div className="mt-5">
-                              <div className="section-title">
-                                <h4 className="text-lg text-blackClr font-bold">
-                                  Write your review
-                                </h4>
-                                <hr className="text-textClr my-3" />
+                                <textarea
+                                  value={reviewText}
+                                  onChange={handleCommentChange}
+                                  placeholder="Write your review"
+                                  className="w-full h-24 p-2 border rounded outline-none"
+                                ></textarea>
+
+                                <button
+                                  onClick={handleSubmitReview}
+                                  className="bg_green text-sm text-white py-2 px-4 rounded mt-3"
+                                >
+                                  Add Review
+                                </button>
                               </div>
+                            ) : (
+                              <div className="mt-5">
+                                <div className="section-title">
+                                  <h4 className="text-lg text-blackClr font-bold">
+                                    Write your review
+                                  </h4>
+                                  <hr className="text-textClr my-3" />
+                                </div>
 
-                              <div className="mb-4 star_clr">
-                                <StarRating2
-                                  rating={rating}
-                                  onRatingChange={handleRatingChange}
-                                />
+                                <p className="text-center text-textClr">
+                                  <span className="text-textClr font-bold text-lg block">
+                                    Purchase Required
+                                  </span>
+                                  <span className="block mb-4">
+                                    To write a review, you must purchase this
+                                    course.
+                                  </span>
+                                  <span className="">
+                                    <Link
+                                      href="/cart"
+                                      className="bg_green text-sm text-white py-2 px-4 rounded mt-3 mr-4"
+                                      prefetch={true}
+                                    >
+                                      Buy Now
+                                    </Link>
+                                    OR
+                                    <Link
+                                      href="/login"
+                                      className="bg_green text-sm text-white py-2 px-4 rounded mt-3 ml-4"
+                                      prefetch={true}
+                                    >
+                                      Login
+                                    </Link>
+                                  </span>
+                                </p>
                               </div>
-
-                              <textarea
-                                value={reviewText}
-                                onChange={handleCommentChange}
-                                placeholder="Write your review"
-                                className="w-full h-24 p-2 border rounded outline-none"
-                              ></textarea>
-
-                              <button
-                                onClick={handleSubmitReview}
-                                className="bg_green text-sm text-white py-2 px-4 rounded mt-3"
-                              >
-                                Add Review
-                              </button>
-                            </div>
-                          ) : (
-                            <div className="mt-5">
-                              <div className="section-title">
-                                <h4 className="text-lg text-blackClr font-bold">
-                                  Write your review
-                                </h4>
-                                <hr className="text-textClr my-3" />
-                              </div>
-
-                              <p className="text-center text-textClr">
-                                <span className="text-textClr font-bold text-lg block">
-                                  Purchase Required
-                                </span>
-                                <span className="block mb-4">
-                                  To write a review, you must purchase this
-                                  course.
-                                </span>
-                                <span className="">
-                                  <Link
-                                    href="/cart"
-                                    className="bg_green text-sm text-white py-2 px-4 rounded mt-3 mr-4"
-                                    prefetch={true}
-                                  >
-                                    Buy Now
-                                  </Link>
-                                  OR
-                                  <Link
-                                    href="/login"
-                                    className="bg_green text-sm text-white py-2 px-4 rounded mt-3 ml-4"
-                                    prefetch={true}
-                                  >
-                                    Login
-                                  </Link>
-                                </span>
-                              </p>
-                            </div>
-                          )}
-
-                        </>) : (<><p> Login first To Write Review</p>
-                          <a className="cart_btns mt-4" href="/login">
-                            <button>Login</button>
-
-                          </a>
-                        </>)}
-
-
-
+                            )}
+                          </>
+                        ) : (
+                          <>
+                            <p> Login first To Write Review</p>
+                            <a className="cart_btns mt-4" href="/login">
+                              <button>Login</button>
+                            </a>
+                          </>
+                        )}
                       </div>
                     </div>
                   </div>

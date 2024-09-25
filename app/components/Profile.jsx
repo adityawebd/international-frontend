@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useSession, signIn, signOut } from "next-auth/react"
 import BackToTopButton from '../components/BackToTopButton'
+import { Bounce, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 
@@ -23,6 +25,19 @@ const Profile = () => {
       });
     }
   }, [session]);
+
+  const notify = () =>
+    toast.success("Profile Updated Successfully ", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
   
 
   console.log('user email',session?.user.email)
@@ -44,6 +59,8 @@ const Profile = () => {
   
       if (response.ok) {
         setIsEditing(false);
+        notify();
+
         //console.log('Profile updated successfully');
         // Handle successful response if needed
       } else {
@@ -63,6 +80,8 @@ const Profile = () => {
 
   return (
     <div>
+      <ToastContainer />
+
       <div className="user_profile px-5">
         <div className="banner">
           <img src="/assets/image/banner-profile.jpg" alt="Profile Banner" className='rounded' />

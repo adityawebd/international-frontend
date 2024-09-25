@@ -13,7 +13,7 @@ const ProductCard = ({ product }) => {
     const convertedActualPrice = convertPrice(product.price, currency, exchangeRates);
 
     return (
-        <div className="w-[300px] rounded-md border mb-2 mr-2 reposnive_product_card">
+        <a href={`/product/${product._id}`} className="w-[280px] rounded-md border mb-2 mr-2 reposnive_product_card">
             <img
                 src={product.images[0]}
                 alt="product-image"
@@ -34,13 +34,13 @@ const ProductCard = ({ product }) => {
                 </div>  
                 <a
                     // type="button"
-                    href={product.link}
+                    href={`/product/${product._id}`}
                     className="mt-4 w-full rounded text-center bg_green px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
                 >
                     Buy Now
                 </a>
             </div>
-        </div>
+        </a>
     )
 }
 

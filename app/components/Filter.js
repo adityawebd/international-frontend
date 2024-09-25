@@ -98,6 +98,9 @@ const Filter = ({
     onSortChange(""); // Reset sort option in parent component
   };
 
+  const allowedProperties = ["Color", "Occasion", "Item Type"];
+
+
   return (
     <div className="filter-container">
       <h4 className="text-black text-2xl font-semibold flex items-center justify-between">
@@ -193,6 +196,10 @@ const Filter = ({
             {categories?.map((category, categoryIndex) => (
               <div key={categoryIndex} className="aditya1">
                 {category?.property?.map((property, propertyIndex) => {
+                  // Check if the property name is one of the allowed names
+                  if (!allowedProperties.includes(property?.name)) {
+                    return null; // Skip this property if it's not allowed
+                  }
                   const nestedAccordionKey = `${categoryIndex}-${propertyIndex}`;
                   return (
                     <div key={propertyIndex}>
