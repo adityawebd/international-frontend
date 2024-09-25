@@ -65,7 +65,7 @@ const ProductTopbar = () => {
     return (
         <div>
             <div className="product_topbar py-2">
-                <div className="container">
+                <div className="container-auto">
                     <div className="">
                         <div className="z-50 product_topbar_wrapper">
                             {categories.map((category, index) => (
@@ -80,7 +80,7 @@ const ProductTopbar = () => {
                                     <button className="pt_card_parent" onClick={() => handleButtonClick(category)}>
                                         <img
                                             className=""
-                                            src={`/assets/image/gift14.jpg`} // Assuming category has an image field
+                                            src={category.image || `/assets/image/gift14.jpg`} // Assuming category has an image field
                                             alt={category.name}
                                             width={50}
                                             height={50}

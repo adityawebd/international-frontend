@@ -13,8 +13,11 @@ const Cart = () => {
     const { data: session } = useSession();
     const cart = useFromStore(useCartStore, (state) => state.cart);
     const [isModalOpen, setIsModalOpen] = useState(false);
-
+    const [loading, setLoading] = useState(false);
     const [orderData, setOrderData] = useState([]);
+    const [price, setPrice] = useState();
+    const [message, setMessage] = useState("");
+    const [messageURL, setMessageURL] = useState("");
 
 
     let total = 0;
@@ -37,7 +40,7 @@ const Cart = () => {
         setShowCouponInput(!showCouponInput);
     };
 
-    // console.log("cart is",cart)
+    // //console.log("cart is",cart)
 
     // useEffect(() => {
     //     const totalAmount = cart ? cart.reduce((acc, product) => acc + product.price * (product.quantity || 0), 0) : 0;
@@ -63,7 +66,29 @@ const Cart = () => {
     //         });
     //     }
     // }, [cart, session]);
+    const [storedMessage, setStoredMessage] = useState(null);
+    const [storedusername, setStoredusername] = useState(null);
+    const [storednumber, setStorednumber] = useState(null);
+    const [storedImageUrl, setStoredImageUrl] = useState([]);
 
+
+    useEffect(() => {
+    // Check if we're in the browser (client-side)
+    if (typeof window !== 'undefined') {
+      const message = sessionStorage.getItem('message');
+      const username = sessionStorage.getItem('username');
+      const number = sessionStorage.getItem('number');
+      const imageUrl = sessionStorage.getItem('imageUrls');
+
+      setStoredMessage(message);
+      setStoredusername(username);
+      setStorednumber(number);
+      setStoredImageUrl(imageUrl);
+    }
+  }, []);
+
+
+//console.log('session data is ',storedMessage,storedImageUrl,storednumber,storedusername)
 
     const [formData, setFormData] = useState({
         
@@ -77,11 +102,14 @@ const Cart = () => {
         postalCode: '',
         country: '',
         region: '',
+        storedMessage:'',
+        storedImageUrl:'',
     });
 
     useEffect(() => {
         const totalAmount = cart ? cart.reduce((acc, product) => acc + product.discountedPrice * (product.quantity || 0), 0) : 0;
         if (session) {
+            setPrice(totalAmount);
             setFormData(prevFormData => ({
                 ...prevFormData,
                 amount:  totalAmount.toString(),
@@ -95,6 +123,10 @@ const Cart = () => {
                 postalCode: prevFormData.postalCode || session.user?.postalCode || '',
                 country: prevFormData.country || session.user?.country || '',
                 region: prevFormData.region || session.user?.region || '',
+                storedMessage:storedMessage || '',
+                storedImageUrl:storedImageUrl || '',
+                storedusername:storedusername || '',
+                storednumber:storednumber || '',
             }));
         }
     }, [cart, session]);
@@ -107,26 +139,135 @@ const Cart = () => {
         });
     };
 
-    // console.log("data in cart",cart)
+   
 
-    const handleCheckout = async (e) => {
-        e.preventDefault();
-        if (!session) {
+    //  razor pay
+
+    const loadRazorpayScript = () => {
+        return new Promise((resolve) => {
+            const script = document.createElement('script');
+            script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+            script.onload = () => resolve(true);
+            script.onerror = () => resolve(false);
+            document.body.appendChild(script);
+        });
+    };
+
+    const handleRazorpayPayment = async () => {
+
+        if(!session)
+        {
             window.location.href = '/login'; // Redirects to login page
-        } else {
-            try {
-                const response = await axios.post('/api/create-payment', formData);
-                const paymentRequest = response.data;
-                // console.log(paymentRequest);
+            return;
+        }
+        const res = await loadRazorpayScript();
 
-                const longurl = paymentRequest.payment_request.longurl;
-                window.location.href = longurl; // Redirect to Instamojo payment page
-            } catch (error) {
-                setPaymentStatus('Payment request failed. Please try again.');
-                console.error('Error creating payment request:', error);
+        if (!res) {
+            alert('Razorpay SDK failed to load. Are you online?');
+            return;
+        }
+
+        setLoading(true);
+
+        // Create and populate FormData object
+
+
+        try {
+            const response = await fetch('/api/razorpay', {
+                method: 'POST',
+                body: price,
+            });
+
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
             }
+
+            const data = await response.json();
+            // ////console.log('Order created:', data);
+
+
+            // ////console.log(cart)
+            // Proceed with Razorpay payment handling here
+            const options = {
+                key: process.env.RAZORPAY_KEY_ID, // Your Razorpay Key ID
+                amount: data.amount, // Amount should match the one created in the backend
+                currency: 'INR',
+                name: cart[0]?.title,
+                description: 'Purchase Description',
+                order_id: data.id, // Order ID from the backend
+                handler: (response) => {
+                    handlePaymentSuccess(response);
+                  },
+                prefill: {
+                    name: session.user?.name,
+                    email: session.user?.email,
+                    contact: session.user?.number,
+                },
+                theme: {
+                    color: '#F37254',
+                },
+            };
+
+            const rzp = new window.Razorpay(options);
+            rzp.open();
+        } catch (error) {
+            console.error('Error:', error);
+        } finally {
+            setLoading(false);
         }
     };
+
+
+    const handlePaymentSuccess = async (response) => {
+        try {
+            const res = await fetch('/api/create-payment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    razorpay_order_id: response.razorpay_order_id,
+                    razorpay_payment_id: response.razorpay_payment_id,
+                    razorpay_signature: response.razorpay_signature,
+                    formData,  // User ID
+                      // Array of cart items
+                }),
+            });
+
+            const data = await res.json();
+
+            if (data.success) {
+                alert('Payment successful and Order created');
+
+            } else {
+                alert('Payment verification failed. Please contact support.');
+            }
+        } catch (error) {
+            console.error('Error verifying payment:', error);
+            alert('An error occurred. Please try again.');
+        }
+    };
+
+
+    // const handleCheckout = async (e) => {
+    //     e.preventDefault();
+    //     if (!session) {
+    //         window.location.href = '/login'; // Redirects to login page
+    //     } else {
+    //         try {
+    //             const response = await axios.post('/api/create-payment', formData);
+    //             const paymentRequest = response.data;
+    //             // //console.log(paymentRequest);
+
+    //             const longurl = paymentRequest.payment_request.longurl;
+    //             window.location.href = longurl; // Redirect to Instamojo payment page
+    //         } catch (error) {
+    //             setPaymentStatus('Payment request failed. Please try again.');
+    //             console.error('Error creating payment request:', error);
+    //         }
+    //     }
+    // };
 
 
     const handleCheckoutCOD = async (e) => {
@@ -152,7 +293,7 @@ const Cart = () => {
     };
 
 
-    // console.log("delevry ressponce is ",orderData);
+    // //console.log("delevry ressponce is ",orderData);
 
     // Modal Component
     const Modal = ({ isOpen, onClose }) => {
@@ -250,7 +391,7 @@ const Cart = () => {
                                     <div className="col-lg-12">
                                         <div className="cart_btns flex justify-between max-sm:flex-col text-center">
                                             <a className='mb-2' href="/">Continue Shopping</a>
-                                            <button type="button" className="mb-2" onClick={handleCheckout}>Check Out</button>
+                                            <button type="button" className="mb-2" onClick={handleRazorpayPayment}>Check Out</button>
                                             <button type="button" className="mb-2" onClick={handleCheckoutCOD}>Cash on Delivery</button>
                                         </div>
                                     </div>

@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.log( firstName, lastName, email, password, phoneNumber, address, city, postalCode, country, region)
+    //console.log( firstName, lastName, email, password, phoneNumber, address, city, postalCode, country, region)
 
     const salt = await bcryptjs.genSalt(10);
     const hashedPassword = await bcryptjs.hash(password, salt);
@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
       savedUser,
     });
   } catch (error: any) {
-    console.log(error.message);
+    //console.log(error.message);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

@@ -5,6 +5,7 @@ const OrderSchema = new Schema({
   name:String,
   email:String,
   city:String,
+  phone:String,
   postalCode:String,
   address:String,
   country:String,
@@ -17,6 +18,10 @@ const OrderSchema = new Schema({
   status:String,
   quentity:String,
   cart:Object,
+  storedMessage:String,
+  storedImageUrl:[String],
+  storedusername:String,
+  storednumber:String,
 }, {
   timestamps: true,
 });

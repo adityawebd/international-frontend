@@ -6,7 +6,7 @@ import {Category} from "../../models/Category" // Your Mongoose data model
 // Connect to MongoDB
 mongooseConnect();
 
-console.log("Connecting to MongoDB")
+//console.log("Connecting to MongoDB")
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
@@ -18,7 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const query = {_id: condition };
       const data = await Category.find(); // Assuming Product is your Mongoose model
 
-      console.log("catogery", data);
+      //console.log("catogery", data);
       res.status(200).json(data)
         
       res.status(200).json(data);

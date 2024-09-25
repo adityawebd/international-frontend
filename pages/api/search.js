@@ -19,7 +19,7 @@ export default async function handler(req, res) {
  
    
 
-    console.log("serching")
+    //console.log("serching")
 
   res.json(courses);
 }

@@ -51,7 +51,7 @@ const page = () => {
             const res = await axios.post("/api/register", user);
             
             if (res.status == 200 || res.status == 201) {
-                console.log("user added successfully");
+                //console.log("user added successfully");
                 // setNotification({ message: 'successfully Register' , status: 'success' });
                 alert("Registration Succesful!")
             }

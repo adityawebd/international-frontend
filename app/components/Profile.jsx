@@ -37,7 +37,7 @@ const Profile = () => {
   
       if (response.ok) {
         setIsEditing(false);
-        console.log('Profile updated successfully');
+        //console.log('Profile updated successfully');
         // Handle successful response if needed
       } else {
         const errorData = await response.json();

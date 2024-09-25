@@ -6,7 +6,7 @@ import Product from "../../models/Product"; // Your Mongoose data model
 // Connect to MongoDB
 mongooseConnect();
 
-console.log("Connecting to MongoDB")
+//console.log("Connecting to MongoDB")
 
 export default async function handler(req, res) {
 
@@ -26,7 +26,7 @@ export default async function handler(req, res) {
       const query = {_id: condition };
       const data = await Product.find(query); // Assuming Product is your Mongoose model
 
-      console.log("data in the cart bitch", data);
+      //console.log("data in the cart bitch", data);
       res.status(200).json(data)
         
       res.status(200).json(data);

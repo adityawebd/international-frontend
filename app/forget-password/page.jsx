@@ -24,7 +24,7 @@ const page = () => {
                 },
                 body: JSON.stringify({ email }),
             });
-      console.log('Usernace/Email:', email);
+      //console.log('Usernace/Email:', email);
 
       // Set state to trigger redirection
       setRedirectToHome(true);

@@ -9,17 +9,17 @@ mongooseConnect()
 
 
 
-console.log("mongoose Connect")
+//console.log("mongoose Connect")
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
     const {properties}=req.query;
     if (req.method == "GET") {
         try {
-            console.log("from module", properties);
+            //console.log("from module", properties);
 
             const query = { properties: properties };
             const data = await Product.find(query)
-            console.log("from module", data);
+            //console.log("from module", data);
             res.status(200).json(data)
         }
         catch (error) {

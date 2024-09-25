@@ -38,7 +38,7 @@ const ProductContent = ({urldata}) => {
   const data1 = searchParams.get('category');
   const data2 = searchParams.get('filter');
 
-  console.log("data in productss is ", data1, data2);
+  //console.log("data in productss is ", data1, data2);
   const product=urldata
 
   useEffect(() => {
@@ -62,7 +62,7 @@ const ProductContent = ({urldata}) => {
         // Apply filters based on URL data
         if (data1 || data2) {
           if (data1) setSelectedsubcategory(data1);
-          console.log("url id is", data1, data2);
+          //console.log("url id is", data1, data2);
         }
       } catch (error) {
         console.error('Failed to fetch categories and products:', error);
@@ -75,7 +75,7 @@ const ProductContent = ({urldata}) => {
 
    
 
-  console.log("data from api",categori)
+  //console.log("data from api",categori)
 
 
   useEffect(() => {
@@ -99,15 +99,58 @@ const ProductContent = ({urldata}) => {
     setFilters({});
   };
 
-  const handleFilterChange = (propertyName, value  ) => {
-    setFilters(prevFilters => ({ ...prevFilters, [propertyName]: value }));
+  // const handleFilterChange = (propertyName, value  ) => {
+  //   setFilters(prevFilters => ({ ...prevFilters, [propertyName]: value }));
 
-    console.log("data in handleFilterChange is ",propertyName, value)
+  //   //console.log("data in handleFilterChange is ",propertyName, value)
+  // };
+
+  const handleFilterChange = (propertyName, value) => {
+    setFilters(prevFilters => ({
+      ...prevFilters,
+      [propertyName]: value
+    }));
+  
+    //console.log("Updated Filters: ", propertyName, value);
   };
+
+
+  // const handleFilterChange = (propertyName, value) => {
+  //   setFilters(prevFilters => {
+  //     // Clone the previous state
+  //     const updatedFilters = { ...prevFilters };
+  
+  //     // If the property already exists
+  //     if (updatedFilters[propertyName]) {
+  //       // If you want to allow only one value per property, replace the value
+  //       updatedFilters[propertyName] = value;
+  
+  //       // Uncomment the below lines if you want to manage multiple values per property
+  //       if (Array.isArray(updatedFilters[propertyName])) {
+  //         // Toggle value or add it to the list if it doesn't exist
+  //         if (updatedFilters[propertyName].includes(value)) {
+  //           updatedFilters[propertyName] = updatedFilters[propertyName].filter(val => val !== value);
+  //         } else {
+  //           updatedFilters[propertyName].push(value);
+  //         }
+  //       } else {
+  //         updatedFilters[propertyName] = [value];
+  //       }
+  //     } else {
+  //       // Add the new property and value
+  //       updatedFilters[propertyName] = value;
+  //     }
+  
+  //     return updatedFilters;
+  //   });
+  
+  //   //console.log("Updated Filters:", propertyName, value);
+  // };
+  
 
   // const handleFilterChanges = ( value  ) => {
 
-  //   console.log("data in handleFilterChanges is ", value )
+  //   //console.log("data in handleFilterChanges is ", value )
   //   setFilters(prevFilters => ({ ...prevFilters, value }));
    
   // };
@@ -138,14 +181,37 @@ const ProductContent = ({urldata}) => {
       filtered = filtered.filter(product => product.properties === properties );
     }
 
+    // Object.keys(filters).forEach(propertyName => {
+    //   if (filters[propertyName]) {
+    //     filtered = filtered.filter(product => {
+    //       //console.log("filterde property is",propertyName,filters[propertyName])
+    //       return product.property?.[propertyName] === filters[propertyName];
+    //     });
+    //   }
+    // });
+
+
     Object.keys(filters).forEach(propertyName => {
       if (filters[propertyName]) {
         filtered = filtered.filter(product => {
-          console.log("filterde property is",propertyName,filters[propertyName])
-          return product.property?.[propertyName] === filters[propertyName];
+          const productValue = product.property?.[propertyName];
+    
+          // Log to debug and verify data
+          //console.log("Filtering by property:", propertyName, "Filter value:", filters[propertyName], "Product value:", productValue);
+    
+          // Handle single value or array of values
+          if (Array.isArray(filters[propertyName])) {
+            // Check if productValue is included in filters[propertyName] array
+            return filters[propertyName].includes(productValue);
+          } else {
+            // For single value, check direct equality
+            return productValue === filters[propertyName];
+          }
         });
       }
     });
+
+
 
     
   

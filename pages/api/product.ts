@@ -6,7 +6,7 @@ import Product from "../../models/Product"; // Your Mongoose data model
 // Connect to MongoDB
 mongooseConnect();
 
-console.log("Connecting to MongoDB")
+//console.log("Connecting to MongoDB")
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'GET') {

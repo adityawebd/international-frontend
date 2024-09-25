@@ -4,7 +4,7 @@ export default (req, res) => {
         const paymentRequestId = req.query.payment_request_id;
         const paymentStatus = req.query.payment_status
 
-        console.log("payment id:" ,paymentId,"paymentRequest Id:" , paymentRequestId,"paymentStatus:" , paymentStatus);
+        //console.log("payment id:" ,paymentId,"paymentRequest Id:" , paymentRequestId,"paymentStatus:" , paymentStatus);
 
         // Handle the payment success logic here
         if(paymentStatus==='success') {

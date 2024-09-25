@@ -16,7 +16,7 @@ const page = () => {
     //     if (Object.keys(errors).length === 0) {
     //         // Simulate backend authentication (replace with actual backend call)
     //         // For demonstration purposes, assume login is successful
-    //         console.log('OTP:', otp);
+    //         //console.log('OTP:', otp);
 
     //         // alert on successful registration
     //         alert("OTP Verification Successful!")   

@@ -1,8 +1,8 @@
 const convertPrice = (price, currency, exchangeRates) => {
     const rate = exchangeRates[currency];
-    // console.log("type od price",typeof(price))
-    // console.log("rate",rate)
-    // console.log("price is",price)
+    // //console.log("type od price",typeof(price))
+    // //console.log("rate",rate)
+    // //console.log("price is",price)
 
     // if (typeof price !== 'number' || isNaN(price)) {
     //   console.error(`Invalid price: ${price}`);
@@ -14,7 +14,7 @@ const convertPrice = (price, currency, exchangeRates) => {
     //   return price; // Return the original price if the currency is invalid
     // }
 
-    // console.log("returnibg value is",price * rate)
+    // //console.log("returnibg value is",price * rate)
     return price * rate;
 };
 
@@ -23,12 +23,12 @@ import { CurrencyContext } from '../CurrencyContext';
 
 const BestSellCard = ({ price, ...props }) => {
     const { currency, exchangeRates } = useContext(CurrencyContext);
-    // console.log("currency: ",currency)
-    // console.log("exchangeRates are",exchangeRates)
+    // //console.log("currency: ",currency)
+    // //console.log("exchangeRates are",exchangeRates)
     // Convert price using real-time exchange rates
     const convertedPrice = convertPrice(props.discounted_price, currency, exchangeRates);
     const convertedActualPrice = convertPrice(props.actual_price, currency, exchangeRates);
-    //   console.log("convertedPrice",convertedPrice)
+    //   //console.log("convertedPrice",convertedPrice)
 
     return (
         <div className="products_card">

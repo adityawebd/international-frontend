@@ -16,12 +16,12 @@ const NewArrivalCard = (props) => {
     };
 
     const { currency, exchangeRates } = useContext(CurrencyContext);
-    // console.log("currency: ",currency)
-    // console.log("exchangeRates are",exchangeRates)
+    // //console.log("currency: ",currency)
+    // //console.log("exchangeRates are",exchangeRates)
     // Convert price using real-time exchange rates
     const convertedPrice = convertPrice(props.discounted_price, currency, exchangeRates);
     const convertedActualPrice = convertPrice(props.actual_price, currency, exchangeRates);
-    //   console.log("convertedPrice",convertedPrice)
+    //   //console.log("convertedPrice",convertedPrice)
 
     return (
         <div className="products_card">

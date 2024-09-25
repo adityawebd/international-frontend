@@ -7,7 +7,7 @@ import React, { useContext } from 'react';
 import { CurrencyContext } from '../CurrencyContext';
 
 const ProductCard = ({ product }) => {
-    console.log("product card product", product);
+    //console.log("product card product", product);
     const { currency, exchangeRates } = useContext(CurrencyContext);
     const convertedPrice = convertPrice(product.discountedPrice, currency, exchangeRates);
     const convertedActualPrice = convertPrice(product.price, currency, exchangeRates);

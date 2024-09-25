@@ -10,21 +10,21 @@ import Cart from "../../utils/models/cart"
 mongooseConnect()
 
 
-console.log("mongoose Connect")
+//console.log("mongoose Connect")
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
     const {condition}=req.query;
     if (req.method == "GET") {
         try {
-            console.log("from module", condition);
+            //console.log("from module", condition);
 
             const query = {userid: condition };
             const data = await Cart.find(query)
-            console.log("from cart", data);
+            //console.log("from cart", data);
             res.status(200).json(data)
         }
         catch (error) {
-            console.log("the error is ",error);
+            //console.log("the error is ",error);
             res.status(500).json({error: 'internal error'})
         }
     }

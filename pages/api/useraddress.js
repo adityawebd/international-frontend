@@ -9,17 +9,17 @@ mongooseConnect()
 
 
 
-console.log("mongoose Connect")
+//console.log("mongoose Connect")
 export default async function handler(req, res) {
 
     const {condition}=req.query;
     if (req.method == "GET") {
         try {
-            console.log("from module", condition);
+            //console.log("from module", condition);
 
             const query = { email: condition };
             const data = await Customer.find(query)
-            console.log("from module", data);
+            //console.log("from module", data);
             res.status(200).json(data)
         }
         catch (error) {
