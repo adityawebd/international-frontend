@@ -5,6 +5,9 @@ import Footer from '../components/Footer'
 import Breadcrumbs from '../components/Breadcrumbs'
 import { signIn } from "next-auth/react";
 
+import { Bounce, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const page = () => {
 
   const [username, setUsername] = useState('');
@@ -16,6 +19,32 @@ const page = () => {
     username: "",
     password: "",
   });
+
+  
+  const notify = () =>
+    toast.success("Login Succesful!", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
+    const notify2 = () =>
+      toast.error("Something Went Wrong! Invalid Email or Password", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        transition: Bounce,
+      });
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -34,13 +63,16 @@ const page = () => {
 
       if (res?.error) {
         //console.log(res);
-        alert("Something Went Wrong! Invalid Email or Password")
+        // alert("Something Went Wrong! Invalid Email or Password")
+        notify2();
         setError("error");
         setRedirectToHome(false);
       } else {
 
         // alert on successful registration
-        alert("Login Succesful!")
+        // alert("Login Succesful!")
+        notify();
+
         // Set state to trigger redirection
         setRedirectToHome(true);
       }
@@ -85,6 +117,7 @@ const page = () => {
     <div>
       <Navbar />
       <Breadcrumbs page_title="Login" />
+      <ToastContainer />  
 
 
       <div className="login py-5">

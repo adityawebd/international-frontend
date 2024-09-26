@@ -5,6 +5,9 @@ import Footer from '../components/Footer'
 import Breadcrumbs from '../components/Breadcrumbs'
 import axios from 'axios';
 
+import { Bounce, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const page = () => {
 
@@ -24,10 +27,23 @@ const page = () => {
     const [errors, setErrors] = useState({});
     const [redirectToHome, setRedirectToHome] = useState(false);
 
+    const notify = () =>
+        toast.success("Registration Succesful!", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+
     // Hard-coded list of countries
     const countries = ["United States", "Canada", "India", "Australia", "United Kingdom", "Germany", "France", "Japan"];
 
-    const handleSubmit = async (event) => {
+    const   handleSubmit = async (event) => {
         event.preventDefault();
         const errors = validateForm();
         if (Object.keys(errors).length === 0) {
@@ -53,7 +69,8 @@ const page = () => {
             if (res.status == 200 || res.status == 201) {
                 //console.log("user added successfully");
                 // setNotification({ message: 'successfully Register' , status: 'success' });
-                alert("Registration Succesful!")
+                // alert("Registration Succesful!")
+                notify();
             }
             if(res.status == 400 || res.status == 401)
                 alert(res.error)
@@ -105,6 +122,7 @@ const page = () => {
         <div>
             <Navbar />
             <Breadcrumbs page_title="Register" />
+            <ToastContainer />  
             
 
             <div className="register py-5">
@@ -206,7 +224,7 @@ const page = () => {
                                         value={address}
                                         onChange={(e) => setaddress(e.target.value)}
                                         className={errors.address && 'error'}
-                                        placeholder='Enter address line 1'
+                                        placeholder='Your full address'
                                         required
                                     />
                                     {errors.address && <p className="error-message">{errors.address}</p>}
@@ -227,19 +245,6 @@ const page = () => {
                             </div>
                             <div className="row">
                                 <div className="col-md-6 col-lg-6 col-sm-12 form-group">
-                                    <label htmlFor="addressTwo">Address Line 2<span className='asterik'>*</span></label>
-                                    <input
-                                        type="text"
-                                        id="addressTwo"
-                                        value={addressTwo}
-                                        onChange={(e) => setAddressTwo(e.target.value)}
-                                        className={errors.addressTwo && 'error'}
-                                        placeholder='Enter address line 2'
-                                        required
-                                    />
-                                    {errors.addressTwo && <p className="error-message">{errors.addressTwo}</p>}
-                                </div>
-                                <div className="col-md-6 col-lg-6 col-sm-12 form-group">
                                     <label htmlFor="region">State<span className='asterik'>*</span></label>
                                     <input
                                         type="text"
@@ -252,22 +257,6 @@ const page = () => {
                                     />
                                     {errors.region && <p className="error-message">{errors.region}</p>}
                                 </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-md-6 col-lg-6 col-sm-12 form-group">
-                                    <label htmlFor="addressThree">Address Line 3<span className='asterik'>*</span></label>
-                                    <input
-                                        type="text"
-                                        id="addressThree"
-                                        value={addressThree}
-                                        onChange={(e) => setAddressThree(e.target.value)}
-                                        className={errors.addressThree && 'error'}
-                                        placeholder='Enter address line 3'
-                                        required
-                                    />
-                                    {errors.addressThree && <p className="error-message">{errors.addressThree}</p>}
-                                </div>
-
                                 <div className="col-md-6 col-lg-6 col-sm-12 form-group">
                                     <label htmlFor="country">Country<span className='asterik'>*</span></label>
                                     <select
