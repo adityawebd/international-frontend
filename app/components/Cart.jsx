@@ -319,7 +319,7 @@ const Cart = () => {
 
         return (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 w-full">
-                <div className="bg-white p-6 rounded-lg shadow-lg w-10/12">
+                <div className="bg-white p-6 rounded-lg shadow-lg w-[40%] max-sm:w-[90%]">
                     {/* <h2 className="text-xl font-semibold mb-4">Confirm Order</h2> */}
                     <div className="container-sm ">
                         <div className="flex flex-col justify-center items-center ">

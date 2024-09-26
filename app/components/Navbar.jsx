@@ -128,7 +128,7 @@ const Navbar = () => {
         <div className='navbar'>
           <div className="navbar_brand">
             <a href="/">
-              <img src="/assets/image/logo-gift1.png" alt="Logo" />
+              <img src="/assets/image/international-gift-fav.png" alt="Logo" />
             </a>
           </div>
           <div className='navbar_body'>
@@ -167,7 +167,9 @@ const Navbar = () => {
                       </div>
                       {userDropdownVisible && (
                         <div className="user_dropdown">
-                          <div><a onClick={logout}>LOGOUT</a></div>
+                          <div><a href='/profile'>Your Profile</a></div>
+                          <div><a href='/user-history'>Your Orders</a></div>
+                          <div><a onClick={logout}>Logout</a></div>
                         </div>
                       )}
                     </div>

@@ -993,7 +993,7 @@ const Page = ({ params }) => {
                         <p className="text-lg font-medium text-gray-900">
                           Average Review: &nbsp;
                           <span className="green_font">
-                            {reviewData?.averageRating || "N/A"}
+                            {reviewData?.averageRating.toFixed(2) || "N/A"}
                           </span>
                         </p>
                         <div className="flex align-middle">

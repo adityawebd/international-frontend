@@ -181,13 +181,13 @@ font-weight: 700 !important;
 }
 
 .navbar_brand {
-  width: 20%;
   /* border: 1px solid red; */
+  width: 20%;
 }
 
 .navbar_brand img {
   /* border: 1px solid red; */
-  width: 100%;
+  width: 20%;
 }
 
 /* ------ dropdown styling ----- */
@@ -351,7 +351,7 @@ font-weight: 700 !important;
   position: absolute;
   z-index: 999;
   font-size: 13px;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
   background-color: var(--white-clr);
   border: 1px solid var(--primary-clr);
   /* padding: 5px 20px; */
@@ -369,6 +369,9 @@ font-weight: 700 !important;
 
 .navbar_icons .user_dropdown div:first-child {
   border-bottom: 1px solid var(--primary-clr);
+}
+.navbar_icons .user_dropdown div:last-child {
+  border-top: 1px solid var(--primary-clr);
 }
 
 .navbar_icons .user_dropdown ul li:first-child {
