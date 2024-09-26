@@ -159,7 +159,8 @@ export default async function handler(req, res) {
           country,
           paid: false,
         });
-        await orderConfermation(email, channel_order_id);
+        const type='Pending'
+        await orderConfermation(email, channel_order_id,cart,type);
         res.status(200).json(data);
       } catch (error) {
         res.status(500).json({ error: "internal error" });

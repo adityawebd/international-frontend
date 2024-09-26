@@ -6,7 +6,7 @@ import CartItem from './CartItem';
 import { useCartStore } from '../../stores/useCartStore';
 import useFromStore from '../../hooks/useFromStore';
 import { useRouter } from 'next/navigation';
-import {Check} from 'lucide-react'
+import { Check } from 'lucide-react'
 import { Spinner } from '@nextui-org/react';
 
 
@@ -23,7 +23,7 @@ const Cart = () => {
     const [messageURL, setMessageURL] = useState("");
     const [spinner, setSpinner] = useState(false);
 
-    
+
 
 
     let total = 0;
@@ -79,25 +79,25 @@ const Cart = () => {
 
 
     useEffect(() => {
-    // Check if we're in the browser (client-side)
-    if (typeof window !== 'undefined') {
-      const message = sessionStorage.getItem('message');
-      const username = sessionStorage.getItem('username');
-      const number = sessionStorage.getItem('number');
-      const imageUrl = sessionStorage.getItem('imageUrls');
+        // Check if we're in the browser (client-side)
+        if (typeof window !== 'undefined') {
+            const message = sessionStorage.getItem('message');
+            const username = sessionStorage.getItem('username');
+            const number = sessionStorage.getItem('number');
+            const imageUrl = sessionStorage.getItem('imageUrls');
 
-      setStoredMessage(message);
-      setStoredusername(username);
-      setStorednumber(number);
-      setStoredImageUrl(imageUrl);
-    }
-  }, []);
+            setStoredMessage(message);
+            setStoredusername(username);
+            setStorednumber(number);
+            setStoredImageUrl(imageUrl);
+        }
+    }, []);
 
 
-//console.log('session data is ',storedMessage,storedImageUrl,storednumber,storedusername)
+    //console.log('session data is ',storedMessage,storedImageUrl,storednumber,storedusername)
 
     const [formData, setFormData] = useState({
-        
+
         buyer_name: '',
         email: '',
         phone: '',
@@ -108,8 +108,8 @@ const Cart = () => {
         postalCode: '',
         country: '',
         region: '',
-        storedMessage:'',
-        storedImageUrl:'',
+        storedMessage: '',
+        storedImageUrl: '',
     });
 
     useEffect(() => {
@@ -118,7 +118,7 @@ const Cart = () => {
             setPrice(totalAmount);
             setFormData(prevFormData => ({
                 ...prevFormData,
-                amount:  totalAmount.toString(),
+                amount: totalAmount.toString(),
                 buyer_name: prevFormData.buyer_name || session.user?.name || '',
                 email: prevFormData.email || session.user?.email || '',
                 phone: prevFormData.phone || session.user?.number || '',
@@ -129,10 +129,10 @@ const Cart = () => {
                 postalCode: prevFormData.postalCode || session.user?.postalCode || '',
                 country: prevFormData.country || session.user?.country || '',
                 region: prevFormData.region || session.user?.region || '',
-                storedMessage:storedMessage || '',
-                storedImageUrl:storedImageUrl || '',
-                storedusername:storedusername || '',
-                storednumber:storednumber || '',
+                storedMessage: storedMessage || '',
+                storedImageUrl: storedImageUrl || '',
+                storedusername: storedusername || '',
+                storednumber: storednumber || '',
             }));
         }
     }, [cart, session]);
@@ -145,7 +145,7 @@ const Cart = () => {
         });
     };
 
-   
+
 
     //  razor pay
 
@@ -161,8 +161,7 @@ const Cart = () => {
 
     const handleRazorpayPayment = async () => {
 
-        if(!session)
-        {
+        if (!session) {
             window.location.href = '/login'; // Redirects to login page
             return;
         }
@@ -204,7 +203,7 @@ const Cart = () => {
                 order_id: data.id, // Order ID from the backend
                 handler: (response) => {
                     handlePaymentSuccess(response);
-                  },
+                },
                 prefill: {
                     name: session.user?.name,
                     email: session.user?.email,
@@ -237,7 +236,7 @@ const Cart = () => {
                     razorpay_payment_id: response.razorpay_payment_id,
                     razorpay_signature: response.razorpay_signature,
                     formData,  // User ID
-                      // Array of cart items
+                    // Array of cart items
                 }),
             });
 
@@ -245,6 +244,8 @@ const Cart = () => {
 
             if (data.success) {
                 alert('Payment successful and Order created');
+                setOrderData(data.order)
+                setIsModalOpen(true);
 
             } else {
                 alert('Payment verification failed. Please contact support.');
@@ -276,38 +277,45 @@ const Cart = () => {
     // };
 
 
-    // const handleCheckoutCOD = async (e) => {
-    //     e.preventDefault();
-
-    //     // window.location.href = '/create-order',formData;
-    //     if (!session) {
-    //         window.location.href = '/login'; // Redirects to login page
-    //     } else {
-    //         try {
-    //             const response = await axios.post('/api/create-oreder', formData);
-    //             const paymentRequest = response.data.order;
-    //             setOrderData(response.data.order)
-
-    //             const longurl = paymentRequest.payment_request.longurl;
-    //             window.location.href = longurl; // Redirect to Instamojo payment page
-    //         } catch (error) {
-    //             setPaymentStatus('Payment request failed. Please try again.');
-    //             console.error('Error creating payment request:', error);
-    //         }
-    //         setIsModalOpen(true); // Show the modal
-    //     }
-    // };
-    
     const handleCheckoutCOD = async (e) => {
-        setSpinner(true); // Show spinner
+        e.preventDefault();
 
-        // Use setTimeout to simulate an async operation
-        setTimeout(() => {
-            setIsModalOpen(true); // Open the modal
-            setSpinner(false); // Hide spinner after 3 seconds
-        }, 3000);
+        // window.location.href = '/create-order',formData;
+        if (!session) {
+            window.location.href = '/login'; // Redirects to login page
+        } else {
+            setSpinner(true); // Show spinner
+
+            // Use setTimeout to simulate an async operation
+            setTimeout(() => {
+                setIsModalOpen(true); // Open the modal
+                setSpinner(false); // Hide spinner after 3 seconds
+            }, 3000);
+            try {
+                const response = await axios.post('/api/create-oreder', formData);
+                const paymentRequest = response.data.order;
+                setOrderData(response.data.order)
+
+                const longurl = paymentRequest.payment_request.longurl;
+                window.location.href = longurl; // Redirect to Instamojo payment page
+            } catch (error) {
+                setPaymentStatus('Payment request failed. Please try again.');
+                console.error('Error creating payment request:', error);
+            }
+             // Show the modal
+        }
     };
-    
+
+    // const handleCheckoutCOD = async (e) => {
+    //     setSpinner(true); // Show spinner
+
+    //     // Use setTimeout to simulate an async operation
+    //     setTimeout(() => {
+    //         setIsModalOpen(true); // Open the modal
+    //         setSpinner(false); // Hide spinner after 3 seconds
+    //     }, 3000);
+    // };
+
 
     // //console.log("delevry ressponce is ",orderData);
 
@@ -360,7 +368,7 @@ const Cart = () => {
                     <div className="flex justify-end">
                         <a href='/user-history'
                             className="mr-2 bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400"
-                            // onClick={onClose}
+                        // onClick={onClose}
                         >
                             VIEW
                         </a>
@@ -494,8 +502,8 @@ const Cart = () => {
                                         <label htmlFor="country" className='text-sm font-semibold mt-4'>
                                             Country<span className='asterik'>*</span>
                                         </label>
-                                        <input 
-                                        required
+                                        <input
+                                            required
                                             type="text"
                                             name="country"
                                             placeholder="country"
@@ -518,7 +526,7 @@ const Cart = () => {
                                             State/Province<span className='asterik'>*</span>
                                         </label>
                                         <input
-                                        required
+                                            required
                                             type="text"
                                             name="region"
                                             placeholder="region"
@@ -540,7 +548,7 @@ const Cart = () => {
                                             Address Line<span className='asterik'>*</span>
                                         </label>
                                         <input
-                                        required
+                                            required
                                             type="text"
                                             name="address"
                                             placeholder="address"
@@ -553,7 +561,7 @@ const Cart = () => {
                                             Zip/Postal Code<span className='asterik'>*</span>
                                         </label>
                                         <input
-                                        required
+                                            required
                                             type="text"
                                             name="postalCode"
                                             placeholder="Zip/Postal Code"

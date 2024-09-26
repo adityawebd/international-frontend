@@ -176,7 +176,8 @@ export default async (req, res) => {
         country,
         paid: true,
       });
-      await orderConfermation(email, channel_order_id);
+      const type='Paid'
+      await orderConfermation(email, channel_order_id,cart,type );
       return res.json({
         success: true,
         message: "Payment verified and courses added",

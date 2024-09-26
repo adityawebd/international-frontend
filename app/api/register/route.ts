@@ -3,7 +3,7 @@ import { NextResponse, NextRequest } from "next/server";
 import bcryptjs from "bcryptjs";
 import Customer from '../../../utils/models/customer';
 import { connect } from '../../../utils/config/dbConfig';
-
+import { sendJoiEmail } from '../../../utils/nodemailer';
 
 connect();
 
@@ -39,6 +39,8 @@ export async function POST(request: NextRequest) {
     });
 
     const savedUser = await newUser.save();
+
+    await sendJoiEmail(email,firstName);
 
     return NextResponse.json({
       message: "User created successfully",

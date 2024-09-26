@@ -3152,7 +3152,12 @@ footer .limited_edition {
 }
 
 .user_history .table_wrapper table tbody tr td {
-  border: 1px solid var(--primary-clr);
+  /* border: 1px solid var(--primary-clr); */
+}
+.user_history .table_wrapper  .order_desc {
+  /* border: 1px solid red; */
+  height: 100px;
+  overflow-y: auto;
 }
 
 .user_history .table_wrapper table .product_img img {
@@ -4028,6 +4033,7 @@ footer .limited_edition {
     overflow: hidden;
     /* Prevent scrolling */
   }
+
 
   .filter-component-div {
     position: fixed;
