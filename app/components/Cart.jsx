@@ -8,6 +8,8 @@ import useFromStore from '../../hooks/useFromStore';
 import { useRouter } from 'next/navigation';
 import { Check } from 'lucide-react'
 import { Spinner } from '@nextui-org/react';
+import { Bounce, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 const Cart = () => {
@@ -15,6 +17,8 @@ const Cart = () => {
     const [showCouponInput, setShowCouponInput] = useState(false);
     const { data: session } = useSession();
     const cart = useFromStore(useCartStore, (state) => state.cart);
+    const clearCart = useCartStore((state) => state.clearCart);
+    // const { clearCart } = useCartStore.getState();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const [orderData, setOrderData] = useState([]);
@@ -84,7 +88,9 @@ const Cart = () => {
             const message = sessionStorage.getItem('message');
             const username = sessionStorage.getItem('username');
             const number = sessionStorage.getItem('number');
-            const imageUrl = sessionStorage.getItem('imageUrls');
+            const imageUrlString  = sessionStorage.getItem('imageUrls');
+
+            const imageUrl = imageUrlString  ? JSON.parse(imageUrlString ) : [];
 
             setStoredMessage(message);
             setStoredusername(username);
@@ -92,6 +98,22 @@ const Cart = () => {
             setStoredImageUrl(imageUrl);
         }
     }, []);
+
+    const clearOrderData = () => {
+        if (typeof window !== 'undefined') {
+            // Remove specific session storage items
+            sessionStorage.removeItem('message');
+            sessionStorage.removeItem('username');
+            sessionStorage.removeItem('number');
+            sessionStorage.removeItem('imageUrls');
+    
+            // Optionally reset the local state if needed
+            setStoredMessage(null);
+            setStoredusername(null);
+            setStorednumber(null);
+            setStoredImageUrl([]);
+        }
+    };
 
 
     //console.log('session data is ',storedMessage,storedImageUrl,storednumber,storedusername)
@@ -245,7 +267,10 @@ const Cart = () => {
             if (data.success) {
                 alert('Payment successful and Order created');
                 setOrderData(data.order)
+                
+                clearOrderData();
                 setIsModalOpen(true);
+                clearCart();
 
             } else {
                 alert('Payment verification failed. Please contact support.');
@@ -277,6 +302,21 @@ const Cart = () => {
     // };
 
 
+    const notify2 = () =>
+        toast.error("Something Went Wrong! Invalid Email or Password", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+
+
+
     const handleCheckoutCOD = async (e) => {
         e.preventDefault();
 
@@ -287,22 +327,28 @@ const Cart = () => {
             setSpinner(true); // Show spinner
 
             // Use setTimeout to simulate an async operation
-            setTimeout(() => {
-                setIsModalOpen(true); // Open the modal
-                setSpinner(false); // Hide spinner after 3 seconds
-            }, 3000);
+
             try {
                 const response = await axios.post('/api/create-oreder', formData);
                 const paymentRequest = response.data.order;
                 setOrderData(response.data.order)
+                setTimeout(() => {
+                    setIsModalOpen(true); // Open the modal
+                    setSpinner(false); // Hide spinner after 3 seconds
+                }, 3000);
+                clearCart();
+                clearOrderData();
 
-                const longurl = paymentRequest.payment_request.longurl;
-                window.location.href = longurl; // Redirect to Instamojo payment page
+                 // Redirect to Instamojo payment page
             } catch (error) {
                 setPaymentStatus('Payment request failed. Please try again.');
                 console.error('Error creating payment request:', error);
+                setSpinner(false);
+                notify2();
+
+
             }
-             // Show the modal
+            // Show the modal
         }
     };
 
@@ -327,6 +373,7 @@ const Cart = () => {
 
         return (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 w-full">
+
                 <div className="bg-white p-6 rounded-lg shadow-lg w-[40%] max-sm:w-[90%]">
                     {/* <h2 className="text-xl font-semibold mb-4">Confirm Order</h2> */}
                     <div className="container-sm ">
@@ -387,6 +434,7 @@ const Cart = () => {
 
     return (
         <div>
+            <ToastContainer />
             <div className="cart_page">
                 {/* <div className="container"> */}
                 <div className="container">

@@ -16,7 +16,7 @@ export default async function handler(req, res) {
       // Fetch data from MongoDB using Mongoose model
       if (req.query?.ids) {
         const idsArray = req.query.ids.split(',');
-        res.json(await Product.find({ _id: { $in: idsArray } }));
+        res.json(await Product.find({ id: { $in: idsArray } }));
       } else if (req.query?.id) {
         res.json(await Product.findOne({ _id: req.query.id }));
       } else {

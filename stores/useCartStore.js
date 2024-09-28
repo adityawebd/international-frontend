@@ -111,6 +111,14 @@ export const useCartStore = create(
           }));
         }
       },
+
+      clearCart: () => {
+        set({
+          cart: INITIAL_STATE.cart,
+          totalItems: INITIAL_STATE.totalItems,
+          totalPrice: INITIAL_STATE.totalPrice,
+        });
+      },
     }),
     {
       name: "cart-storage",
