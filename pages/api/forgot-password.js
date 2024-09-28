@@ -19,11 +19,13 @@ export default async function handler(req, res) {
     return res.status(404).json({ message: 'User not found' });
   }
 
+  const User=user.firstName
+
   const otp = crypto.randomInt(100000, 999999).toString();
 
   await Otp.create({ email, otp });
 
-  await sendOtpEmail(email, otp);
+  await sendOtpEmail(email, otp,User);
 
   res.status(200).json({ message: 'OTP sent to email' });
 }

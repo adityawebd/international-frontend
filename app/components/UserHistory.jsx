@@ -25,6 +25,12 @@ const UserHistory = () => {
     }
   }, [session]);
 
+
+  const cancleOrder = async (id) => {
+    await axios.post(`/api/cancleorder/`, { id });
+    window.location.reload()
+  };
+
   return (
     <div>
       <div className="user_history px-5">
@@ -41,6 +47,7 @@ const UserHistory = () => {
         <th className="border border-gray-300 px-4 py-2">Recipient</th>
         <th className="border border-gray-300 px-4 py-2">Products & Quantity</th>
         <th className="border border-gray-300 px-4 py-2">Other Details</th>
+        <th className="border border-gray-300 px-4 py-2">Action</th>
         
 
       </tr>
@@ -48,7 +55,7 @@ const UserHistory = () => {
             {orders.length > 0 ? (
               <tbody>
               {orders.length > 0 && orders.map(order => (
-              <tr key={order._id} className="border border-gray-300">
+              <tr key={order._id} className="border border-gray-300 ">
                 <td className="border border-gray-300 px-4 py-2">{(new Date(order.updatedAt)).toLocaleString()}</td>
                 <td>
                 {order.cart?.map((item,index)=>(
@@ -69,15 +76,17 @@ const UserHistory = () => {
                   <div className="text-xs"><span className="font-bold">Country : </span>{order.country}</div>
                   
                 </td>
-                <td className="border border-gray-300 px-4 py-2">
+                <td className="border border-gray-300 px-4 py-2 ">
 
+                <div className='order_desc'>
                 {order.cart?.map((item,index)=>(
-                  <>
+                  <span className=''>
                   <div>Product is :{item.title} </div>
                   <div>Quantity is :{item.quantity} </div>
-                  </>
+                  </span>
                   
                 ))}
+                </div>
                   
 
                 </td>
@@ -88,6 +97,54 @@ const UserHistory = () => {
 
                   <div className="text-xs"><span className="font-bold">Shipment Id : </span>{order.shipment_id}</div>
                   
+                </td>
+                <td>
+                    
+                {order.status === "NEW" && (
+                        <>
+                          <button
+                            // onClick={() => generatePDF(order)}
+                            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded"
+                          >
+                            Invoice
+                          </button>
+                          
+                          <button
+                            onClick={() => cancleOrder(order._id)}
+                            className="bg-red-500 hover:bg-red-600 text-white font-bold py-1 px-2 rounded"
+                          >
+                            Cancel
+                          </button>
+                        </>
+                      )}
+
+                      {/* If the order is "canceled", show disabled buttons */}
+                      {order.status === "canceled" && (
+                        <>
+
+                          <button
+                            disabled
+                            className="bg-gray-500 text-white font-bold py-1 px-2 rounded cursor-not-allowed"
+                          >
+                            Cancel
+                          </button>
+                        </>
+                      )}
+
+                      {/* If the order is "Delivered", show only the Invoice button */}
+                      {order.status === "Delivered" && (
+                        <>
+                          <button
+                            // onClick={() => generatePDF(order)}
+                            className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded"
+                          >
+                            Invoice
+                          </button>
+                          
+                          
+                        </>
+                      )}
+                 
                 </td>
         
                 
