@@ -6,7 +6,7 @@ const page = () => {
       <div className="p-4">
         <div className="grid grid-cols-2 pb-5">
           <div>
-            <img src="/assets/image/logo-gift.png" alt="" />
+            <img src="/assets/image/logo-gift.png" alt=""/>
             <div className="text-lg ml-36 font-semibold text-red-500">
               Corporate & Occasions Gift
             </div>
