@@ -14,7 +14,7 @@ export function middleware(req) {
   }
 
   // If the user is not authenticated and trying to access protected routes (e.g., profile), redirect them to the login page
-  const protectedRoutes = ['/profile', '/dashboard', '/settings','/wishlist','/user-history'];
+  const protectedRoutes = ['/profile', '/dashboard', '/settings','/wishlist','/user-history', '/invoice'];
 
   if (!token && protectedRoutes.some((route) => req.nextUrl.pathname.startsWith(route))) {
     return NextResponse.redirect(new URL('/login', req.url));
@@ -26,5 +26,5 @@ export function middleware(req) {
 
 // Apply the middleware to specific paths
 export const config = {
-  matcher: ['/login/:path*', '/signup', '/profile'], // Protect login, signup, and profile routes
+  matcher: ['/login/:path*', '/signup', '/profile','/wishlist','/user-history', '/invoice/:path*'] // Protect login, signup, and profile routes
 };
