@@ -20,7 +20,7 @@ const page = () => {
     password: "",
   });
 
-  
+
   const notify = () =>
     toast.success("Login Succesful!", {
       position: "top-center",
@@ -33,18 +33,18 @@ const page = () => {
       theme: "light",
       transition: Bounce,
     });
-    const notify2 = () =>
-      toast.error("Something Went Wrong! Invalid Email or Password", {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
-        transition: Bounce,
-      });
+  const notify2 = () =>
+    toast.error("Something Went Wrong! Invalid Email or Password", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -117,7 +117,7 @@ const page = () => {
     <div>
       <Navbar />
       <Breadcrumbs page_title="Login" />
-      <ToastContainer />  
+      <ToastContainer />
 
 
       <div className="login py-5">

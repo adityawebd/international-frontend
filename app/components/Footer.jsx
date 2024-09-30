@@ -3,10 +3,8 @@ import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/f
 import {Send} from 'lucide-react'
 
 const Footer = () => {
-    const date = new Date();
-
     return (
-        <div className='developedByAdityaRajGupta'>
+        <div>
             <footer>
                 <div className="limited_edition text-center text-md text-white py-3">
                     Discover the World of Unique Gifts!
@@ -69,7 +67,7 @@ const Footer = () => {
                             </div>
                         </div>
                         <div className="col-md-4">
-                            <p className='text-sm light_black_font py-2 text-center'>Copyright &copy; 2{date.getFullYear()} <span>INTERNATION GIFT</span>. All Rights Reserved</p>
+                            <p className='text-sm light_black_font py-2 text-center'>Copyright &copy; 2023-2024 <span>INTERNATION GIFT</span>. All Rights Reserved</p>
                         </div>
                         <div className="col-md-4">
                             <img src="/assets/images/icons/payment.png" alt="" />

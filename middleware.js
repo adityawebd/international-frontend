@@ -26,5 +26,5 @@ export function middleware(req) {
 
 // Apply the middleware to specific paths
 export const config = {
-  matcher: ['/login/:path*', '/signup', '/profile/:path*'], // Protect login, signup, and profile routes
+  matcher: ['/login/:path*', '/signup', '/profile'], // Protect login, signup, and profile routes
 };

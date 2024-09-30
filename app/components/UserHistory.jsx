@@ -106,7 +106,9 @@ const UserHistory = () => {
                             // onClick={() => generatePDF(order)}
                             className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded"
                           >
+                            <a href={`invoice/${order._id}`}>
                             Invoice
+                            </a>
                           </button>
                           
                           <button
@@ -138,7 +140,9 @@ const UserHistory = () => {
                             // onClick={() => generatePDF(order)}
                             className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-2 rounded"
                           >
+                            <a href={`invoice/${order._id}`}>
                             Invoice
+                            </a>
                           </button>
                           
                           

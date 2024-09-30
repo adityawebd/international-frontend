@@ -159,6 +159,7 @@ export default async (req, res) => {
         email,
         phone,
         city,
+        region,
         postalCode,
         buyer_name,
         images,
