@@ -24,17 +24,11 @@ const Filter = ({
     sort: true,
   });
 
-  // Set all nested accordions open initially
+// Set all nested accordions open initially
   const [openNestedAccordions, setOpenNestedAccordions] = useState({});
-
-  // Price range state
   const [priceRange, setPriceRange] = useState([0, 5000]);
-
-  // Sort state
   const [sortOption, setSortOption] = useState("");
-
   const [filters, setFilters] = useState({});
-
 
   const toggleAccordion = (accordion) => {
     setOpenAccordions((prevState) => ({
@@ -47,17 +41,14 @@ const Filter = ({
     const accordionKey = `${categoryIndex}-${propertyIndex}`;
     setOpenNestedAccordions((prevState) => ({
       ...prevState,
-      [accordionKey]: !prevState[accordionKey], // Toggle the state for the nested accordion
+      [accordionKey]: !prevState[accordionKey],
     }));
   };
 
-  const handleCheckboxChange = (property, value,checked) => {
-    if(checked)
-    {
-    //console.log("filter data sending", property, value,checked);
-    onFilterChange(property, value);
-    }
-    else{
+  const handleCheckboxChange = (property, value, checked) => {
+    if (checked) {
+      onFilterChange(property, value);
+    } else {
       onFilterChange(property, null);
     }
   };
@@ -85,52 +76,40 @@ const Filter = ({
     setFilters({});
     setPriceRange([0, 5000]);
     setSortOption("");
-    
+
     document.querySelectorAll('.filter-container input[type="checkbox"]').forEach((checkbox) => {
       checkbox.checked = false;
-    }); 
+    });
+
     categories.forEach((category) => {
       category?.property?.forEach((property) => {
-        onFilterChange(property.name, null); // Clear filters for each property in the parent component
+        onFilterChange(property.name, null);
       });
-    });// Clear filters for parent component
-    onPriceChange([0, 5000]); // Reset price filter in parent component
-    onSortChange(""); // Reset sort option in parent component
+    });
+
+    onPriceChange([0, 5000]);
+    onSortChange("");
   };
 
   const allowedProperties = ["Color", "Occasion", "Item Type"];
-
 
   return (
     <div className="filter-container">
       <h4 className="text-black text-2xl font-semibold flex items-center justify-between">
         Filters
-        <button
-          onClick={onClose} // Use the onClose prop to close the filter
-          className="d-md-none"
-        >
+        <button onClick={onClose} className="d-md-none">
           <IoClose />
         </button>
       </h4>
 
-
       {/* Price Range Accordion */}
       <div>
-        <div
-          className="accordion border-0 accordion_fixed_div_name"
-          onClick={() => toggleAccordion("price")}
-        >
+        <div className="accordion border-0 accordion_fixed_div_name" onClick={() => toggleAccordion("price")}>
           <h5>Price Range</h5>
         </div>
         {openAccordions.price && (
           <div className="accordion-content pt-3 border-0 px-3">
-            <Slider
-              range
-              min={0}
-              max={5000}
-              defaultValue={priceRange}
-              onChange={handlePriceChange}
-            />
+            <Slider range min={0} max={5000} defaultValue={priceRange} onChange={handlePriceChange} />
             <div className="price_inputs flex justify-between w-full mt-2">
               <label>
                 <span className="text-xs green_font">Min Price:</span>
@@ -138,20 +117,16 @@ const Filter = ({
                   type="number"
                   className="inline border rounded w-[80px] p-2 mt-2 outline-none"
                   value={priceRange[0]}
-                  onChange={(e) =>
-                    handlePriceChange([Number(e.target.value), priceRange[1]])
-                  }
+                  onChange={(e) => handlePriceChange([Number(e.target.value), priceRange[1]])}
                 />
               </label>
               <label>
-              <span className="text-xs green_font">Max Price:</span>
+                <span className="text-xs green_font">Max Price:</span>
                 <input
                   type="number"
                   className="inline border rounded w-[80px] p-2 mt-2 outline-none"
                   value={priceRange[1]}
-                  onChange={(e) =>
-                    handlePriceChange([priceRange[0], Number(e.target.value)])
-                  }
+                  onChange={(e) => handlePriceChange([priceRange[0], Number(e.target.value)])}
                 />
               </label>
             </div>
@@ -161,10 +136,7 @@ const Filter = ({
 
       {/* Sort Accordion */}
       <div>
-        <div
-          className="accordion border-0 accordion_fixed_div_name"
-          onClick={() => toggleAccordion("sort")}
-        >
+        <div className="accordion border-0 accordion_fixed_div_name" onClick={() => toggleAccordion("sort")}>
           <h5>Sort By</h5>
         </div>
         {openAccordions.sort && (
@@ -184,72 +156,59 @@ const Filter = ({
         )}
       </div>
 
+      {/* Category Properties Accordion */}
       <div>
-        <div
-          className="accordion border-0 hidden"
-          onClick={() => toggleAccordion("colors")}
-        >
-          {/* <h5>Color</h5> */}
-        </div>
-        {openAccordions.colors && (
-          <div className="accordion-content border-0">
-            {categories?.map((category, categoryIndex) => (
-              <div key={categoryIndex} className="aditya1">
-                {category?.property?.map((property, propertyIndex) => {
-                  // Check if the property name is one of the allowed names
-                  if (!allowedProperties.includes(property?.name)) {
-                    return null; // Skip this property if it's not allowed
-                  }
-                  const nestedAccordionKey = `${categoryIndex}-${propertyIndex}`;
-                  return (
-                    <div key={propertyIndex}>
-                      <div
-                        className="nested-accordion flex items-center justify-between"
-                        onClick={() =>
-                          toggleNestedAccordion(categoryIndex, propertyIndex)
-                        }
-                      >
-                        <p className="accordion_fixed_div_name" id={responsive_filter_ID}>
-                          {property?.name}
-                        </p>
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation(); // Prevent triggering parent accordion toggle
-                            toggleNestedAccordion(categoryIndex, propertyIndex);
-                          }}
-                          className="toggle-button outline-none"
-                          id={propertyIndex}
-                        >
-                          {openNestedAccordions[nestedAccordionKey] ? "-" : "+"}
-                        </button>
-                      </div>
-                      {openNestedAccordions[nestedAccordionKey] !== false && (
-                        <div className="accordion_fixed_div text-gray-500">
-                          {property?.values?.map((value, valueIndex) => (
-                            <div key={valueIndex} className="aditya2">
-                              <label className="flex items-start">
-                                <input
-                                  type="checkbox"
-                                  name={property.name} // Use the property name as the checkbox name
-                                  value={value} // Use the value from the values array
-                                  className="mt-1"
-                                  onChange={(e) =>
-                                    handleCheckboxChange(property.name,e.target.value,e.target.checked)
-                                  }
-                                />
-                                {value}
-                              </label>
-                            </div>
-                          ))}
+        {categories?.map((category, categoryIndex) => (
+          <div key={categoryIndex} className="category-container">
+            {category?.property?.map((property, propertyIndex) => {
+              if (!allowedProperties.includes(property?.name)) {
+                return null;
+              }
+              const nestedAccordionKey = `${categoryIndex}-${propertyIndex}`;
+              
+              return (
+                <div key={propertyIndex} className="aditya1">
+                  <div
+                    className="nested-accordion flex items-center justify-between"
+                    onClick={() => toggleNestedAccordion(categoryIndex, propertyIndex)}
+                  >
+                    <p className="accordion_fixed_div_name" id={responsive_filter_ID}>
+                      {property?.name}
+                    </p>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleNestedAccordion(categoryIndex, propertyIndex);
+                      }}
+                      className="toggle-button outline-none"
+                      id={propertyIndex}
+                    >
+                      {openNestedAccordions[nestedAccordionKey] ? "-" : "+"}
+                    </button>
+                  </div>
+                  {openNestedAccordions[nestedAccordionKey] && (
+                    <div className="accordion_fixed_div text-gray-500">
+                      {property?.values?.map((value, valueIndex) => (
+                        <div key={valueIndex} className="aditya2">
+                          <label className="flex items-start">
+                            <input
+                              type="checkbox"
+                              name={property.name}
+                              value={value}
+                              className="mt-1"
+                              onChange={(e) => handleCheckboxChange(property.name, e.target.value, e.target.checked)}
+                            />
+                            {value}
+                          </label>
                         </div>
-                      )}
+                      ))}
                     </div>
-                  );
-                })}
-              </div>
-            ))}
+                  )}
+                </div>
+              );
+            })}
           </div>
-        )}
+        ))}
       </div>
 
       <button
@@ -258,7 +217,6 @@ const Filter = ({
       >
         Reset Filters
       </button>
-
     </div>
   );
 };

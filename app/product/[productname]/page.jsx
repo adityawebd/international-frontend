@@ -571,7 +571,7 @@ const Page = ({ params }) => {
               <h3 className=" product_main_tatile">{productData.title}</h3>
 
               <div className="rating_div flex align-middle mt-2">
-                <div className="stars flex align-middle mr-3">
+                <div className="stars flex items-center mr-3">
                   {reviewData ? (
                     <StarRating rating={reviewData?.averageRating || 5} />
                   ) : (
@@ -588,8 +588,8 @@ const Page = ({ params }) => {
                 </div>
               </div>
 
-              <p className="green_font text-xl font-extrabold price mt-2">
-                {currency === "INR" ? "₹" : "$"} {convertedPrice.toFixed(2)}{" "}
+              <p className="green_font font-extrabold price  mt-2">
+                <span className="single_product_page_price">{currency === "INR" ? "₹" : "$"}{convertedPrice.toFixed(2)}{" "}</span>
                 &nbsp;
                 <span>
                   {currency === "INR" ? "₹" : "$"}{" "}
@@ -1072,7 +1072,7 @@ const Page = ({ params }) => {
                                   <h5 className="text-sm text-textClr font-semibold mb-2">
                                     {reviewer.name}
                                   </h5>
-                                  <div className="flex items-center text-yellowclr mb-3">
+                                  <div className="flex items-center text-yellowclr mb-3 stars">
                                     <StarRating rating={reviewer.rating || 5} />
                                   </div>
                                   <p className="text-base text-textClr font-normal">
@@ -1101,7 +1101,7 @@ const Page = ({ params }) => {
                                   <hr className="text-textClr my-3" />
                                 </div>
 
-                                <div className="mb-4 star_clr">
+                                <div className="mb-4 stars">
                                   <StarRating2
                                     rating={rating}
                                     onRatingChange={handleRatingChange}

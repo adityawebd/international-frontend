@@ -18,7 +18,7 @@
   --e-gray: #eeeeee;
   --white-clr: #fff;
   --green-clr: #088178;
-  --black-clr: #000000;
+  --black-clr: #000000; 
   --star-clr: #fd8f8f;
 }
 
@@ -26,12 +26,23 @@ body {
   font-family: "Montserrat", sans-serif;
 }
 
+.container {
+  max-width: 1920px !important;
+}
+
+.stars {
+  color: #F5C60D;
+}
+
 .product_main_tatile {
   font-family: 'Amazon Ember';
   font-weight: 600;
-  font-size: 24px;
-  line-height: 32px;
+  font-size: 35px;
+  line-height: 36px;
   letter-spacing: 0.7px;
+}
+.single_product_page_price {
+  font-size: 29px;
 }
 
 .light_black_font {
@@ -187,7 +198,7 @@ font-weight: 700 !important;
 
 .navbar_brand img {
   /* border: 1px solid red; */
-  width: 20%;
+  width: 100%;
 }
 
 /* ------ dropdown styling ----- */
@@ -1044,6 +1055,13 @@ font-weight: 700 !important;
   font-size: 16px;
   color: var(--green-clr);
   font-weight: 600;
+}
+
+.price .single_product_page_price {
+  text-decoration: none;
+  font-size: 29px;
+  font-weight: 700;
+  color: var(--green-clr);
 }
 
 .price span {
@@ -3420,10 +3438,10 @@ footer .limited_edition {
 }
 
 .all_products_container figure {
-  /* border: 1px solid red; */
   border: 1px solid var(--e-gray);
-  height: 300px;
-  width: 100%;
+  /* border: 1px solid red; */
+  height: 212px;
+  width: 212px;
   overflow: hidden;
   /* transition: scale 1s all; */
   border-radius: 20px;
@@ -3537,6 +3555,17 @@ footer .limited_edition {
     color: var(--primary-clr);
     font-weight: 400;
     text-decoration: line-through;
+  }
+}
+
+@media (min-width: 1560px) and (max-width: 1920px) {
+  .all_products_container .products_card {
+    /* border: 1px solid red ; */
+    width: 300px ;
+  }
+  .all_products_container .products_card figure {
+    width: 280px ;
+    height: 280px ;
   }
 }
 
