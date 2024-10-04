@@ -144,7 +144,7 @@ const Navbar = () => {
               <span className="search-icon"><IoSearch onClick={toggleSearchBar} /></span>
 
               <div ref={searchBarRef} className={`search_bar_body ${isVisible ? 'show_searchDiv_with_animation' : ''}`} onClick={(e) => e.stopPropagation()}>
-                <div className={`${results.length === 0 ? "search_card_wrapper " : "search_card_wrapper overflow-x-auto h-[300px]" }`}>
+                <div className={`${results.length === 0 ? "search_card_wrapper " : "search_card_wrapper overflow-x-auto h-[300px] lg:h-[300px] md:h-[300px] sm:h-[300px]" }`}>
                   {results.length > 0 ? (
                     results.map((result) => (
                       <a href={`/product/${result._id}`} className="search_card" key={result.id}>
