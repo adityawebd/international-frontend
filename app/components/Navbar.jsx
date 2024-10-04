@@ -11,7 +11,7 @@ import ProductTopbar from '../components/ProductTopbar'
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useCartStore } from '../../stores/useCartStore';
 import useFromStore from '../../hooks/useFromStore';
-
+import axios from 'axios';
 
 const Navbar = () => {
   const { currency, setCurrency } = useContext(CurrencyContext); // Use context
@@ -100,12 +100,16 @@ const Navbar = () => {
       return;
     }
 
-    const res = await fetch(`/api/search?query=${e.target.value}`);
-    const data = await res.json();
-    setResults(data);
+
+
+    const res = await axios.get(`/api/search?query=${e.target.value}`);
+    // const data = await res.json();
+    console.log('result as responce', res)
+    setResults(res.data);
+    console.log("result ", results)
+    console.log("result length", results.length)
   };
 
-  console.log(results.length)
   return (
     <div>
       <nav>
@@ -144,16 +148,16 @@ const Navbar = () => {
               <span className="search-icon"><IoSearch onClick={toggleSearchBar} /></span>
 
               <div ref={searchBarRef} className={`search_bar_body ${isVisible ? 'show_searchDiv_with_animation' : ''}`} onClick={(e) => e.stopPropagation()}>
-                <div className={`${results.length === 0 ? "search_card_wrapper " : "search_card_wrapper overflow-x-auto h-[300px]" }`}>
-                  {results.length > 0 ? (
+                <div className={`${results?.length === 0 ? "search_card_wrapper " : "search_card_wrapper overflow-x-auto h-[300px]"}`}>
+                  {results?.length > 0 ? (
                     results.map((result) => (
-                      <a href={`/product/${result._id}`} className="search_card" key={result.id}>
+                      <a href={`/product/${result._id}`} className="search_card" key={result._id}>
                         <img src={result.images[0]} alt={result.title} />
                         <div className="desc">{result.title}</div>
                       </a>
                     ))
                   ) : (
-                    <div className='text-center py-2'>No products available</div>
+                    <div>No results found.</div> // Optional: Message when there are no results
                   )}
                 </div>
               </div>
@@ -213,20 +217,20 @@ const Navbar = () => {
               <span className="search-icon"><IoSearch onClick={toggleSearchBar} /></span>
 
               <div ref={searchBarRef} className={`search_bar_body ${isVisible ? 'show_searchDiv_with_animation' : ''}`} onClick={(e) => e.stopPropagation()}>
-                
-                  {results.length > 0 ? (
-                    results.map((result, index) => (
-                      <div className="search_card_wrapper overflow-y-auto" key={index}>
+
+                {results?.length > 0 ? (
+                  results?.map((result, index) => (
+                    <div className="search_card_wrapper overflow-y-auto" key={index}>
                       <div className="search_card" >
                         <img src={result.images[0]} alt={result.title} />
                         <div className="desc">{result.title}</div>
                       </div>
-                      </div>
-                    ))
-                  ) : (
-                    <div className='text-center py-2'>No products available</div>
-                  )}
-              
+                    </div>
+                  ))
+                ) : (
+                  <div className='text-center py-2'>No products available</div>
+                )}
+
               </div>
             </div>
           </div>

@@ -1,29 +1,36 @@
-import Product from '../../models/Product'
-import mongooseConnect from "../../lib/mongoose"
-
-
-mongooseConnect()
+import mongooseConnect from '../../lib/mongoose'; // Function to connect to your database
+import Product from '../../models/Product';// Your Product model
 
 export default async function handler(req, res) {
-  const { query } = req.query;
-
+  const { query } = req.query; // Get the search query from the request
 
   if (!query) {
-    res.status(400).json({ error: 'Query parameter is required' });
-    return;
+    return res.status(400).json({ message: 'Query is required' });
   }
 
-  var courses = await Product 
-    .find({ title: { $regex: query, $options: 'i' }  }) // Adjust the field name based on your collection
-    
- 
-   
+  mongooseConnect(); // Connect to the database
 
-    //console.log("serching")
+  try {
+    // Fetch all products from the database
+    const products = await Product.find();
 
-  res.json(courses);
+    // Filter products based on the search query (only titles)
+    const filteredProducts = products.filter(product => 
+      product.title.toLowerCase().includes(query.toLowerCase())
+    );
+
+    // Sort products by relevance (more matches first)
+    filteredProducts.sort((a, b) => {
+      const aMatches = a.title.toLowerCase().includes(query.toLowerCase()) ? 1 : 0;
+      const bMatches = b.title.toLowerCase().includes(query.toLowerCase()) ? 1 : 0;
+      return bMatches - aMatches; // Sort in descending order of matches
+    });
+
+    return res.status(200).json(filteredProducts);
+  } catch (error) {
+    return res.status(500).json({ message: 'Error fetching products', error });
+  }
 }
-
 
 
 
