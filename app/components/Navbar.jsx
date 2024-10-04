@@ -104,6 +104,8 @@ const Navbar = () => {
     const data = await res.json();
     setResults(data);
   };
+
+  console.log(results.length)
   return (
     <div>
       <nav>
@@ -142,7 +144,7 @@ const Navbar = () => {
               <span className="search-icon"><IoSearch onClick={toggleSearchBar} /></span>
 
               <div ref={searchBarRef} className={`search_bar_body ${isVisible ? 'show_searchDiv_with_animation' : ''}`} onClick={(e) => e.stopPropagation()}>
-                <div className="search_card_wrapper overflow-x-auto">
+                <div className={`${results.length === 0 ? "search_card_wrapper " : "search_card_wrapper overflow-x-auto h-[300px]" }`}>
                   {results.length > 0 ? (
                     results.map((result) => (
                       <a href={`/product/${result._id}`} className="search_card" key={result.id}>
@@ -211,18 +213,20 @@ const Navbar = () => {
               <span className="search-icon"><IoSearch onClick={toggleSearchBar} /></span>
 
               <div ref={searchBarRef} className={`search_bar_body ${isVisible ? 'show_searchDiv_with_animation' : ''}`} onClick={(e) => e.stopPropagation()}>
-                <div className="search_card_wrapper overflow-y-auto">
+                
                   {results.length > 0 ? (
-                    results.map((result) => (
-                      <div className="search_card" key={result.id}>
+                    results.map((result, index) => (
+                      <div className="search_card_wrapper overflow-y-auto" key={index}>
+                      <div className="search_card" >
                         <img src={result.images[0]} alt={result.title} />
                         <div className="desc">{result.title}</div>
+                      </div>
                       </div>
                     ))
                   ) : (
                     <div className='text-center py-2'>No products available</div>
                   )}
-                </div>
+              
               </div>
             </div>
           </div>

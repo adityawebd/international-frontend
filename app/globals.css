@@ -294,6 +294,9 @@ font-weight: 700 !important;
   justify-content: start;
   align-items: center;
   flex-wrap: wrap;
+
+  /* height: 300px; */
+
 }
 
 .search_card_wrapper .search_card {
