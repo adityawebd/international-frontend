@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState, useMemo } from "react";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 
@@ -99,13 +99,61 @@ const Filter = ({
 
   const allowedProperties = ["Color", "Occasion", "Item Type"];
 
+    // Remove duplicate properties and categories
+    const uniqueCategories = useMemo(() => {
+      const seenProperties = new Set();
+      return categories.map((category) => {
+        // Filter out duplicate properties within each category
+        const filteredProperties = category?.property?.filter((property) => {
+          if (!allowedProperties.includes(property?.name)) {
+            return false;
+          }
+          if (seenProperties.has(property?.name)) {
+            return false; // Skip if property has already been seen
+          }
+          seenProperties.add(property?.name);
+          return true;
+        });
+  
+        // Return the category with filtered properties
+        return { ...category, property: filteredProperties };
+      });
+    }, [categories]);
+
 
   return (
     <div className="hori_filter_container d-md-none">
       <div>
-        {openAccordions.colors && (
+        {/* {openAccordions.colors && (
           <div className="accordion-content border-0">
             {categories?.map((category, categoryIndex) => (
+              <div key={categoryIndex} className="aditya1">
+                {category?.property?.map((property, propertyIndex) => {
+                  if (!allowedProperties.includes(property?.name)) {
+                    return null; 
+                  }
+                  const nestedAccordionKey = `${categoryIndex}-${propertyIndex}`;
+                  return (
+                    <>
+                      <a
+                        href={`#${propertyIndex}`}
+                        key={propertyIndex}
+                        className=" inline mr-3 rounded reset_button"
+                        onClick={onFilterButtonClick}
+                      >
+                        {property?.name}
+                      </a>
+                    </>
+                  );
+                })}
+              </div>
+            ))}
+          </div>
+        )} */}
+
+        {openAccordions.colors && (
+          <div className="accordion-content border-0">
+            {uniqueCategories?.map((category, categoryIndex) => (
               <div key={categoryIndex} className="aditya1">
                 {category?.property?.map((property, propertyIndex) => {
                   // Check if the property name is one of the allowed names
@@ -116,10 +164,9 @@ const Filter = ({
                   return (
                     <>
                       <a
-                        // id={propertyIndex}
                         href={`#${propertyIndex}`}
                         key={propertyIndex}
-                        className=" inline mr-3 rounded reset_button"
+                        className="inline mr-3 rounded reset_button"
                         onClick={onFilterButtonClick}
                       >
                         {property?.name}
