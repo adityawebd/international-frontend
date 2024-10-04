@@ -15,7 +15,7 @@ export default async function handler(req, res) {
 
   var courses = await Product 
     .find({ title: { $regex: query, $options: 'i' }  }) // Adjust the field name based on your collection
-    .limit(10)
+    
  
    
 

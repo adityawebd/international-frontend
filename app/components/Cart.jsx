@@ -465,7 +465,7 @@ const Cart = () => {
                                     <div className="col-lg-12">
                                         <div className="cart_btns flex justify-between max-sm:flex-col text-center">
                                             <a className='mb-2' href="/all-products">Continue Shopping</a>
-                                            <button type="button" className="mb-2" onClick={handleRazorpayPayment}>Check Out</button>
+                                            <button type="button" className="mb-2" onClick={handleRazorpayPayment}>Pay Online</button>
                                             {/* <button type="button" className="mb-2" onClick={handleCheckoutCOD}></button> */}
                                             {/* <button type="button" className="mb-2" onClick={handleCheckoutCOD}>
                                                 Cash on Delivery <Spinner size="sm" />

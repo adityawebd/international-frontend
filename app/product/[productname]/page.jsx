@@ -258,14 +258,27 @@ const Page = ({ params }) => {
   );
   const averageRating = calculateAverageRating(productData.reviews);
 
-  const addToCart1 = (e, item) => {
-    e.preventDefault();
-    // Prevent default form submission or link behavior
-    addToCart(item);
-    // Prevent default form submission or link behavior
+  // const addToCart1 = (e, item) => {
+  //   e.preventDefault();
+  //   // Prevent default form submission or link behavior
+  //   addToCart(item);
+  //   // Prevent default form submission or link behavior
 
-    notify();
-    // Prevent default form submission or link behavior
+  //   notify();
+  //   // Prevent default form submission or link behavior
+  // };
+
+
+  const addToCart1 = (e, item) => {
+    e.preventDefault(); // Prevent default form submission or link behavior
+
+    console.log('quantity', quantity)
+    // Run addToCart the number of times as quantity
+    for (let i = 0; i < quantity; i++) {
+      addToCart(item);
+    }
+
+    notify(); // Trigger a notification
   };
 
   const addToCart2 = (e, item) => {
@@ -292,29 +305,50 @@ const Page = ({ params }) => {
     addToCart({ ...item, quantity });
   };
 
+  // const maxQuantity = productData?.stockQuantity - 7;
+  // const increaseQuantity = () => {
+  //   setQuantity((prev) => {
+  //     const newQuantity = prev + 1;
+
+  //     // Check if newQuantity exceeds or hits the limit
+  //     if (newQuantity >= maxQuantity) {
+  //       setIsDisabled(true); // Disable button if limit is reached
+  //     }
+
+  //     // Call addToCartHandler with the updated quantity
+  //     addToCartHandler(new Event("click"), {
+  //       ...productData,
+  //       quantity: newQuantity,
+  //     });
+
+  //     return newQuantity <= maxQuantity ? newQuantity : prev; // Prevent going above the limit
+  //   });
+  // };
+
+  // const decreaseQuantity = () => {
+  //   // if (quantity > 1) setQuantity((prev) => prev - 1);
+  //   setQuantity((prev) => (prev > 1 ? prev - 1 : 1)); // Prevent decrementing below 1
+  // };
+
+
   const maxQuantity = productData?.stockQuantity - 7;
+
   const increaseQuantity = () => {
     setQuantity((prev) => {
       const newQuantity = prev + 1;
 
-      // Check if newQuantity exceeds or hits the limit
+      // Disable button if the limit is reached
       if (newQuantity >= maxQuantity) {
-        setIsDisabled(true); // Disable button if limit is reached
+        setIsDisabled(true);
       }
-
-      // Call addToCartHandler with the updated quantity
-      addToCartHandler(new Event("click"), {
-        ...productData,
-        quantity: newQuantity,
-      });
 
       return newQuantity <= maxQuantity ? newQuantity : prev; // Prevent going above the limit
     });
   };
 
   const decreaseQuantity = () => {
-    // if (quantity > 1) setQuantity((prev) => prev - 1);
     setQuantity((prev) => (prev > 1 ? prev - 1 : 1)); // Prevent decrementing below 1
+    setIsDisabled(false); // Enable increase button if it was disabled
   };
 
   var hasPurchasedCourse = true;
@@ -724,7 +758,7 @@ const Page = ({ params }) => {
                       <form onSubmit={handleSubmit}>
                         <div className="mb-4">
                           <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Enter The Name Here:
+                            Enter The Name Here: <span className="text-red-600">*</span>
                           </label>
                           <input
                             type="text"
@@ -733,6 +767,7 @@ const Page = ({ params }) => {
                             placeholder="Enter your Name (Under 20 Character)"
                             className="w-full border border-gray-300 rounded p-2"
                             required
+                            maxLength='20'
                           />
                         </div>
                         <div className="mb-4">
@@ -746,17 +781,24 @@ const Page = ({ params }) => {
                             placeholder="Enter your message( Under 80 Character)"
                             className="w-full border border-gray-300 rounded p-2"
                             required
+                            maxLength="80"
                           />
                         </div>
                         <div className="mb-4">
                           <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Enter Your Whats app Number:
+                            Enter Your Whats app Number:<span className="text-red-600">*</span>
                           </label>
                           <input
                             type="text"
                             value={number}
-                            onChange={(e) => setnumber(e.target.value)}
-                            placeholder=" Whats app Number"
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              // Allow only numbers and limit to 10 digits
+                              if (/^\d{0,10}$/.test(value)) {
+                                setnumber(value);
+                              }
+                            }}
+                            placeholder="WhatsApp Number"
                             className="w-full border border-gray-300 rounded p-2"
                             required
                           />
@@ -809,7 +851,7 @@ const Page = ({ params }) => {
                     pauseOnMouseEnter: true,
                   }}
                   pagination={{ clickable: true }}
-                  navigation={ true }
+                  navigation={true}
                   scrollbar={{ draggable: true }}
                   breakpoints={{
                     500: {
@@ -831,11 +873,10 @@ const Page = ({ params }) => {
                       <a href={`/product/${data._id}`}>
                         {/* <div className="border rounded-lg"> */}
                         <div
-                          className={`border rounded-lg ${
-                            urldata === data._id
+                          className={`border rounded-lg ${urldata === data._id
                               ? "border-4 border-black-500 shadow-xl"
                               : ""
-                          }`}
+                            }`}
                         >
                           <img
                             src={data.images[0]}
@@ -868,11 +909,10 @@ const Page = ({ params }) => {
               >
                 <li className="me-2" role="presentation">
                   <button
-                    className={`inline-block mt-2 px-4 py-2 ${
-                      activeTab === "general_info"
+                    className={`inline-block mt-2 px-4 py-2 ${activeTab === "general_info"
                         ? "green_bg_white_font"
                         : "hover:text-gray-600 hover:border-gray-300"
-                    }`}
+                      }`}
                     onClick={() => handleTabClick("general_info")}
                   >
                     General Information
@@ -880,11 +920,10 @@ const Page = ({ params }) => {
                 </li>
                 <li className="me-2" role="presentation">
                   <button
-                    className={`inline-block mt-2 px-4 py-2 ${
-                      activeTab === "additional_info"
+                    className={`inline-block mt-2 px-4 py-2 ${activeTab === "additional_info"
                         ? "green_bg_white_font"
                         : "hover:text-gray-600 hover:border-gray-300"
-                    }`}
+                      }`}
                     onClick={() => handleTabClick("additional_info")}
                   >
                     Additional Information
@@ -892,11 +931,10 @@ const Page = ({ params }) => {
                 </li>
                 <li className="me-2" role="presentation">
                   <button
-                    className={`inline-block mt-2 px-4 py-2 ${
-                      activeTab === "reviews"
+                    className={`inline-block mt-2 px-4 py-2 ${activeTab === "reviews"
                         ? "green_bg_white_font"
                         : "hover:text-gray-600 hover:border-gray-300"
-                    }`}
+                      }`}
                     onClick={() => handleTabClick("reviews")}
                   >
                     Reviews
@@ -1062,7 +1100,7 @@ const Page = ({ params }) => {
 
                         <div>
                           {reviewData?.reviews &&
-                          reviewData?.reviews.length > 0 ? (
+                            reviewData?.reviews.length > 0 ? (
                             reviewData?.reviews?.map((reviewer, index) => (
                               <div key={index} className="flex gap-4 mb-5">
                                 <div>
