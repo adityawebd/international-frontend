@@ -525,13 +525,13 @@ font-weight: 700 !important;
 
   .responsive_navbar .navbar_body .search_bar_body {
     width: 100%;
-    max-height: 300px;
+    /* max-height: 300px; */
     left: 0px;
-    overflow-y: auto;
+    /* overflow-y: auto;
 
     display: flex;
     flex-wrap: wrap;
-    justify-content: start;
+    justify-content: start; */
   }
 
   .search_card_wrapper {
