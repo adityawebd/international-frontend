@@ -239,7 +239,7 @@ const Navbar = () => {
         {/* <ProductTopbar /> */}
       </nav>
     </div>
-  )
-}
-
+  );
+};
+ 
 export default Navbar;
