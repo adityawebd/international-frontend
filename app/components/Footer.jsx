@@ -45,7 +45,7 @@ const Footer = () => {
                             </ul>
                         </div>
                         <div className="col-md-3 mt-2">
-                            <h3 className='text-lg font-bold tracking-widest light_black_font border-b-2 pb-2'>Newsletter</h3>
+                            {/* <h3 className='text-lg font-bold tracking-widest light_black_font border-b-2 pb-2'>Newsletter</h3>
                             <ul>
                                 <p className='text-sm light_black_font mt-2 mb-4'>Subscribe to your newletter! By submitting your email below</p>
                                 <div className="footer_news_widget">
@@ -54,7 +54,7 @@ const Footer = () => {
                                         <button><span><Send /></span></button>
                                     </form>
                                 </div>
-                            </ul>
+                            </ul> */}
                         </div>
                     </div>
 
