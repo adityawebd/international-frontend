@@ -780,7 +780,7 @@ const Page = ({ params }) => {
                             onChange={(e) => setMessage(e.target.value)}
                             placeholder="Enter your message( Under 80 Character)"
                             className="w-full border border-gray-300 rounded p-2"
-                            required
+                            
                             maxLength="80"
                           />
                         </div>
@@ -813,7 +813,7 @@ const Page = ({ params }) => {
                             onChange={handleFileChange}
                             className="w-full"
                             multiple // Allow multiple file selection
-                            required
+                            
                           />
                         </div>
 

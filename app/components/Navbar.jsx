@@ -1,21 +1,17 @@
-"use client";
-import React, { useState, useEffect, useRef, useContext } from "react";
+'use client'
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import { CiUser, CiShoppingBasket } from "react-icons/ci";
 import { IoSearch } from "react-icons/io5";
-import {
-  FaFacebookF,
-  FaTwitter,
-  FaInstagram,
-  FaLinkedinIn,
-} from "react-icons/fa";
+import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/fa";
 import { IoCartOutline } from "react-icons/io5";
 import { LuUser } from "react-icons/lu";
 import { MdOutlineShoppingCart } from "react-icons/md";
-import { CurrencyContext } from "../CurrencyContext"; // Importing the context
-import ProductTopbar from "../components/ProductTopbar";
+import { CurrencyContext } from '../CurrencyContext'; // Importing the context
+import ProductTopbar from '../components/ProductTopbar'
 import { useSession, signIn, signOut } from "next-auth/react";
-import { useCartStore } from "../../stores/useCartStore";
-import useFromStore from "../../hooks/useFromStore";
+import { useCartStore } from '../../stores/useCartStore';
+import useFromStore from '../../hooks/useFromStore';
+import axios from 'axios';
 
 const Navbar = () => {
   const { currency, setCurrency } = useContext(CurrencyContext); // Use context
@@ -28,8 +24,9 @@ const Navbar = () => {
   const [userDropdownVisible, setUserDropdownVisible] = useState(false);
 
   async function logout() {
+
     await signOut();
-    window.location.href = "/";
+    window.location.href = '/';
   }
 
   const cart = useFromStore(useCartStore, (state) => state.cart);
@@ -44,7 +41,7 @@ const Navbar = () => {
     if (
       searchBarRef.current &&
       !searchBarRef.current.contains(event.target) &&
-      event.target.tagName !== "INPUT" // Ensure the search input is not considered outside
+      event.target.tagName !== 'INPUT' // Ensure the search input is not considered outside
     ) {
       setIsVisible(false);
     }
@@ -65,53 +62,61 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    document.addEventListener("click", handleClickOutside);
+    document.addEventListener('click', handleClickOutside);
     return () => {
-      document.removeEventListener("click", handleClickOutside);
+      document.removeEventListener('click', handleClickOutside);
     };
   }, []);
 
-  const toggleCurrencyDropdown = (event) => {
-    // for currency dropdown
+  const toggleCurrencyDropdown = (event) => {   // for currency dropdown
     event.stopPropagation();
     setCurrencyDropdownVisible((prev) => !prev);
   };
 
-  const changeCurrency = (currency) => {
-    // for curreny change
+  const changeCurrency = (currency) => {         // for curreny change
     setCurrency(currency);
     setCurrencyDropdownVisible(false);
   };
 
-  const toggleUserDropdown = (event) => {
-    // for user dropdown
+  const toggleUserDropdown = (event) => {     // for user dropdown
     event.stopPropagation();
     setUserDropdownVisible((prev) => !prev);
   };
 
+
   const { data: session } = useSession();
+
 
   // serching the product
 
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('');
   const [results, setResults] = useState([]);
 
   const handleSearch = async (e) => {
     setQuery(e.target.value);
 
-    if (e.target.value.trim() === "") {
+    if (e.target.value.trim() === '') {
       setResults([]);
       return;
     }
 
-    const res = await fetch(`/api/search?query=${e.target.value}`);
-    const data = await res.json();
-    setResults(data);
+
+
+    const res = await axios.get(`/api/search?query=${e.target.value}`);
+    // const data = await res.json();
+    console.log('result as responce', res)
+    setResults(res.data);
+    console.log("result ", results)
+    console.log("result length", results.length)
   };
 
-  console.log(results.length);
   return (
     <div>
+      
+
+
+
+
       <nav>
         {/* <div className="navbar_header">
           <div className="icons">
@@ -156,7 +161,7 @@ const Navbar = () => {
               <div
                 ref={searchBarRef}
                 className={`search_bar_body ${
-                  isVisible ? "show_searchDiv_with_animation" : ""
+                  isVisible ? "show_searchDiv_with_animation" : " "
                 }`}
                 onClick={(e) => e.stopPropagation()}
               >
@@ -167,22 +172,17 @@ const Navbar = () => {
                       : "search_card_wrapper overflow-x-auto h-[300px] lg:h-[300px] md:h-[300px] sm:h-[300px]"
                   }`}
                 >
-                  {results.length > 0 ? (
+                  {results?.length > 0 ? (
                     results.map((result) => (
-                      <a
-                        href={`/product/${result._id}`}
-                        className="search_card"
-                        key={result.id}
-                      >
+                      <a href={`/product/${result._id}`} className="search_card" key={result._id}>
                         <img src={result.images[0]} alt={result.title} />
                         <div className="desc">{result.title}</div>
                       </a>
                     ))
                   ) : (
-                    <div className="text-center py-2">
-                      No products available
-                    </div>
+                    <div>No results found.</div> // Optional: Message when there are no results
                   )}
+
                 </div>
               </div>
             </div>
@@ -263,7 +263,7 @@ const Navbar = () => {
               <div
                 ref={searchBarRef}
                 className={`search_bar_body ${
-                  isVisible ? "show_searchDiv_with_animation" : ""
+                  isVisible ? "show_searchDiv_with_animation" : " "
                 }`}
                 onClick={(e) => e.stopPropagation()}
               >
@@ -289,21 +289,15 @@ const Navbar = () => {
                       : "search_card_wrapper overflow-x-auto h-[300px] lg:h-[300px] md:h-[300px] sm:h-[300px]"
                   }`}
                 >
-                  {results.length > 0 ? (
+                  {results?.length > 0 ? (
                     results.map((result) => (
-                      <a
-                        href={`/product/${result._id}`}
-                        className="search_card"
-                        key={result.id}
-                      >
+                      <a href={`/product/${result._id}`} className="search_card" key={result._id}>
                         <img src={result.images[0]} alt={result.title} />
                         <div className="desc">{result.title}</div>
                       </a>
                     ))
                   ) : (
-                    <div className="text-center py-2">
-                      No products available
-                    </div>
+                    <div>No results found.</div> // Optional: Message when there are no results
                   )}
                 </div>
               </div>
