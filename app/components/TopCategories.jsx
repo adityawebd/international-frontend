@@ -5,8 +5,11 @@ const TopCategories = () => {
     const [activeTab, setActiveTab] = useState('vertical-tab-with-border-1');
 
     // Function to handle tab switching
-    const handleTabClick = (tabId) => {
+    const handleTabClick = (tabId,btn_link) => {
         setActiveTab(tabId);
+
+        window.location.href = btn_link;
+
     };
 
     return (
@@ -21,17 +24,17 @@ const TopCategories = () => {
                             <div className="col-md-3 col-sm">
                                 <nav className="flex flex-col space-y-2" aria-label="Tabs" role="tablist">
                                     {[
-                                        { id: '1', category: 'Religious Idol', products: '440 Products', img: 'religious_idol.png', hoverImg: 'religious_idol_hover.png' },
-                                        { id: '2', category: 'Decorative Item', products: '440 Products', img: 'decorative_item.png', hoverImg: 'decorative_item_hover.png' },
-                                        { id: '3', category: 'Gift Items', products: '440 Products', img: 'cat_3.png', hoverImg: 'cat_3_1.png' },
-                                        { id: '4', category: 'Car Idol', products: '440 Products', img: 'car_idol.png', hoverImg: 'car_idol_hover.png' }
-                                    ].map(({ id, category, products, img, hoverImg }) => (
+                                        { id: '1', category: 'Religious Idol', products: '440 Products', img: 'religious_idol.png', hoverImg: 'religious_idol_hover.png', btn_link: '#monthly_best_sell' },
+                                        { id: '2', category: 'Decorative Item', products: '440 Products', img: 'decorative_item.png', hoverImg: 'decorative_item_hover.png', btn_link: '#all_collection' },
+                                        { id: '3', category: 'Gift Items', products: '440 Products', img: 'cat_3.png', hoverImg: 'cat_3_1.png' , btn_link: '#new_arrival'},
+                                        { id: '4', category: 'Car Idol', products: '440 Products', img: 'car_idol.png', hoverImg: 'car_idol_hover.png', btn_link: '#best_seller' }
+                                    ].map(({ id, category, products, img, hoverImg,btn_link }) => (
                                         <button
                                             key={id}
                                             type="button"
                                             className={`tab-button ${activeTab === `vertical-tab-with-border-${id}` ? 'active' : ''}`}
                                             id={`vertical-tab-with-border-item-${id}`}
-                                            onClick={() => handleTabClick(`vertical-tab-with-border-${id}`)}
+                                            onClick={() => handleTabClick(`vertical-tab-with-border-${id}`,btn_link)}
                                             aria-controls={`vertical-tab-with-border-${id}`}
                                             role="tab"
                                             aria-selected={activeTab === `vertical-tab-with-border-${id}`}
