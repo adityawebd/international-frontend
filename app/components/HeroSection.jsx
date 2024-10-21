@@ -138,7 +138,7 @@ const HeroSection = () => {
                   objectfit="cover"
                   className="animate-fadeIn"
                 />
-                {index === currentSlide && (
+                {/* {index === currentSlide && (
                   <div className="hero_img_text ">
                     {Array.isArray(image.text) ? (
                       image.text.map((textItem) => (
@@ -146,14 +146,14 @@ const HeroSection = () => {
                           <h1 className="animated-text">{textItem.heading}</h1>
                           <h6 className="animated-text">{textItem.offer}</h6>
                           <p className="animated-text">{textItem.para}</p>
-                          {/* <a className="animated-text" href={textItem.btn_link}>ORDER NOW</a> */}
+                          <a className="animated-text" href={textItem.btn_link}>ORDER NOW</a> 
                         </div>
                       ))
                     ) : (
                       <h1>{image.text}</h1>
                     )}
                   </div>
-                )}
+                )} */}
               </div>
             ))}
           </Swipe>

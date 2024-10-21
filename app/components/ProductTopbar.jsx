@@ -85,7 +85,7 @@ const ProductTopbar = () => {
                                             width={50}
                                             height={50}
                                         />
-                                        <div className="text-black tracking-wider fs-6 text-start px-2">
+                                        <div className="text-black tracking-wider fs-6 text-start px-2 topbar_word_wrapper">
                                             {category.name.split(' ').map((word, idx) => (
                                                 <div key={idx} className="topbar_word">{word}</div>
                                             ))}

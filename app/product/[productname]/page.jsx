@@ -268,11 +268,10 @@ const Page = ({ params }) => {
   //   // Prevent default form submission or link behavior
   // };
 
-
   const addToCart1 = (e, item) => {
     e.preventDefault(); // Prevent default form submission or link behavior
 
-    console.log('quantity', quantity)
+    console.log("quantity", quantity);
     // Run addToCart the number of times as quantity
     for (let i = 0; i < quantity; i++) {
       addToCart(item);
@@ -329,7 +328,6 @@ const Page = ({ params }) => {
   //   // if (quantity > 1) setQuantity((prev) => prev - 1);
   //   setQuantity((prev) => (prev > 1 ? prev - 1 : 1)); // Prevent decrementing below 1
   // };
-
 
   const maxQuantity = productData?.stockQuantity - 7;
 
@@ -582,12 +580,11 @@ const Page = ({ params }) => {
   //   }
   // }, []);
 
-
   const handleReviewsClick = () => {
     // Set the active tab to 'reviews'
-    handleTabClick('reviews');
+    handleTabClick("reviews");
     // Scroll to the reviews section
-    reviewsSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
+    reviewsSectionRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
@@ -658,7 +655,10 @@ const Page = ({ params }) => {
                     <span>No Ratings</span>
                   )}
                 </div>
-                <div className="review cursor-pointer hover:underline" onClick={handleReviewsClick}>
+                <div
+                  className="review cursor-pointer hover:underline"
+                  onClick={handleReviewsClick}
+                >
                   <a href="#forReviewClicked">
                     {reviewData?.reviews.length
                       ? reviewData?.reviews.length
@@ -669,7 +669,10 @@ const Page = ({ params }) => {
               </div>
 
               <p className="green_font font-extrabold price  mt-2">
-                <span className="single_product_page_price">{currency === "INR" ? "₹" : "$"}{convertedPrice.toFixed(2)}{" "}</span>
+                <span className="single_product_page_price">
+                  {currency === "INR" ? "₹" : "$"}
+                  {convertedPrice.toFixed(2)}{" "}
+                </span>
                 &nbsp;
                 <span>
                   {currency === "INR" ? "₹" : "$"}{" "}
@@ -804,7 +807,8 @@ const Page = ({ params }) => {
                       <form onSubmit={handleSubmit}>
                         <div className="mb-4">
                           <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Enter The Name Here: <span className="text-red-600">*</span>
+                            Enter The Name Here:{" "}
+                            <span className="text-red-600">*</span>
                           </label>
                           <input
                             type="text"
@@ -813,7 +817,7 @@ const Page = ({ params }) => {
                             placeholder="Enter your Name (Under 20 Character)"
                             className="w-full border border-gray-300 rounded p-2"
                             required
-                            maxLength='20'
+                            maxLength="20"
                           />
                         </div>
                         <div className="mb-4">
@@ -826,13 +830,13 @@ const Page = ({ params }) => {
                             onChange={(e) => setMessage(e.target.value)}
                             placeholder="Enter your message( Under 80 Character)"
                             className="w-full border border-gray-300 rounded p-2"
-                            
                             maxLength="80"
                           />
                         </div>
                         <div className="mb-4">
                           <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Enter Your Whats app Number:<span className="text-red-600">*</span>
+                            Enter Your Whats app Number:
+                            <span className="text-red-600">*</span>
                           </label>
                           <input
                             type="text"
@@ -859,7 +863,6 @@ const Page = ({ params }) => {
                             onChange={handleFileChange}
                             className="w-full"
                             multiple // Allow multiple file selection
-                            
                           />
                         </div>
 
@@ -900,14 +903,42 @@ const Page = ({ params }) => {
                   navigation={true}
                   scrollbar={{ draggable: true }}
                   breakpoints={{
-                    500: {
-                      slidesPerView: 3.4,
+                    // Mobile small (smaller than 500px)
+                    320: {
+                      slidesPerView: 2.2,
+                      // spaceBetween: 20,
                     },
-                    780: {
-                      slidesPerView: 3.8,
+                    400: {
+                      slidesPerView: 2.5,
+                      // spaceBetween: 20,
                     },
+                    640: {
+                      slidesPerView: 3,
+                      // spaceBetween: 20,
+                    },
+                    // Tablets (around 768px)
+                    768: {
+                      slidesPerView: 3, // Can show partial next slide
+                      // spaceBetween: 15,
+                    },
+                    // Tablets large (around 1024px)
+                    1024: {
+                      slidesPerView: 3.5, // Showing 2 slides
+                      // spaceBetween: 20,
+                    },
+                    // Laptops (around 1300px)
                     1300: {
-                      slidesPerView: 4.6,
+                      slidesPerView: 4.5, // Show 2.5 slides
+                      // spaceBetween: 25,
+                    },
+                    // Desktop (larger than 1500px)
+                    1500: {
+                      slidesPerView: 5, // Show 3 full slides
+                      // spaceBetween: 15,
+                    },
+                    1920: {
+                      slidesPerView: 6,
+                      spaceBetween: 15,
                     },
                   }}
                   modules={[Autoplay, Navigation, A11y]}
@@ -919,10 +950,11 @@ const Page = ({ params }) => {
                       <a href={`/product/${data._id}`}>
                         {/* <div className="border rounded-lg"> */}
                         <div
-                          className={`border rounded-lg ${urldata === data._id
+                          className={`border rounded-lg ${
+                            urldata === data._id
                               ? "border-4 border-black-500 shadow-xl"
                               : ""
-                            }`}
+                          }`}
                         >
                           <img
                             src={data.images[0]}
@@ -950,15 +982,16 @@ const Page = ({ params }) => {
           <div className="row product_details mt-4" id="forReviewClicked">
             <div className="mb-4 mt-2 flex justify-center align-middle">
               <ul
-                className="flex tabs_ul flex-wrap -mb-px text-sm font-medium text-center"
+                className="flex tabs_ul flex-wrap -mb-px text-sm font-medium text-center max-sm:flex-col"
                 role="tablist"
               >
                 <li className="me-2" role="presentation">
                   <button
-                    className={`inline-block mt-2 px-4 py-2 ${activeTab === "general_info"
+                    className={`inline-block mt-2 px-4 py-2 ${
+                      activeTab === "general_info"
                         ? "green_bg_white_font"
                         : "hover:text-gray-600 hover:border-gray-300"
-                      }`}
+                    }`}
                     onClick={() => handleTabClick("general_info")}
                   >
                     General Information
@@ -966,10 +999,11 @@ const Page = ({ params }) => {
                 </li>
                 <li className="me-2" role="presentation">
                   <button
-                    className={`inline-block mt-2 px-4 py-2 ${activeTab === "additional_info"
+                    className={`inline-block mt-2 px-4 py-2 ${
+                      activeTab === "additional_info"
                         ? "green_bg_white_font"
                         : "hover:text-gray-600 hover:border-gray-300"
-                      }`}
+                    }`}
                     onClick={() => handleTabClick("additional_info")}
                   >
                     Additional Information
@@ -977,10 +1011,11 @@ const Page = ({ params }) => {
                 </li>
                 <li className="me-2" role="presentation">
                   <button
-                    className={`inline-block mt-2 px-4 py-2 ${activeTab === "reviews"
+                    className={`inline-block mt-2 px-4 py-2 ${
+                      activeTab === "reviews"
                         ? "green_bg_white_font"
                         : "hover:text-gray-600 hover:border-gray-300"
-                      }`}
+                    }`}
                     onClick={() => handleTabClick("reviews")}
                   >
                     Reviews
@@ -1013,7 +1048,7 @@ const Page = ({ params }) => {
                           <tbody className="divide-y divide-gray-200">
                             <tr>
                               {/* First Column: Show up to 5 entries */}
-                              <td className="w-1/2 align-top p-4">
+                              <td className="w-1/2 align-top py-4 pl-4">
                                 <table className="min-w-full table-auto">
                                   <tbody>
                                     {Object.entries(productData.property)
@@ -1036,7 +1071,7 @@ const Page = ({ params }) => {
                               </td>
 
                               {/* Second Column: Remaining entries after the first 5 */}
-                              <td className="w-1/2 align-top p-4">
+                              <td className="w-1/2 align-top py-4 pl-4">
                                 <table className="min-w-full table-auto">
                                   <tbody>
                                     {Object.entries(productData.property)
@@ -1066,7 +1101,10 @@ const Page = ({ params }) => {
                 </>
               )}
               {activeTab === "reviews" && (
-                <div className="p-4 rounded-xl bg-gray-50" ref={reviewsSectionRef}>
+                <div
+                  className="p-4 rounded-xl bg-gray-50"
+                  ref={reviewsSectionRef}
+                >
                   <div className="row">
                     {/* <div className="col-md-4 left_review_section">
                                             <div className="average_rating_div">
@@ -1146,7 +1184,7 @@ const Page = ({ params }) => {
 
                         <div>
                           {reviewData?.reviews &&
-                            reviewData?.reviews.length > 0 ? (
+                          reviewData?.reviews.length > 0 ? (
                             reviewData?.reviews?.map((reviewer, index) => (
                               <div key={index} className="flex gap-4 mb-5">
                                 <div>
