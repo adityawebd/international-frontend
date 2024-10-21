@@ -488,7 +488,7 @@ const Page = ({ params }) => {
         // Store image URLs or an empty array in sessionStorage as a JSON string
         sessionStorage.setItem("imageUrls", JSON.stringify(uploadedLinks));
   
-        alert("Data Uploaded");
+        addToCart1(e, productData)
       }
     } catch (error) {
       console.error("Error uploading files:", error);
