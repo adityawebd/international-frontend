@@ -403,46 +403,92 @@ const Page = ({ params }) => {
   //   }
   // };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   // if (!files || files.length === 0) {
+  //   //   alert("Please select files to upload");
+  //   //   return;
+  //   // }
+
+  //   if (files.length > 5) {
+  //     alert("You can only upload a maximum of 5 files");
+  //     return;
+  //   }
+
+  //   const formData = new FormData();
+
+  //   // Append each file to the FormData object
+  //   for (let i = 0; i < files.length; i++) {
+  //     formData.append("files", files[i]);
+  //   }
+
+  //   try {
+  //     // Make the POST request to upload the files
+  //     const { data } = await axios.post("/api/upload", formData, {
+  //       headers: {
+  //         "Content-Type": "multipart/form-data",
+  //       },
+  //     });
+
+  //     // Log the uploaded file URLs
+  //     //console.log("Uploaded File URLs:", data.links);
+
+  //     if (typeof window !== "undefined") {
+  //       sessionStorage.setItem("message", message);
+  //       sessionStorage.setItem("username", username);
+  //       sessionStorage.setItem("number", number);
+
+  //       // Store all image URLs in sessionStorage as a JSON string
+  //       sessionStorage.setItem("imageUrls", JSON.stringify(data.links));
+
+  //       alert("Data Uploaded");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error uploading files:", error);
+  //   } finally {
+  //     // Close the modal
+  //     setShowModal(false);
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!files || files.length === 0) {
-      alert("Please select files to upload");
-      return;
-    }
-
+  
     if (files.length > 5) {
       alert("You can only upload a maximum of 5 files");
       return;
     }
-
+  
     const formData = new FormData();
-
+  
     // Append each file to the FormData object
     for (let i = 0; i < files.length; i++) {
       formData.append("files", files[i]);
     }
-
+  
     try {
-      // Make the POST request to upload the files
-      const { data } = await axios.post("/api/upload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-
-      // Log the uploaded file URLs
-      //console.log("Uploaded File URLs:", data.links);
-
+      let uploadedLinks = [];
+  
+      if (files && files.length > 0) {
+        // Make the POST request to upload the files
+        const { data } = await axios.post("/api/upload", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        uploadedLinks = data.links; // Store uploaded file URLs
+      }
+  
       if (typeof window !== "undefined") {
         sessionStorage.setItem("message", message);
         sessionStorage.setItem("username", username);
         sessionStorage.setItem("number", number);
-
-        // Store all image URLs in sessionStorage as a JSON string
-        sessionStorage.setItem("imageUrls", JSON.stringify(data.links));
-
-        addToCart1(e, productData)
+  
+        // Store image URLs or an empty array in sessionStorage as a JSON string
+        sessionStorage.setItem("imageUrls", JSON.stringify(uploadedLinks));
+  
+        alert("Data Uploaded");
       }
     } catch (error) {
       console.error("Error uploading files:", error);
@@ -1029,7 +1075,7 @@ const Page = ({ params }) => {
                                 <table className="min-w-full table-auto">
                                   <tbody>
                                     {Object.entries(productData.property)
-                                      .slice(5)
+                                      .slice(10)
                                       .map(([key, value], index) => (
                                         <tr
                                           key={index}

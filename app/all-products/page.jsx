@@ -31,67 +31,84 @@ const page = () => {
     const loaderRef = useRef(null);
 
     // Fetch products from the API using pagination
-    const fetchProducts = async (pageNumber = 1) => {
-        const { data } = await axios.get(`/api/product?page=${pageNumber}&limit=${ITEMS_PER_PAGE}`);
+    const fetchProducts = async () => {
+        const { data } = await axios.get(`/api/product`);
         return data;
     };
 
     useEffect(() => {
         // Initial fetch
-        fetchProducts().then(newProducts => {
-            setProducts(newProducts);
-            setFilteredProducts(newProducts);
-        });
+        // fetchProducts().then(newProducts => {
+        //     setProducts(newProducts);
+        //     // setFilteredProducts(newProducts);
+        // });
+
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                //console.log("before reaponce")
+                const response = await axios.get(`/api/product`);
+
+                //console.log("the responce is ", response);
+                setProducts(response.data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
     }, []);
 
     // Infinite scroll logic
-    const handleObserver = useCallback((entries) => {
-        const target = entries[0];
-        if (target.isIntersecting && hasMore) {
-            setPage(prev => prev + 1); // Load the next page
-        }
-    }, [hasMore]);
+    // const handleObserver = useCallback((entries) => {
+    //     const target = entries[0];
+    //     if (target.isIntersecting && hasMore) {
+    //         setPage(prev => prev + 1); // Load the next page
+    //     }
+    // }, [hasMore]);
 
-    useEffect(() => {
-        const observer = new IntersectionObserver(handleObserver, { threshold: 1.0 });
-        if (loaderRef.current) observer.observe(loaderRef.current);
-        return () => {
-            if (loaderRef.current) observer.unobserve(loaderRef.current);
-        };
-    }, [handleObserver]);
+    // useEffect(() => {
+    //     const observer = new IntersectionObserver(handleObserver, { threshold: 1.0 });
+    //     if (loaderRef.current) observer.observe(loaderRef.current);
+    //     return () => {
+    //         if (loaderRef.current) observer.unobserve(loaderRef.current);
+    //     };
+    // }, [handleObserver]);
 
-    useEffect(() => {
-        if (page > 1) {
-            fetchProducts(page).then(newProducts => {
-                if (newProducts.length === 0) {
-                    setHasMore(false);
-                } else {
-                    setProducts(prevProducts => [...prevProducts, ...newProducts]);
-                    setFilteredProducts(prevFilteredProducts => [...prevFilteredProducts, ...newProducts]);
-                }
-            });
-        }
-    }, [page]);
+    // useEffect(() => {
+    //     if (page > 1) {
+    //         fetchProducts(page).then(newProducts => {
+    //             if (newProducts.length === 0) {
+    //                 setHasMore(false);
+    //             } else {
+    //                 setProducts(prevProducts => [...prevProducts, ...newProducts]);
+    //                 setFilteredProducts(prevFilteredProducts => [...prevFilteredProducts, ...newProducts]);
+    //             }
+    //         });
+    //     }
+    // }, [page]);
 
-    // Filtering logic
-    useEffect(() => {
-        let filtered = products;
-        if (filters.category !== 'All') {
-            filtered = filtered.filter(product => product.category === filters.category);
-            if (filters.subCategory) {
-                filtered = filtered.filter(product => product.subCategory === filters.subCategory);
-            }
-        }
-        if (filters.priceRange) {
-            filtered = filtered.filter(product =>
-                product.price >= filters.priceRange.min && product.price <= filters.priceRange.max
-            );
-        }
-        if (filters.colors.length > 0) {
-            filtered = filtered.filter(product => filters.colors.includes(product.color));
-        }
-        setFilteredProducts(filtered);
-    }, [filters, products]);
+    // // Filtering logic
+    // useEffect(() => {
+    //     let filtered = products;
+    //     if (filters.category !== 'All') {
+    //         filtered = filtered.filter(product => product.category === filters.category);
+    //         if (filters.subCategory) {
+    //             filtered = filtered.filter(product => product.subCategory === filters.subCategory);
+    //         }
+    //     }
+    //     if (filters.priceRange) {
+    //         filtered = filtered.filter(product =>
+    //             product.price >= filters.priceRange.min && product.price <= filters.priceRange.max
+    //         );
+    //     }
+    //     if (filters.colors.length > 0) {
+    //         filtered = filtered.filter(product => filters.colors.includes(product.color));
+    //     }
+    //     setFilteredProducts(filtered);
+    // }, [filters, products]);
 
     return (
         <div>
@@ -102,19 +119,19 @@ const page = () => {
                 <div className="container">
                     <div className="product-page">
                         <div className="product-list">
-                            {filteredProducts.map(product => (
+                            {products?.map(product => (
                                 <MemoizedProductCard key={product._id} product={product} />
                             ))}
                         </div>
                     </div>
                 </div>
-                <div ref={loaderRef} className="loader">
+                {/* <div ref={loaderRef} className="loader">
                     {hasMore ? 
                         <div className='flex justify-center items-center gap-2'>
                             <div className="spinner"></div>Loading products...
                         </div>
                      : ''}
-                </div>
+                </div> */}
             </div>
 
             {/* Suspense for lazy loading components */}
