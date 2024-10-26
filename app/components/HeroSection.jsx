@@ -26,17 +26,17 @@ const HeroSection = () => {
   const [images, setImages] = useState([
     {
       id: 1,
-      src: "/assets/image/1.jpg",
-      alt: "Image 1",
+      src: "",
+      alt: "",
     },
     {
       id: 2,
-      src: "/assets/image/2.jpg",
+      src: "",
       alt: "Image 2",
     },
     {
       id: 3,
-      src: "/assets/image/1.jpg",
+      src: "",
       alt: "Image 3",
     },
   ]);
