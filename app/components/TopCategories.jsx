@@ -40,8 +40,8 @@ const TopCategories = () => {
                                             aria-selected={activeTab === `vertical-tab-with-border-${id}`}
                                         >
                                             <figure className="hover-image">
-                                                <img className='default_img' src={`/assets/images/icons/${img}`} alt={`${category} Image`} />
-                                                <img className='hovered_img' src={`/assets/images/icons/${hoverImg}`} alt={`${category} Hover Image`} />
+                                                <img loading='lazy' className='default_img' src={`/assets/images/icons/${img}`} alt={`${category} Image`} />
+                                                <img loading='lazy' className='hovered_img' src={`/assets/images/icons/${hoverImg}`} alt={`${category} Hover Image`} />
                                             </figure>
                                             <div className="tab_btn_text">
                                                 <div className="category">{category}</div>
@@ -65,7 +65,7 @@ const TopCategories = () => {
                                         role="tabpanel"
                                         aria-labelledby={`vertical-tab-with-border-item-${id}`}
                                     >
-                                        <img src={img_src} alt="" />
+                                        <img loading='lazy' src={img_src} alt="" />
 
                                         <div className="show_all_collection_btn">
                                             <div className="all_collection_card_btn">

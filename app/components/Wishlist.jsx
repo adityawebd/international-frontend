@@ -65,7 +65,7 @@ const Wishlist = () => {
                                             {products.map((product) => (
                                                 <tr key={product.id}>
                                                     <td className='product_img'>
-                                                        <img src={product.image} alt={product.name} />
+                                                        <img loading='lazy' src={product.image} alt={product.name} />
                                                     </td>
                                                     <td className='product_name'>
                                                         <h3 className='text-xl font-medium green_font'>{product.name}</h3>

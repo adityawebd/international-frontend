@@ -139,7 +139,7 @@ const Navbar = () => {
         <div className="navbar">
           <div className="navbar_brand">
             <a href="/">
-              <img
+              <img loading='lazy'
                 src="/assets/international-gift-logo-inline.png"
                 alt="Logo"
               />
@@ -175,7 +175,7 @@ const Navbar = () => {
                   {results?.length > 0 ? (
                     results.map((result) => (
                       <a href={`/product/${result._id}`} className="search_card" key={result._id}>
-                        <img src={result.images[0]} alt={result.title} />
+                        <img loading='lazy' src={result.images[0]} alt={result.title} />
                         <div className="desc">{result.title}</div>
                       </a>
                     ))
@@ -274,7 +274,7 @@ const Navbar = () => {
                       key={index}
                     >
                       <div className="search_card">
-                        <img src={result.images[0]} alt={result.title} />
+                        <img loading='lazy' src={result.images[0]} alt={result.title} />
                         <div className="desc">{result.title}</div>
                       </div>
                     </div>
@@ -292,7 +292,7 @@ const Navbar = () => {
                   {results?.length > 0 ? (
                     results.map((result) => (
                       <a href={`/product/${result._id}`} className="search_card" key={result._id}>
-                        <img src={result.images[0]} alt={result.title} />
+                        <img loading='lazy' src={result.images[0]} alt={result.title} />
                         <div className="desc">{result.title}</div>
                       </a>
                     ))

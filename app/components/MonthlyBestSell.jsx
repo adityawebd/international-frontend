@@ -45,7 +45,7 @@ const MonthlyBestSell = ({ price, ...props }) => {
                         <div className="col-md-3">
                             <div className="best_sell_banner_wrapper">
                                 <div  data-aos="zoom-in-right" data-aos-duration="1000"  className="banner">
-                                    <img src="/assets/imgs/banner/banner-9.jpg" className='rounded-2xl' alt="" />
+                                    <img loading='lazy' src="/assets/imgs/banner/banner-9.jpg" className='rounded-2xl' alt="" />
                                 </div>
 
                             </div>

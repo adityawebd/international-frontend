@@ -341,7 +341,7 @@ const ProductContent = ({urldata}) => {
                       <div key={product._id} className="products_card">
                         <a href={`/product/${product._id}`}>
                           <figure>
-                            <img className='rounded-2xl' src={product.images[0]} alt={product.title} />
+                            <img loading='lazy' className='rounded-2xl' src={product.images[0]} alt={product.title} />
                           </figure>
                           <div className='card_content'>
                             <div className="title">{product.title}</div>

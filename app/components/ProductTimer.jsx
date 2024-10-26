@@ -64,7 +64,7 @@ const ProductTimer = () => {
                             <div className="product_timer_body mt-4">
                                 <div className="scrollable_card">
                                     <figure className="col-md-6">
-                                        <img src={product.images[0]} alt={product.name} height={100} width={100} />
+                                        <img loading='lazy' src={product.images[0]} alt={product.name} height={100} width={100} />
                                     </figure>
                                     <div className="product_timer_content">
                                         <h3 data-aos="fade-up" data-aos-duration="400">{product.title}</h3>

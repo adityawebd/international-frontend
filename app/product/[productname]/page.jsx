@@ -611,7 +611,7 @@ const Page = ({ params }) => {
                       className={index === activeProductTab ? "active" : ""}
                       onClick={() => handleProductTabClick(index)}
                     >
-                      <img
+                      <img loading='lazy'
                         src={image}
                         alt={`Product image ${index + 1}`}
                         width={150}
@@ -681,7 +681,7 @@ const Page = ({ params }) => {
                 <div className="text-xs">Inclusive of all taxes</div>
               </p>
               <div className="my-2">
-                <img src="/assets/images/icons/payment.png" alt="" />
+                <img loading='lazy' src="/assets/images/icons/payment.png" alt="" />
               </div>
 
               <p className="text-base light_black_font mt-3">
@@ -956,7 +956,7 @@ const Page = ({ params }) => {
                               : ""
                           }`}
                         >
-                          <img
+                          <img loading='lazy'
                             src={data.images[0]}
                             alt={data.title}
                             height={100}

@@ -47,7 +47,7 @@ const Testimonials = () => {
                                 style={{ transform: `translateX(${-100 * activeTestimonial}%)` }}
                             >
                                 <div className="quote_1">
-                                    {/* <img src="/assets/images/testimonial/quotes-1.svg" alt="Quote" /> */}
+                                    {/* <img loading='lazy' src="/assets/images/testimonial/quotes-1.svg" alt="Quote" /> */}
                                 </div>
                                 <div className="main_feedback">
                                     <p data-aos="fade-up" data-aos-duration="600" className='text-sm light_black_font leading-6'>{testimonial.feedback}</p>
@@ -60,14 +60,14 @@ const Testimonials = () => {
                                     </div>
                                 </div>
                                 <div className="quote_2">
-                                    {/* <img src="/assets/images/testimonial/quotes-2.svg" alt="Quote" /> */}
+                                    {/* <img loading='lazy' src="/assets/images/testimonial/quotes-2.svg" alt="Quote" /> */}
                                 </div>
                             </div>
                         ))}
                     </div>
                     <div className="testimonials_avatar">
                         {testimonials.map((testimonial, index) => (
-                            <img
+                            <img loading='lazy'
                                 key={testimonial.id}
                                 src={testimonial.img}
                                 alt={`Avatar ${index + 1}`}

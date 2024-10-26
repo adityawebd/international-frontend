@@ -49,7 +49,7 @@ export default function Page({ params }) {
           <div id="content2" className="printable-content p-6">
             <div className="grid grid-cols-2 pb-5">
               <div>
-                <img
+                <img loading='lazy'
                   src="/assets/image/logo-gift.png"
                   alt=""
                   height={250}

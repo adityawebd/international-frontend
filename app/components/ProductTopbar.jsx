@@ -78,7 +78,7 @@ const ProductTopbar = () => {
                                     onClick={() => handleCategoryClick(category._id)}
                                 >
                                     <button className="pt_card_parent" onClick={() => handleButtonClick(category)}>
-                                        <img
+                                        <img loading='lazy'
                                             className=""
                                             src={category.image || `/assets/image/gift14.jpg`} // Assuming category has an image field
                                             alt={category.name}

@@ -59,7 +59,7 @@ const UserHistory = () => {
                 <td className="border border-gray-300 px-4 py-2">{(new Date(order.updatedAt)).toLocaleString()}</td>
                 <td>
                 {order.cart?.map((item,index)=>(
-                   <img height="100px" width="100px" className='rounded-full' src={item.images[0] || item.images} alt='images'/>
+                   <img loading='lazy' height="100px" width="100px" className='rounded-full' src={item.images[0] || item.images} alt='images'/>
                 ))}
                 </td>
                 

@@ -34,7 +34,7 @@ const BestSellCard = ({ price, ...props }) => {
         <div className="products_card">
             <a href={props.card_link}>
                <figure>
-                 <img className='rounded-2xl' src={props.img_src} alt={props.img_title} />
+                 <img loading='lazy' className='rounded-2xl' src={props.img_src} alt={props.img_title}  />
                </figure>
                 <div className="card_content">
                     {/* <div className="sku_id"> {props.sku_id} </div> */}

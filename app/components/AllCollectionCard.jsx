@@ -10,7 +10,7 @@ const AllCollectionCard = (props) => {
                     <div className="discount mt-3 wider light_black_font"> {props.discount_text} { props.discount }% Discount </div>
                 </div>
                 <figure className=''>
-                    <img src={props.img_src} alt={props.img_title} />
+                    <img loading='lazy' src={props.img_src} alt={props.img_title} />
                 </figure>
 
                 <div className="show_all_collection_btn">

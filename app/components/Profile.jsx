@@ -84,9 +84,9 @@ const Profile = () => {
 
       <div className="user_profile px-5">
         <div className="banner">
-          <img src="/assets/image/banner-profile.jpg" alt="Profile Banner" className='rounded' />
+          <img loading='lazy' src="/assets/image/banner-profile.jpg" alt="Profile Banner" className='rounded' />
           <div className="user_img">
-            <img src="https://w7.pngwing.com/pngs/178/595/png-transparent-user-profile-computer-icons-login-user-avatars-thumbnail.png" alt="" />
+            <img loading='lazy' src="https://w7.pngwing.com/pngs/178/595/png-transparent-user-profile-computer-icons-login-user-avatars-thumbnail.png" alt="" />
           </div>
           <h2 className="name text-center text-xl font-semibold light_black_font mt-2">{profile.firstName}&nbsp;{profile.lastName}</h2>
         </div>

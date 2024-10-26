@@ -131,7 +131,7 @@ const HeroSection = () => {
                 className={`w-full h-full absolute transition-transform duration-1000 ${index === currentSlide ? 'opacity-100' : 'opacity-0'}`}
                 style={{ transform: `translateX(${(index - currentSlide) * 100}%)` }}
               >
-                <img
+                <img loading='lazy'
                   src={image.src}
                   alt={image.alt}
                   layout="fill"

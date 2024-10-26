@@ -14,7 +14,7 @@ const ProductCard = ({ product }) => {
 
     return (
         <a href={`/product/${product._id}`} className="w-[280px] rounded-md border mb-2 mr-2 reposnive_product_card">
-            <img
+            <img loading='lazy'
                 src={product.images[0]}
                 alt="product-image"
                 className="h-[200px] w-full rounded-t-md object-cover"

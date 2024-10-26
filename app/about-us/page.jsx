@@ -19,7 +19,7 @@ const page = () => {
             <div className="">
               <h2 className='text-3xl font-semibold text-black mb-4'>About Us</h2>
 
-              {/* <img className='rounded-xl mt-4 mb-5' src="/assets/terms.jpg" alt="" /> */}
+              {/* <img loading='lazy' className='rounded-xl mt-4 mb-5' src="/assets/terms.jpg" alt="" /> */}
               <div className="h3 mb-3">
                 International Gift: Leading Destination for Global Gifts
               </div>

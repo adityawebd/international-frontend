@@ -53,7 +53,7 @@ export default function CartItem({ product }) {
   return (
     <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
       <td className="p-4">
-        <img
+        <img loading='lazy'
           src={product?.images[0]}
           alt={product.title}
           width={100}

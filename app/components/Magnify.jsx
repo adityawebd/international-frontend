@@ -122,7 +122,7 @@ const Magnify = ({ imageSrc, alt }) => {
         className="picbox"
         onClick={openModal}
       >
-        <img id="product_img" src={imageSrc} alt={alt} />
+        <img loading='lazy' id="product_img" src={imageSrc} alt={alt} />
       </div>
       <div
         id="mouse_zoom"
@@ -144,7 +144,7 @@ const Magnify = ({ imageSrc, alt }) => {
             >
               <IoIosCloseCircle size={20} />
             </button>
-            {/* <img src={imageSrc} alt={alt} /> */}
+            {/* <img loading='lazy' src={imageSrc} alt={alt} /> */}
             <div className="modal_btns_product_img mb-2">
               <button
                 className=""
@@ -166,7 +166,7 @@ const Magnify = ({ imageSrc, alt }) => {
               </button>
             </div>
             <figure>
-              <img
+              <img loading='lazy'
                 src={imageSrc}
                 alt={alt}
                 style={{ transform: `scale(${zoomLevel})`, transition: 'transform 0.3s ease' }}

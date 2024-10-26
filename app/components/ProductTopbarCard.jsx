@@ -10,7 +10,7 @@ const Card = ({ image, name, sections }) => {
     return (
         <div className="pt_card_wrapper">
             <div className="pt_card">
-                <img src={image} alt={name} />
+                <img loading='lazy' src={image} alt={name} />
                 <div className="pt_card_name px-2 text-sm font-semibold light_black_font">{name}</div>
                 <span><ChevronDown /></span>
             </div>
@@ -50,7 +50,7 @@ const Card = ({ image, name, sections }) => {
                                     {section.products.map((product, idx) => (
                                         <SwiperSlide key={idx} className="pt_featured_card">
                                             <a href={product.link}>
-                                                <img src={product.image} alt={product.name} />
+                                                <img loading='lazy' src={product.image} alt={product.name} />
                                                 <div className="text-xs mt-2">{product.name}</div>
                                             </a>
                                         </SwiperSlide>

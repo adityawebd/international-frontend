@@ -42,42 +42,42 @@ const ExploreFeeds = () => {
                     >
                         <SwiperSlide>
                             <figure>
-                                <img src="/assets/image/gift2.jpg" alt="" />
+                                <img loading='lazy' src="/assets/image/gift2.jpg" alt="" />
                             </figure>
                         </SwiperSlide>
                         <SwiperSlide>
                             <figure>
-                                <img src="/assets/image/gift3.jpg" alt="" />
+                                <img loading='lazy' src="/assets/image/gift3.jpg" alt="" />
                             </figure>
                         </SwiperSlide>
                         <SwiperSlide>
                             <figure>
-                                <img src="/assets/image/gift4.jpg" alt="" />
+                                <img loading='lazy' src="/assets/image/gift4.jpg" alt="" />
                             </figure>
                         </SwiperSlide>
                         <SwiperSlide>
                             <figure>
-                                <img src="/assets/image/gift5.jpg" alt="" />
+                                <img loading='lazy' src="/assets/image/gift5.jpg" alt="" />
                             </figure>
                         </SwiperSlide>
                         <SwiperSlide>
                             <figure>
-                                <img src="/assets/image/gift6.jpg" alt="" />
+                                <img loading='lazy' src="/assets/image/gift6.jpg" alt="" />
                             </figure>
                         </SwiperSlide>
                         <SwiperSlide>
                             <figure>
-                                <img src="/assets/image/gift7.jpg" alt="" />
+                                <img loading='lazy' src="/assets/image/gift7.jpg" alt="" />
                             </figure>
                         </SwiperSlide>
                         <SwiperSlide>
                             <figure>
-                                <img src="/assets/image/gift8.jpg" alt="" />
+                                <img loading='lazy' src="/assets/image/gift8.jpg" alt="" />
                             </figure>
                         </SwiperSlide>
                         <SwiperSlide>
                             <figure>
-                                <img src="/assets/image/gift10.jpg" alt="" />
+                                <img loading='lazy' src="/assets/image/gift10.jpg" alt="" />
                             </figure>
                         </SwiperSlide>
                     </Swiper>

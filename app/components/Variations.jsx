@@ -35,7 +35,7 @@ const Variations = ({ images }) => {
                     {images.map((image, index) => (
                         <SwiperSlide key={index}>
                             <figure>
-                                <img src={image.src} alt={image.alt} />
+                                <img loading='lazy' src={image.src} alt={image.alt} />
                             </figure>
                         </SwiperSlide>
                     ))}
