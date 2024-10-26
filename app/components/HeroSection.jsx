@@ -1,13 +1,19 @@
-'use client'
+"use client";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import Swipe from "react-easy-swipe";
-import AOS from 'aos';
-import 'aos/dist/aos.css'
-import axios from 'axios';
+import AOS from "aos";
+import "aos/dist/aos.css";
+import axios from "axios";
 
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import ProductTopbar from "./ProductTopbar";
+
+//imports for swiper.js
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Navigation, A11y } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+
 
 /**
  * Carousel component for nextJS and Tailwind.
@@ -22,49 +28,22 @@ const HeroSection = () => {
       id: 1,
       src: "/assets/image/1.jpg",
       alt: "Image 1",
-      text: [
-        {
-          id: 1,
-          heading: "New Statue Collection",
-          offer: "SALE OFFER",
-          para: "Elevate Your Space – Stunning Statues on Sale Now!",
-          btn_link: "products"
-        }
-      ]
     },
     {
       id: 2,
       src: "/assets/image/2.jpg",
       alt: "Image 2",
-      text: [
-        {
-          id: 1,
-          heading: "BEST STATUE SETS",
-          offer: "SALE OFFER",
-          para: "Transform Your Home – Beautiful Statues, Special Offers!",
-          btn_link: "products"
-        }
-      ]
     },
     {
       id: 3,
       src: "/assets/image/1.jpg",
       alt: "Image 3",
-      text: [
-        {
-          id: 1,
-          heading: "New Statue Collection",
-          offer: "SALE OFFER",
-          para: "Elevate Your Space – Stunning Statues on Sale Now!",
-          btn_link: "products"
-        }
-      ]
     },
   ]);
 
   useEffect(() => {
-    axios.get('/api/banner').then(response => {
-      const apiImages = response.data.map(item => item.images[0]);
+    axios.get("/api/banner").then((response) => {
+      const apiImages = response.data.map((item) => item.images[0]);
       const updatedImages = images.map((image, index) => ({
         ...image,
         src: apiImages[index] ? apiImages[index] : image.src,
@@ -107,61 +86,97 @@ const HeroSection = () => {
     }
   }, [isAnimating]);
 
-  useEffect(() => { //animate on scroll
+  useEffect(() => {
+    //animate on scroll
     AOS.init();
-  }, [])
+  }, []);
 
   return (
     <>
       <ProductTopbar />
-      <div className="relative hero_main_wrapper">
-        <AiOutlineLeft
+      <div className="heronewwrapper">
+        {/* <AiOutlineLeft
           onClick={handlePrevSlide}
           className="absolute left-0 m-auto text-5xl inset-y-1/2 cursor-pointer text-gray-400 z-20 hero_nav_btns"
-        />
-        <div className="w-full h-[80vh] flex overflow-hidden relative m-auto">
-          <Swipe
-            onSwipeLeft={handleNextSlide}
-            onSwipeRight={handlePrevSlide}
-            className="relative z-10 w-full h-full"
+        /> */}
+        <div className="">
+          <Swiper
+            // spaceBetween={10}
+            slidesPerView={1.5}
+            loop={true}
+            autoplay={{
+              delay: 3000,
+              disableOnInteraction: false,
+              pauseOnMouseEnter: true,
+            }}
+            speed={3000}
+            // navigation
+            pagination={{ clickable: true }}
+            scrollbar={{ draggable: true }}
+            breakpoints={{
+              // Mobile small (smaller than 500px)
+              320: {
+                slidesPerView: 1, // 1 slide on very small screens
+                // spaceBetween: 5,
+              },
+              // Mobile medium (around 500px)
+              500: {
+                slidesPerView: 1,
+                // spaceBetween: 10,
+              },
+              // Tablets (around 768px)
+              768: {
+                slidesPerView: 1, // Can show partial next slide
+                // spaceBetween: 15,
+              },
+              // Tablets large (around 1024px)
+              1024: {
+                slidesPerView: 1, // Showing 2 slides
+                // spaceBetween: 20,
+              },
+              // Laptops (around 1300px)
+              1300: {
+                slidesPerView: 1, // Show 2.5 slides
+                // spaceBetween: 25,
+              },
+              // Desktop (larger than 1500px)
+              1500: {
+                slidesPerView: 1, // Show 3 full slides
+                // spaceBetween: 30,
+              },
+            }}
+            navigation={true}
+            //  modules={[Autoplay, Pagination, Navigation]}
+            modules={[Autoplay, Navigation, A11y]}
+            className="swiper-wrapper"
           >
             {images.map((image, index) => (
-              <div
+              <SwiperSlide
                 key={image.id}
-                className={`w-full h-full absolute transition-transform duration-1000 ${index === currentSlide ? 'opacity-100' : 'opacity-0'}`}
-                style={{ transform: `translateX(${(index - currentSlide) * 100}%)` }}
+                // className={`w-full h-full absolute transition-transform duration-1000 ${
+                //   index === currentSlide ? "opacity-100" : "opacity-0"
+                // }`}
+                // style={{
+                //   transform: `translateX(${(index - currentSlide) * 100}%)`,
+                // }}
               >
-                <img loading='lazy'
+                <img
+                  loading="lazy"
                   src={image.src}
                   alt={image.alt}
                   layout="fill"
                   objectfit="cover"
-                  className="animate-fadeIn"
+                  // className="animate-fadeIn mx-auto lg:h-[80vh] "
+                  className="h-[auto] lg:max-h-[800px] md:max-h-[300px] max-sm:max-h-[200px] mx-auto"
                 />
-                {/* {index === currentSlide && (
-                  <div className="hero_img_text ">
-                    {Array.isArray(image.text) ? (
-                      image.text.map((textItem) => (
-                        <div key={textItem.id}>
-                          <h1 className="animated-text">{textItem.heading}</h1>
-                          <h6 className="animated-text">{textItem.offer}</h6>
-                          <p className="animated-text">{textItem.para}</p>
-                          <a className="animated-text" href={textItem.btn_link}>ORDER NOW</a> 
-                        </div>
-                      ))
-                    ) : (
-                      <h1>{image.text}</h1>
-                    )}
-                  </div>
-                )} */}
-              </div>
+              </SwiperSlide>
             ))}
-          </Swipe>
+          </Swiper>
         </div>
-        <AiOutlineRight
+        {/* <AiOutlineRight
           onClick={handleNextSlide}
           className="absolute right-0 m-auto text-5xl inset-y-1/2 cursor-pointer text-gray-400 z-20 hero_nav_btns"
-        />
+        /> */}
 
         <div className="relative flex justify-center p-2 d-none">
           {images.map((_, index) => (
@@ -181,6 +196,6 @@ const HeroSection = () => {
       </div>
     </>
   );
-}
+};
 
 export default HeroSection;

@@ -4359,59 +4359,11 @@ footer .limited_edition {
   overflow: hidden;
 }
 
-.hero_img_text {
-  /* border: 1px solid red; */
-  position: absolute;
-  left: 15%;
-  top: 20%;
-}
-
-.hero_img_text h1,
-.hero_img_text h6,
-.hero_img_text p,
-.hero_img_text a {
-  opacity: 0;
-  animation: slideIn 4s forwards;
-}
 
 .hero_main_wrapper img {
-  /* border: 1px solid red; */
-  width: 100%;
-  height: 100%;
-}
-
-.hero_img_text h1 {
-  font-size: 60px;
-  font-weight: 700;
-  color: var(--darkest-gray);
-}
-
-.hero_img_text h6 {
-  font-size: 48px;
-  font-weight: 400;
-  color: var(--darkest-gray);
-  margin-top: 80px;
-}
-
-.hero_img_text p {
-  font-size: 20px;
-  font-weight: 300;
-  color: var(--darkest-gray);
-  width: 60%;
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-
-.hero_img_text a {
-  background-color: var(--darkest-gray);
-  color: var(--white-clr);
-  font-size: 15px;
-  padding: 10px 20px;
-  transition: 0.6s all;
-}
-
-.hero_img_text a:hover {
-  background-color: var(--green-clr);
+  border: 1px solid red;
+  /* width: 100%; */
+  /* height: 100%; */
 }
 
 .hero_nav_btns:first-child {
@@ -4466,232 +4418,45 @@ footer .limited_edition {
   }
 }
 
+
 .animated-text {
   animation: slideIn 0.5s forwards;
 }
 
-@media (max-width: 426px) {
-  .hero_main_wrapper {
-    height: 25vh;
-    /* border: 1px solid red; */
-  }
 
-  .hero_main_wrapper img {
-    /* border: 1px solid red; */
-    width: 100%;
-    height: 25vh;
-  }
-
-  .hero_img_text {
-    /* border: 1px solid red; */
-    position: absolute;
-    left: 5%;
-    top: 2%;
-  }
-
-  .hero_img_text h1 {
-    font-size: 24px;
-  }
-
-  .hero_img_text h6 {
-    font-size: 20px;
-    margin-top: 10px;
-  }
-
-  .hero_img_text p {
-    font-size: 12px;
-    font-weight: 300;
-    color: var(--darkest-gray);
-    width: 100%;
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
-
-  .hero_img_text a {
-    background-color: var(--darkest-gray);
-    color: var(--white-clr);
-    font-size: 10px;
-    padding: 6px 12px;
-    transition: 0.6s all;
-  }
-}
-@media (min-width: 426px) and (max-width: 480px) {
-  .hero_main_wrapper {
-    height: 28vh;
-    /* border: 1px solid red; */
-  }
-}
-@media (min-width: 480px) and (max-width: 540px) {
-  .hero_main_wrapper {
-    height: 30vh;
-    /* border: 1px solid red; */
-  }
-}
-@media (min-width: 540px) and (max-width: 600px) {
-  .hero_main_wrapper {
-    height: 34vh;
-    /* border: 1px solid red; */
-  }
-}
-@media (min-width: 600px) and (max-width: 640px) {
-  .hero_main_wrapper {
-    height: 38vh;
-    /* border: 1px solid red; */
-  }
-}
-@media (min-width: 640px) and (max-width: 680px) {
-  .hero_main_wrapper {
-    height: 40vh;
-    /* border: 1px solid red; */
-  }
-}
-@media (min-width: 680px) and (max-width: 740px) {
-  .hero_main_wrapper {
-    height: 43vh;
-    /* border: 1px solid red; */
-  }
-}
-
-@media (min-width: 740px) and (max-width: 768px) {
-  .hero_main_wrapper {
-    height: 45vh;
-    /* border: 1px solid red; */
-  }
-
-  .hero_main_wrapper img {
-    /* border: 1px solid red; */
-    width: 100%;
-  }
-
-  .hero_img_text {
-    /* border: 1px solid red; */
-    position: absolute;
-    left: 5%;
-    top: 10%;
-  }
-
-  .hero_img_text h1 {
-    font-size: 30px;
-  }
-
-  .hero_img_text h6 {
-    font-size: 24px;
-    margin-top: 10px;
-  }
-
-  .hero_img_text p {
-    font-size: 16px;
-    font-weight: 300;
-    color: var(--darkest-gray);
-    width: 80%;
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
-
-  .hero_img_text a {
-    background-color: var(--darkest-gray);
-    color: var(--white-clr);
-    font-size: 10px;
-    padding: 8px 16px;
-    transition: 0.6s all;
-  }
-}
-
-@media (min-width: 768px) and (max-width: 840px) {
-  .hero_main_wrapper {
-    height: 30vh;
-    /* border: 1px solid red; */
-  }
-}
-
-@media (min-width: 840px) and (max-width: 1024px) {
-  .hero_main_wrapper {
-    height: 50vh;
-    /* border: 1px solid red; */
-  }
-
-  .hero_main_wrapper img {
-    /* border: 1px solid red; */
-    width: 100%;
-  }
-
-  .hero_img_text {
-    /* border: 1px solid red; */
-    position: absolute;
-    left: 10%;
-    top: 10%;
-  }
-
-  .hero_img_text h1 {
-    font-size: 36px;
-  }
-
-  .hero_img_text h6 {
-    font-size: 28px;
-    margin-top: 30px;
-  }
-
-  .hero_img_text p {
-    font-size: 20px;
-    font-weight: 300;
-    color: var(--darkest-gray);
-    width: 80%;
-    margin-top: 20px;
-    margin-bottom: 10px;
-  }
-
-  .hero_img_text a {
-    background-color: var(--darkest-gray);
-    color: var(--white-clr);
-    font-size: 10px;
-    padding: 12px 24px;
-    transition: 0.6s all;
-  }
-}
-
-@media (min-width: 1025px) and (max-width: 1440px) {
-  .hero_main_wrapper {
-    height: 70vh;
-    /* border: 1px solid red; */
-  }
-
-  .hero_main_wrapper img {
-    width: 100%;
-  }
-
-  .hero_img_text {
-    position: absolute;
-    left: 10%;
-    top: 10%;
-  }
-
-  /* 
-    .hero_img_text h1 {
-        font-size: 36px;
-    }
-
-    .hero_img_text h6 {
-        font-size: 28px;
-        margin-top: 30px;
-    }
-
-    .hero_img_text p {
-        font-size: 20px;
-        font-weight: 300;
-        color: var(--darkest-gray);
-        width: 80%;
-        margin-top: 20px;
-        margin-bottom: 10px;
-    }
-    .hero_img_text a {
-        background-color: var(--darkest-gray);
-        color: var(--white-clr);
-        font-size: 10px;
-        padding: 12px 24px;
-        transition: 0.6s all;
-    } */
-}
 
 .accordion-button::after {
   display: none;
+}
+
+
+
+/* .heronewwrapper {
+  border: 1px solid red;
+} */
+
+.heronewwrapper .swiper-button-prev {
+  left: -30px !important;
+  transition: all 0.5s;
+}
+.heronewwrapper .swiper-button-next {
+  right: -30px !important;
+  transition: all 0.5s;
+}
+.heronewwrapper .swiper-button-prev::after {
+  font-size: 16px !important;
+  padding: 10px 12px !important;
+  left: -10px !important;
+}
+.heronewwrapper .swiper-button-next::after {
+  font-size: 16px !important;
+  padding: 10px 12px !important;
+}
+
+.heronewwrapper:hover .swiper-button-prev {
+  left: 30px !important;
+}
+
+.heronewwrapper:hover .swiper-button-next {
+  right: 30px !important;
 }
