@@ -65,7 +65,7 @@ const MonthlyBestSell = ({ price, ...props }) => {
                   <img
                     loading="lazy"
                     src="/assets/imgs/banner/banner-9.jpg"
-                    className="rounded-2xl"
+                    className="rounded-2xl max-sm:w-32 max-sm:rounded-xl"
                     alt=""
                   />
                 </div>

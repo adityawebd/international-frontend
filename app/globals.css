@@ -144,6 +144,7 @@ body {
 
 .icons {
   display: flex;
+  gap: 10px;
   justify-content: center;
   align-items: center;
 }
@@ -151,7 +152,7 @@ body {
 .icons a {
   background-color: var(--e-gray);
   border-radius: 50%;
-  padding: 6px;
+  padding: 10px;
   font-size: 13px;
   margin-right: 5px;
   transition: 0.4s all;
@@ -2476,10 +2477,13 @@ footer .limited_edition {
 
 @media (max-width: 500px) {
   .product .cart_btns {
-    flex-direction: column;
+    /* flex-direction: column; */
     gap: 10px;
     align-items: start;
   }
+  /* .product .cart_btns button a {
+    font-size: 10px;
+  } */
 }
 
 .product .cart_btns button {
@@ -3803,10 +3807,10 @@ footer .limited_edition {
 
 .product-list {
   /* border: 1px solid green; */
-  display: flex;
   /* justify-content: center; */
+  /* display: flex;
   align-items: start;
-  flex-wrap: wrap;
+  flex-wrap: wrap; */
   /* padding-left: 0px; */
 }
 

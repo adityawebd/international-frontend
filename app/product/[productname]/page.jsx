@@ -84,6 +84,7 @@ const Page = ({ params }) => {
   const [reviewText, setReviewText] = useState("");
   const { data: session } = useSession();
   const [usersessions, setUsersessions] = useState([]);
+  console.log(productData);
 
   // Initial quantity
   const [isDisabled, setIsDisabled] = useState(false); // State to control button disabled status
@@ -732,52 +733,56 @@ const Page = ({ params }) => {
                 ))}
               </p>
 
-              <td className="pt-2">
-                <div className=" flex items-center justify-center border border-black rounded-full px-4 py-1 my-2">
-                  <button onClick={decreaseQuantity}>-</button>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <span>{quantity}</span>
-                  &nbsp;&nbsp;&nbsp;&nbsp;
-                  <button onClick={increaseQuantity} disabled={isDisabled}>
-                    +
-                  </button>
-                </div>
-              </td>
-
               {/* <div className="flex"> */}
 
-              <div className="cart_btns mt-4  ">
-                <button onClick={(e) => addToCart2(e, productData)}>
-                  buy now{" "}
-                </button>
-                <button onClick={(e) => addToCart1(e, productData)}>
-                  <span>
-                    <HiOutlineShoppingBag />
-                  </span>{" "}
-                  &nbsp; add to cart{" "}
-                </button>
+              {productData.stockQuantity > 0 ? (
+                <>
+                  <td className="pt-2">
+                    <div className=" flex items-center justify-center border border-gray-300 rounded-full my-2">
+                      <button
+                        onClick={decreaseQuantity}
+                        className="bg-gray-100 rounded-l-full px-2 border-r border-gray-300"
+                      >
+                        -
+                      </button>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <span>{quantity}</span>
+                      &nbsp;&nbsp;&nbsp;&nbsp;
+                      <button
+                        onClick={increaseQuantity}
+                        disabled={isDisabled}
+                        className="bg-gray-100 rounded-r-full px-2 border-l border-gray-300"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </td>
+                  <div className="cart_btns mt-4">
+                    <button onClick={(e) => addToCart2(e, productData)}>
+                      buy now{" "}
+                    </button>
+                    <button onClick={(e) => addToCart1(e, productData)}>
+                      <span>
+                        <HiOutlineShoppingBag />
+                      </span>{" "}
+                      &nbsp; add to cart{" "}
+                    </button>
+                  </div>
+                  {productData.custom ? (
+                    <div className="cart_btns mt-4  ">
+                      <button onClick={() => setShowModal(true)}>
+                        Customize
+                      </button>
+                    </div>
+                  ) : null}
 
-                {/* <button onClick={notify}>Notify!</button> */}
-                {/* <ToastContainer
-                  position="top-right"
-                  autoClose={5000}
-                  hideProgressBar={false}
-                  newestOnTop={false}
-                  closeOnClick
-                  rtl={false}
-                  pauseOnFocusLoss
-                  draggable
-                  pauseOnHover
-                  theme="light"
-                  transition:Bounce/> */}
-              </div>
-              {productData.custom ? (
-                <div className="cart_btns mt-4  ">
-                  <button onClick={() => setShowModal(true)}>Customize</button>
+                  {/* </div> */}
+                </>
+              ) : (
+                <div className="text-red-500 mt-4">
+                  Currently Unavailable (Out of Stock)
                 </div>
-              ) : null}
-
-              {/* </div> */}
+              )}
 
               <div>
                 {showModal ? (
@@ -1022,12 +1027,12 @@ const Page = ({ params }) => {
           <div className="row product_details mt-4" id="forReviewClicked">
             <div className="mb-4 mt-2 flex justify-center align-middle">
               <ul
-                className="flex tabs_ul flex-wrap -mb-px text-sm font-medium text-center max-sm:flex-col"
+                className="flex tabs_ul  -mb-px text-sm font-medium text-center overflow-x-auto"
                 role="tablist"
               >
                 <li className="me-2" role="presentation">
                   <button
-                    className={`inline-block mt-2 px-4 py-2 ${
+                    className={`inline-block mt-2 px-4 py-2 max-sm:w-full ${
                       activeTab === "general_info"
                         ? "green_bg_white_font"
                         : "hover:text-gray-600 hover:border-gray-300"
@@ -1039,7 +1044,7 @@ const Page = ({ params }) => {
                 </li>
                 <li className="me-2" role="presentation">
                   <button
-                    className={`inline-block mt-2 px-4 py-2 ${
+                    className={`inline-block mt-2 px-4 py-2 max-sm:w-full ${
                       activeTab === "additional_info"
                         ? "green_bg_white_font"
                         : "hover:text-gray-600 hover:border-gray-300"
@@ -1051,14 +1056,14 @@ const Page = ({ params }) => {
                 </li>
                 <li className="me-2" role="presentation">
                   <button
-                    className={`inline-block mt-2 px-4 py-2 ${
+                    className={`inline-block mt-2 px-4 py-2 max-sm:w-full ${
                       activeTab === "reviews"
                         ? "green_bg_white_font"
                         : "hover:text-gray-600 hover:border-gray-300"
                     }`}
                     onClick={() => handleTabClick("reviews")}
                   >
-                    Reviews
+                    Product Reviews
                   </button>
                 </li>
               </ul>

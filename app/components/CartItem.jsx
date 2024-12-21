@@ -65,12 +65,12 @@ export default function CartItem({ product }) {
         {product.title}
       </td>
       <td className="px-6 py-4">
-        <div className="flex items-center justify-center">
-          <button onClick={(e) => addToCart1(e, product)}>-</button>
+        <div className="flex items-center justify-center border border-gray-300 rounded-full ">
+          <button onClick={(e) => addToCart1(e, product)}  className=" rounded-l-full px-2 border-r border-gray-300">-</button>
           &nbsp;&nbsp;&nbsp;&nbsp;
           <span>{product.quantity}</span>
           &nbsp;&nbsp;&nbsp;&nbsp;
-          <button onClick={(e) => addToCart2(e, product)}>+</button>
+          <button onClick={(e) => addToCart2(e, product)}  className=" rounded-r-full px-2 border-l border-gray-300">+</button>
         </div>
       </td>
       <td className="px-6 py-4 font-semibold">

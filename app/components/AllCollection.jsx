@@ -17,7 +17,7 @@ const AllCollection = () => {
                                 discount="30"
                                 img_src="/assets/image/cat-1-1-removebg-preview.png"
                                 img_title=""
-                                order_link="#best_seller"
+                                order_link="/products/Diwali%20Gift"
                             />
                         </div>
                         <div className="col-md-6" data-aos="fade-up" data-aos-duration="1000">
@@ -28,7 +28,7 @@ const AllCollection = () => {
                                 discount="30"
                                 img_src="/assets/image/cat-1-2-removebg-preview.png"
                                 img_title=""
-                                order_link="#new_arrival"
+                                order_link="/products/Birthday%20Gift"
                             />
                         </div>
                     </div>

@@ -13,6 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Cart = () => {
   const [address, setAddress] = useState([]);
+
   const { data: session } = useSession();
   const cart = useFromStore(useCartStore, (state) => state.cart);
   const clearCart = useCartStore((state) => state.clearCart);
@@ -173,6 +174,8 @@ const Cart = () => {
     storedImageUrl: "",
   });
 
+  const [hasAddressChanged, setHasAddressChanged] = useState(false); // Track address changes
+
   useEffect(() => {
     const totalAmount = cart
       ? cart.reduce(
@@ -191,18 +194,31 @@ const Cart = () => {
         phone: prevFormData.phone || session.user?.number || "",
         cart: cart || prevFormData.cart,
         Weight: prevFormData.Weight || cart[0]?.property?.Weight || "",
-        address: prevFormData.address || session.user?.address || "",
-        city: prevFormData.city || session.user?.city || "",
-        postalCode: prevFormData.postalCode || session.user?.postalCode || "",
-        country: prevFormData.country || session.user?.country || "",
-        region: prevFormData.region || session.user?.region || "",
+        // address: prevFormData.address || session.user?.address || "",
+        // city: prevFormData.city || session.user?.city || "",
+        // postalCode: prevFormData.postalCode || session.user?.postalCode || "",
+        // country: prevFormData.country || session.user?.country || "",
+        // region: prevFormData.region || session.user?.region || "",
+        address: hasAddressChanged
+          ? prevFormData.address
+          : session.user?.address || "",
+        city: hasAddressChanged ? prevFormData.city : session.user?.city || "",
+        postalCode: hasAddressChanged
+          ? prevFormData.postalCode
+          : session.user?.postalCode || "",
+        country: hasAddressChanged
+          ? prevFormData.country
+          : session.user?.country || "",
+        region: hasAddressChanged
+          ? prevFormData.region
+          : session.user?.region || "",
         storedMessage: storedMessage || "",
         storedImageUrl: storedImageUrl || "",
         storedusername: storedusername || "",
         storednumber: storednumber || "",
       }));
     }
-  }, [cart, session]);
+  }, [cart, session, hasAddressChanged]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -210,7 +226,37 @@ const Cart = () => {
       ...formData,
       [name]: value,
     });
+
+    // If an address field is being changed, set hasAddressChanged to true
+    if (["address", "city", "postalCode", "country", "region"].includes(name)) {
+      setHasAddressChanged(true);
+    }
   };
+
+  const saveNewAddress = async () => {
+    if (hasAddressChanged) {
+      try {
+        const response = await fetch("/api/save-address", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            address: formData.address,
+            city: formData.city,
+            postalCode: formData.postalCode,
+            country: formData.country,
+            region: formData.region,
+          }),
+        });
+        const data = await response.json();
+        console.log("Address saved:", data);
+      } catch (error) {
+        console.error("Error saving address:", error);
+      }
+    }
+  };
+
 
   //  razor pay
 
@@ -362,9 +408,13 @@ const Cart = () => {
       // Use setTimeout to simulate an async operation
 
       try {
+        // Save address or perform any pre-checkout operations
+        // await saveAddress(formData); // Call your backend API or service to save the address
+
         const response = await axios.post("/api/create-oreder", formData);
         const paymentRequest = response.data.order;
         setOrderData(response.data.order);
+
         setTimeout(() => {
           setIsModalOpen(true); // Open the modal
           setSpinner(false); // Hide spinner after 3 seconds
@@ -465,8 +515,8 @@ const Cart = () => {
       </div>
     );
   };
-//   console.log(total);
-//   console.log(finalPrice);
+  //   console.log(total);
+  //   console.log(finalPrice);
 
   return (
     <div>

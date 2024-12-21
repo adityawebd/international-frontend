@@ -55,13 +55,13 @@ const Sidebar = () => {
                             <ShoppingCart />
                             <span className="mx-2 text-sm font-medium">Checkout</span>
                         </a> */}
-                        <a
+                        {/* <a
                             className="flex transform items-center rounded-lg px-3 py-2 transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700"
                             href="/track-order"
                         >
                             <PackageOpen />
                             <span className="mx-2 text-sm font-medium">Track Order</span>
-                        </a>
+                        </a> */}
 
                         <button
                             className="flex transform items-center rounded-lg px-3 py-2 transition-colors duration-300 hover:bg-gray-100 hover:text-gray-700"

@@ -47,7 +47,7 @@ const NewArrival = () => {
           data-aos="fade-up"
           className="mb-4 font-semibold text-4xl text-center light_black_font"
         >
-          New Arrivals
+          Related Products
         </h2>
         <p data-aos="fade-up" className="text-center text-sm light_black_font">
           Browse The Collection of Top Products

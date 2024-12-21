@@ -17,7 +17,7 @@ const ProductCard = ({ product }) => {
             <img loading='lazy'
                 src={product.images[0]}
                 alt="product-image"
-                className="h-[200px] w-full rounded-t-md object-cover"
+                className="h-[300px] w-full rounded-t-md object-fit"
             />
             <div className="py-4 px-2 reposnive_product_card_content">
                 <h1 className="inline-flex items-center text-lg font-semibold product_title">
