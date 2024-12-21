@@ -88,6 +88,24 @@ const Page = ({ params }) => {
   // Initial quantity
   const [isDisabled, setIsDisabled] = useState(false); // State to control button disabled status
 
+  // const [activeProductTab, setActiveProductTab] = useState(0);
+
+  const handleProductTabClick = (index) => {
+    setActiveProductTab(index);
+  };
+
+  const handleNextImage = () => {
+    setActiveProductTab(
+      (prevIndex) => (prevIndex + 1) % productData.images.length
+    );
+  };
+
+  const handlePrevImage = () => {
+    setActiveProductTab((prevIndex) =>
+      prevIndex === 0 ? productData.images.length - 1 : prevIndex - 1
+    );
+  };
+
   useEffect(() => {
     axios.get(`/api/productDetail?condition=${urldata}`).then((response) => {
       setProductData(response.data[0]);
@@ -217,9 +235,9 @@ const Page = ({ params }) => {
     setActiveTab(tab);
   };
 
-  const handleProductTabClick = (index) => {
-    setActiveProductTab(index); // Update active tab when a tab button is clicked
-  };
+  // const handleProductTabClick = (index) => {
+  //   setActiveProductTab(index); // Update active tab when a tab button is clicked
+  // };
 
   useEffect(() => {
     if (activeTab === "reviews") {
@@ -643,6 +661,8 @@ const Page = ({ params }) => {
                       <Magnify
                         imageSrc={productData.images[activeProductTab]}
                         alt={`Product image ${activeProductTab + 1}`}
+                        onNextImage={handleNextImage}
+                        onPrevImage={handlePrevImage}
                       />
                     </div>
                   ))}
@@ -1126,10 +1146,6 @@ const Page = ({ params }) => {
                   ref={reviewsSectionRef}
                 >
                   <div className="row">
-                    {/* <div className="col-md-4 left_review_section">
-                                            <div className="average_rating_div">
-                                            </div>
-                                        </div> */}
                     <div className="col-md-12 right_review_section px-5">
                       <div className="average_review mb-4">
                         <p className="text-lg font-medium text-gray-900">
@@ -1139,17 +1155,6 @@ const Page = ({ params }) => {
                           </span>
                         </p>
                         <div className="flex align-middle">
-                          {/* <div className="stars flex align-middle mr-3">
-                                                            {Array.isArray(averageRating) && averageRating.length > 0 ? (
-                                                                averageRating.map((_, index) => (
-                                                                    <span key={index} className="colored_star">
-                                                                        <FaStar />
-                                                                    </span>
-                                                                ))
-                                                            ) : (
-                                                                <span>No rating available</span>
-                                                            )}
-                                                        </div> */}
                           <div className="review mt-3">
                             Total Reviews: {reviewData?.reviews.length}
                           </div>

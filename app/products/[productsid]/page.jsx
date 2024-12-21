@@ -1,29 +1,27 @@
-'use client'
-import { Suspense, useEffect, useState, useContext, useRef } from 'react';
-import { CurrencyContext } from '../../CurrencyContext';
-import { fetchCategoriesAndProducts } from '../../services/subcategoryService'; 
-import Navbar from '../../components/Navbar';
-import Footer from '../../components/Footer';
-import NewArrival from '../../components/NewArrival';
-import Breadcrumbs from '../../components/Breadcrumbs';
-import Filter from '../../components/Filter';
-import FilterHorizontal from '../../components/FilterHorizontal';
-import BackToTopButton from '../../components/BackToTopButton';
-import { useRouter, useSearchParams } from 'next/navigation';
+"use client";
+import { Suspense, useEffect, useState, useContext, useRef } from "react";
+import { CurrencyContext } from "../../CurrencyContext";
+import { fetchCategoriesAndProducts } from "../../services/subcategoryService";
+import Navbar from "../../components/Navbar";
+import Footer from "../../components/Footer";
+import NewArrival from "../../components/NewArrival";
+import Breadcrumbs from "../../components/Breadcrumbs";
+import Filter from "../../components/Filter";
+import FilterHorizontal from "../../components/FilterHorizontal";
+import BackToTopButton from "../../components/BackToTopButton";
+import { useRouter, useSearchParams } from "next/navigation";
 import { FaFilter } from "react-icons/fa6";
-
 
 const convertPrice = (price, currency, exchangeRates) => {
   const rate = exchangeRates[currency];
   return price * rate;
 };
 
-const ProductContent = ({urldata}) => {
-  
+const ProductContent = ({ urldata }) => {
   const { currency, exchangeRates } = useContext(CurrencyContext);
 
   const [categories, setCategories] = useState([]);
-  const [categori,setCategori] =useState([])
+  const [categori, setCategori] = useState([]);
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedsubcategory, setSelectedsubcategory] = useState(null);
@@ -31,68 +29,71 @@ const ProductContent = ({urldata}) => {
   const [properties, setProperties] = useState(null);
   const [filters, setFilters] = useState({});
   const [priceRange, setPriceRange] = useState([0, 5000]);
-  const [sortOrder, setSortOrder] = useState('');
+  const [sortOrder, setSortOrder] = useState("");
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const data1 = searchParams.get('category');
-  const data2 = searchParams.get('filter');
+  const data1 = searchParams.get("category");
+  const data2 = searchParams.get("filter");
 
   //console.log("data in productss is ", data1, data2);
-  const product=urldata
+  const product = urldata;
 
   useEffect(() => {
     async function loadData() {
       try {
-        const { categories, products, categori } = await fetchCategoriesAndProducts({ product });
-  
+        const { categories, products, categori } =
+          await fetchCategoriesAndProducts({ product });
+
         // Extract the subcategory IDs from the products
-        const subcategoryIds = products.map(product => product.subcategory);
-  
+        const subcategoryIds = products.map((product) => product.subcategory);
+
         // Filter the categories to include only those that have products
-        const filteredCategories = categories.filter(category => 
+        const filteredCategories = categories.filter((category) =>
           subcategoryIds.includes(category._id)
         );
-  
-        setCategories(filteredCategories);  // Set only the filtered categories
+
+        setCategories(filteredCategories); // Set only the filtered categories
         setCategori(categori);
         setProducts(products);
         setFilteredProducts(products);
-  
+
         // Apply filters based on URL data
         if (data1 || data2) {
           if (data1) setSelectedsubcategory(data1);
           //console.log("url id is", data1, data2);
         }
       } catch (error) {
-        console.error('Failed to fetch categories and products:', error);
+        console.error("Failed to fetch categories and products:", error);
       }
     }
-  
+
     loadData();
   }, [data1, data2]);
-  
-
-   
 
   //console.log("data from api",categori)
 
-
   useEffect(() => {
     applyFilters(filters);
-  }, [selectedsubcategory,selectedcategory,properties, filters, products, priceRange, sortOrder]);
+  }, [
+    selectedsubcategory,
+    selectedcategory,
+    properties,
+    filters,
+    products,
+    priceRange,
+    sortOrder,
+  ]);
 
   const handlesubcategoryChange = (subcategoryId) => {
     setSelectedsubcategory(subcategoryId);
     setFilters({});
   };
 
-
   const handlecategoryChange = (categoryId) => {
     setSelectedcategory(categoryId);
     setFilters({});
   };
-
 
   const handleFilterChanges = (value) => {
     setProperties(value);
@@ -106,25 +107,24 @@ const ProductContent = ({urldata}) => {
   // };
 
   const handleFilterChange = (propertyName, value) => {
-    setFilters(prevFilters => ({
+    setFilters((prevFilters) => ({
       ...prevFilters,
-      [propertyName]: value
+      [propertyName]: value,
     }));
-  
+
     //console.log("Updated Filters: ", propertyName, value);
   };
-
 
   // const handleFilterChange = (propertyName, value) => {
   //   setFilters(prevFilters => {
   //     // Clone the previous state
   //     const updatedFilters = { ...prevFilters };
-  
+
   //     // If the property already exists
   //     if (updatedFilters[propertyName]) {
   //       // If you want to allow only one value per property, replace the value
   //       updatedFilters[propertyName] = value;
-  
+
   //       // Uncomment the below lines if you want to manage multiple values per property
   //       if (Array.isArray(updatedFilters[propertyName])) {
   //         // Toggle value or add it to the list if it doesn't exist
@@ -140,23 +140,19 @@ const ProductContent = ({urldata}) => {
   //       // Add the new property and value
   //       updatedFilters[propertyName] = value;
   //     }
-  
+
   //     return updatedFilters;
   //   });
-  
+
   //   //console.log("Updated Filters:", propertyName, value);
   // };
-  
 
   // const handleFilterChanges = ( value  ) => {
 
   //   //console.log("data in handleFilterChanges is ", value )
   //   setFilters(prevFilters => ({ ...prevFilters, value }));
-   
-  // };
 
- 
-  
+  // };
 
   const handlePriceChange = (range) => {
     setPriceRange(range);
@@ -170,15 +166,21 @@ const ProductContent = ({urldata}) => {
     let filtered = products;
 
     if (selectedsubcategory) {
-      filtered = filtered.filter(product => product.subcategory === selectedsubcategory);
+      filtered = filtered.filter(
+        (product) => product.subcategory === selectedsubcategory
+      );
     }
 
     if (selectedcategory) {
-      filtered = filtered.filter(product => product.category === selectedcategory);
+      filtered = filtered.filter(
+        (product) => product.category === selectedcategory
+      );
     }
 
     if (properties) {
-      filtered = filtered.filter(product => product.properties === properties );
+      filtered = filtered.filter(
+        (product) => product.properties === properties
+      );
     }
 
     // Object.keys(filters).forEach(propertyName => {
@@ -190,15 +192,14 @@ const ProductContent = ({urldata}) => {
     //   }
     // });
 
-
-    Object.keys(filters).forEach(propertyName => {
+    Object.keys(filters).forEach((propertyName) => {
       if (filters[propertyName]) {
-        filtered = filtered.filter(product => {
+        filtered = filtered.filter((product) => {
           const productValue = product.property?.[propertyName];
-    
+
           // Log to debug and verify data
           //console.log("Filtering by property:", propertyName, "Filter value:", filters[propertyName], "Product value:", productValue);
-    
+
           // Handle single value or array of values
           if (Array.isArray(filters[propertyName])) {
             // Check if productValue is included in filters[propertyName] array
@@ -211,66 +212,64 @@ const ProductContent = ({urldata}) => {
       }
     });
 
-
-
-    
-  
-
-
-    filtered = filtered.filter(product => {
-      const price = convertPrice(product.discountedPrice, currency, exchangeRates);
+    filtered = filtered.filter((product) => {
+      const price = convertPrice(
+        product.discountedPrice,
+        currency,
+        exchangeRates
+      );
       return price >= priceRange[0] && price <= priceRange[1];
     });
 
-    if (sortOrder === 'asc') {
+    if (sortOrder === "asc") {
       filtered.sort((a, b) => a.discountedPrice - b.discountedPrice);
-    } else if (sortOrder === 'desc') {
+    } else if (sortOrder === "desc") {
       filtered.sort((a, b) => b.discountedPrice - a.discountedPrice);
     }
 
     setFilteredProducts(filtered);
   };
 
-//   const applyFilters = (filters) => {
-//   let filtered = products;
+  //   const applyFilters = (filters) => {
+  //   let filtered = products;
 
-//   if (selectedsubcategory) {
-//     filtered = filtered.filter(product => product.subcategory === selectedsubcategory);
-//   }
+  //   if (selectedsubcategory) {
+  //     filtered = filtered.filter(product => product.subcategory === selectedsubcategory);
+  //   }
 
-//   if (selectedcategory) {
-//     filtered = filtered.filter(product => product.category === selectedcategory);
-//   }
+  //   if (selectedcategory) {
+  //     filtered = filtered.filter(product => product.category === selectedcategory);
+  //   }
 
-//   if (filters.color) {
-//     filtered = filtered.filter(product => product.color === filters.color);
-//   }
+  //   if (filters.color) {
+  //     filtered = filtered.filter(product => product.color === filters.color);
+  //   }
 
-//   if (filters.material) {
-//     filtered = filtered.filter(product => product.material === filters.material);
-//   }
+  //   if (filters.material) {
+  //     filtered = filtered.filter(product => product.material === filters.material);
+  //   }
 
-//   if (filters.occasion) {
-//     filtered = filtered.filter(product => product.occasion === filters.occasion);
-//   }
+  //   if (filters.occasion) {
+  //     filtered = filtered.filter(product => product.occasion === filters.occasion);
+  //   }
 
-//   if (filters.size) {
-//     filtered = filtered.filter(product => product.size === filters.size);
-//   }
+  //   if (filters.size) {
+  //     filtered = filtered.filter(product => product.size === filters.size);
+  //   }
 
-//   filtered = filtered.filter(product => {
-//     const price = convertPrice(product.discountedPrice, currency, exchangeRates);
-//     return price >= priceRange[0] && price <= priceRange[1];
-//   });
+  //   filtered = filtered.filter(product => {
+  //     const price = convertPrice(product.discountedPrice, currency, exchangeRates);
+  //     return price >= priceRange[0] && price <= priceRange[1];
+  //   });
 
-//   if (sortOrder === 'asc') {
-//     filtered.sort((a, b) => a.discountedPrice - b.discountedPrice);
-//   } else if (sortOrder === 'desc') {
-//     filtered.sort((a, b) => b.discountedPrice - a.discountedPrice);
-//   }
+  //   if (sortOrder === 'asc') {
+  //     filtered.sort((a, b) => a.discountedPrice - b.discountedPrice);
+  //   } else if (sortOrder === 'desc') {
+  //     filtered.sort((a, b) => b.discountedPrice - a.discountedPrice);
+  //   }
 
-//   setFilteredProducts(filtered);
-// };
+  //   setFilteredProducts(filtered);
+  // };
 
   const [showFilter, setShowFilter] = useState(false);
   const filterRef = useRef(null);
@@ -285,13 +284,13 @@ const ProductContent = ({urldata}) => {
   };
   useEffect(() => {
     if (showFilter) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
     } else {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [showFilter]);
 
@@ -300,24 +299,31 @@ const ProductContent = ({urldata}) => {
   };
 
   return (
-    <div className='container'>
+    <div className="container">
       <div className="row">
         <div className="col-md-2 overflow-hidden overflow-x-auto">
-          <div className='horizontal_filter flex items-center'>
-            <button 
-              className="reset_button d-md-none flex items-center gap-2 rounded my-4" 
-              onClick={toggleFilter}>
+          <div className="horizontal_filter flex items-center">
+            <button
+              className="reset_button d-md-none flex items-center gap-2 rounded my-4"
+              onClick={toggleFilter}
+            >
               {/* {showFilter ? "Hide Filter" : "Show Filter"} */}
-              <FaFilter />Filter
+              <FaFilter />
+              Filter
             </button>
             <FilterHorizontal
-                categories={categories}
-                categori={categori}
-                onFilterButtonClick={handleFilterClose}
-                onClick={toggleFilter}
+              categories={categories}
+              categori={categori}
+              onFilterButtonClick={handleFilterClose}
+              onClick={toggleFilter}
             />
           </div>
-          <div ref={filterRef} className={`filter-page-container ${showFilter ? 'show' : ''} d-md-block`}>
+          <div
+            ref={filterRef}
+            className={`filter-page-container ${
+              showFilter ? "show" : ""
+            } d-md-block`}
+          >
             <Filter
               categories={categories}
               categori={categori}
@@ -335,19 +341,37 @@ const ProductContent = ({urldata}) => {
           <div className="container py-4">
             <div className="row">
               <div className="col-md-12 p-0">
-                <div className='all_products_container'>
+                <div className="all_products_container">
                   <div className="product-list">
-                    {filteredProducts.map(product => (
+                    {filteredProducts.map((product) => (
                       <div key={product._id} className="products_card">
                         <a href={`/product/${product._id}`}>
                           <figure>
-                            <img loading='lazy' className='rounded-2xl' src={product.images[0]} alt={product.title} />
+                            <img
+                              loading="lazy"
+                              className="rounded-2xl"
+                              src={product.images[0]}
+                              alt={product.title}
+                            />
                           </figure>
-                          <div className='card_content'>
+                          <div className="card_content">
                             <div className="title">{product.title}</div>
                             <div className="price">
-                              {currency === 'INR' ? '₹' : '$'} {convertPrice(product.discountedPrice, currency, exchangeRates).toFixed(2)} &nbsp;
-                              <span>{currency === 'INR' ? '₹' : '$'} {convertPrice(product.price, currency, exchangeRates).toFixed(2)}</span>
+                              {currency === "INR" ? "₹" : "$"}{" "}
+                              {convertPrice(
+                                product.discountedPrice,
+                                currency,
+                                exchangeRates
+                              ).toFixed(2)}{" "}
+                              &nbsp;
+                              <span>
+                                {currency === "INR" ? "₹" : "$"}{" "}
+                                {convertPrice(
+                                  product.price,
+                                  currency,
+                                  exchangeRates
+                                ).toFixed(2)}
+                              </span>
                             </div>
                           </div>
                         </a>
@@ -364,21 +388,27 @@ const ProductContent = ({urldata}) => {
   );
 };
 
-const Page = ({params}) => {
+const Page = ({ params }) => {
   const urldata = decodeURIComponent(params.productsid);
-  return(
-  <>
-  
-    <Navbar />
-    <Breadcrumbs page_title="All Product" />
-    <Suspense fallback={<div>Loading...</div>}>
-      <ProductContent urldata={urldata} />
-    </Suspense>
-    <NewArrival />
-    <Footer />
-    <BackToTopButton />
-  </>
-  )
+  return (
+    <>
+      <Navbar />
+      <Breadcrumbs page_title="All Product" />
+      <Suspense
+        fallback={
+          <div className="flex gap-2 justify-center items-center h-64">
+            <div className="loader w-8 h-8 border-4 border_green border-dashed rounded-full animate-spin"></div>
+            <p className="ml-4 green_font text-sm mt-1">Loading...</p>
+          </div>
+        }
+      >
+        <ProductContent urldata={urldata} />
+      </Suspense>
+      <NewArrival />
+      <Footer />
+      <BackToTopButton />
+    </>
+  );
 };
 
 export default Page;
