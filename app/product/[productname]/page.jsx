@@ -243,7 +243,12 @@ const Page = ({ params }) => {
   ]);
 
   if (!productData) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex gap-2 justify-center items-center h-[100vh] border">
+        <div className="loader w-8 h-8 border-4 border_green border-dashed rounded-full animate-spin"></div>
+        <p className="ml-4 green_font text-sm mt-1">Loading product...</p>
+      </div>
+    );
   }
 
   const convertedPrice = convertPrice(
@@ -454,22 +459,22 @@ const Page = ({ params }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (files.length > 5) {
       alert("You can only upload a maximum of 5 files");
       return;
     }
-  
+
     const formData = new FormData();
-  
+
     // Append each file to the FormData object
     for (let i = 0; i < files.length; i++) {
       formData.append("files", files[i]);
     }
-  
+
     try {
       let uploadedLinks = [];
-  
+
       if (files && files.length > 0) {
         // Make the POST request to upload the files
         const { data } = await axios.post("/api/upload", formData, {
@@ -479,16 +484,16 @@ const Page = ({ params }) => {
         });
         uploadedLinks = data.links; // Store uploaded file URLs
       }
-  
+
       if (typeof window !== "undefined") {
         sessionStorage.setItem("message", message);
         sessionStorage.setItem("username", username);
         sessionStorage.setItem("number", number);
-  
+
         // Store image URLs or an empty array in sessionStorage as a JSON string
         sessionStorage.setItem("imageUrls", JSON.stringify(uploadedLinks));
-  
-        addToCart1(e, productData)
+
+        addToCart1(e, productData);
       }
     } catch (error) {
       console.error("Error uploading files:", error);
@@ -611,7 +616,8 @@ const Page = ({ params }) => {
                       className={index === activeProductTab ? "active" : ""}
                       onClick={() => handleProductTabClick(index)}
                     >
-                      <img loading='lazy'
+                      <img
+                        loading="lazy"
                         src={image}
                         alt={`Product image ${index + 1}`}
                         width={150}
@@ -681,7 +687,11 @@ const Page = ({ params }) => {
                 <div className="text-xs">Inclusive of all taxes</div>
               </p>
               <div className="my-2">
-                <img loading='lazy' src="/assets/images/icons/payment.png" alt="" />
+                <img
+                  loading="lazy"
+                  src="/assets/images/icons/payment.png"
+                  alt=""
+                />
               </div>
 
               <p className="text-base light_black_font mt-3">
@@ -890,92 +900,102 @@ const Page = ({ params }) => {
                 <h2 className="text-xl font-semibold light_black_font mt-4">
                   Variations
                 </h2>
-                <Swiper
-                  spaceBetween={10}
-                  slidesPerView={1.5}
-                  loop={true}
-                  autoplay={{
-                    delay: 2000,
-                    disableOnInteraction: false,
-                    pauseOnMouseEnter: true,
-                  }}
-                  pagination={{ clickable: true }}
-                  navigation={true}
-                  scrollbar={{ draggable: true }}
-                  breakpoints={{
-                    // Mobile small (smaller than 500px)
-                    320: {
-                      slidesPerView: 2.2,
-                      // spaceBetween: 20,
-                    },
-                    400: {
-                      slidesPerView: 2.5,
-                      // spaceBetween: 20,
-                    },
-                    640: {
-                      slidesPerView: 3,
-                      // spaceBetween: 20,
-                    },
-                    // Tablets (around 768px)
-                    768: {
-                      slidesPerView: 3, // Can show partial next slide
-                      // spaceBetween: 15,
-                    },
-                    // Tablets large (around 1024px)
-                    1024: {
-                      slidesPerView: 3.5, // Showing 2 slides
-                      // spaceBetween: 20,
-                    },
-                    // Laptops (around 1300px)
-                    1300: {
-                      slidesPerView: 4.5, // Show 2.5 slides
-                      // spaceBetween: 25,
-                    },
-                    // Desktop (larger than 1500px)
-                    1500: {
-                      slidesPerView: 5, // Show 3 full slides
-                      // spaceBetween: 15,
-                    },
-                    1920: {
-                      slidesPerView: 6,
-                      spaceBetween: 15,
-                    },
-                  }}
-                  modules={[Autoplay, Navigation, A11y]}
-                  className="swiper-wrapper mx-auto mb-4"
-                >
-                  {skuData.map((data) => (
-                    //  <Variations key={data._id} images={data.images} />
-                    <SwiperSlide key={data._id}>
-                      <a href={`/product/${data._id}`}>
-                        {/* <div className="border rounded-lg"> */}
-                        <div
-                          className={`border rounded-lg ${
-                            urldata === data._id
-                              ? "border-4 border-black-500 shadow-xl"
-                              : ""
-                          }`}
-                        >
-                          <img loading='lazy'
-                            src={data.images[0]}
-                            alt={data.title}
-                            height={100}
-                            width={100}
-                            className="rounded-t-xl"
-                          />
-                          <p className="font-semibold variation_title px-2">
-                            {" "}
-                            {data.title}
-                          </p>
-                          <p className="font-normal green_font px-2">
-                            {" "}
-                            ₹{data.discountedPrice}
-                          </p>
-                        </div>
-                      </a>
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
+                <div className="">
+                  {skuData.length > 0 ? (
+                    <Swiper
+                      spaceBetween={10}
+                      slidesPerView={1.5}
+                      loop={true}
+                      autoplay={{
+                        delay: 2000,
+                        disableOnInteraction: false,
+                        pauseOnMouseEnter: true,
+                      }}
+                      pagination={{ clickable: true }}
+                      navigation={true}
+                      scrollbar={{ draggable: true }}
+                      breakpoints={{
+                        // Mobile small (smaller than 500px)
+                        320: {
+                          slidesPerView: 2.2,
+                          // spaceBetween: 20,
+                        },
+                        400: {
+                          slidesPerView: 2.5,
+                          // spaceBetween: 20,
+                        },
+                        640: {
+                          slidesPerView: 3,
+                          // spaceBetween: 20,
+                        },
+                        // Tablets (around 768px)
+                        768: {
+                          slidesPerView: 3, // Can show partial next slide
+                          // spaceBetween: 15,
+                        },
+                        // Tablets large (around 1024px)
+                        1024: {
+                          slidesPerView: 3.5, // Showing 2 slides
+                          // spaceBetween: 20,
+                        },
+                        // Laptops (around 1300px)
+                        1300: {
+                          slidesPerView: 4.5, // Show 2.5 slides
+                          // spaceBetween: 25,
+                        },
+                        // Desktop (larger than 1500px)
+                        1500: {
+                          slidesPerView: 5, // Show 3 full slides
+                          // spaceBetween: 15,
+                        },
+                        1920: {
+                          slidesPerView: 6,
+                          spaceBetween: 15,
+                        },
+                      }}
+                      modules={[Autoplay, Navigation, A11y]}
+                      className="swiper-wrapper mx-auto mb-4"
+                    >
+                      {skuData.map((data) => (
+                        //  <Variations key={data._id} images={data.images} />
+                        <SwiperSlide key={data._id}>
+                          <a href={`/product/${data._id}`}>
+                            {/* <div className="border rounded-lg"> */}
+                            <div
+                              className={`border rounded-lg ${
+                                urldata === data._id
+                                  ? "border-4 border-black-500 shadow-xl"
+                                  : ""
+                              }`}
+                            >
+                              <img
+                                loading="lazy"
+                                src={data.images[0]}
+                                alt={data.title}
+                                height={100}
+                                width={100}
+                                className="rounded-t-xl"
+                              />
+                              <p className="font-semibold variation_title px-2">
+                                {" "}
+                                {data.title}
+                              </p>
+                              <p className="font-normal green_font px-2">
+                                {" "}
+                                ₹{data.discountedPrice}
+                              </p>
+                            </div>
+                          </a>
+                        </SwiperSlide>
+                      ))}
+                    </Swiper>
+                  ) : (
+                    // Fallback message if no products are available
+                    <p className="text-center green_font mt-4">
+                      No products available at the moment.
+                    </p>
+                  )}
+                </div>
               </div>
             </div>
           </div>
