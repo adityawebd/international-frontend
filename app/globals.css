@@ -89,6 +89,12 @@ body {
   animation: spin 1s linear infinite; /* Animation */
 }
 
+.productTitle {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -1317,7 +1323,7 @@ body {
   padding: 0;
   margin: 0;
   margin-top: -20px;
-} 
+}
 
 .new_arrival .product_card_items {
   /* border: 1px solid red; */
@@ -3751,10 +3757,10 @@ footer .limited_edition {
 }
 
 @media (min-width: 768px) and (max-width: 1400px) {
-  .filter-container  .price_inputs {
+  .filter-container .price_inputs {
     flex-direction: column !important;
   }
-  .filter-container  .price_inputs input {
+  .filter-container .price_inputs input {
     width: 100% !important;
   }
   .select_div {
@@ -4367,7 +4373,6 @@ footer .limited_edition {
   overflow: hidden;
 }
 
-
 .hero_main_wrapper img {
   border: 1px solid red;
   /* width: 100%; */
@@ -4426,18 +4431,13 @@ footer .limited_edition {
   }
 }
 
-
 .animated-text {
   animation: slideIn 0.5s forwards;
 }
 
-
-
 .accordion-button::after {
   display: none;
 }
-
-
 
 /* .heronewwrapper {
   border: 1px solid red;

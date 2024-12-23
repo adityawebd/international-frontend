@@ -12,6 +12,9 @@ import BackToTopButton from "../../components/BackToTopButton";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FaFilter } from "react-icons/fa6";
 import { MdOutlineShoppingCart } from "react-icons/md";
+import { Bounce, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useCartStore } from "../../../stores/useCartStore";
 
 const convertPrice = (price, currency, exchangeRates) => {
   const rate = exchangeRates[currency];
@@ -39,6 +42,20 @@ const ProductContent = ({ urldata }) => {
 
   //console.log("data in productss is ", data1, data2);
   const product = urldata;
+  const addToCart = useCartStore((state) => state.addToCart);
+
+  const notify = () =>
+    toast.success("Product added to cart", {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Bounce,
+    });
 
   useEffect(() => {
     async function loadData() {
@@ -283,6 +300,7 @@ const ProductContent = ({ urldata }) => {
       setShowFilter(false);
     }
   };
+
   useEffect(() => {
     if (showFilter) {
       document.addEventListener("mousedown", handleClickOutside);
@@ -302,11 +320,11 @@ const ProductContent = ({ urldata }) => {
   const addToCart1 = (e, item) => {
     e.preventDefault(); // Prevent default form submission or link behavior
 
-    console.log("quantity", quantity);
-    // Run addToCart the number of times as quantity
-    for (let i = 0; i < quantity; i++) {
-      addToCart(item);
-    }
+    // console.log("quantity", quantity);
+    // // Run addToCart the number of times as quantity
+    // for (let i = 0; i < quantity; i++) {
+    // }
+    addToCart(item);
 
     notify(); // Trigger a notification
   };
@@ -350,69 +368,128 @@ const ProductContent = ({ urldata }) => {
             />
           </div>
         </div>
-        <div className="col-md-10">
-          <div className="container py-4">
-            <div className="row">
-              <div className="col-md-12 p-0">
-                <div className="all_products_container">
-                  <div className="product-list grid grid-cols-4 lg:grid-cols-5 md:grid-cols-3 max-sm:grid-cols-1">
-                    {filteredProducts.map((product) => (
-                      <div key={product._id} className="products_card">
-                        <a href={`/product/${product._id}`}>
-                          <figure>
-                            <img
-                              loading="lazy"
-                              className="rounded-2xl"
-                              src={product.images[0]}
-                              alt={product.title}
-                            />
-                          </figure>
-                          <div className="card_content">
-                            <div className="title">{product.title}</div>
-
-                            <div className="price">
-                              {currency === "INR" ? "₹" : "$"}{" "}
-                              {convertPrice(
-                                product.discountedPrice,
-                                currency,
-                                exchangeRates
-                              ).toFixed(2)}{" "}
-                              &nbsp;
-                              <span>
-                                {currency === "INR" ? "₹" : "$"}{" "}
-                                {convertPrice(
-                                  product.price,
-                                  currency,
-                                  exchangeRates
-                                ).toFixed(2)}
-                              </span>
-                            </div>
-                            <div className="flex justify-between">
-                              <div className="flex items-end">
-                                <a
-                                  // type="button"
-                                  href={`/product/${product._id}`}
-                                  className=" w-full rounded text-center bg_green px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-                                >
-                                  Buy Now
-                                </a>
-                              </div>
-                              <div className="pr-2 flex items-end">
-                                <button
-                                  onClick={(e) => addToCart1(e, productData)}
-                                  className="bg_green rounded-full p-2 border text-white"
-                                >
-                                  <MdOutlineShoppingCart size={24} />
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </a>
-                      </div>
-                    ))}
+        <div className="col-md-10 py-4">
+          <div className="lg:block md:block max-sm:hidden">
+            <div className="grid gap-2 grid-cols-3 lg:grid-cols-5 md:grid-cols-3">
+              {products?.map((product) => (
+                <div key={product._id} className="border rounded-xl p-2">
+                  <a
+                    href={`/product/${product._id}`}
+                    className="rounded-xl group overflow-hidden"
+                  >
+                    <img
+                      loading="lazy"
+                      className="rounded-xl scale-100 hover:scale-105 transition duration-500"
+                      src={product.images[0]}
+                      alt={product.title}
+                    />
+                  </a>
+                  <div className="mt-2">
+                    <div className="productTitle text-lg font-semibold text-black">
+                      <a
+                        href={`/product/${product._id}`}
+                        className="productTitle"
+                      >
+                        {product.title}
+                      </a>
+                    </div>
+                    <div className="price mt-2 green_font text-md">
+                      ₹
+                      {convertPrice(
+                        product.discountedPrice,
+                        currency,
+                        exchangeRates
+                      ).toFixed(2)}{" "}
+                      &nbsp;
+                      <span className="text-sm line-through text-gray-300">
+                        ₹
+                        {convertPrice(
+                          product.price,
+                          currency,
+                          exchangeRates
+                        ).toFixed(2)}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex justify-between mt-2">
+                    <a
+                      href={`/product/${product._id}`}
+                      className="text-sm bg_green text-white rounded py-2 px-4"
+                    >
+                      Buy Now
+                    </a>
+                    <button
+                      onClick={(e) => addToCart1(e, product)}
+                      className="bg_green rounded-full p-2 border text-white"
+                    >
+                      <MdOutlineShoppingCart size={20} />
+                    </button>
                   </div>
                 </div>
-              </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="lg:hidden md:hidden">
+            <div className="grid gap-2 grid-cols-1">
+              {products?.map((product) => (
+                <div
+                  key={product._id}
+                  className="border rounded-xl p-2 flex gap-2"
+                >
+                  <div className="w-2/5">
+                    <a
+                      href={`/product/${product._id}`}
+                      className="rounded-xl group overflow-hidden"
+                    >
+                      <img
+                        loading="lazy"
+                        className="rounded-xl scale-100 hover:scale-105 transition duration-500"
+                        src={product.images[0]}
+                        alt={product.title}
+                      />
+                    </a>
+                  </div>
+                  <div className="w-3/5">
+                    <div className="mt-2">
+                      <div className="productTitle text-lg font-semibold text-black">
+                        <a href={`/product/${product._id}`}>{product.title}</a>
+                      </div>
+                      <div className="price mt-2 green_font text-sm">
+                        ₹
+                        {convertPrice(
+                          product.discountedPrice,
+                          currency,
+                          exchangeRates
+                        ).toFixed(2)}{" "}
+                        &nbsp;
+                        <span className="text-xs line-through text-gray-300">
+                          ₹
+                          {convertPrice(
+                            product.price,
+                            currency,
+                            exchangeRates
+                          ).toFixed(2)}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex justify-between items-end mt-3">
+                      <a
+                        href={`/product/${product._id}`}
+                        className="text-sm bg_green text-white rounded py-1  px-2"
+                      >
+                        Buy Now
+                      </a>
+                      <button
+                        onClick={(e) => addToCart1(e, product)}
+                        className="bg_green rounded-full p-2 border text-white"
+                      >
+                        <MdOutlineShoppingCart size={16} />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -427,6 +504,7 @@ const Page = ({ params }) => {
     <>
       <Navbar />
       <Breadcrumbs page_title="All Product" />
+      <ToastContainer />
       <Suspense
         fallback={
           <div className="flex gap-2 justify-center items-center h-64">

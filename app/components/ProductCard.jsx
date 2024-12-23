@@ -35,24 +35,24 @@ const ProductCard = ({ product }) => {
   };
 
   return (
-    <div
-      className="w-[280px] rounded-md border mb-2 mr-2 reposnive_product_card"
-    >
-      <a
-        href={`/product/${product._id}`}
-      >
+    <div className="w-[280px] rounded-md border mb-2 mr-2 reposnive_product_card">
+      <a href={`/product/${product._id}`}>
+      <figure>
         <img
           loading="lazy"
           src={product.images[0]}
           alt="product-image"
           className="h-[300px] w-full rounded-t-md object-fit"
         />
+        </figure>
       </a>
       <div className="py-4 px-2 reposnive_product_card_content">
-        <h1 className="inline-flex items-center text-lg font-semibold product_title">
-          {product.title} &nbsp;
-          {/* <ArrowUpRight className="h-4 w-4" /> */}
-        </h1>
+        <a href={`/product/${product._id}`}>
+          <h1 className="inline-flex items-center text-lg font-semibold product_title">
+            {product.title} &nbsp;
+            {/* <ArrowUpRight className="h-4 w-4" /> */}
+          </h1>
+        </a>
         <p className="mt-1 text-sm text-gray-600 product_desc">
           {product.desc}
         </p>
