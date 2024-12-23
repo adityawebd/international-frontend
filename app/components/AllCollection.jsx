@@ -1,5 +1,7 @@
 import React from "react";
 import AllCollectionCard from "./AllCollectionCard";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const allCollection = [
   {
@@ -21,6 +23,20 @@ const allCollection = [
 ];
 
 const AllCollection = () => {
+
+  const [allCollection, setAllCollections] = useState([]);
+  useEffect(() => {
+    fetchAllCollections();
+  }, []);
+
+  const fetchAllCollections = async () => {
+    try {
+      const res = await axios.get("/api/AllCollection");
+      setAllCollections(res.data.data);
+    } catch (error) {
+      console.error("Failed to fetch AllCollections:", error);
+    }
+  };
   return (
     <div>
       <div className="all_collection py-5" id="all_collection">
