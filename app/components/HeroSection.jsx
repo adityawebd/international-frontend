@@ -109,13 +109,13 @@ const HeroSection = () => {
     AOS.init();
   }, []);
 
-  // if (loading)
-  //   return (
-  //     <div className="flex gap-2 justify-center items-center w-full pt-2">
-  //       <div className="loader w-8 h-8 border-4 border_green border-dashed rounded-full animate-spin"></div>
-  //       <p className="ml-4 green_font text-sm mt-1">Loading banner...</p>
-  //     </div>
-  //   ); // Show preloader while loading
+  if (loading)
+    return (
+      <div className="flex gap-2 justify-center items-center w-full pt-2 h-[100vh]">
+        <div className="loader w-8 h-8 border-4 border_green border-dashed rounded-full animate-spin"></div>
+        <p className="ml-4 green_font text-sm mt-1">Loading banner...</p>
+      </div>
+    ); // Show preloader while loading
 
   return (
     <>
@@ -175,34 +175,27 @@ const HeroSection = () => {
           modules={[Autoplay, Navigation, A11y]}
           className="swiper-wrapper"
         >
-          {loading ? (
-            <div className="flex gap-2 justify-center items-center pt-2 h-[100vh] w-full">
-              <div className="loader w-8 h-8 border-4 border_green border-dashed rounded-full animate-spin"></div>
-              <p className="ml-4 green_font text-sm mt-1">Loading banners...</p>
-            </div>
-          ) : (
-            images.map((image, index) => (
-              <SwiperSlide
-                key={image.id}
-                // className={`w-full h-full absolute transition-transform duration-1000 ${
-                //   index === currentSlide ? "opacity-100" : "opacity-0"
-                // }`}
-                // style={{
-                //   transform: `translateX(${(index - currentSlide) * 100}%)`,
-                // }}
-              >
-                <img
-                  loading="lazy"
-                  src={image.src}
-                  alt={image.alt}
-                  layout="fill"
-                  objectfit="cover"
-                  // className="animate-fadeIn mx-auto lg:h-[80vh] "
-                  className="h-[auto] lg:max-h-[800px] md:max-h-[300px] max-sm:max-h-[200px] mx-auto"
-                />
-              </SwiperSlide>
-            ))
-          )}
+          {images.map((image, index) => (
+            <SwiperSlide
+              key={image.id}
+              // className={`w-full h-full absolute transition-transform duration-1000 ${
+              //   index === currentSlide ? "opacity-100" : "opacity-0"
+              // }`}
+              // style={{
+              //   transform: `translateX(${(index - currentSlide) * 100}%)`,
+              // }}
+            >
+              <img
+                loading="lazy"
+                src={image.src}
+                alt={image.alt}
+                layout="fill"
+                objectfit="cover"
+                // className="animate-fadeIn mx-auto lg:h-[80vh] "
+                className="h-[auto] lg:max-h-[800px] md:max-h-[300px] max-sm:max-h-[200px] mx-auto"
+              />
+            </SwiperSlide>
+          ))}
         </Swiper>
         {/* <AiOutlineRight
           onClick={handleNextSlide}
