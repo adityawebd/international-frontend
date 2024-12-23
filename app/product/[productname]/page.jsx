@@ -295,7 +295,7 @@ const Page = ({ params }) => {
   const addToCart1 = (e, item) => {
     e.preventDefault(); // Prevent default form submission or link behavior
 
-    console.log("quantity", quantity);
+    // console.log("quantity", quantity);
     // Run addToCart the number of times as quantity
     for (let i = 0; i < quantity; i++) {
       addToCart(item);
@@ -305,9 +305,13 @@ const Page = ({ params }) => {
   };
 
   const addToCart2 = (e, item) => {
+    console.log("quantity", quantity);
     // Prevent default form submission or link behavior
-    addToCart(item);
-    window.location.replace("/cart");
+    // addToCart(item);
+    for (let i = 0; i < quantity; i++) {
+      addToCart(item);
+    }
+    // window.location.replace("/cart");
   };
 
   const scrollImages = (direction) => {
