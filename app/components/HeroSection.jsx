@@ -14,7 +14,6 @@ import { Autoplay, Navigation, A11y } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 
-
 /**
  * Carousel component for nextJS and Tailwind.
  * Using external library react-easy-swipe for swipe gestures on mobile devices (optional)
@@ -40,16 +39,35 @@ const HeroSection = () => {
       alt: "Image 3",
     },
   ]);
+  const [loading, setLoading] = useState(true);
 
+  // useEffect(() => {
+  //   axios.get("/api/banner").then((response) => {
+  //     const apiImages = response.data.map((item) => item.images[0]);
+  //     const updatedImages = images.map((image, index) => ({
+  //       ...image,
+  //       src: apiImages[index] ? apiImages[index] : image.src,
+  //     }));
+  //     setImages(updatedImages);
+  //   });
+  // }, []);
   useEffect(() => {
-    axios.get("/api/banner").then((response) => {
-      const apiImages = response.data.map((item) => item.images[0]);
-      const updatedImages = images.map((image, index) => ({
-        ...image,
-        src: apiImages[index] ? apiImages[index] : image.src,
-      }));
-      setImages(updatedImages);
-    });
+    const fetchBanners = async () => {
+      try {
+        const response = await axios.get("/api/banner");
+        const apiImages = response.data.map((item) => item.images[0]);
+        const updatedImages = images.map((image, index) => ({
+          ...image,
+          src: apiImages[index] ? apiImages[index] : image.src,
+        }));
+        setImages(updatedImages);
+      } catch (error) {
+        console.error("Failed to fetch banners:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchBanners();
   }, []);
 
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -91,6 +109,14 @@ const HeroSection = () => {
     AOS.init();
   }, []);
 
+  // if (loading)
+  //   return (
+  //     <div className="flex gap-2 justify-center items-center w-full pt-2">
+  //       <div className="loader w-8 h-8 border-4 border_green border-dashed rounded-full animate-spin"></div>
+  //       <p className="ml-4 green_font text-sm mt-1">Loading banner...</p>
+  //     </div>
+  //   ); // Show preloader while loading
+
   return (
     <>
       <ProductTopbar />
@@ -99,58 +125,63 @@ const HeroSection = () => {
           onClick={handlePrevSlide}
           className="absolute left-0 m-auto text-5xl inset-y-1/2 cursor-pointer text-gray-400 z-20 hero_nav_btns"
         /> */}
-        <div className="">
-          <Swiper
-            // spaceBetween={10}
-            slidesPerView={1.5}
-            loop={true}
-            autoplay={{
-              delay: 3000,
-              disableOnInteraction: false,
-              pauseOnMouseEnter: true,
-            }}
-            speed={3000}
-            // navigation
-            pagination={{ clickable: true }}
-            scrollbar={{ draggable: true }}
-            breakpoints={{
-              // Mobile small (smaller than 500px)
-              320: {
-                slidesPerView: 1, // 1 slide on very small screens
-                // spaceBetween: 5,
-              },
-              // Mobile medium (around 500px)
-              500: {
-                slidesPerView: 1,
-                // spaceBetween: 10,
-              },
-              // Tablets (around 768px)
-              768: {
-                slidesPerView: 1, // Can show partial next slide
-                // spaceBetween: 15,
-              },
-              // Tablets large (around 1024px)
-              1024: {
-                slidesPerView: 1, // Showing 2 slides
-                // spaceBetween: 20,
-              },
-              // Laptops (around 1300px)
-              1300: {
-                slidesPerView: 1, // Show 2.5 slides
-                // spaceBetween: 25,
-              },
-              // Desktop (larger than 1500px)
-              1500: {
-                slidesPerView: 1, // Show 3 full slides
-                // spaceBetween: 30,
-              },
-            }}
-            navigation={true}
-            //  modules={[Autoplay, Pagination, Navigation]}
-            modules={[Autoplay, Navigation, A11y]}
-            className="swiper-wrapper"
-          >
-            {images.map((image, index) => (
+        <Swiper
+          // spaceBetween={10}
+          slidesPerView={1.5}
+          loop={true}
+          autoplay={{
+            delay: 3000,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+          }}
+          speed={3000}
+          // navigation
+          pagination={{ clickable: true }}
+          scrollbar={{ draggable: true }}
+          breakpoints={{
+            // Mobile small (smaller than 500px)
+            320: {
+              slidesPerView: 1, // 1 slide on very small screens
+              // spaceBetween: 5,
+            },
+            // Mobile medium (around 500px)
+            500: {
+              slidesPerView: 1,
+              // spaceBetween: 10,
+            },
+            // Tablets (around 768px)
+            768: {
+              slidesPerView: 1, // Can show partial next slide
+              // spaceBetween: 15,
+            },
+            // Tablets large (around 1024px)
+            1024: {
+              slidesPerView: 1, // Showing 2 slides
+              // spaceBetween: 20,
+            },
+            // Laptops (around 1300px)
+            1300: {
+              slidesPerView: 1, // Show 2.5 slides
+              // spaceBetween: 25,
+            },
+            // Desktop (larger than 1500px)
+            1500: {
+              slidesPerView: 1, // Show 3 full slides
+              // spaceBetween: 30,
+            },
+          }}
+          navigation={true}
+          //  modules={[Autoplay, Pagination, Navigation]}
+          modules={[Autoplay, Navigation, A11y]}
+          className="swiper-wrapper"
+        >
+          {loading ? (
+            <div className="flex gap-2 justify-center items-center pt-2 h-[100vh] w-full">
+              <div className="loader w-8 h-8 border-4 border_green border-dashed rounded-full animate-spin"></div>
+              <p className="ml-4 green_font text-sm mt-1">Loading banners...</p>
+            </div>
+          ) : (
+            images.map((image, index) => (
               <SwiperSlide
                 key={image.id}
                 // className={`w-full h-full absolute transition-transform duration-1000 ${
@@ -170,9 +201,9 @@ const HeroSection = () => {
                   className="h-[auto] lg:max-h-[800px] md:max-h-[300px] max-sm:max-h-[200px] mx-auto"
                 />
               </SwiperSlide>
-            ))}
-          </Swiper>
-        </div>
+            ))
+          )}
+        </Swiper>
         {/* <AiOutlineRight
           onClick={handleNextSlide}
           className="absolute right-0 m-auto text-5xl inset-y-1/2 cursor-pointer text-gray-400 z-20 hero_nav_btns"

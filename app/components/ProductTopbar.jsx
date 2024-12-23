@@ -7,17 +7,21 @@ const ProductTopbar = () => {
   const [categories, setCategories] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [loading, setLoading] = useState(true); 
   const router = useRouter();
 
   // Fetch categories only once
   useEffect(() => {
     const fetchCategories = async () => {
       try {
+        setLoading(true); // Start loading
         const res = await fetch("/api/categories");
         const { categories } = await res.json();
         setCategories(categories);
       } catch (error) {
         console.error("Failed to fetch categories:", error);
+      } finally {
+        setLoading(false); // End loading
       }
     };
     fetchCategories();
@@ -65,29 +69,38 @@ const ProductTopbar = () => {
       <div className="product_topbar py-2">
         <div className="container-auto">
           <div className="z-50 product_topbar_wrapper">
-            {categories.map((category) => (
-              <div
-                key={category._id}
-                style={{ cursor: "pointer" }}
-                className="pt_card_parent"
-                onClick={() => handleCategoryClick(category._id)}
-              >
-                <img
-                  loading="lazy"
-                  src={category.image || `/assets/image/gift14.jpg`}
-                  alt={category.name}
-                  width={50}
-                  height={50}
-                />
-                <div className="text-black tracking-wider fs-6 text-start px-2 topbar_word_wrapper">
-                  {category.name.split(" ").map((word, idx) => (
-                    <div key={idx} className="topbar_word">
-                      {word}
-                    </div>
-                  ))}
-                </div>
+            {loading ? (
+              <div className="flex gap-2 justify-center items-center w-full pt-2">
+                <div className="loader w-8 h-8 border-4 border_green border-dashed rounded-full animate-spin"></div>
+                <p className="ml-4 green_font text-sm mt-1">
+                  Loading categories...
+                </p>
               </div>
-            ))}
+            ) : (
+              categories.map((category) => (
+                <div
+                  key={category._id}
+                  style={{ cursor: "pointer" }}
+                  className="pt_card_parent"
+                  onClick={() => handleCategoryClick(category._id)}
+                >
+                  <img
+                    loading="lazy"
+                    src={category.image || `/assets/image/gift14.jpg`}
+                    alt={category.name}
+                    width={50}
+                    height={50}
+                  />
+                  <div className="text-black tracking-wider fs-6 text-start px-2 topbar_word_wrapper">
+                    {category.name.split(" ").map((word, idx) => (
+                      <div key={idx} className="topbar_word">
+                        {word}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </div>
@@ -99,11 +112,11 @@ const ProductTopbar = () => {
               {selectedCategory && categoryData[selectedCategory] ? (
                 <div>
                   <div className="flex justify-between">
-                  <h2 className="category-name">
+                    <h2 className="category-name">
                       {categoryData[selectedCategory].name}
                     </h2>
                     <button className="mr-2" onClick={closeModal}>
-                      ✕ 
+                      ✕
                     </button>
                   </div>
 
