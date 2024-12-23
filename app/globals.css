@@ -3962,11 +3962,11 @@ footer .limited_edition {
 }
 
 @media (min-width: 321px) and (max-width: 425px) {
-  .product-list {
+  /* .product-list {
     display: flex;
     justify-content: center;
     padding-left: 0px;
-  }
+  } */
 
   .reposnive_product_card {
     /* border: 1px solid red !important; */
@@ -4083,10 +4083,10 @@ footer .limited_edition {
 }
 
 @media (min-width: 426px) and (max-width: 768px) {
-  .product-list {
+  /* .product-list {
     justify-content: center;
     padding-left: 0px;
-  }
+  } */
 
   .filter-overlay {
     display: none;

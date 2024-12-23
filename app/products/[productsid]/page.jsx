@@ -11,6 +11,7 @@ import FilterHorizontal from "../../components/FilterHorizontal";
 import BackToTopButton from "../../components/BackToTopButton";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FaFilter } from "react-icons/fa6";
+import { MdOutlineShoppingCart } from "react-icons/md";
 
 const convertPrice = (price, currency, exchangeRates) => {
   const rate = exchangeRates[currency];
@@ -298,6 +299,18 @@ const ProductContent = ({ urldata }) => {
     setShowFilter(true); // Close the filter component
   };
 
+  const addToCart1 = (e, item) => {
+    e.preventDefault(); // Prevent default form submission or link behavior
+
+    console.log("quantity", quantity);
+    // Run addToCart the number of times as quantity
+    for (let i = 0; i < quantity; i++) {
+      addToCart(item);
+    }
+
+    notify(); // Trigger a notification
+  };
+
   return (
     <div className="container">
       <div className="row">
@@ -342,7 +355,7 @@ const ProductContent = ({ urldata }) => {
             <div className="row">
               <div className="col-md-12 p-0">
                 <div className="all_products_container">
-                  <div className="product-list">
+                  <div className="product-list grid grid-cols-4 lg:grid-cols-5 md:grid-cols-3 max-sm:grid-cols-1">
                     {filteredProducts.map((product) => (
                       <div key={product._id} className="products_card">
                         <a href={`/product/${product._id}`}>
@@ -356,6 +369,7 @@ const ProductContent = ({ urldata }) => {
                           </figure>
                           <div className="card_content">
                             <div className="title">{product.title}</div>
+
                             <div className="price">
                               {currency === "INR" ? "₹" : "$"}{" "}
                               {convertPrice(
@@ -372,6 +386,25 @@ const ProductContent = ({ urldata }) => {
                                   exchangeRates
                                 ).toFixed(2)}
                               </span>
+                            </div>
+                            <div className="flex justify-between">
+                              <div className="flex items-end">
+                                <a
+                                  // type="button"
+                                  href={`/product/${product._id}`}
+                                  className=" w-full rounded text-center bg_green px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                                >
+                                  Buy Now
+                                </a>
+                              </div>
+                              <div className="pr-2 flex items-end">
+                                <button
+                                  onClick={(e) => addToCart1(e, productData)}
+                                  className="bg_green rounded-full p-2 border text-white"
+                                >
+                                  <MdOutlineShoppingCart size={24} />
+                                </button>
+                              </div>
                             </div>
                           </div>
                         </a>
