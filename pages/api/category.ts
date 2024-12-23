@@ -19,7 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const data = await Category.find(); // Assuming Product is your Mongoose model
 
       //console.log("catogery", data);
-      res.status(200).json(data)
+      res.status(200).json({data})
         
       res.status(200).json(data);
     } catch (error) {
