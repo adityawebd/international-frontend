@@ -311,7 +311,7 @@ const Page = ({ params }) => {
     for (let i = 0; i < quantity; i++) {
       addToCart(item);
     }
-    // window.location.replace("/cart");
+    window.location.replace("/cart");
   };
 
   const scrollImages = (direction) => {
