@@ -18,7 +18,7 @@ const Cart = () => {
   const cart = useFromStore(useCartStore, (state) => state.cart);
   const clearCart = useCartStore((state) => state.clearCart);
   // const { clearCart } = useCartStore.getState();
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [orderData, setOrderData] = useState([]);
   const [price, setPrice] = useState();
