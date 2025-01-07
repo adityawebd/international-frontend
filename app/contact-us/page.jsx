@@ -4,7 +4,7 @@ import Navbar from '../components/Navbar'
 import Breadcrumbs from '../components/Breadcrumbs'
 import Footer from '../components/Footer'
 import BackToTopButton from '../components/BackToTopButton'
-
+import axios from "axios";
 import { MapPin, Phone, Mail } from 'lucide-react'
 
 
@@ -18,26 +18,32 @@ const page = () => {
     const [errors, setErrors] = useState({});
     const [redirectToHome, setRedirectToHome] = useState(false);
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const errors = validateForm();
         if (Object.keys(errors).length === 0) {
-            // Simulate backend authentication (replace with actual backend call)
-            // For demonstration purposes, assume login is successful
-            //console.log('Username:', firstname);
-            //console.log('Password:', lastname);
-            //console.log('Password:', username);
-            //console.log('Password:', phone);
-            //console.log('Password:', message);
-
-            // alert on successful registration
-            alert("Form Submitted SuccesFully!")
-            // Set state to trigger redirection
-            setRedirectToHome(true);
+          try {
+            const response = await axios.post('/api/contact', {
+              firstname,
+              lastname,
+              username,
+              phone,
+              message,
+            });
+            // Handle success response
+            if (response.status === 200) {
+              alert("Form Submitted Successfully!");
+              setRedirectToHome(true); // Redirect or perform further actions
+            }
+          } catch (error) {
+            // Handle error response
+            alert("An error occurred while submitting the form. Please try again.");
+            console.error(error);
+          }
         } else {
-            setErrors(errors);
+          setErrors(errors);
         }
-    };
+      };
 
 
     const validateForm = () => {
@@ -119,7 +125,7 @@ const page = () => {
                                     <div className="form-group">
                                         <label htmlFor="username">Email Address<span className='asterik'>*</span></label>
                                         <input
-                                            type="text"
+                                            type="email"
                                             id="username"
                                             value={username}
                                             onChange={(e) => setUsername(e.target.value)}
