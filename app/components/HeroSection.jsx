@@ -126,7 +126,7 @@ const HeroSection = () => {
               </SwiperSlide>
             ))}
           </Swiper>
-          <div className="relative flex justify-center p-2">
+          {/* <div className="relative flex justify-center p-2">
             {images.map((_, index) => (
               <div
                 key={index}
@@ -138,7 +138,7 @@ const HeroSection = () => {
                 onClick={() => setCurrentSlide(index)}
               />
             ))}
-          </div>
+          </div> */}
         </div>
       </main>
     </>

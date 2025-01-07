@@ -1024,10 +1024,6 @@ body {
   color: var(--green-clr);
 }
 
-.monthly_best_sell .swiper-slide {
-  width: 306.111px;
-}
-
 .products_card {
   border: 1px solid var(--e-gray);
   border-radius: 16px;

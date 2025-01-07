@@ -7,6 +7,7 @@ import { Autoplay, Navigation, A11y } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import axios from "axios";
+import Link from "next/link";
 
 const MonthlyBestSell = ({ price, ...props }) => {
   useEffect(() => {
@@ -17,6 +18,30 @@ const MonthlyBestSell = ({ price, ...props }) => {
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(true);
   const type = "MonthlyBestSell";
+
+  const discountBanners = [
+    {
+      id: 1,
+      imageUrl: "/assets/image/discoutnbanner.png",
+      text: "under",
+      discount: "₹400",
+      link: "",
+    },
+    {
+      id: 2,
+      imageUrl: "/assets/image/discoutnbanner.png",
+      text: "under",
+      discount: "75% off",
+      link: "",
+    },
+    {
+      id: 3,
+      imageUrl: "/assets/image/discoutnbanner.png",
+      text: "under",
+      discount: "50% off",
+      link: "",
+    },
+  ];
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,95 +69,41 @@ const MonthlyBestSell = ({ price, ...props }) => {
 
   return (
     <div>
-      <div className="monthly_best_sell" id="monthly_best_sell">
+      <div className="bg-gray-100" id="monthly_best_sell">
         <div className="container py-5">
-          <h2
-            data-aos="fade-down"
-            data-aos-duration="1000"
-            className="mb-4 font-semibold text-2xl"
+          <p
+            data-aos="fade-up"
+            className="text-center text-sm light_black_font"
           >
-            <span>Monthly</span> Best Sell
+            Shop More With
+          </p>
+          <h2
+            data-aos="fade-up"
+            className="mb-4 font-semibold text-4xl text-center light_black_font"
+          >
+            Big Savings
           </h2>
 
-          <div className="row">
-            <div className="col-md-3">
-              <div className="best_sell_banner_wrapper">
-                <div
-                  data-aos="zoom-in-right"
-                  data-aos-duration="1000"
-                  className="banner"
-                >
-                  <img
-                    loading="lazy"
-                    src="/assets/imgs/banner/banner-9.jpg"
-                    className="rounded-2xl max-sm:w-32 max-sm:rounded-xl"
-                    alt=""
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="col-md-9 best_sell_cards">
-              {loading ? (
-                // Preloader when data is being fetched
-                <div className="flex gap-2 justify-center items-center h-64">
-                  <div className="loader w-8 h-8 border-4 border_green border-dashed rounded-full animate-spin"></div>
-                  <p className="ml-4 green_font text-sm mt-1">
-                    Loading products...
-                  </p>
-                </div>
-              ) : product.length > 0 ? (
-                // Swiper if products are available
-                <Swiper
-                  spaceBetween={10}
-                  slidesPerView={slidesToShow}
-                  loop={enableLoop}
-                  autoplay={{
-                    delay: 4500,
-                    disableOnInteraction: false,
-                    pauseOnMouseEnter: true,
-                  }}
-                  breakpoints={{
-                    320: {
-                      slidesPerView: 1,
-                    },
-                    500: {
-                      slidesPerView: 2,
-                    },
-                    768: {
-                      slidesPerView: 3,
-                    },
-                    1024: {
-                      slidesPerView: 4,
-                    },
-                    1300: {
-                      slidesPerView: 5,
-                    },
-                  }}
-                  navigation={true}
-                  modules={[Autoplay, Navigation, A11y]}
-                  className="swiper-wrapper mx-auto mb-4"
-                >
-                  {product.map((product, index) => (
-                    <SwiperSlide  key={index}>
-                      <BestSellCard
-                        card_link={`/product/${product._id}`}
-                        img_src={product.images[0]}
-                        img_title={product.title}
-                        sku_id={product.sku}
-                        title={product.title}
-                        discounted_price={product.discountedPrice}
-                        actual_price={product.price}
+          <div className="grid gap-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1">
+            {discountBanners.length > 0 &&
+              discountBanners.map((data) => {
+                return (
+                  <Link key={data.id} href={data.link} className="rounded-xl">
+                    <div className="relative h-[300px] sm:h-[350px] md:h-[400px] lg:h-[500px] w-full rounded-xl overflow-hidden">
+                      <img
+                        src={data.imageUrl}
+                        alt=""
+                        className="rounded-xl h-full w-full object-cover"
                       />
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-              ) : (
-                // Fallback message if no products are available
-                <p className="text-center green_font mt-4 h-full flex justify-center items-center">
-                  No products available at the moment.
-                </p>
-              )}
-            </div>
+                      {/* Optional content overlay */}
+                      <div className="absolute top-0 left-0 inset-0 bg-black/70 hover:bg-black/40 transition duration-500 text-center z-10 text-white flex flex-col justify-center items-center h-full">
+                        <h2 className="lg:text-4xl md:text-3xl max-sm:text-2xl text-2xl  uppercase tracking-widest"> {data.text} </h2>
+                        <p className="lg:text-7xl md:text-5xl max-sm:text-4xl text-4xl font-bold uppercase tracking-widest"> {data.discount} </p>
+                      </div>
+                    </div>
+                  </Link>
+                );
+              })}
           </div>
         </div>
       </div>
