@@ -612,7 +612,6 @@ body {
     margin-right: 10px;
   }
 
-  /* --------- */
   .username_after_login a {
     text-align: right;
     color: var(--green-clr);

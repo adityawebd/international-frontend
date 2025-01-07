@@ -183,7 +183,7 @@ const page = () => {
             <div className="">
               <div className="map_integration" id="map">
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3499.937014323291!2d77.14877257613877!3d28.6915306813978!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d0302948a64a9%3A0xb00c6662e07ddf21!2sRapid%20Digital%20Growth%20-%20Best%20Digital%20Marketing%20Agency%20in%20Delhi!5e0!3m2!1sen!2sin!4v1721045264315!5m2!1sen!2sin"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.1728599459143!2d77.05107559999999!3d28.6245809!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d05529a0fb815%3A0x68c746db5387a52a!2sINTERNATIONAL%20GIFT!5e0!3m2!1sen!2sin!4v1736242860714!5m2!1sen!2sin"
                   width="600"
                   height="450"
                   // style="border:0;"
@@ -198,11 +198,16 @@ const page = () => {
                     <MapPin />
                   </span>{" "}
                   &nbsp;&nbsp;
+                  <div>
                   <p>
                     {" "}
-                    <b>Address:</b> Warehouse 5, Plot No. - 337, Om Vihar Phase
-                    - 1, Uttam Nagar, New Delhi - 59, Delhi, West Delhi, 110059.
+                    <b>Warehouse Address:</b>  Plot Number - 337, Om Vihar Phase – 1, Som Bazar Road, New Delhi
                   </p>
+                  <p>
+                    {" "}
+                    <b>Office Address: </b> 69G, Phase – 5, Uttam Nagar, New Delhi
+                  </p>
+                  </div>
                 </div>
                 <div className="flex light_black_font text-base mb-4">
                   <span className="green_font">
@@ -211,7 +216,7 @@ const page = () => {
                   &nbsp;&nbsp;
                   <p>
                     {" "}
-                    <b>Call Us:</b> +91 8800217402{" "}
+                    <b>Call Us:</b> +91-8800217402{" "} || +91-8076361433
                   </p>
                 </div>
                 <div className="flex light_black_font text-base">
@@ -221,7 +226,7 @@ const page = () => {
                   &nbsp;&nbsp;
                   <p>
                     {" "}
-                    <b>Email:</b> Rakesh@InternationalGift.in
+                    <b>Email:</b> info@internationalgift.in 
                   </p>
                 </div>
               </div>

@@ -122,7 +122,7 @@ const HeroSection = () => {
 
   return (
     <div>
-      <div className="product_topbar py-2 border h-[100px]">
+      <div className="product_topbar py-2 h-[100px]">
         <div className="container-auto">
           <div className="z-50 product_topbar_wrapper">
             {memoizedCategories.length === 0 ? (
@@ -174,7 +174,7 @@ const HeroSection = () => {
         </div>
       </div>
 
-      <div className="heronewwrapper lg:h-[760px] border">
+      <div className="heronewwrapper lg:h-[760px]">
         {images.length === 0 ? (
           <div className="animate-pulse h-[800px] w-full lg:max-h-[800px] md:max-h-[300px] max-sm:max-h-[200px] mx-auto bg-gray-300"></div>
         ) : (
