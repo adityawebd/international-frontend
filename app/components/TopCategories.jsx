@@ -3,19 +3,20 @@ import Link from "next/link";
 import axios from "axios";
 
 const TopCategories = () => {
-  const [activeTab, setActiveTab] = useState("vertical-tab-with-border-1");
   const [tabData, setTabData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState(null); // Initially null
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`/api/TopCollection`);
-        setTabData(response.data.data);
+        const data = response.data.data;
+        setTabData(data);
+        if (data && data.length > 0) {
+          setActiveTab(`vertical-tab-with-border-${data[0]._id}`); // Set activeTab based on the first item's _id
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -26,10 +27,6 @@ const TopCategories = () => {
     setActiveTab(tabId);
     document.getElementById(discount)?.scrollIntoView({ behavior: "smooth" });
   };
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
 
   if (!tabData || tabData.length === 0) {
     return <div>No categories found.</div>;
