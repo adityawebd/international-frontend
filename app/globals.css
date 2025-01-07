@@ -1472,8 +1472,9 @@ body {
 /* --------------------- tab starts -------------- */
 .tabs_wrapper button {
   display: flex;
-  justify-content: start;
+  justify-content: center;
   align-items: center;
+  text-align: center;
   padding: 20px 20px;
   background-color: var(--e-gray);
 }

@@ -32,7 +32,7 @@ export default function Home() {
         <AllCollection />
         <BestSeller />
         <TopCategories />
-        <ProductTimer />
+        {/* <ProductTimer /> */}
         <PromisesBanner />
         <WoodStatue />
         {/* <ClientBrands /> */}
