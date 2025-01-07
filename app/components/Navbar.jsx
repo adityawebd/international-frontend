@@ -168,15 +168,16 @@ const Navbar = () => {
                 <div
                   className={`${
                     results.length === 0
-                      ? "search_card_wrapper "
-                      : "search_card_wrapper overflow-x-auto h-[300px] lg:h-[300px] md:h-[300px] sm:h-[300px]"
+                      ? ""
+                      // : "search_card_wrapper overflow-x-auto h-[300px] lg:h-[300px] md:h-[300px] sm:h-[300px]"
+                      : "grid lg:grid-cols-5 md:grid-cols-4 grid-cols-4 gap-2 max-sm:grid-cols-3 h-[500px] lg:h-[500px] md:h-[300px] sm:h-[300px] overflow-y-auto"
                   }`}
                 >
                   {results?.length > 0 ? (
                     results.map((result) => (
-                      <a href={`/product/${result._id}`} className="search_card" key={result._id}>
-                        <img loading='lazy' src={result.images[0]} alt={result.title} />
-                        <div className="desc">{result.title}</div>
+                      <a href={`/product/${result._id}`} className="border rounded-lg p-2" key={result._id}>
+                        <img loading='lazy' src={result.images[0]} alt={result.title} className='rounded-lg border' />
+                        <div className=" productTitle mt-2">{result.title}</div>
                       </a>
                     ))
                   ) : (
@@ -286,14 +287,14 @@ const Navbar = () => {
                   className={`${
                     results.length === 0
                       ? "search_card_wrapper "
-                      : "search_card_wrapper overflow-x-auto h-[300px] lg:h-[300px] md:h-[300px] sm:h-[300px]"
+                      : "grid lg:grid-cols-5 md:grid-cols-4 max-sm:grid-cols-3  grid-cols-4 gap-2 h-[500px] lg:h-[500px] md:h-[300px] sm:h-[300px] overflow-y-auto"
                   }`}
                 >
                   {results?.length > 0 ? (
                     results.map((result) => (
-                      <a href={`/product/${result._id}`} className="search_card" key={result._id}>
-                        <img loading='lazy' src={result.images[0]} alt={result.title} />
-                        <div className="desc">{result.title}</div>
+                      <a href={`/product/${result._id}`} className="border rounded-lg p-2" key={result._id}>
+                      <img loading='lazy' src={result.images[0]} alt={result.title} className='rounded-lg border' />
+                      <div className=" productTitle mt-2 text-sm">{result.title}</div>
                       </a>
                     ))
                   ) : (
