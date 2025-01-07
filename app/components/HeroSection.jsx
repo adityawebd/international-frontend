@@ -118,6 +118,8 @@ const HeroSection = () => {
     [categories]
   );
 
+  // console.log(categoryData[selectedCategory]?.properties?.length);
+
   return (
     <div>
       <div className="product_topbar py-2 border h-[100px]">
@@ -139,7 +141,17 @@ const HeroSection = () => {
                   key={category._id}
                   style={{ cursor: "pointer" }}
                   className="pt_card_parent"
-                  onClick={() => handleCategoryClick(category._id)}
+                  // onClick={() => handleCategoryClick(category._id)}
+                  onClick={() => {
+                    // Check if the category has subcategories (properties)
+                    if (category.properties && category.properties.length > 0) {
+                      // If properties exist, open the modal
+                      handleCategoryClick(category._id);
+                    } else {
+                      // If no properties (subcategories), redirect to the category page
+                      router.push(`/products/${category.properties.name}`);
+                    }
+                  }}
                 >
                   <img
                     loading="lazy"

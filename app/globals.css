@@ -3438,10 +3438,7 @@ footer .limited_edition {
 }
 
 @media (min-width: 426px) and (max-width: 768px) {
-  .contact_form form {
-    width: 60%;
-    padding: 30px;
-  }
+
 
   .contact_form form button {
     font-size: 13px;
