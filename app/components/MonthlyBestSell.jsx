@@ -15,44 +15,44 @@ const MonthlyBestSell = ({ price, ...props }) => {
     AOS.init();
   }, []);
 
-  const [product, setProduct] = useState([]);
+  const [discountBanners, setProduct] = useState([]);
   const [loading, setLoading] = useState(true);
   const type = "MonthlyBestSell";
 
-  const discountBanners = [
-    {
-      id: 1,
-      imageUrl: "/assets/image/discoutnbanner.png",
-      text: "under",
-      discount: "₹400",
-      link: "",
-    },
-    {
-      id: 2,
-      imageUrl: "/assets/image/discoutnbanner.png",
-      text: "under",
-      discount: "75% off",
-      link: "",
-    },
-    {
-      id: 3,
-      imageUrl: "/assets/image/discoutnbanner.png",
-      text: "under",
-      discount: "50% off",
-      link: "",
-    },
-  ];
+  // const discountBanners = [
+  //   {
+  //     id: 1,
+  //     imageUrl: "/assets/image/discoutnbanner.png",
+  //     text: "under",
+  //     discount: "₹400",
+  //     link: "",
+  //   },
+  //   {
+  //     id: 2,
+  //     imageUrl: "/assets/image/discoutnbanner.png",
+  //     text: "under",
+  //     discount: "75% off",
+  //     link: "",
+  //   },
+  //   {
+  //     id: 3,
+  //     imageUrl: "/assets/image/discoutnbanner.png",
+  //     text: "under",
+  //     discount: "50% off",
+  //     link: "",
+  //   },
+  // ];
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         //console.log("before reaponce")
         const response = await axios.get(
-          `/api/productnewarrival?properties=${type}`
+          `/api/BestSell`
         );
 
         //console.log("the responce is ", response);
-        setProduct(response.data);
+        setProduct(response.data.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -64,8 +64,11 @@ const MonthlyBestSell = ({ price, ...props }) => {
   }, []);
 
   // Determine slidesPerView dynamically based on product length
-  const slidesToShow = Math.min(product.length, 5); // Max 5 slides
-  const enableLoop = product.length > slidesToShow;
+  // const slidesToShow = Math.min(product.length, 5); // Max 5 slides
+  // const enableLoop = product.length > slidesToShow;
+
+  console.log("discountBanners",discountBanners);
+  
 
   return (
     <div>
@@ -88,16 +91,16 @@ const MonthlyBestSell = ({ price, ...props }) => {
             {discountBanners.length > 0 &&
               discountBanners.map((data) => {
                 return (
-                  <Link key={data.id} href={data.link} className="rounded-xl">
+                  <Link key={data._id} href={data.order_link} className="rounded-xl">
                     <div className="relative h-[300px] sm:h-[350px] md:h-[400px] lg:h-[500px] w-full rounded-xl overflow-hidden">
                       <img
-                        src={data.imageUrl}
+                        src={data.img_src}
                         alt=""
                         className="rounded-xl h-full w-full object-cover"
                       />
                       {/* Optional content overlay */}
                       <div className="absolute top-0 left-0 inset-0 bg-black/70 hover:bg-black/40 transition duration-500 text-center z-10 text-white flex flex-col justify-center items-center h-full">
-                        <h2 className="lg:text-4xl md:text-3xl max-sm:text-2xl text-2xl  uppercase tracking-widest"> {data.text} </h2>
+                        <h2 className="lg:text-4xl md:text-3xl max-sm:text-2xl text-2xl  uppercase tracking-widest"> {data.discount_text} </h2>
                         <p className="lg:text-7xl md:text-5xl max-sm:text-4xl text-4xl font-bold uppercase tracking-widest"> {data.discount} </p>
                       </div>
                     </div>
