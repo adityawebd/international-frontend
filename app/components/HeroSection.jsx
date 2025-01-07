@@ -1,6 +1,15 @@
 "use client";
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import {
+  useState,
+  useEffect,
+  createContext,
+  useCallback,
+  useMemo,
+} from "react";
+const CategoriesContext = createContext();
+import { useRouter } from "next/navigation";
+
 import AOS from "aos";
 import "aos/dist/aos.css";
 import axios from "axios";
@@ -16,23 +25,49 @@ import "swiper/css/navigation";
 
 const HeroSection = () => {
   const [images, setImages] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [initialized, setInitialized] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const router = useRouter();
 
+  // Lazy load and memoize categories
+  const memoizedCategories = useMemo(() => categories, [categories]);
+
+  // Fetch banner images and categories only when needed
   useEffect(() => {
     const initializeTopbarAndData = async () => {
       // Ensure ProductTopbar is initialized first
       setInitialized(true);
 
-      // Fetch banners after initializing the top bar
-      try {
-        const response = await axios.get("/api/banner");
-        const apiImages = response.data.map((item) => item.images[0]);
-        setImages(apiImages);
-      } catch (error) {
-        console.error("Failed to fetch banners:", error);
-      } finally {
-        setLoading(false);
+      // Check if data is in localStorage for banners
+      const cachedImages = localStorage.getItem("bannerImages");
+      if (cachedImages) {
+        setImages(JSON.parse(cachedImages)); // Use cached data
+      } else {
+        try {
+          const response = await axios.get("/api/banner");
+          const apiImages = response.data.map((item) => item.images[0]);
+          setImages(apiImages);
+          localStorage.setItem("bannerImages", JSON.stringify(apiImages)); // Cache data
+        } catch (error) {
+          console.error("Failed to fetch banners:", error);
+        }
+      }
+
+      // Check if categories data exists in localStorage
+      const cachedCategories = localStorage.getItem("categories");
+      if (cachedCategories) {
+        setCategories(JSON.parse(cachedCategories)); // Use cached categories
+      } else {
+        try {
+          const res = await fetch("/api/categories");
+          const { categories } = await res.json();
+          setCategories(categories);
+          localStorage.setItem("categories", JSON.stringify(categories)); // Cache categories
+        } catch (error) {
+          console.error("Failed to fetch categories:", error);
+        }
       }
     };
 
@@ -44,54 +79,105 @@ const HeroSection = () => {
     AOS.init();
   }, []);
 
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(false);
+  // Modal handlers
+  const handleCategoryClick = useCallback((categoryId) => {
+    setSelectedCategory(categoryId);
+    setIsModalOpen(true);
+  }, []);
 
-  const handleNextSlide = () => {
-    if (isAnimating) return;
-    setIsAnimating(true);
-    const newSlide = currentSlide === images.length - 1 ? 0 : currentSlide + 1;
-    setCurrentSlide(newSlide);
-  };
+  const closeModal = useCallback(() => {
+    setIsModalOpen(false);
+    setSelectedCategory(null);
+  }, []);
 
-  const handlePrevSlide = () => {
-    if (isAnimating) return;
-    setIsAnimating(true);
-    const newSlide = currentSlide === 0 ? images.length - 1 : currentSlide - 1;
-    setCurrentSlide(newSlide);
-  };
+  const handleOverlayClick = useCallback(
+    (e) => {
+      if (e.target.classList.contains("modal-overlay")) {
+        closeModal();
+      }
+    },
+    [closeModal]
+  );
 
-  useEffect(() => {
-    const intervalId = setInterval(handleNextSlide, 4000);
+  const handleFilter = useCallback(
+    (property) => {
+      if (selectedCategory) {
+        router.push(`/products/${property}`);
+      }
+    },
+    [selectedCategory, router]
+  );
 
-    // Clean up the interval on component unmount
-    return () => clearInterval(intervalId);
-  }, [currentSlide, images.length]);
+  // Category data
+  const categoryData = useMemo(
+    () =>
+      categories.reduce((acc, item) => {
+        acc[item._id] = item;
+        return acc;
+      }, {}),
+    [categories]
+  );
 
-  useEffect(() => {
-    if (isAnimating) {
-      const timeoutId = setTimeout(() => {
-        setIsAnimating(false);
-      }, 1000); // Duration of the animation
-
-      return () => clearTimeout(timeoutId);
-    }
-  }, [isAnimating]);
-
-  // Show loading spinner if loading or ProductTopbar not initialized
-  if (loading || !initialized)
-    return (
-      <div className="flex gap-2 justify-center items-center w-full pt-2 h-[100vh]">
-        <div className="loader w-8 h-8 border-4 border_green border-dashed rounded-full animate-spin"></div>
-        <p className="ml-4 green_font text-sm mt-1">Loading banner...</p>
-      </div>
-    );
+  // console.log(categoryData[selectedCategory]?.properties?.length);
 
   return (
-    <>
-      <ProductTopbar />
-      <main>
-        <div className="heronewwrapper">
+    <div>
+      <div className="product_topbar py-2 border h-[100px]">
+        <div className="container-auto">
+          <div className="z-50 product_topbar_wrapper">
+            {memoizedCategories.length === 0 ? (
+              <div className="flex gap-4 px-10">
+                <div className="animate-pulse w-20 h-20 bg-gray-300 rounded"></div>
+                <div className="animate-pulse w-20 h-20 bg-gray-300 rounded"></div>
+                <div className="animate-pulse w-20 h-20 bg-gray-300 rounded"></div>
+                <div className="animate-pulse w-20 h-20 bg-gray-300 rounded"></div>
+                <div className="animate-pulse w-20 h-20 bg-gray-300 rounded"></div>
+                <div className="animate-pulse w-20 h-20 bg-gray-300 rounded"></div>
+                <div className="animate-pulse w-20 h-20 bg-gray-300 rounded"></div>
+              </div>
+            ) : (
+              memoizedCategories.map((category) => (
+                <div
+                  key={category._id}
+                  style={{ cursor: "pointer" }}
+                  className="pt_card_parent"
+                  // onClick={() => handleCategoryClick(category._id)}
+                  onClick={() => {
+                    // Check if the category has subcategories (properties)
+                    if (category.properties && category.properties.length > 0) {
+                      // If properties exist, open the modal
+                      handleCategoryClick(category._id);
+                    } else {
+                      // If no properties (subcategories), redirect to the category page
+                      router.push(`/products/${category.properties.name}`);
+                    }
+                  }}
+                >
+                  <img
+                    loading="lazy"
+                    src={category.image || `/assets/image/gift14.jpg`}
+                    alt={category.name}
+                    width={50}
+                    height={50}
+                  />
+                  <div className="text-black tracking-wider fs-6 text-start px-2 topbar_word_wrapper">
+                    {category.name.split(" ").map((word, idx) => (
+                      <div key={idx} className="topbar_word">
+                        {word}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+      </div>
+
+      <div className="heronewwrapper lg:h-[760px] border">
+        {images.length === 0 ? (
+          <div className="animate-pulse h-[800px] w-full lg:max-h-[800px] md:max-h-[300px] max-sm:max-h-[200px] mx-auto bg-gray-300"></div>
+        ) : (
           <Swiper
             slidesPerView={1.5}
             loop={true}
@@ -103,6 +189,7 @@ const HeroSection = () => {
             speed={3000}
             pagination={{ clickable: true }}
             scrollbar={{ draggable: true }}
+            lazy={true} // Enable lazy loading
             breakpoints={{
               320: { slidesPerView: 1 },
               500: { slidesPerView: 1 },
@@ -126,22 +213,46 @@ const HeroSection = () => {
               </SwiperSlide>
             ))}
           </Swiper>
-          {/* <div className="relative flex justify-center p-2">
-            {images.map((_, index) => (
-              <div
-                key={index}
-                className={
-                  index === currentSlide
-                    ? "h-4 w-4 bg-gray-700 rounded-full mx-2 mb-2 cursor-pointer"
-                    : "h-4 w-4 bg-gray-300 rounded-full mx-2 mb-2 cursor-pointer"
-                }
-                onClick={() => setCurrentSlide(index)}
-              />
-            ))}
-          </div> */}
+        )}
+      </div>
+
+      {isModalOpen && (
+        <div className="modal-overlay" onClick={handleOverlayClick}>
+          <div className="modal-content">
+            <div className="modal-body">
+              {selectedCategory && categoryData[selectedCategory] ? (
+                <div>
+                  <div className="flex justify-between">
+                    <h2 className="category-name">
+                      {categoryData[selectedCategory].name}
+                    </h2>
+                    <button className="mr-2" onClick={closeModal}>
+                      ✕
+                    </button>
+                  </div>
+
+                  <div className="category-subCategory-wrapper">
+                    {categoryData[selectedCategory].properties?.map(
+                      (property, index) => (
+                        <button
+                          key={index}
+                          className="category-subCategory"
+                          onClick={() => handleFilter(property.name)}
+                        >
+                          {property.name}
+                        </button>
+                      )
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <p>Select a category to view data</p>
+              )}
+            </div>
+          </div>
         </div>
-      </main>
-    </>
+      )}
+    </div>
   );
 };
 

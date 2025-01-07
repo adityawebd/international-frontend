@@ -47,10 +47,10 @@ const NewArrival = () => {
           data-aos="fade-up"
           className="mb-4 font-semibold text-4xl text-center light_black_font"
         >
-          Related Products
+          Monthly Best Sell
         </h2>
         <p data-aos="fade-up" className="text-center text-sm light_black_font">
-          Browse The Collection of Top Products
+          Browse The Best Collections of Month 
         </p>
         <div className="container mt-4">
           {loading ? (

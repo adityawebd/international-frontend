@@ -7,21 +7,18 @@ const ProductTopbar = () => {
   const [categories, setCategories] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   // Fetch categories only once
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        setLoading(true); // Start loading
         const res = await fetch("/api/categories");
         const { categories } = await res.json();
         setCategories(categories);
       } catch (error) {
         console.error("Failed to fetch categories:", error);
       } finally {
-        setLoading(false); // End loading
       }
     };
     fetchCategories();
@@ -69,14 +66,6 @@ const ProductTopbar = () => {
       <div className="product_topbar py-2">
         <div className="container-auto">
           <div className="z-50 product_topbar_wrapper">
-            {/* {loading ? (
-              <div className="flex gap-2 justify-center items-center w-full pt-2">
-                <div className="loader w-8 h-8 border-4 border_green border-dashed rounded-full animate-spin"></div>
-                <p className="ml-4 green_font text-sm mt-1">
-                  Loading categories...
-                </p>
-              </div>
-            ) : ( */}
             {categories.map((category) => (
               <div
                 key={category._id}

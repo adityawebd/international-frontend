@@ -34,6 +34,26 @@ body {
   color: #f5c60d;
 }
 
+.skeleton-loader {
+  background-color: #ddd;
+  height: 40px;
+  width: 100%;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    background-color: #ddd;
+  }
+  50% {
+    background-color: #bbb;
+  }
+  100% {
+    background-color: #ddd;
+  }
+}
+
+
 .product_main_tatile {
   font-family: "Amazon Ember";
   font-weight: 600;
@@ -91,6 +111,14 @@ body {
 
 .productTitle {
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.productTitleOne {
+  display: -webkit-box;
+  -webkit-line-clamp: 1; /* Number of lines */
+  -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -3410,10 +3438,7 @@ footer .limited_edition {
 }
 
 @media (min-width: 426px) and (max-width: 768px) {
-  .contact_form form {
-    width: 60%;
-    padding: 30px;
-  }
+
 
   .contact_form form button {
     font-size: 13px;
