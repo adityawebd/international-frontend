@@ -18,7 +18,7 @@ const Cart = () => {
   const cart = useFromStore(useCartStore, (state) => state.cart);
   const clearCart = useCartStore((state) => state.clearCart);
   // const { clearCart } = useCartStore.getState();
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(true);
   const [loading, setLoading] = useState(false);
   const [orderData, setOrderData] = useState([]);
   const [price, setPrice] = useState();
@@ -451,41 +451,15 @@ const Cart = () => {
 
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 w-full">
-        <div className="bg-white p-6 rounded-lg shadow-lg w-[40%] max-sm:w-[90%]">
+        <div className="bg-white p-6 rounded-lg shadow-lg w-[40%] max-sm:w-[90%] relative">
           {/* <h2 className="text-xl font-semibold mb-4">Confirm Order</h2> */}
+          <img src="/assets/video/congrats2.gif" alt="congrats-gif" className="absolute top-0 left-0 rounded-lg" />
           <div className="container-sm ">
-            <div className="flex flex-col justify-center items-center ">
-              {/* <div className="text-lg md:text-xl lg:text-2xl font-bold">Thank You for Ordering:</div> */}
-
-              {/* Table to display order details */}
-              {/* <div className="w-full overflow-x-auto mt-4">
-                                <table className="min-w-full bg-white border border-gray-200">
-                                    <thead>
-                                        <tr>
-                                            <th className="px-2 md:px-6 py-2 md:py-3 border-b text-left text-xs md:text-sm font-medium text-gray-700">Order ID</th>
-                                            <th className="px-2 md:px-6 py-2 md:py-3 border-b text-left text-xs md:text-sm font-medium text-gray-700">Channel Order ID</th>
-                                            <th className="px-2 md:px-6 py-2 md:py-3 border-b text-left text-xs md:text-sm font-medium text-gray-700">Shipment ID</th>
-                                            <th className="px-2 md:px-6 py-2 md:py-3 border-b text-left text-xs md:text-sm font-medium text-gray-700">Courier Name</th>
-                                            <th className="px-2 md:px-6 py-2 md:py-3 border-b text-left text-xs md:text-sm font-medium text-gray-700">Status</th>
-                                            <th className="px-2 md:px-6 py-2 md:py-3 border-b text-left text-xs md:text-sm font-medium text-gray-700">Status Code</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td className="px-2 md:px-6 py-2 md:py-4 border-b text-xs md:text-sm text-gray-700">{orderData.order_id}</td>
-                                            <td className="px-2 md:px-6 py-2 md:py-4 border-b text-xs md:text-sm text-gray-700">{orderData.channel_order_id}</td>
-                                            <td className="px-2 md:px-6 py-2 md:py-4 border-b text-xs md:text-sm text-gray-700">{orderData.shipment_id}</td>
-                                            <td className="px-2 md:px-6 py-2 md:py-4 border-b text-xs md:text-sm text-gray-700">{orderData.courier_name || 'N/A'}</td>
-                                            <td className="px-2 md:px-6 py-2 md:py-4 border-b text-xs md:text-sm text-gray-700">{orderData.status}</td>
-                                            <td className="px-2 md:px-6 py-2 md:py-4 border-b text-xs md:text-sm text-gray-700">{orderData.status_code || 'N/A'}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div> */}
-              <span className="text-white bg_green rounded-full p-2 mb-2">
+            <div className="flex flex-col justify-center items-center pt-20 lg:pt-32 md:pt-16 max-sm:pt-16">
+              {/* <span className="text-white bg_green rounded-full p-2 mb-2">
                 {" "}
                 <Check size={24} />{" "}
-              </span>
+              </span> */}
               <div className="uppercase text-2xl">Congratulations!</div>
               <div className="uppercase text-md mt-4">
                 your order has been placed successfully

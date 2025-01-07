@@ -72,6 +72,9 @@ body {
 .bg_gray {
   background-color: var(--e-gray);
 }
+.bg_darkgray {
+  background-color: #555;
+}
 
 .bg_green {
   background-color: var(--green-clr);

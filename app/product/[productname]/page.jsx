@@ -632,7 +632,7 @@ const Page = ({ params }) => {
                 >
                   <FaCircleChevronUp />
                 </div>
-                <div className="product_img_tab_btns" ref={imgTabRef}>
+                <div className="product_img_tab_btns " ref={imgTabRef}>
                   {productData.images.map((image, index) => (
                     <button
                       key={index}
@@ -761,24 +761,26 @@ const Page = ({ params }) => {
                       </button>
                     </div>
                   </td>
-                  <div className="cart_btns mt-4">
-                    <button onClick={(e) => addToCart2(e, productData)}>
+                  <div className="mt-4 flex gap-4 max-sm:flex-col">
+                    <button onClick={(e) => addToCart2(e, productData)} className="bg_green text-white px-4 py-2 rounded-full capitalize text-center">
                       buy now{" "}
                     </button>
-                    <button onClick={(e) => addToCart1(e, productData)}>
+                    <button onClick={(e) => addToCart1(e, productData)} className="bg_darkgray flex gap-1 items-center justify-center text-white px-4 py-2 rounded-full capitalize text-center">
                       <span>
                         <HiOutlineShoppingBag />
                       </span>{" "}
                       &nbsp; add to cart{" "}
                     </button>
-                  </div>
-                  {productData.custom ? (
-                    <div className="cart_btns mt-4  ">
+
+                    {productData.custom ? (
+                    <div className="bg_darkgray text-white px-4 py-2 rounded-full capitalize text-center">
                       <button onClick={() => setShowModal(true)}>
                         Customize
                       </button>
                     </div>
                   ) : null}
+                  </div>
+                  
 
                   {/* </div> */}
                 </>
@@ -1095,9 +1097,9 @@ const Page = ({ params }) => {
                       <div className="overflow-x-auto">
                         <table className="min-w-full table-auto">
                           <tbody className="divide-y divide-gray-200">
-                            <tr>
+                            <tr className="flex flex-wrap lg:table-row">
                               {/* First Column: Show up to 5 entries */}
-                              <td className="w-1/2 align-top py-4 pl-4">
+                              <td className="w-full lg:w-1/2 align-top py-4 pl-4">
                                 <table className="min-w-full table-auto">
                                   <tbody>
                                     {Object.entries(productData.property)
@@ -1107,10 +1109,10 @@ const Page = ({ params }) => {
                                           key={index}
                                           className="border-b border-t"
                                         >
-                                          <td className="px-4 py-2 font-medium text-gray-700 bg-gray-100">
+                                          <td className="px-4 py-2 font-medium text-gray-700 bg-gray-100 max-sm:text-sm">
                                             {key}
                                           </td>
-                                          <td className="px-4 py-2 text-gray-500 bg-white">
+                                          <td className="px-4 py-2 text-gray-500 bg-white max-sm:text-sm">
                                             {value}
                                           </td>
                                         </tr>
@@ -1120,7 +1122,7 @@ const Page = ({ params }) => {
                               </td>
 
                               {/* Second Column: Remaining entries after the first 5 */}
-                              <td className="w-1/2 align-top py-4 pl-4">
+                              <td className="w-full lg:w-1/2 align-top py-4 pl-4">
                                 <table className="min-w-full table-auto">
                                   <tbody>
                                     {Object.entries(productData.property)
@@ -1130,10 +1132,10 @@ const Page = ({ params }) => {
                                           key={index}
                                           className="border-b border-t"
                                         >
-                                          <td className="px-4 py-2 font-medium text-gray-700 bg-gray-100">
+                                          <td className="px-4 py-2 font-medium text-gray-700 bg-gray-100 max-sm:text-sm">
                                             {key}
                                           </td>
-                                          <td className="px-4 py-2 text-gray-500 bg-white">
+                                          <td className="px-4 py-2 text-gray-500 bg-white max-sm:text-sm">
                                             {value}
                                           </td>
                                         </tr>

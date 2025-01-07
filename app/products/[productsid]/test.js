@@ -246,16 +246,6 @@ const ProductContent = ({ urldata }) => {
     }
 
     setFilteredProducts(filtered);
-
-    console.log("Applying filters with: ", {
-      selectedsubcategory,
-      selectedcategory,
-      filters,
-      priceRange,
-      sortOrder,
-    });
-    console.log("Filtered products: ", filtered);
-    console.log("Filtered products2: ", filteredProducts);
   };
 
   //   const applyFilters = (filters) => {
@@ -381,7 +371,7 @@ const ProductContent = ({ urldata }) => {
         <div className="col-md-10 py-4">
           <div className="lg:block md:block max-sm:hidden">
             <div className="grid gap-2 grid-cols-3 lg:grid-cols-5 md:grid-cols-3">
-              {filteredProducts?.map((product) => (
+              {products?.map((product) => (
                 <div key={product._id} className="border rounded-xl p-2">
                   <a
                     href={`/product/${product._id}`}
