@@ -118,9 +118,9 @@ body {
   text-overflow: ellipsis;
 }
 
-.productTitleOne {
+.productTitleTwo {
   display: -webkit-box;
-  -webkit-line-clamp: 1; /* Number of lines */
+  -webkit-line-clamp: 2; /* Number of lines */
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;

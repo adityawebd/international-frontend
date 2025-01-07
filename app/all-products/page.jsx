@@ -203,8 +203,8 @@ const page = () => {
                     </a>
                   </div>
                   <div className="w-3/5">
-                    <div className="mt-2">
-                      <div className="productTitle text-lg font-semibold text-black">
+                    <div className="">
+                      <div className="productTitleTwo font-semibold text-black">
                         <a href={`/product/${product._id}`}>{product.title}</a>
                       </div>
                       <div className="price mt-2 green_font text-sm">

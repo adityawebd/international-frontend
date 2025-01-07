@@ -761,7 +761,7 @@ const Page = ({ params }) => {
                       </button>
                     </div>
                   </td>
-                  <div className="mt-4 flex gap-4 max-sm:flex-col">
+                  <div className="mt-4 flex flex-wrap gap-4 max-sm:flex-col">
                     <button onClick={(e) => addToCart2(e, productData)} className="bg_green text-white px-4 py-2 rounded-full capitalize text-center">
                       buy now{" "}
                     </button>
