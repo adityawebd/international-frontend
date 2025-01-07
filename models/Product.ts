@@ -8,6 +8,10 @@ const productSchema = new mongoose.Schema(
       required: true,
       trim: true
     },
+    tags: {
+      type: [String],
+      trim: true
+    },
     description: {
       type: String,
       required: true,
@@ -68,6 +72,8 @@ const productSchema = new mongoose.Schema(
     }
  
 },{timestamps:true});
+
+productSchema.index({ title: 'text', tags: 'text' });
 
 const Product =mongoose.models.products || mongoose.model("products", productSchema)
 
