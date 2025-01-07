@@ -1,5 +1,5 @@
 import mongooseConnect from '../../lib/mongoose'; // Function to connect to your database
-import Product from '../../models/Product';// Your Product model
+import Product from '../../models/Product'; // Your Product model
 
 export default async function handler(req, res) {
   const { query } = req.query; // Get the search query from the request
@@ -8,29 +8,24 @@ export default async function handler(req, res) {
     return res.status(400).json({ message: 'Query is required' });
   }
 
-  mongooseConnect(); // Connect to the database
-
   try {
-    // Fetch all products from the database
-    const products = await Product.find();
+    // Connect to the database
+    await mongooseConnect();
 
-    // Filter products based on the search query (only titles)
-    const filteredProducts = products.filter(product => 
-      product.title.toLowerCase().includes(query.toLowerCase())
-    );
+    // Use MongoDB's text search to find matching products
+    const products = await Product.find(
+      { $text: { $search: query } }, // Text search
+      { score: { $meta: 'textScore' } } // Include relevance score
+    ).sort({ score: { $meta: 'textScore' } }); // Sort by relevance
 
-    // Sort products by relevance (more matches first)
-    filteredProducts.sort((a, b) => {
-      const aMatches = a.title.toLowerCase().includes(query.toLowerCase()) ? 1 : 0;
-      const bMatches = b.title.toLowerCase().includes(query.toLowerCase()) ? 1 : 0;
-      return bMatches - aMatches; // Sort in descending order of matches
-    });
-
-    return res.status(200).json(filteredProducts);
+    // Return all matching products
+    return res.status(200).json(products);
   } catch (error) {
+    console.error('Error fetching products:', error);
     return res.status(500).json({ message: 'Error fetching products', error });
   }
 }
+
 
 
 
