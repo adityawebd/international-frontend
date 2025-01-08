@@ -135,6 +135,27 @@ body {
   }
 }
 
+#zoom-container {
+  transition: all 0.3s ease;
+  display: none;
+  background-size: 200%;
+}
+
+#zoomed-image {
+  transition: background-position 0.3s ease;
+}
+
+/* Add these styles to hide the scrollbar */
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none; /* Hide the scrollbar for Webkit browsers */
+}
+
+.scrollbar-hidden {
+  -ms-overflow-style: none; /* Hide the scrollbar for Internet Explorer */
+  scrollbar-width: none; /* Hide the scrollbar for Firefox */
+}
+
+
 .breadcrumbs_wrapper {
   padding: 0 50px;
 }

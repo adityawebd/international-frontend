@@ -6,7 +6,6 @@ const Magnify = ({ imageSrc, alt, onNextImage, onPrevImage }) => {
   const zoomRef = useRef(null);
   const mouseZoomRef = useRef(null);
   const [deviceType, setDeviceType] = useState("mouse");
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [zoomLevel, setZoomLevel] = useState(1);
 
   const isTouchDevice = () => {
@@ -100,27 +99,7 @@ const Magnify = ({ imageSrc, alt, onNextImage, onPrevImage }) => {
     };
   }, [deviceType]);
 
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const zoomIn = () => {
-    setZoomLevel((prevZoom) => Math.min(prevZoom + 0.2, 3)); // Max zoom level of 3
-  };
-
-  const zoomOut = () => {
-    setZoomLevel((prevZoom) => Math.max(prevZoom - 0.2, 1)); // Min zoom level of 1
-  };
-
-  const resetZoom = () => setZoomLevel(1); // Reset zoom to original size
-
-  const handleModalClick = (e) => {
-    e.stopPropagation(); // Prevent closing the modal when clicking inside the modal content
-  };
 
   return (
     <div className="card">
@@ -134,59 +113,6 @@ const Magnify = ({ imageSrc, alt, onNextImage, onPrevImage }) => {
         className="imgZoomResult"
         style={{ backgroundImage: `url(${imageSrc})` }}
       ></div>
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black product_img_modal_wrapper">
-          <div
-            className="relative product_img_modal_content"
-            onClick={handleModalClick}
-          >
-            <button className="absolute top-0 right-0 p-2" onClick={closeModal}>
-              <IoIosCloseCircle size={20} />
-            </button>
-            {/* <img loading='lazy' src={imageSrc} alt={alt} /> */}
-            <div className="modal_btns_product_img mb-2">
-              <button className="" onClick={zoomOut}>
-                -
-              </button>
-              <button className="" onClick={zoomIn}>
-                +
-              </button>
-              <button className="reset-button" onClick={resetZoom}>
-                Reset
-              </button>
-            </div>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onPrevImage();
-                }}
-                className="absolute top-1/2 left-0 p-2"
-              >
-                &lt;
-              </button>
-              <figure>
-                <img
-                  loading="lazy"
-                  src={imageSrc}
-                  alt={alt}
-                  style={{
-                    transform: `scale(${zoomLevel})`,
-                    transition: "transform 0.3s ease",
-                  }}
-                />
-              </figure>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onNextImage();
-                }}
-                className="absolute top-1/2 right-0 p-2"
-              >
-                &gt;
-              </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
