@@ -118,6 +118,9 @@ const HeroSection = () => {
     [categories]
   );
 
+  console.log("1 log", categories)
+  console.log("2 log", categoryData)
+
   // console.log(categoryData[selectedCategory]?.properties?.length);
 
   return (
@@ -149,7 +152,7 @@ const HeroSection = () => {
                       handleCategoryClick(category._id);
                     } else {
                       // If no properties (subcategories), redirect to the category page
-                      router.push(`/products/${category.properties.name}`);
+                      router.push(`/products/${category.name}`);
                     }
                   }}
                 >

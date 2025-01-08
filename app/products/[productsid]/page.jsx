@@ -2,7 +2,8 @@
 import { Suspense, useEffect, useState, useContext, useRef } from "react";
 import { CurrencyContext } from "../../CurrencyContext";
 import { fetchCategoriesAndProducts } from "../../services/subcategoryService";
-import Navbar from "../../components/Navbar";
+import Navbar2 from '../../components/Navbar2'
+import Navbar3 from '../../components/Navbar3'
 import Footer from "../../components/Footer";
 import NewArrival from "../../components/NewArrival";
 import Breadcrumbs from "../../components/Breadcrumbs";
@@ -512,7 +513,8 @@ const Page = ({ params }) => {
   const urldata = decodeURIComponent(params.productsid);
   return (
     <>
-      <Navbar />
+      <Navbar2 />
+      <Navbar3 />
       <Breadcrumbs page_title="All Product" />
       <ToastContainer />
       <Suspense

@@ -113,28 +113,7 @@ const Navbar = () => {
   return (
     <div>
       
-
-
-
-
       <nav>
-        {/* <div className="navbar_header">
-          <div className="icons">
-            <a href="#"><FaFacebookF /></a>
-            <a href="#"><FaTwitter /></a>
-            <a href="#"><FaInstagram /></a>
-            <a href="#"><FaLinkedinIn /></a>
-          </div>
-          <div className="currency" onClick={toggleCurrencyDropdown} ref={currencyDropdownRef}>
-            CURRENCY: {currency}
-            {currencyDropdownVisible && (
-              <div className="currency_dropdown">
-                <div onClick={() => changeCurrency('INR')}>₹ INR</div>
-                <div onClick={() => changeCurrency('USD')}>$ USD</div>
-              </div>
-            )}
-          </div>
-        </div> */}
 
         <div className="navbar">
           <div className="navbar_brand">

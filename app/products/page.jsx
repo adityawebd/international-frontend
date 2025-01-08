@@ -2,7 +2,8 @@
 import { Suspense, useEffect, useState, useContext } from "react";
 import { CurrencyContext } from "../CurrencyContext";
 import { fetchCategoriesAndProducts } from "../services/subcategoryService";
-import Navbar from "../components/Navbar";
+import Navbar2 from '../components/Navbar2'
+import Navbar3 from '../components/Navbar3'
 import Footer from "../components/Footer";
 import NewArrival from "../components/NewArrival";
 import Breadcrumbs from "../components/Breadcrumbs";
@@ -247,7 +248,8 @@ const ProductContent = () => {
 
 const Page = () => (
   <>
-    <Navbar />
+    <Navbar2 />
+    <Navbar3 />
     <Breadcrumbs page_title="All Product" />
     <Suspense
       fallback={

@@ -12,7 +12,8 @@ import Typography from "@mui/joy/Typography";
 import CircularProgress from "@mui/joy/CircularProgress";
 import { useCountUp } from "use-count-up";
 import { useCartStore } from "../../../stores/useCartStore";
-import Navbar from "../../components/Navbar";
+import Navbar2 from '../../components/Navbar2'
+import Navbar3 from '../../components/Navbar3'
 import Footer from "../../components/Footer";
 import Variations from "../../components/Variations";
 import ExploreFeeds from "../../components/ExploreFeeds";
@@ -689,7 +690,8 @@ const Page = ({ params }) => {
 
   return (
     <div>
-      <Navbar />
+      <Navbar2 />
+      <Navbar3 />
       <Breadcrumbs page_title="Product Details" />
       <ToastContainer />
 
@@ -940,7 +942,7 @@ const Page = ({ params }) => {
                     {reviewData ? (
                       <StarRating rating={reviewData?.averageRating || 5} />
                     ) : (
-                      <span>No Ratings</span>
+                      <></>
                     )}
                   </div>
                   <div
@@ -949,9 +951,8 @@ const Page = ({ params }) => {
                   >
                     <a href="#forReviewClicked">
                       {reviewData?.reviews.length
-                        ? reviewData?.reviews.length
-                        : "No"}{" "}
-                      Reviews
+                        ? `${reviewData?.reviews.length} ${reviewData?.reviews.length === 1 ? "Review": "Reviews"} `
+                        : <></>}{" "}
                     </a>
                   </div>
                 </div>
@@ -1293,6 +1294,7 @@ const Page = ({ params }) => {
               </div>
             </div>
           </div>
+          
           <div className="hidden max-sm:block pt-4">
             <div className="product_about_wrapper">
               <h3 className=" product_main_tatile">{productData.title}</h3>
@@ -1302,7 +1304,7 @@ const Page = ({ params }) => {
                   {reviewData ? (
                     <StarRating rating={reviewData?.averageRating || 5} />
                   ) : (
-                    <span>No Ratings</span>
+                    <></>
                   )}
                 </div>
                 <div
@@ -1312,7 +1314,7 @@ const Page = ({ params }) => {
                   <a href="#forReviewClicked">
                     {reviewData?.reviews.length
                       ? reviewData?.reviews.length
-                      : "No"}{" "}
+                      : <></>}{" "} 
                     Reviews
                   </a>
                 </div>
@@ -1658,7 +1660,7 @@ const Page = ({ params }) => {
           <div className="row product_details mt-4" id="forReviewClicked">
             <div className="mb-4 mt-2 flex justify-center align-middle">
               <ul
-                className="flex tabs_ul  -mb-px text-sm font-medium text-center overflow-x-auto"
+                className="flex tabs_ul  -mb-px text-sm font-medium text-center max-sm:flex-col"
                 role="tablist"
               >
                 <li className="me-2" role="presentation">
@@ -1960,7 +1962,7 @@ const Page = ({ params }) => {
           </div>
         </div>
 
-        <NewArrival />
+        <NewArrival title="Related Products" />
       </div>
       <Footer />
     </div>

@@ -1,5 +1,6 @@
 import React from 'react'
-import Navbar from '../components/Navbar'
+import Navbar2 from '../components/Navbar2'
+import Navbar3 from '../components/Navbar3'
 import Breadcrumbs from '../components/Breadcrumbs'
 import Footer from '../components/Footer'
 import BackToTopButton from '../components/BackToTopButton'
@@ -10,7 +11,8 @@ import { GoDotFill } from "react-icons/go";
 const page = () => {
   return (
     <div>
-      <Navbar />
+      <Navbar2 />
+      <Navbar3 />
       <Breadcrumbs page_title="Terms & Conditions" />
 
       <div className="about_page py-5">

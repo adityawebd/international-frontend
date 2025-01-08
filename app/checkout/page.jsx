@@ -1,6 +1,7 @@
 'use client'
 import React from 'react'
-import Navbar from '../components/Navbar';
+import Navbar2 from '../components/Navbar2'
+import Navbar3 from '../components/Navbar3'
 import Footer from '../components/Footer';
 import Breadcrumbs from '../components/Breadcrumbs';
 import NewArrival from '../components/NewArrival';
@@ -11,7 +12,9 @@ import Checkout from '../components/Checkout'
 const page = () => {
     return (
         <div>
-            <Navbar />
+            <Navbar2 />
+            <Navbar3 />
+            
             <Breadcrumbs page_title="User Profile" />
 
             <div className="py-5">

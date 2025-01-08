@@ -8,7 +8,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import axios from "axios";
 
-const NewArrival = () => {
+const NewArrival = ({title}) => {
   useEffect(() => {
     AOS.init();
   }, []);
@@ -47,7 +47,7 @@ const NewArrival = () => {
           data-aos="fade-up"
           className="mb-4 font-semibold text-4xl text-center light_black_font"
         >
-          Monthly Best Sell
+          {title}
         </h2>
         <p data-aos="fade-up" className="text-center text-sm light_black_font">
           Browse The Best Collections of Month 

@@ -1,6 +1,7 @@
 'use client'
 import React, { useState, useEffect } from 'react';
-import Navbar from '../components/Navbar'
+import Navbar2 from '../components/Navbar2'
+import Navbar3 from '../components/Navbar3'
 import Footer from '../components/Footer'
 import Breadcrumbs from '../components/Breadcrumbs'
 
@@ -78,7 +79,8 @@ const page = () => {
 
   return (
     <div>
-      <Navbar />
+      <Navbar2 />
+      <Navbar3 />
       <Breadcrumbs page_title="Forget Passowrd" />
 
 

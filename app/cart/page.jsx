@@ -2,7 +2,8 @@
 import React, { useState, useEffect } from "react";
 import Cart from "../components/Cart";
 
-import Navbar from "../components/Navbar";
+import Navbar2 from '../components/Navbar2'
+import Navbar3 from '../components/Navbar3'
 import Footer from "../components/Footer";
 import NewArrival from "../components/NewArrival";
 import Breadcrumbs from "../components/Breadcrumbs";
@@ -14,7 +15,9 @@ import Sidebar from "../components/Sidebar";
 const page = () => {
   return (
     <div>
-      <Navbar />
+      <Navbar2 />
+      <Navbar3 />
+      
       <div className="bg_gray breadcrumbs_wrapper py-3">
         <div className="container">
           <div className="flex justify-between align-middle">
