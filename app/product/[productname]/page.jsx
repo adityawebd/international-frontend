@@ -756,7 +756,7 @@ const Page = ({ params }) => {
                           ...zoomStyle,
                           position: "absolute",
                           backgroundImage: `url(${
-                            productData?.images?.[0] || "/default-image.jpg"
+                            productData?.images?.[currentIndex] || "/default-image.jpg"
                           })`,
                           backgroundRepeat: "no-repeat",
                           backgroundSize: "200%", // Zoom level
