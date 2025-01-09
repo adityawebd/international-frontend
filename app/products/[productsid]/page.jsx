@@ -515,7 +515,7 @@ const Page = ({ params }) => {
     <>
       <Navbar2 />
       <Navbar3 />
-      <Breadcrumbs page_title="All Product" page_title2={urldata} />
+      <Breadcrumbs page_title="products" page_title2={urldata} />
       <ToastContainer />
       <Suspense
         fallback={

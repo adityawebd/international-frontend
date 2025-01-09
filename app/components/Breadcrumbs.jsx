@@ -19,7 +19,7 @@ const Breadcrumbs = (props) => {
                   <MdKeyboardDoubleArrowRight />
                 </span>{" "}
                 {props.page_title2 ? (
-                  <Link href="/">{props.page_title}</Link>
+                  <Link href={`/${props.page_title}`} className="capitalize">{props.page_title}</Link>
                 ) : (
                   <>{props.page_title}</>
                 )}

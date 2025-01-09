@@ -3,7 +3,7 @@ const convertPrice = (price, currency, exchangeRates) => {
   const rate = exchangeRates[currency];
   return price * rate;
 };
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 
 import { notFound } from "next/navigation";
 import { FaUserCircle } from "react-icons/fa";
@@ -15,8 +15,8 @@ import Typography from "@mui/joy/Typography";
 import CircularProgress from "@mui/joy/CircularProgress";
 import { useCountUp } from "use-count-up";
 import { useCartStore } from "../../../stores/useCartStore";
-import Navbar2 from '../../components/Navbar2'
-import Navbar3 from '../../components/Navbar3'
+import Navbar2 from "../../components/Navbar2";
+import Navbar3 from "../../components/Navbar3";
 import Footer from "../../components/Footer";
 import Variations from "../../components/Variations";
 import ExploreFeeds from "../../components/ExploreFeeds";
@@ -56,10 +56,11 @@ import {
   X,
   ZoomIn,
 } from "lucide-react";
+import Bread from "../../components/Bread";
 
 const Page = ({ params }) => {
   const urldata = decodeURIComponent(params.productname);
-  
+
   // //console.log("urldata is",urldata);
 
   const notify = () =>
@@ -106,7 +107,6 @@ const Page = ({ params }) => {
   const imageContainerRef = useRef(null);
   const contentRefs = useRef([null, null, null]);
   const [zoomStyle, setZoomStyle] = useState({ display: "none" });
-  
 
   // Initial quantity
   const [isDisabled, setIsDisabled] = useState(false); // State to control button disabled status
@@ -697,7 +697,8 @@ const Page = ({ params }) => {
     <div>
       <Navbar2 />
       <Navbar3 />
-      <Breadcrumbs page_title="Product" page_title2={productData.title} />
+      {/* <Breadcrumbs page_title="Product" page_title2={productData.title} /> */}
+      <Bread />
       <ToastContainer />
 
       <div className="product mt-3">
@@ -752,7 +753,10 @@ const Page = ({ params }) => {
                       onMouseLeave={handleMouseLeave}
                     >
                       <img
-                        src={productData?.images?.[currentIndex] || "/default-image.jpg"}
+                        src={
+                          productData?.images?.[currentIndex] ||
+                          "/default-image.jpg"
+                        }
                         alt={productData?.title || "Product Image"}
                         className="h-[auto] lg:max-h-[600px] md:max-h-[300px] max-sm:max-h-[200px] mx-auto rounded-lg cursor-zoom-in"
                         onClick={() => openModal(currentIndex)}
@@ -763,7 +767,8 @@ const Page = ({ params }) => {
                           ...zoomStyle,
                           position: "absolute",
                           backgroundImage: `url(${
-                            productData?.images?.[currentIndex] || "/default-image.jpg"
+                            productData?.images?.[currentIndex] ||
+                            "/default-image.jpg"
                           })`,
                           backgroundRepeat: "no-repeat",
                           backgroundSize: "200%", // Zoom level
@@ -955,9 +960,15 @@ const Page = ({ params }) => {
                     onClick={handleReviewsClick}
                   >
                     <a href="#forReviewClicked">
-                      {reviewData?.reviews.length
-                        ? `${reviewData?.reviews.length} ${reviewData?.reviews.length === 1 ? "Review": "Reviews"} `
-                        : <></>}{" "}
+                      {reviewData?.reviews.length ? (
+                        `${reviewData?.reviews.length} ${
+                          reviewData?.reviews.length === 1
+                            ? "Review"
+                            : "Reviews"
+                        } `
+                      ) : (
+                        <></>
+                      )}{" "}
                     </a>
                   </div>
                 </div>
@@ -1299,7 +1310,7 @@ const Page = ({ params }) => {
               </div>
             </div>
           </div>
-          
+
           <div className="hidden max-sm:block pt-4">
             <div className="product_about_wrapper">
               <h3 className=" product_main_tatile">{productData.title}</h3>
@@ -1317,9 +1328,11 @@ const Page = ({ params }) => {
                   onClick={handleReviewsClick}
                 >
                   <a href="#forReviewClicked">
-                    {reviewData?.reviews.length
-                      ? reviewData?.reviews.length
-                      : <></>}{" "} 
+                    {reviewData?.reviews.length ? (
+                      reviewData?.reviews.length
+                    ) : (
+                      <></>
+                    )}{" "}
                     Reviews
                   </a>
                 </div>
