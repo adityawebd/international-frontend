@@ -193,7 +193,8 @@ const Cart = () => {
         email: prevFormData.email || session.user?.email || "",
         phone: prevFormData.phone || session.user?.number || "",
         cart: cart || prevFormData.cart,
-        Weight: prevFormData.Weight || cart[0]?.property?.Weight || "",
+        // Weight: prevFormData.Weight || cart[0]?.property?.Weight || "",
+        Weight: prevFormData.Weight || (cart && cart.length > 0 ? cart[0]?.property?.Weight : ""),
         // address: prevFormData.address || session.user?.address || "",
         // city: prevFormData.city || session.user?.city || "",
         // postalCode: prevFormData.postalCode || session.user?.postalCode || "",
@@ -256,7 +257,6 @@ const Cart = () => {
       }
     }
   };
-
 
   //  razor pay
 
@@ -401,7 +401,15 @@ const Cart = () => {
 
     // window.location.href = '/create-order',formData;
     if (!session) {
-      window.location.href = "/login"; // Redirects to login page
+      // window.location.href = "/login"; // Redirects to login page
+      // Capture the referring page URL
+      const referringPage = window.location.href;
+
+      // Redirect to login with the referring page as a query parameter
+      window.location.href = `/login?redirect=${encodeURIComponent(
+        referringPage
+      )}`;
+      return;
     } else {
       setSpinner(true); // Show spinner
 
@@ -453,7 +461,11 @@ const Cart = () => {
       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 w-full">
         <div className="bg-white p-6 rounded-lg shadow-lg w-[40%] max-sm:w-[90%] relative">
           {/* <h2 className="text-xl font-semibold mb-4">Confirm Order</h2> */}
-          <img src="/assets/video/congrats2.gif" alt="congrats-gif" className="absolute top-0 left-0 rounded-lg" />
+          <img
+            src="/assets/video/congrats2.gif"
+            alt="congrats-gif"
+            className="absolute top-0 left-0 rounded-lg"
+          />
           <div className="container-sm ">
             <div className="flex flex-col justify-center items-center pt-20 lg:pt-32 md:pt-16 max-sm:pt-16">
               {/* <span className="text-white bg_green rounded-full p-2 mb-2">

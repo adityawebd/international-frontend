@@ -3,6 +3,9 @@ const convertPrice = (price, currency, exchangeRates) => {
   const rate = exchangeRates[currency];
   return price * rate;
 };
+import { useRouter } from 'next/router';
+
+import { notFound } from "next/navigation";
 import { FaUserCircle } from "react-icons/fa";
 import React, { useState, useEffect, useContext, useRef } from "react";
 import Link from "next/link";
@@ -56,6 +59,7 @@ import {
 
 const Page = ({ params }) => {
   const urldata = decodeURIComponent(params.productname);
+  
   // //console.log("urldata is",urldata);
 
   const notify = () =>
@@ -102,6 +106,7 @@ const Page = ({ params }) => {
   const imageContainerRef = useRef(null);
   const contentRefs = useRef([null, null, null]);
   const [zoomStyle, setZoomStyle] = useState({ display: "none" });
+  
 
   // Initial quantity
   const [isDisabled, setIsDisabled] = useState(false); // State to control button disabled status
@@ -692,7 +697,7 @@ const Page = ({ params }) => {
     <div>
       <Navbar2 />
       <Navbar3 />
-      <Breadcrumbs page_title="Product Details" />
+      <Breadcrumbs page_title="Product" page_title2={productData.title} />
       <ToastContainer />
 
       <div className="product mt-3">

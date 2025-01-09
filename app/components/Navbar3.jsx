@@ -1,5 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef, useContext } from "react";
+import { usePathname } from 'next/navigation';
+
 import { CiUser, CiShoppingBasket } from "react-icons/ci";
 import { IoSearch } from "react-icons/io5";
 import {
@@ -20,6 +22,8 @@ import { IoCartOutline } from "react-icons/io5";
 import { GoDotFill } from "react-icons/go";
 
 const Navbar = () => {
+  const pathname = usePathname();
+
   const { currency, setCurrency } = useContext(CurrencyContext); // Use context
   const [isVisible, setIsVisible] = useState(false);
   const searchBarRef = useRef(null); // Ref for the search bar
@@ -170,7 +174,7 @@ const Navbar = () => {
                       {userDropdownVisible && (
                         <div className="absolute top-12 right-0 w-36 z-10 bg-white border rounded-lg p-2">
                           <div className="bg-gray-100 rounded-lg p-2 px-4 mb-1 hover:bg-gray-300 transition duration-300">
-                            <Link href="/login">LOGIN</Link>
+                          <Link href={`/login?redirect=${pathname}`}>LOGIN</Link>
                           </div>
                           <div className="bg-gray-100 rounded-lg p-2 px-4 mb-1 hover:bg-gray-300 transition duration-300">
                             <Link href="/register">REGISTER</Link>

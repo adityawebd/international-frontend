@@ -10,6 +10,7 @@ import Breadcrumbs from "../components/Breadcrumbs";
 import Filter from "../components/Filter";
 import BackToTopButton from "../components/BackToTopButton";
 import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 const convertPrice = (price, currency, exchangeRates) => {
   const rate = exchangeRates[currency];
@@ -172,74 +173,10 @@ const ProductContent = () => {
   return (
     <>
       <div className="container">
-        <div className="row">
-          <div className="col-md-2 py-4">
-            <button className="btn btn-primary" onClick={toggleFilter}>
-              {showFilter ? "Hide Filter" : "Show Filter"}
-            </button>
-            <div
-              className={`filter-page-container ${
-                showFilter ? "d-block" : "d-none"
-              } d-md-block`}
-            >
-              <Filter
-                categories={categories}
-                categori={categori}
-                oncategoryChange={handlecategoryChange}
-                onsubcategoryChange={handlesubcategoryChange}
-                onFilterChange={handleFilterChange}
-                onFilterChanges={handleFilterChanges}
-                onPriceChange={handlePriceChange}
-                onSortChange={handleSortChange}
-              />
-            </div>
-          </div>
-          <div className="col-md-10">
-            <div className="container py-4">
-              <div className="row">
-                <div className="col-md-12 p-0">
-                  <div className="all_products_container">
-                    <div className="product-list">
-                      {filteredProducts.map((product) => (
-                        <div key={product._id} className="products_card">
-                          <a href={`/product/${product._id}`}>
-                            <figure>
-                              <img
-                                loading="lazy"
-                                className="rounded-2xl"
-                                src={product.images[0]}
-                                alt={product.title}
-                              />
-                            </figure>
-                            <div className="card_content">
-                              <div className="title">{product.title}</div>
-                              <div className="price">
-                                {currency === "INR" ? "₹" : "$"}{" "}
-                                {convertPrice(
-                                  product.discountedPrice,
-                                  currency,
-                                  exchangeRates
-                                ).toFixed(2)}{" "}
-                                &nbsp;
-                                <span>
-                                  {currency === "INR" ? "₹" : "$"}{" "}
-                                  {convertPrice(
-                                    product.price,
-                                    currency,
-                                    exchangeRates
-                                  ).toFixed(2)}
-                                </span>
-                              </div>
-                            </div>
-                          </a>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+        <div className="flex justify-center items-center h-[80vh] flex-col text-center">
+          <h1 className="text-7xl font-bold">404 Error</h1>
+          <p className="green_font font-semibold text-lg">Page Not Available</p>
+          <Link href="/" className="bg_green py-2 px-4 text-white mt-3 text-sm">Back to Home</Link>
         </div>
       </div>
     </>
@@ -250,7 +187,7 @@ const Page = () => (
   <>
     <Navbar2 />
     <Navbar3 />
-    <Breadcrumbs page_title="All Product" />
+    <Breadcrumbs page_title="All Products" />
     <Suspense
       fallback={
         <div className="flex gap-2 justify-center items-center h-64">
@@ -261,7 +198,6 @@ const Page = () => (
     >
       <ProductContent />
     </Suspense>
-    <NewArrival />
     <Footer />
     <BackToTopButton />
   </>
