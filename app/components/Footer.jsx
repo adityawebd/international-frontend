@@ -1,5 +1,5 @@
 import React from 'react'
-import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn, FaYoutube } from "react-icons/fa";
+import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn, FaYoutube,  } from "react-icons/fa";
 import {Send} from 'lucide-react'
 
 const Footer = () => {
@@ -49,9 +49,11 @@ const Footer = () => {
                     <div className="row border-t-2 pt-4">
                         <div className="col-md-4">
                             <div className="icons">
-                                <a href="https://www.youtube.com/@internationalgift"><FaYoutube size={24} /></a>
+                                <a href="https://www.facebook.com/profile.php?id=61564308862628" target='_blank'><FaFacebookF size={24} /></a>
+                                <a href="https://www.linkedin.com/in/internationalgift" target='_blank'><FaLinkedinIn size={24} /></a>
+                                <a href="https://www.youtube.com/@internationalgift" target='_blank'><FaYoutube size={24} /></a>
                                 {/* <a href="#"><FaTwitter /></a> */}
-                                <a href="https://www.instagram.com/internationalgift.in/"><FaInstagram size={24} /></a>
+                                <a href="https://www.instagram.com/internationalgift.in/" target='_blank'><FaInstagram size={24} /></a>
                                 {/* <a href="#"><FaLinkedinIn /></a> */}
                             </div>
                         </div>

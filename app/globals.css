@@ -9,6 +9,13 @@
   font-weight: normal; /* or bold if applicable */
   font-style: normal; /* or italic if applicable */
 }
+@font-face {
+  font-family: "ITC New Baskerville";
+  src: url("/assets/fonts/NewBaskervilleITCbyBT-Roman.otf") format("truetype");
+  font-weight: normal; /* or bold if applicable */
+  font-style: normal; /* or italic if applicable */
+}
+
 
 :root {
   --primary-clr: #aaa;
@@ -78,6 +85,15 @@ body {
   line-height: 36px;
   letter-spacing: 0.7px;
 }
+.productTiteNewBaskervilleFont {
+  font-family: "ITC New Baskerville", serif;
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 1.4;
+  color: black;
+  /* letter-spacing: 0.7px; */
+}
+
 .single_product_page_price {
   font-size: 29px;
 }

@@ -945,7 +945,7 @@ const Page = ({ params }) => {
 
             <div className="lg:block md:block hidden">
               <div className="product_about_wrapper">
-                <h3 className=" product_main_tatile">{productData.title}</h3>
+                <h3 className="productTiteNewBaskervilleFont">{productData.title}</h3>
 
                 <div className="rating_div flex align-middle mt-2">
                   <div className="stars flex items-center mr-3">
