@@ -58,6 +58,10 @@ import {
 } from "lucide-react";
 import Bread from "../../components/Bread";
 
+import { TbTruckDelivery } from "react-icons/tb";
+import { GrReturn } from "react-icons/gr";
+import { VscWorkspaceTrusted } from "react-icons/vsc";
+
 const Page = ({ params }) => {
   const urldata = decodeURIComponent(params.productname);
 
@@ -107,6 +111,16 @@ const Page = ({ params }) => {
   const imageContainerRef = useRef(null);
   const contentRefs = useRef([null, null, null]);
   const [zoomStyle, setZoomStyle] = useState({ display: "none" });
+
+  const [openNewModal, setOpenNewModal] = useState(null);
+
+  const handleOpenModal = (modalId) => {
+    setOpenNewModal(modalId);
+  };
+
+  const handleCloseModal = () => {
+    setOpenNewModal(null);
+  };
 
   // Initial quantity
   const [isDisabled, setIsDisabled] = useState(false); // State to control button disabled status
@@ -711,7 +725,7 @@ const Page = ({ params }) => {
                   {/* Smaller image */}
                   <div
                     ref={imageContainerRef}
-                    className="flex flex-col gap-4 h-[auto] lg:max-h-[600px] md:max-h-[300px] max-sm:max-h-[200px] overflow-y-auto scrollbar-hidden relative"
+                    className="flex flex-col gap-4 h-[auto] 2xl:max-h-[800px] xl:max-h-[700px] lg:max-h-[440px] md:max-h-[300px] max-sm:max-h-[200px] overflow-y-auto scrollbar-hidden relative"
                   >
                     {productData.images?.map((image, index) => (
                       <div key={index} className="relative">
@@ -733,16 +747,7 @@ const Page = ({ params }) => {
                   </div>
 
                   {/* Bigger image */}
-                  <div className="relative bg-secondary-light henlyproductslider overflow-hidden rounded-lg">
-                    {/* <img
-                      src={
-                        productData?.images?.[currentIndex] ||
-                        "/default-image.jpg"
-                      }
-                      alt={productData?.title || "Product Image"}
-                      className="h-[auto] lg:max-h-[600px] md:max-h-[300px] max-sm:max-h-[200px] mx-auto rounded-lg cursor-zoom-in"
-                      onClick={() => openModal(currentIndex)}
-                    /> */}
+                  <div className="relative bg-secondary-light henlyproductslider overflow-hidden rounded-lg border-red-500">
                     <div
                       className="relative overflow-hidden"
                       style={{
@@ -758,7 +763,7 @@ const Page = ({ params }) => {
                           "/default-image.jpg"
                         }
                         alt={productData?.title || "Product Image"}
-                        className="h-[auto] lg:max-h-[600px] md:max-h-[300px] max-sm:max-h-[200px] mx-auto rounded-lg cursor-zoom-in"
+                        className="h-[auto] 2xl:max-h-[800px] xl:max-h-[700px] lg:max-h-[600px] md:max-h-[300px] max-sm:max-h-[200px] w-full mx-auto rounded-lg cursor-zoom-in"
                         onClick={() => openModal(currentIndex)}
                       />
                       <div
@@ -819,7 +824,7 @@ const Page = ({ params }) => {
                             "/default-image.jpg"
                           }
                           alt={productData?.title || "Product Image"}
-                          className={`w-full max-w-screen-sm mx-auto rounded-lg transition-transform cursor-zoom-in ${
+                          className={`h-full mx-auto rounded-lg transition-transform cursor-zoom-in ${
                             isZoomed ? "scale-150" : "scale-100"
                           }`}
                           onClick={toggleZoom}
@@ -845,7 +850,7 @@ const Page = ({ params }) => {
               </div>
               {/* for mobile view */}
               <div className="lg:hidden md:hidden">
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-4 ">
                   {/* Smaller image */}
                   <div
                     ref={imageContainerRef}
@@ -878,7 +883,7 @@ const Page = ({ params }) => {
                         "/default-image.jpg"
                       }
                       alt={productData?.title || "Product Image"}
-                      className="h-[300px] mx-auto rounded-lg cursor-zoom-in"
+                      className="w-full mx-auto rounded-lg cursor-zoom-in"
                       onClick={() => openModal(currentIndex)}
                     />
                     <button
@@ -945,7 +950,9 @@ const Page = ({ params }) => {
 
             <div className="lg:block md:block hidden">
               <div className="product_about_wrapper">
-                <h3 className="productTiteNewBaskervilleFont">{productData.title}</h3>
+                <h3 className="productTiteNewBaskervilleFont">
+                  {productData.title}
+                </h3>
 
                 <div className="rating_div flex align-middle mt-2">
                   <div className="stars flex items-center mr-3">
@@ -973,18 +980,27 @@ const Page = ({ params }) => {
                   </div>
                 </div>
 
-                <p className="green_font font-extrabold price  mt-2">
-                  <span className="single_product_page_price">
+                <div className="flex gap-2 items-center mt-2">
+                  <h3 className="font-bold green_font text-3xl">
                     {currency === "INR" ? "₹" : "$"}
                     {convertedPrice.toFixed(2)}{" "}
-                  </span>
-                  &nbsp;
-                  <span>
+                  </h3>
+                  <h3 className="text-gray-400 pt-1 line-through">
                     {currency === "INR" ? "₹" : "$"}{" "}
                     {convertedActualPrice.toFixed(2)}
+                  </h3>
+                  <span className="mt-1 bg_green text-white discountPercentage rounded-full font-semibold py-1 px-2 mb-1">
+                    {`SAVE ${Math.round(
+                      ((convertedActualPrice - convertedPrice) /
+                        convertedActualPrice) *
+                        100
+                    )}%`}
                   </span>
-                  <div className="text-xs">Inclusive of all taxes</div>
-                </p>
+                </div>
+                <div className="text-xs green_font font-semibold">
+                  Inclusive of all taxes
+                </div>
+
                 <div className="my-2">
                   <img
                     loading="lazy"
@@ -1015,50 +1031,116 @@ const Page = ({ params }) => {
 
                 {productData.stockQuantity > 0 ? (
                   <>
-                    <td className="pt-2">
-                      <div className=" flex items-center justify-center border border-gray-300 rounded-full my-2">
-                        <button
-                          onClick={decreaseQuantity}
-                          className="bg-gray-100 rounded-l-full px-2 border-r border-gray-300"
-                        >
-                          -
-                        </button>
-                        &nbsp;&nbsp;&nbsp;&nbsp;
-                        <span>{quantity}</span>
-                        &nbsp;&nbsp;&nbsp;&nbsp;
-                        <button
-                          onClick={increaseQuantity}
-                          disabled={isDisabled}
-                          className="bg-gray-100 rounded-r-full px-2 border-l border-gray-300"
-                        >
-                          +
-                        </button>
-                      </div>
-                    </td>
-                    <div className="mt-4 flex flex-wrap gap-4 max-sm:flex-col">
-                      <button
-                        onClick={(e) => addToCart2(e, productData)}
-                        className="bg_green text-white px-4 py-2 rounded-full capitalize text-center"
-                      >
-                        buy now{" "}
-                      </button>
-                      <button
-                        onClick={(e) => addToCart1(e, productData)}
-                        className="bg_darkgray flex gap-1 items-center justify-center text-white px-4 py-2 rounded-full capitalize text-center"
-                      >
-                        <span>
-                          <HiOutlineShoppingBag />
-                        </span>{" "}
-                        &nbsp; add to cart{" "}
-                      </button>
-
-                      {productData.custom ? (
-                        <div className="bg_darkgray text-white px-4 py-2 rounded-full capitalize text-center">
-                          <button onClick={() => setShowModal(true)}>
-                            Customize
+                    <div className="2xl:block xl:block lg:block hidden">
+                      <div className="grid lg:grid-cols-3 md:grid-cols-2 2xl:gap-6 xl:gap-4 lg:gap-2 mt-4">
+                        <div className="">
+                          <div className="flex items-center justify-center border border-gray-300 rounded-full">
+                            <button
+                              onClick={decreaseQuantity}
+                              className="bg-gray-100 rounded-l-full 2xl:w-1/5 xl:w-1/5 lg:w-2/5  2xl:py-2 xl:py-2 lg:py-1 border-r border-gray-300"
+                            >
+                              -
+                            </button>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <span className=" w-3/5 text-center 2xl:py-2 xl:py-2 lg:py-1">
+                              {quantity}
+                            </span>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <button
+                              onClick={increaseQuantity}
+                              disabled={isDisabled}
+                              className="bg-gray-100 rounded-r-full 2xl:w-1/5 xl:w-1/5 lg:w-2/5  2xl:py-2 xl:py-2 lg:py-1 border-l border-gray-300"
+                            >
+                              +
+                            </button>
+                          </div>
+                        </div>
+                        <div className="">
+                          <button
+                            onClick={(e) => addToCart1(e, productData)}
+                            className="bg_darkgray flex gap-1 items-center justify-center text-white px-4 py-2 rounded-full capitalize text-center w-full 2xl:text-base xl:text-base lg:text-sm"
+                          >
+                            <span>
+                              <HiOutlineShoppingBag />
+                            </span>{" "}
+                            &nbsp; add to cart{" "}
                           </button>
                         </div>
-                      ) : null}
+                        <div className="">
+                          {productData.custom ? (
+                            <div className="bg_darkgray text-white px-4 py-2 rounded-full capitalize text-center w-full  2xl:text-base xl:text-base lg:text-sm">
+                              <button onClick={() => setShowModal(true)}>
+                                Customize
+                              </button>
+                            </div>
+                          ) : null}
+                        </div>
+                      </div>
+                      <div className="mt-3">
+                        <button
+                          onClick={(e) => addToCart2(e, productData)}
+                          className="bg_green hover:sha text-white px-4 py-2 rounded-full capitalize text-center w-full"
+                        >
+                          buy now{" "}
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="2xl:hidden xl:hidden lg:hidden md:block">
+                      <div className="grid grid-cols-2 gap-4 mt-4">
+                        <div className="">
+                          <div className="flex items-center justify-center border border-gray-300 rounded-full w-full">
+                            <button
+                              onClick={decreaseQuantity}
+                              className="bg-gray-100 rounded-l-full w-2/5  py-1 border-r border-gray-300"
+                            >
+                              -
+                            </button>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <span className=" w-1/5 text-center py-1">
+                              {quantity}
+                            </span>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <button
+                              onClick={increaseQuantity}
+                              disabled={isDisabled}
+                              className="bg-gray-100 rounded-r-full w-2/5  py-1 border-l border-gray-300"
+                            >
+                              +
+                            </button>
+                          </div>
+                        </div>
+                        <div className="">
+                          <button
+                            onClick={(e) => addToCart1(e, productData)}
+                            className="bg_darkgray flex gap-1 items-center justify-center text-white px-4 py-2 rounded-full capitalize text-center w-full text-sm"
+                          >
+                            <span>
+                              <HiOutlineShoppingBag />
+                            </span>{" "}
+                            &nbsp; add to cart{" "}
+                          </button>
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2 mt-2">
+                        <div className="">
+                          {productData.custom ? (
+                            <div className="bg_darkgray text-white px-4 py-2 rounded-full capitalize text-center w-full  text-sm">
+                              <button onClick={() => setShowModal(true)}>
+                                Customize
+                              </button>
+                            </div>
+                          ) : null}
+                        </div>
+                        <div className="">
+                          <button
+                            onClick={(e) => addToCart2(e, productData)}
+                            className="bg_green hover:sha text-white px-4 py-2 rounded-full capitalize text-center w-full text-sm"
+                          >
+                            buy now{" "}
+                          </button>
+                        </div>
+                      </div>
                     </div>
 
                     {/* </div> */}
@@ -1206,6 +1288,97 @@ const Page = ({ params }) => {
                     </div>
                   ) : null}
                 </div>
+
+                <div className="mt-4 border grid lg:grid-cols-3 md:grid-cols-2 max-sm:grid-cols-1 p-2 rounded py-4 fcnlk">
+                  {/* Free Shipping */}
+                  <button
+                    onClick={() => handleOpenModal("shipping")}
+                    className="flex items-center justify-center gap-4 hover:bg-gray-100 transition-all duration-200"
+                  >
+                    <span className="border p-3 rounded-full green_font hover:border-2">
+                      <TbTruckDelivery size={30} />
+                    </span>
+                    <p className="text-black">Free Shipping</p>
+                  </button>
+                  {/* 7 Days Return */}
+                  <button
+                    onClick={() => handleOpenModal("return")}
+                    className="flex items-center justify-center gap-4 hover:bg-gray-100 transition-all duration-200"
+                  >
+                    <span className="border p-3 rounded-full green_font hover:border-2">
+                      <GrReturn size={30} />
+                    </span>
+                    <p className="text-black">7 Days Return</p>
+                  </button>
+                  {/* Trusted By */}
+                  <button
+                    onClick={() => handleOpenModal("trusted")}
+                    className="flex items-center justify-center gap-4 hover:bg-gray-100 transition-all duration-200"
+                  >
+                    <span className="border p-3 rounded-full green_font hover:border-2">
+                      <VscWorkspaceTrusted size={30} />
+                    </span>
+                    <p className="text-black">Trusted By 10000+</p>
+                  </button>
+
+                  {/* Modals */}
+                  {openNewModal && (
+                    <div
+                      className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+                      onClick={handleCloseModal}
+                    >
+                      <div
+                        className="bg-white p-6 rounded shadow-lg max-w-md w-full relative"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        {/* Close Button */}
+                        <button
+                          className="absolute top-2 right-2 text-gray-500 hover:text-black"
+                          onClick={handleCloseModal}
+                        >
+                          ×
+                        </button>
+
+                        {/* Modal Content */}
+                        {openNewModal === "shipping" && (
+                          <div>
+                            <h2 className="text-xl font-bold mb-4">
+                              Free Shipping
+                            </h2>
+                            <p>
+                              Enjoy free shipping on all orders above $50. Fast
+                              and reliable delivery to your doorstep.
+                            </p>
+                          </div>
+                        )}
+                        {openNewModal === "return" && (
+                          <div>
+                            <h2 className="text-xl font-bold mb-4">
+                              7 Days Return
+                            </h2>
+                            <p>
+                              Not satisfied? No worries! You can return the
+                              product within 7 days for a full refund.
+                            </p>
+                          </div>
+                        )}
+                        {openNewModal === "trusted" && (
+                          <div>
+                            <h2 className="text-xl font-bold mb-4">
+                              Trusted By 10000+
+                            </h2>
+                            <p>
+                              We are trusted by over 10,000 customers worldwide
+                              for quality products and services.
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Variations */}
                 <div className="product_variations">
                   <h2 className="text-xl font-semibold light_black_font mt-4">
                     Variations
@@ -1313,7 +1486,9 @@ const Page = ({ params }) => {
 
           <div className="hidden max-sm:block pt-4">
             <div className="product_about_wrapper">
-              <h3 className="productTiteNewBaskervilleFont">{productData.title}</h3>
+              <h3 className="productTiteNewBaskervilleFont">
+                {productData.title}
+              </h3>
 
               <div className="rating_div flex align-middle mt-2">
                 <div className="stars flex items-center mr-3">
@@ -1329,27 +1504,33 @@ const Page = ({ params }) => {
                 >
                   <a href="#forReviewClicked">
                     {reviewData?.reviews.length ? (
-                      reviewData?.reviews.length
+                      `${reviewData?.reviews.length} ${
+                        reviewData?.reviews.length === 1 ? "Review" : "Reviews"
+                      } `
                     ) : (
                       <></>
                     )}{" "}
-                    Reviews
                   </a>
                 </div>
               </div>
 
-              <p className="green_font font-extrabold price  mt-2">
-                <span className="single_product_page_price">
+              <div className="flex gap-2 items-center mt-2">
+                <h3 className="font-bold green_font text-3xl">
                   {currency === "INR" ? "₹" : "$"}
                   {convertedPrice.toFixed(2)}{" "}
-                </span>
-                &nbsp;
-                <span>
+                </h3>
+                <h3 className="text-gray-400 pt-1 line-through">
                   {currency === "INR" ? "₹" : "$"}{" "}
                   {convertedActualPrice.toFixed(2)}
+                </h3>
+                <span className="mt-1 bg_green text-white discountPercentage rounded-full font-semibold py-1 px-2 mb-1">
+                  {`SAVE ${Math.round(
+                    ((convertedActualPrice - convertedPrice) /
+                      convertedActualPrice) *
+                      100
+                  )}%`}
                 </span>
-                <div className="text-xs">Inclusive of all taxes</div>
-              </p>
+              </div>
               <div className="my-2">
                 <img
                   loading="lazy"
@@ -1380,50 +1561,57 @@ const Page = ({ params }) => {
 
               {productData.stockQuantity > 0 ? (
                 <>
-                  <td className="pt-2">
-                    <div className=" flex items-center justify-center border border-gray-300 rounded-full my-2">
+                  <div className="flex gap-2 mt-4">
+                    <div className="w-1/3">
+                      <div className="flex items-center justify-center border border-gray-300 rounded-full w-full">
+                        <button
+                          onClick={decreaseQuantity}
+                          className="bg-gray-100 rounded-l-full w-2/5  py-1 border-r border-gray-300"
+                        >
+                          -
+                        </button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <span className=" w-1/5 text-center py-1">
+                          {quantity}
+                        </span>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <button
+                          onClick={increaseQuantity}
+                          disabled={isDisabled}
+                          className="bg-gray-100 rounded-r-full w-2/5  py-1 border-l border-gray-300"
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
+                    <div className="w-2/3">
                       <button
-                        onClick={decreaseQuantity}
-                        className="bg-gray-100 rounded-l-full px-2 border-r border-gray-300"
+                        onClick={(e) => addToCart1(e, productData)}
+                        className="bg_darkgray flex gap-1 items-center justify-center text-white px-4 py-2 rounded-full capitalize text-center w-full"
                       >
-                        -
-                      </button>
-                      &nbsp;&nbsp;&nbsp;&nbsp;
-                      <span>{quantity}</span>
-                      &nbsp;&nbsp;&nbsp;&nbsp;
-                      <button
-                        onClick={increaseQuantity}
-                        disabled={isDisabled}
-                        className="bg-gray-100 rounded-r-full px-2 border-l border-gray-300"
-                      >
-                        +
+                        <span>
+                          <HiOutlineShoppingBag />
+                        </span>{" "}
+                        &nbsp; add to cart{" "}
                       </button>
                     </div>
-                  </td>
-                  <div className="mt-4 flex flex-wrap gap-4 max-sm:flex-col">
-                    <button
-                      onClick={(e) => addToCart2(e, productData)}
-                      className="bg_green text-white px-4 py-2 rounded-full capitalize text-center"
-                    >
-                      buy now{" "}
-                    </button>
-                    <button
-                      onClick={(e) => addToCart1(e, productData)}
-                      className="bg_darkgray flex gap-1 items-center justify-center text-white px-4 py-2 rounded-full capitalize text-center"
-                    >
-                      <span>
-                        <HiOutlineShoppingBag />
-                      </span>{" "}
-                      &nbsp; add to cart{" "}
-                    </button>
-
+                  </div>
+                  <div className="mt-2">
                     {productData.custom ? (
-                      <div className="bg_darkgray text-white px-4 py-2 rounded-full capitalize text-center">
+                      <div className="bg_darkgray text-white px-4 py-2 rounded-full capitalize text-center w-full  2xl:text-base xl:text-base lg:text-sm">
                         <button onClick={() => setShowModal(true)}>
                           Customize
                         </button>
                       </div>
                     ) : null}
+                  </div>
+                  <div className="mt-2">
+                    <button
+                      onClick={(e) => addToCart2(e, productData)}
+                      className="bg_green hover:sha text-white px-4 py-2 rounded-full capitalize text-center w-full"
+                    >
+                      buy now{" "}
+                    </button>
                   </div>
 
                   {/* </div> */}
@@ -1676,12 +1864,12 @@ const Page = ({ params }) => {
           </div>
 
           <div className="row product_details mt-4" id="forReviewClicked">
-            <div className="mb-4 mt-2 flex justify-center align-middle">
+            <div className="mb-4 mt-2 flex justify-center items-center">
               <ul
-                className="flex tabs_ul  -mb-px text-sm font-medium text-center max-sm:flex-col"
+                className="flex justify-center items-center tabs_ul  -mb-px text-sm font-medium text-center max-sm:flex-col w-full"
                 role="tablist"
               >
-                <li className="me-2" role="presentation">
+                <li className="me-2 max-sm:w-full" role="presentation">
                   <button
                     className={`inline-block mt-2 px-4 py-2 max-sm:w-full ${
                       activeTab === "general_info"
@@ -1693,7 +1881,7 @@ const Page = ({ params }) => {
                     General Information
                   </button>
                 </li>
-                <li className="me-2" role="presentation">
+                <li className="me-2 max-sm:w-full" role="presentation">
                   <button
                     className={`inline-block mt-2 px-4 py-2 max-sm:w-full ${
                       activeTab === "additional_info"
@@ -1705,7 +1893,7 @@ const Page = ({ params }) => {
                     Additional Information
                   </button>
                 </li>
-                <li className="me-2" role="presentation">
+                <li className="me-2 max-sm:w-full" role="presentation">
                   <button
                     className={`inline-block mt-2 px-4 py-2 max-sm:w-full ${
                       activeTab === "reviews"
@@ -1744,7 +1932,7 @@ const Page = ({ params }) => {
                           <tbody className="divide-y divide-gray-200">
                             <tr className="flex flex-wrap lg:table-row">
                               {/* First Column: Show up to 5 entries */}
-                              <td className="w-full lg:w-1/2 align-top py-4 pl-4">
+                              <td className="w-full lg:w-1/2 align-top p-2">
                                 <table className="min-w-full table-auto">
                                   <tbody>
                                     {Object.entries(productData.property)
@@ -1767,7 +1955,7 @@ const Page = ({ params }) => {
                               </td>
 
                               {/* Second Column: Remaining entries after the first 5 */}
-                              <td className="w-full lg:w-1/2 align-top py-4 pl-4">
+                              <td className="w-full lg:w-1/2 align-top p-2">
                                 <table className="min-w-full table-auto">
                                   <tbody>
                                     {Object.entries(productData.property)
