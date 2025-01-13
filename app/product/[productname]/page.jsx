@@ -1293,9 +1293,9 @@ const Page = ({ params }) => {
                   {/* Free Shipping */}
                   <button
                     onClick={() => handleOpenModal("shipping")}
-                    className="flex items-center justify-center gap-4 hover:bg-gray-100 transition-all duration-200"
+                    className="flex items-center justify-center gap-4 hover:scale-105 hover:-mt-2 transition-all duration-200"
                   >
-                    <span className="border p-3 rounded-full green_font hover:border-2">
+                    <span className="border p-3 rounded-full green_font">
                       <TbTruckDelivery size={30} />
                     </span>
                     <p className="text-black">Free Shipping</p>
@@ -1303,9 +1303,9 @@ const Page = ({ params }) => {
                   {/* 7 Days Return */}
                   <button
                     onClick={() => handleOpenModal("return")}
-                    className="flex items-center justify-center gap-4 hover:bg-gray-100 transition-all duration-200"
+                    className="flex items-center justify-center gap-4 hover:scale-105 hover:-mt-2 transition-all duration-200"
                   >
-                    <span className="border p-3 rounded-full green_font hover:border-2">
+                    <span className="border p-3 rounded-full green_font">
                       <GrReturn size={30} />
                     </span>
                     <p className="text-black">7 Days Return</p>
@@ -1313,9 +1313,9 @@ const Page = ({ params }) => {
                   {/* Trusted By */}
                   <button
                     onClick={() => handleOpenModal("trusted")}
-                    className="flex items-center justify-center gap-4 hover:bg-gray-100 transition-all duration-200"
+                    className="flex items-center justify-center gap-4 hover:scale-105 hover:-mt-2 transition-all duration-200"
                   >
-                    <span className="border p-3 rounded-full green_font hover:border-2">
+                    <span className="border p-3 rounded-full green_font">
                       <VscWorkspaceTrusted size={30} />
                     </span>
                     <p className="text-black">Trusted By 10000+</p>
@@ -1346,7 +1346,7 @@ const Page = ({ params }) => {
                               Free Shipping
                             </h2>
                             <p>
-                              Enjoy free shipping on all orders above $50. Fast
+                              Enjoy free shipping on all orders above ₹50. Fast
                               and reliable delivery to your doorstep.
                             </p>
                           </div>
