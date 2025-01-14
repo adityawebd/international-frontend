@@ -63,6 +63,7 @@ import {
   Phone,
   Mail,
   Copy,
+  Video,
 } from "lucide-react";
 import Bread from "../../components/Bread";
 
@@ -744,6 +745,8 @@ const Page = ({ params }) => {
     setZoomStyle({ display: "none" });
   };
 
+  const isVideo = (url) => /\.(mp4|webm|ogg)$/.test(url);
+
   return (
     <div className="relative">
       <Navbar2 />
@@ -764,18 +767,37 @@ const Page = ({ params }) => {
                     ref={imageContainerRef}
                     className="flex flex-col gap-4 h-[auto] 2xl:max-h-[800px] xl:max-h-[700px] lg:max-h-[440px] md:max-h-[300px] max-sm:max-h-[200px] overflow-y-auto scrollbar-hidden relative"
                   >
-                    {productData.images?.map((image, index) => (
+                    {productData.images?.map((media, index) => (
                       <div key={index} className="relative">
-                        <img
-                          src={image}
-                          alt="Product Thumbnail"
-                          className={`border rounded-lg h-[auto] lg:max-h-[100px] md:max-h-[80px] max-sm:max-h-[60px] mx-auto cursor-pointer ${
-                            currentIndex === index
-                              ? "border-primary bg-secondary-light"
-                              : "border-gray-300"
-                          }`}
-                          onClick={() => handleThumbnailClick(index)}
-                        />
+                        {/* Check if it's an image or video */}
+                        {media.endsWith(".mp4") ? (
+                          <div className="relative">
+                            <video
+                              src={media}
+                              className={`border border-red-500 rounded-lg h-[auto] w-[100px] lg:max-h-[100px] md:max-h-[80px] max-sm:max-h-[60px] mx-auto cursor-pointer ${
+                                currentIndex === index
+                                  ? "border-primary bg-secondary-light"
+                                  : "border-gray-300"
+                              }`}
+                              onClick={() => handleThumbnailClick(index)}
+                              muted
+                            />
+                            <span className="absolute top-0 right-0 bg_green text-white p-1 rounded-lg">
+                              <Video size={16} />
+                            </span>
+                          </div>
+                        ) : (
+                          <img
+                            src={media}
+                            alt="Product Thumbnail"
+                            className={`border rounded-lg h-[auto] lg:max-h-[100px] md:max-h-[80px] max-sm:max-h-[60px] mx-auto cursor-pointer ${
+                              currentIndex === index
+                                ? "border-primary bg-secondary-light"
+                                : "border-gray-300"
+                            }`}
+                            onClick={() => handleThumbnailClick(index)}
+                          />
+                        )}
                         {currentIndex === index && (
                           <div className="absolute inset-0 border-2 border-primary rounded-lg"></div>
                         )}
@@ -794,15 +816,23 @@ const Page = ({ params }) => {
                       onMouseMove={handleMouseMove}
                       onMouseLeave={handleMouseLeave}
                     >
-                      <img
-                        src={
-                          productData?.images?.[currentIndex] ||
-                          "/default-image.jpg"
-                        }
-                        alt={productData?.title || "Product Image"}
-                        className="h-[auto] 2xl:max-h-[800px] xl:max-h-[700px] lg:max-h-[600px] md:max-h-[300px] max-sm:max-h-[200px] w-full mx-auto rounded-lg cursor-zoom-in"
-                        onClick={() => openModal(currentIndex)}
-                      />
+                      {productData?.images?.[currentIndex]?.endsWith(".mp4") ? (
+                        <video
+                          src={productData?.images?.[currentIndex]}
+                          className="h-[auto] 2xl:max-h-[800px] xl:max-h-[700px] lg:max-h-[600px] md:max-h-[300px] max-sm:max-h-[200px] w-full mx-auto rounded-lg cursor-pointer"
+                          controls
+                        />
+                      ) : (
+                        <img
+                          src={
+                            productData?.images?.[currentIndex] ||
+                            "/default-image.jpg"
+                          }
+                          alt={productData?.title || "Product Image"}
+                          className="h-[auto] 2xl:max-h-[800px] xl:max-h-[700px] lg:max-h-[600px] md:max-h-[300px] max-sm:max-h-[200px] w-full mx-auto rounded-lg cursor-zoom-in"
+                          onClick={() => openModal(currentIndex)}
+                        />
+                      )}
                       {productData.stockQuantity <= 0 && (
                         <>
                           <div className="absolute top-0 left-0 bg-black/70 p-10 text-white text-2xl w-full h-full flex justify-center items-center">
@@ -862,7 +892,7 @@ const Page = ({ params }) => {
                         </button>
 
                         {/* Image Container with Draggable */}
-                        <img
+                        {/* <img
                           src={
                             productData?.images?.[currentIndex] ||
                             "/default-image.jpg"
@@ -872,7 +902,30 @@ const Page = ({ params }) => {
                             isZoomed ? "scale-150" : "scale-100"
                           }`}
                           onClick={toggleZoom}
-                        />
+                        /> */}
+
+                        {/* Media Container in Modal */}
+                        {productData?.images?.[currentIndex]?.endsWith(
+                          ".mp4"
+                        ) ? (
+                          <video
+                            src={productData?.images?.[currentIndex]}
+                            className="h-full mx-auto rounded-lg transition-transform"
+                            controls
+                          />
+                        ) : (
+                          <img
+                            src={
+                              productData?.images?.[currentIndex] ||
+                              "/default-image.jpg"
+                            }
+                            alt={productData?.title || "Product Image"}
+                            className={`h-full mx-auto rounded-lg transition-transform cursor-zoom-in ${
+                              isZoomed ? "scale-150" : "scale-100"
+                            }`}
+                            onClick={toggleZoom}
+                          />
+                        )}
 
                         {/* Navigation Buttons */}
                         <button
@@ -900,9 +953,9 @@ const Page = ({ params }) => {
                     ref={imageContainerRef}
                     className="flex flex-row gap-2 overflow-x-auto w-full scrollbar-hidden relative order-2"
                   >
-                    {productData.images?.map((image, index) => (
+                    {productData.images?.map((media, index) => (
                       <div key={index} className="relative flex-none">
-                        <img
+                        {/* <img
                           src={image}
                           alt="Product Thumbnail"
                           className={`border rounded-lg h-[60px] w-[60px] mx-auto cursor-pointer ${
@@ -911,7 +964,36 @@ const Page = ({ params }) => {
                               : "border-gray-300"
                           }`}
                           onClick={() => handleThumbnailClick(index)}
-                        />
+                        /> */}
+                        {/* Check if it's an image or video */}
+                        {media.endsWith(".mp4") ? (
+                          <div className="relative">
+                            <video
+                              src={media}
+                              className={`border rounded-lg h-[60px] w-[60px] mx-auto cursor-pointer ${
+                                currentIndex === index
+                                  ? "border-primary bg-secondary-light"
+                                  : "border-gray-300"
+                              }`}
+                              onClick={() => handleThumbnailClick(index)}
+                              muted
+                            />
+                            <span className="absolute top-0 right-0 bg_green text-white p-1 rounded-lg">
+                              <Video size={16} />
+                            </span>
+                          </div>
+                        ) : (
+                          <img
+                            src={media}
+                            alt="Product Thumbnail"
+                            className={`border rounded-lg h-[60px] w-[60px] mx-auto cursor-pointer ${
+                              currentIndex === index
+                                ? "border-primary bg-secondary-light"
+                                : "border-gray-300"
+                            }`}
+                            onClick={() => handleThumbnailClick(index)}
+                          />
+                        )}
                         {currentIndex === index && (
                           <div className="absolute inset-0 border-2 border-primary rounded-lg"></div>
                         )}
@@ -921,7 +1003,7 @@ const Page = ({ params }) => {
 
                   {/* Bigger image */}
                   <div className="relative bg-secondary-light henlyproductslider overflow-hidden rounded-lg order-1">
-                    <img
+                    {/* <img
                       src={
                         productData?.images?.[currentIndex] ||
                         "/default-image.jpg"
@@ -929,7 +1011,24 @@ const Page = ({ params }) => {
                       alt={productData?.title || "Product Image"}
                       className="w-full mx-auto rounded-lg cursor-zoom-in"
                       onClick={() => openModal(currentIndex)}
-                    />
+                    /> */}
+                    {productData?.images?.[currentIndex]?.endsWith(".mp4") ? (
+                        <video
+                          src={productData?.images?.[currentIndex]}
+                          className="w-full mx-auto rounded-lg cursor-zoom-in"
+                          controls
+                        />
+                      ) : (
+                        <img
+                          src={
+                            productData?.images?.[currentIndex] ||
+                            "/default-image.jpg"
+                          }
+                          alt={productData?.title || "Product Image"}
+                          className="w-full mx-auto rounded-lg cursor-zoom-in"
+                          onClick={() => openModal(currentIndex)}
+                        />
+                      )}
                     <button
                       onClick={prevImage}
                       className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white border_green green_font p-2 rounded-full hover:p-3 product-button-prev"
@@ -963,14 +1062,36 @@ const Page = ({ params }) => {
                         </button>
 
                         {/* Image Container with Draggable */}
-                        <img
+                        {/* <img
                           src={productData.images[currentIndex]}
                           alt="Product Image"
                           className={`w-full max-w-screen-sm mx-auto rounded-lg transition-transform cursor-zoom-in ${
                             isZoomed ? "scale-150" : "scale-100"
                           }`}
                           onClick={toggleZoom}
-                        />
+                        /> */}
+                        {/* Media Container in Modal */}
+                        {productData?.images?.[currentIndex]?.endsWith(
+                          ".mp4"
+                        ) ? (
+                          <video
+                            src={productData?.images?.[currentIndex]}
+                            className="h-full mx-auto rounded-lg transition-transform"
+                            controls
+                          />
+                        ) : (
+                          <img
+                            src={
+                              productData?.images?.[currentIndex] ||
+                              "/default-image.jpg"
+                            }
+                            alt={productData?.title || "Product Image"}
+                            className={`w-full max-w-screen-sm mx-auto rounded-lg transition-transform cursor-zoom-in ${
+                            isZoomed ? "scale-150" : "scale-100"
+                          }`}
+                            onClick={toggleZoom}
+                          />
+                        )}
 
                         {/* Navigation Buttons */}
                         <button
