@@ -68,7 +68,7 @@ export default function Content({ blogInfo }) {
 
         <div className="container lg:px-32 py-5">
           <div className="flex max-sm:flex-col">
-            <div className="w-2/3 px-2 max-sm:w-full">
+            <div className="w-full">
               <div className="flex justify-center w-full p-3">
                 <img
                   src={blogInfo?.cardImage}
@@ -102,43 +102,6 @@ export default function Content({ blogInfo }) {
                     style={{ all: "initial" }}
                     dangerouslySetInnerHTML={{ __html: blogInfo?.content }}
                   />
-                </div>
-              </div>
-            </div>
-            <div className="w-1/3 px-2 max-sm:w-full max-sm:mt-5 border-l">
-              <div className="w-full rounded mb-2">
-                <h5 className="text-black font-semibold text-xl mb-4">
-                  Suggested Posts
-                </h5>
-                <div className="marquee">
-                  <div className="marquee-content">
-                    {blogs.length > 0 ? (
-                      blogs.map((blog) => (
-                        <div key={blog.id} className="flex mb-2 py-2">
-                          <img
-                            src={blog.cardImage}
-                            alt={blog.title}
-                            className="w-[80px] h-[80px] rounded mr-2"
-                          />
-                          <div className="flex flex-col justify-between w-full">
-                            <div className="w-full text-base font-medium text-black suggested_blog_title">
-                              {blog.title}
-                            </div>
-                            <a
-                              href={"/blogs/view/" + blog.url}
-                              className="w-full mx-auto text-sm font-medium text-right text-blue-600"
-                            >
-                              ...Read more
-                            </a>
-                          </div>
-                        </div>
-                      ))
-                    ) : (
-                      <div className="text-center text-gray-500">
-                        No blogs found
-                      </div>
-                    )}
-                  </div>
                 </div>
               </div>
             </div>

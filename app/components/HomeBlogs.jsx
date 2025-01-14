@@ -33,7 +33,7 @@ const HomeBlogs = () => {
     },
   ];
   return (
-    <div className=" pb-10">
+    <div >
       <div className="p-2">
         <h2 className="mb-2 font-semibold text-4xl text-center light_black_font">
           Our Blogs
@@ -46,10 +46,10 @@ const HomeBlogs = () => {
           {blogs.map((blog) => (
             <div key={blog._id} className="mb-4">
               <div className="">
-                <div className="overflow-hidden w-full h-[400px] group border transition duration-500">
+                <div className="overflow-hidden w-full h-[400px] group  transition duration-500">
                   <Link
                     href={`/blogs/${blog.title}`}
-                    className="overflow-hidden w-full h-[400px] group border transition duration-500"
+                    className="overflow-hidden w-full h-[400px] group  transition duration-500"
                   >
                     <img
                       className="object-cover h-full scale-100 group-hover:scale-110 transition duration-500"
