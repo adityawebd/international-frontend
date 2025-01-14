@@ -281,6 +281,8 @@ const Page = ({ params }) => {
 
   const cart = useFromStore(useCartStore, (state) => state.cart);
   //console.log("cart data is", cart)
+  const maxQuantity = productData?.stockQuantity - 7;
+
 
   useEffect(() => {
     // Ensure cart is defined and is an array
@@ -472,7 +474,6 @@ const Page = ({ params }) => {
   //   setQuantity((prev) => (prev > 1 ? prev - 1 : 1)); // Prevent decrementing below 1
   // };
 
-  const maxQuantity = productData?.stockQuantity - 7;
 
   const increaseQuantity = () => {
     setQuantity((prev) => {

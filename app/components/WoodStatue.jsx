@@ -41,12 +41,12 @@ const WoodStatue = () => {
 
   return (
     <div>
-      <div className="wood_statue" style={{ height: '500px', backgroundColor: '#f0f0f0', position: 'relative' }}>
+      {/* <div className="" style={{ height: '500px', backgroundColor: '#f0f0f0', position: 'relative' }}>
         <iframe
           ref={iframeRef}
           width="100%"
           height="100%"
-          src="https://www.youtube.com/embed/nuELiX3A8xg?enablejsapi=1&autoplay=1&mute=1&loop=1&playlist=nuELiX3A8xg&quality=hd1080" // Added loop and playlist parameters
+          src="https://www.youtube.com/embed/nuELiX3A8xg?enablejsapi=1&autoplay=1&mute=1&loop=1&playlist=nuELiX3A8xg&quality=hd1080" 
           frameBorder="0"
           allow="autoplay; encrypted-media"
           allowFullScreen
@@ -56,9 +56,13 @@ const WoodStatue = () => {
             left: '0',
             width: '100%',
             height: '100%',
-            display: 'block' // Keep it visible, as we control play/pause via API
+            display: 'block'
           }}
         />
+      </div> */}
+
+      <div className='grid lg:grid-cols-6 md'>
+
       </div>
     </div>
   );

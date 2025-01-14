@@ -22,6 +22,8 @@ import NewCom from "./components/NewCom";
 import Footer from "./components/Footer";
 import BackToTopButton from "./components/BackToTopButton";
 import WhatsappButton from "./components/WhatsappButton";
+import HomeVideos from "./components/HomeVideos";
+import HomeBlogs from "./components/HomeBlogs";
 
 export default function Home() {
   return (
@@ -38,7 +40,9 @@ export default function Home() {
         <TopCategories />
         {/* <ProductTimer /> */}
         <PromisesBanner />
-        <WoodStatue />
+        {/* <WoodStatue /> */}
+        <HomeVideos />
+        <HomeBlogs />
         {/* <ClientBrands /> */}
         {/* <Testimonials /> */}
         {/* <ExploreFeeds /> */}

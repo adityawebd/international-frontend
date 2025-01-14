@@ -13,7 +13,7 @@ const Breadcrumbs = (props) => {
               <Link href="/" className="text-sm green_font">
                 Home
               </Link>
-              <div className={`breadcrumbs flex justify-between items-center text-sm ${props.page_title2 ? "green_font" : "text-gray-600"}`}>
+              <div className={`breadcrumbs flex justify-between items-center text-sm capitalize ${props.page_title2 ? "green_font" : "text-gray-600"}`}>
                 {" "}
                 <span>
                   <MdKeyboardDoubleArrowRight />
