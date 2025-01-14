@@ -129,7 +129,7 @@ const page = () => {
                 <div key={product._id} className="border rounded-xl p-2">
                   <a
                     href={`/product/${product._id}`}
-                    className="rounded-xl group overflow-hidden"
+                    className="rounded-xl group overflow-hidden relative"
                   >
                     <img
                       loading="lazy"
@@ -137,6 +137,26 @@ const page = () => {
                       src={product.images[0]}
                       alt={product.title}
                     />
+                    <div className="absolute top-2 right-2 bg_green text-white text-xs px-2 py-1 rounded-lg">
+                      {`SAVE ${Math.round(
+                        ((convertPrice(
+                          product.price,
+                          currency,
+                          exchangeRates
+                        ).toFixed(2) -
+                          convertPrice(
+                            product.discountedPrice,
+                            currency,
+                            exchangeRates
+                          ).toFixed(2)) /
+                          convertPrice(
+                            product.price,
+                            currency,
+                            exchangeRates
+                          ).toFixed(2)) *
+                          100
+                      )}%`}
+                    </div>
                   </a>
                   <div className="mt-2">
                     <div className="productTitle text-lg font-semibold text-black">
@@ -194,7 +214,7 @@ const page = () => {
                   <div className="w-2/5">
                     <a
                       href={`/product/${product._id}`}
-                      className="rounded-xl group overflow-hidden"
+                      className="rounded-xl group overflow-hidden relative"
                     >
                       <img
                         loading="lazy"
@@ -202,6 +222,26 @@ const page = () => {
                         src={product.images[0]}
                         alt={product.title}
                       />
+                      <div className="absolute top-2 left-2 bg_green text-white text-xs px-1 py-0.5 rounded-lg">
+                        {`${Math.round(
+                          ((convertPrice(
+                            product.price,
+                            currency,
+                            exchangeRates
+                          ).toFixed(2) -
+                            convertPrice(
+                              product.discountedPrice,
+                              currency,
+                              exchangeRates
+                            ).toFixed(2)) /
+                            convertPrice(
+                              product.price,
+                              currency,
+                              exchangeRates
+                            ).toFixed(2)) *
+                            100
+                        )}%`}
+                      </div>
                     </a>
                   </div>
                   <div className="w-3/5">

@@ -16,7 +16,6 @@
   font-style: normal; /* or italic if applicable */
 }
 
-
 :root {
   --primary-clr: #aaa;
   --darkest-gray: #555555;
@@ -77,7 +76,6 @@ body {
   }
 }
 
-
 .product_main_tatile {
   font-family: "Amazon Ember";
   font-weight: 600;
@@ -128,8 +126,6 @@ body {
   border-color: 1px solid var(--green-clr);
 }
 
-
-
 .star_clr {
   color: var(--star-clr);
 }
@@ -168,7 +164,7 @@ body {
   text-overflow: ellipsis;
 }
 
-.discountPercentage{
+.discountPercentage {
   font-size: 11px;
   font-weight: 600;
 }
@@ -201,7 +197,6 @@ body {
   -ms-overflow-style: none; /* Hide the scrollbar for Internet Explorer */
   scrollbar-width: none; /* Hide the scrollbar for Firefox */
 }
-
 
 .breadcrumbs_wrapper {
   padding: 0 50px;
@@ -237,6 +232,54 @@ body {
 .whatsapp_button {
   z-index: 9999 !important;
 }
+
+/* -------------- coupon card style ---------------- */
+.ps-coupon-card {
+  flex: 0 0 calc(50% - 6px);
+  min-width: min(calc(50% - 6px), 280px);
+  scroll-snap-align: start;
+  background: white;
+  border-radius: 6px;
+  padding: 12px 20px;
+  position: relative;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  border: 1px solid #f2eadd;
+  display: flex;
+  flex-direction: column;
+}
+
+.ps-coupon-card::before {
+  left: -8px;
+  border-radius: 0 16px 16px 0;
+  box-shadow: inset -1px 0 0 #f0f0f0;
+}
+.ps-coupon-card::before, .ps-coupon-card::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 16px;
+  height: 32px;
+  background: #fff;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+.ps-coupon-card::after {
+  right: -8px;
+  border-radius: 16px 0 0 16px;
+  box-shadow: inset 1px 0 0 #F0F0F0;
+}
+.ps-coupon-card::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 16px;
+  height: 32px;
+  background: #fff;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
 /* --------- navbar styling starts ------------- */
 .navbar_header {
   display: flex;
@@ -3508,8 +3551,6 @@ footer .limited_edition {
 }
 
 @media (min-width: 426px) and (max-width: 768px) {
-
-
   .contact_form form button {
     font-size: 13px;
   }

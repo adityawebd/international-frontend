@@ -55,6 +55,14 @@ import {
   Minus,
   X,
   ZoomIn,
+  Headset,
+  Box,
+  CircleHelp,
+  ArrowLeft,
+  MessageCircle,
+  Phone,
+  Mail,
+  Copy,
 } from "lucide-react";
 import Bread from "../../components/Bread";
 
@@ -113,6 +121,9 @@ const Page = ({ params }) => {
   const [zoomStyle, setZoomStyle] = useState({ display: "none" });
 
   const [openNewModal, setOpenNewModal] = useState(null);
+
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [copiedCouponIndex, setCopiedCouponIndex] = useState(null); // State to track copied coupon index
 
   const handleOpenModal = (modalId) => {
     setOpenNewModal(modalId);
@@ -182,6 +193,32 @@ const Page = ({ params }) => {
 
   const toggleZoom = () => {
     setIsZoomed(!isZoomed);
+  };
+
+  const handleCopy = (code, index) => {
+    navigator.clipboard.writeText(code).then(() => {
+      setCopiedCouponIndex(index); // Set the copied coupon index
+      setTimeout(() => setCopiedCouponIndex(null), 2000); // Reset after 2 seconds
+    });
+  };
+
+  const couponDiscounts = {
+    discountUnder: "4,060",
+    saveUpTo: "439",
+    coupons: [
+      {
+        _id: 1,
+        title: "Get 5% OFF",
+        desc: "Extra 5% OFF on all Online Payments",
+        code: "GIFT5",
+      },
+      {
+        _id: 2,
+        title: "Get ₹500 OFF",
+        desc: "₹500 OFF on 1st Pruchase of Lord Ganesha Idol",
+        code: "GANESHA500",
+      },
+    ],
   };
 
   useEffect(() => {
@@ -708,7 +745,7 @@ const Page = ({ params }) => {
   };
 
   return (
-    <div>
+    <div className="relative">
       <Navbar2 />
       <Navbar3 />
       {/* <Breadcrumbs page_title="Product" page_title2={productData.title} /> */}
@@ -766,6 +803,13 @@ const Page = ({ params }) => {
                         className="h-[auto] 2xl:max-h-[800px] xl:max-h-[700px] lg:max-h-[600px] md:max-h-[300px] max-sm:max-h-[200px] w-full mx-auto rounded-lg cursor-zoom-in"
                         onClick={() => openModal(currentIndex)}
                       />
+                      {productData.stockQuantity <= 0 && (
+                        <>
+                          <div className="absolute top-0 left-0 bg-black/70 p-10 text-white text-2xl w-full h-full flex justify-center items-center">
+                            Out of Stock
+                          </div>
+                        </>
+                      )}
                       <div
                         className="absolute inset-0 pointer-events-none"
                         style={{
@@ -989,7 +1033,7 @@ const Page = ({ params }) => {
                     {currency === "INR" ? "₹" : "$"}{" "}
                     {convertedActualPrice.toFixed(2)}
                   </h3>
-                  <span className="mt-1 bg_green text-white discountPercentage rounded-full font-semibold py-1 px-2 mb-1">
+                  <span className="mt-1 bg_green text-white discountPercentage rounded-full font-semibold py-1 px-3 mb-1">
                     {`SAVE ${Math.round(
                       ((convertedActualPrice - convertedPrice) /
                         convertedActualPrice) *
@@ -1289,13 +1333,14 @@ const Page = ({ params }) => {
                   ) : null}
                 </div>
 
-                <div className="mt-4 border grid lg:grid-cols-3 md:grid-cols-2 max-sm:grid-cols-1 p-2 rounded py-4 fcnlk">
+                {/* shipping start */}
+                <div className="mt-4 border grid lg:grid-cols-3 md:grid-cols-3 max-sm:grid-cols-1 p-2 rounded py-4">
                   {/* Free Shipping */}
                   <button
                     onClick={() => handleOpenModal("shipping")}
-                    className="flex items-center justify-center gap-4 hover:scale-105 hover:-mt-2 transition-all duration-200"
+                    className="flex items-center justify-center 2xl:flex-row xl:flex-row lg:flex-col flex-col gap-2 lg:text-base text-xs hover:scale-105 hover:-mt-2 transition-all duration-200 group"
                   >
-                    <span className="border p-3 rounded-full green_font">
+                    <span className="border-2 p-3 rounded-full green_font group-hover:border-teal-700">
                       <TbTruckDelivery size={30} />
                     </span>
                     <p className="text-black">Free Shipping</p>
@@ -1303,9 +1348,9 @@ const Page = ({ params }) => {
                   {/* 7 Days Return */}
                   <button
                     onClick={() => handleOpenModal("return")}
-                    className="flex items-center justify-center gap-4 hover:scale-105 hover:-mt-2 transition-all duration-200"
+                    className="flex items-center justify-center 2xl:flex-row xl:flex-row lg:flex-col flex-col gap-2 lg:text-base text-xs hover:scale-105 hover:-mt-2 transition-all duration-200 group"
                   >
-                    <span className="border p-3 rounded-full green_font">
+                    <span className="border-2 p-3 rounded-full green_font group-hover:border-teal-700">
                       <GrReturn size={30} />
                     </span>
                     <p className="text-black">7 Days Return</p>
@@ -1313,9 +1358,9 @@ const Page = ({ params }) => {
                   {/* Trusted By */}
                   <button
                     onClick={() => handleOpenModal("trusted")}
-                    className="flex items-center justify-center gap-4 hover:scale-105 hover:-mt-2 transition-all duration-200"
+                    className="flex items-center justify-center 2xl:flex-row xl:flex-row lg:flex-col flex-col gap-2 lg:text-base text-xs hover:scale-105 hover:-mt-2 transition-all duration-200 group"
                   >
-                    <span className="border p-3 rounded-full green_font">
+                    <span className="border-2 p-3 rounded-full green_font group-hover:border-teal-700">
                       <VscWorkspaceTrusted size={30} />
                     </span>
                     <p className="text-black">Trusted By 10000+</p>
@@ -1328,24 +1373,28 @@ const Page = ({ params }) => {
                       onClick={handleCloseModal}
                     >
                       <div
-                        className="bg-white p-6 rounded shadow-lg max-w-md w-full relative"
+                        className="bg-white rounded-lg shadow-lg max-w-md w-full relative"
                         onClick={(e) => e.stopPropagation()}
                       >
                         {/* Close Button */}
                         <button
-                          className="absolute top-2 right-2 text-gray-500 hover:text-black"
+                          className="absolute top-4 right-2 text-gray-500 hover:text-black"
                           onClick={handleCloseModal}
                         >
-                          ×
+                          <X />
                         </button>
 
                         {/* Modal Content */}
                         {openNewModal === "shipping" && (
                           <div>
-                            <h2 className="text-xl font-bold mb-4">
+                            <h2 className="text-xl font-bold mb-4 bg-teal-50 px-6 py-3 rounded-t-lg flex gap-2 items-center">
+                              <TbTruckDelivery
+                                size={24}
+                                className="text-teal-700"
+                              />
                               Free Shipping
                             </h2>
-                            <p>
+                            <p className="px-6 pb-4">
                               Enjoy free shipping on all orders above ₹50. Fast
                               and reliable delivery to your doorstep.
                             </p>
@@ -1353,10 +1402,11 @@ const Page = ({ params }) => {
                         )}
                         {openNewModal === "return" && (
                           <div>
-                            <h2 className="text-xl font-bold mb-4">
-                              7 Days Return
+                            <h2 className="text-xl font-bold mb-4 bg-teal-50 px-6 py-3 rounded-t-lg flex gap-2 items-center">
+                              <GrReturn size={24} className="text-teal-700" />7
+                              Days Return
                             </h2>
-                            <p>
+                            <p className="px-6 pb-4">
                               Not satisfied? No worries! You can return the
                               product within 7 days for a full refund.
                             </p>
@@ -1364,19 +1414,277 @@ const Page = ({ params }) => {
                         )}
                         {openNewModal === "trusted" && (
                           <div>
-                            <h2 className="text-xl font-bold mb-4">
+                            <h2 className="text-xl font-bold mb-4 bg-teal-50 px-6 py-3 rounded-t-lg flex gap-2 items-center">
+                              <VscWorkspaceTrusted
+                                size={24}
+                                className="text-teal-700"
+                              />
                               Trusted By 10000+
                             </h2>
-                            <p>
+                            <p className="px-6 pb-4">
                               We are trusted by over 10,000 customers worldwide
                               for quality products and services.
                             </p>
+                          </div>
+                        )}
+                        {openNewModal === "needHelp" && (
+                          <div>
+                            <h2 className="text-xl font-bold mb-4 bg-teal-50 px-6 py-3 rounded-t-lg flex gap-2 items-center">
+                              <Headset size={24} className="text-teal-700" />
+                              How can we help You?
+                            </h2>
+                            <div className="px-6 pb-4">
+                              {!selectedOption && (
+                                <>
+                                  <button
+                                    onClick={() =>
+                                      setSelectedOption("bulkOrder")
+                                    }
+                                    className="rounded-lg border-2 hover:border-teal-700 hover:bg-teal-50 transition duration-500 p-3 flex gap-2 items-center w-full"
+                                  >
+                                    <Box size={30} className="text-teal-700" />
+                                    <div className="flex flex-col justify-start items-start">
+                                      <h3 className="text-md font-semibold text-gray-600">
+                                        Bulk Order Inquiry
+                                      </h3>
+                                      <p className="text-gray-500 text-left text-sm">
+                                        Get special discount for orders above 30
+                                        pieces
+                                      </p>
+                                    </div>
+                                  </button>
+                                  <button
+                                    onClick={() =>
+                                      setSelectedOption("generalHelp")
+                                    }
+                                    className="rounded-lg border-2 hover:border-teal-700 hover:bg-teal-50 transition duration-500 p-3 flex gap-2 items-center w-full mt-3"
+                                  >
+                                    <CircleHelp
+                                      size={30}
+                                      className="text-teal-700"
+                                    />
+                                    <div className="flex flex-col justify-start items-start">
+                                      <h3 className="text-md font-semibold text-gray-600">
+                                        General Help
+                                      </h3>
+                                      <p className="text-gray-500 text-left text-sm">
+                                        Question about size, delivery, or other
+                                        details
+                                      </p>
+                                    </div>
+                                  </button>
+                                </>
+                              )}
+
+                              {/* Bulk Order Content */}
+                              {selectedOption === "bulkOrder" && (
+                                <div className="flex gap-2 items-start">
+                                  <button
+                                    onClick={() => setSelectedOption(null)}
+                                    className="mb-4 text-teal-700 underline"
+                                  >
+                                    <ArrowLeft />
+                                  </button>
+                                  <div className="border rounded-lg p-3 w-full bg-teal-50">
+                                    <p className="text-sm border-b pb-2 mb-2">
+                                      Mon - Sun - 10:00 am to 7:00 pm
+                                    </p>
+                                    <a
+                                      href="https://wa.me/+918800217402"
+                                      target="_blank"
+                                      className="rounded-lg bg-white border-2 hover:border-teal-700 transition duration-500 p-3 flex gap-2 items-center w-full mt-3"
+                                    >
+                                      <MessageCircle
+                                        size={30}
+                                        className="text-teal-700"
+                                      />
+                                      <div className="flex flex-col justify-start items-start">
+                                        <p className="text-teal-700 font-noraml text-left text-sm">
+                                          Chat on Whatsapp
+                                        </p>
+                                      </div>
+                                    </a>
+
+                                    <a
+                                      href="tel:+918800217402"
+                                      className="rounded-lg bg-white border-2 hover:border-teal-700 transition duration-500 p-3 flex gap-2 items-center w-full mt-3"
+                                    >
+                                      <Phone
+                                        size={30}
+                                        className="text-teal-700"
+                                      />
+                                      <div className="flex flex-col justify-start items-start">
+                                        <p className="text-teal-700 font-noraml text-left text-sm">
+                                          +91 8800217402
+                                        </p>
+                                      </div>
+                                    </a>
+
+                                    <a
+                                      href="mailto:rakesh@internationalgift.in"
+                                      className="rounded-lg bg-white border-2 hover:border-teal-700 transition duration-500 p-3 flex gap-2 items-center w-full mt-3"
+                                    >
+                                      <Mail
+                                        size={30}
+                                        className="text-teal-700"
+                                      />
+                                      <div className="flex flex-col justify-start items-start">
+                                        <p className="text-teal-700 font-noraml text-left text-sm">
+                                          rakesh@internationalgift.in
+                                        </p>
+                                      </div>
+                                    </a>
+                                  </div>
+                                </div>
+                              )}
+
+                              {/* General Help Content */}
+                              {selectedOption === "generalHelp" && (
+                                <div className="flex gap-2 items-start">
+                                  <button
+                                    onClick={() => setSelectedOption(null)}
+                                    className="mb-4 text-teal-700 underline"
+                                  >
+                                    <ArrowLeft />
+                                  </button>
+                                  <div className="border rounded-lg p-3 w-full bg-teal-50">
+                                    <p className="text-sm border-b pb-2 mb-2">
+                                      Mon - Sun - 10:00 am to 7:00 pm
+                                    </p>
+                                    <a
+                                      href="https://wa.me/+918800217402"
+                                      target="_blank"
+                                      className="rounded-lg bg-white border-2 hover:border-teal-700 transition duration-500 p-3 flex gap-2 items-center w-full mt-3"
+                                    >
+                                      <MessageCircle
+                                        size={30}
+                                        className="text-teal-700"
+                                      />
+                                      <div className="flex flex-col justify-start items-start">
+                                        <p className="text-teal-700 font-noraml text-left text-sm">
+                                          Chat on Whatsapp
+                                        </p>
+                                      </div>
+                                    </a>
+
+                                    <a
+                                      href="tel:+918800217402"
+                                      className="rounded-lg bg-white border-2 hover:border-teal-700 transition duration-500 p-3 flex gap-2 items-center w-full mt-3"
+                                    >
+                                      <Phone
+                                        size={30}
+                                        className="text-teal-700"
+                                      />
+                                      <div className="flex flex-col justify-start items-start">
+                                        <p className="text-teal-700 font-noraml text-left text-sm">
+                                          +91 8800217402
+                                        </p>
+                                      </div>
+                                    </a>
+
+                                    <a
+                                      href="mailto:rakesh@internationalgift.in"
+                                      className="rounded-lg bg-white border-2 hover:border-teal-700 transition duration-500 p-3 flex gap-2 items-center w-full mt-3"
+                                    >
+                                      <Mail
+                                        size={30}
+                                        className="text-teal-700"
+                                      />
+                                      <div className="flex flex-col justify-start items-start">
+                                        <p className="text-teal-700 font-noraml text-left text-sm">
+                                          rakesh@internationalgift.in
+                                        </p>
+                                      </div>
+                                    </a>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
                           </div>
                         )}
                       </div>
                     </div>
                   )}
                 </div>
+                {/* shipping end */}
+
+                {/* coupon start */}
+                <div className="mt-4 border p-4 rounded ">
+                  <div className="flex gap-2 items-center flex-wrap">
+                    <span className="bg_green rounded-full text-white p-1 px-2 text-sm">
+                      %
+                    </span>
+                    <span className="text-black font-semibold">
+                      {" "}
+                      Get this under ₹{couponDiscounts.discountUnder}
+                    </span>
+                    <span className="bg-teal-100 text-sm green_font px-2 py-1 rounded">
+                      Save up to ₹{couponDiscounts.saveUpTo}
+                    </span>
+                  </div>
+                  <div className="mt-4 grid lg:grid-cols-2 grid-cols-1 gap-4">
+                    {couponDiscounts.coupons.map((coupon, index) => (
+                      <div className="ps-coupon-card" key={index}>
+                        <div className="border-b border-dashed pb-2 mb-2">
+                          <h3 className="text-lg font-semibold green_font">
+                            {coupon.title}
+                          </h3>
+                          <p className="text-xs text-gray-500 font-normal">
+                            {coupon.desc}
+                          </p>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <p className="text-gray-500 text-sm">
+                            <span className="font-medium text-gray-600">
+                              Code:{" "}
+                            </span>
+                            {coupon.code}
+                          </p>
+                          <button
+                            onClick={() => handleCopy(coupon.code, index)}
+                            className="text-sm"
+                          >
+                            {copiedCouponIndex === index ? (
+                              <div className="bg_green text-white rounded px-2 py-1 flex gap-1 items-center">
+                                <Copy size={16} /> Copied!
+                              </div>
+                            ) : (
+                              <div className="text-sm transition duration-300 flex gap-1 items-center py-1">
+                                <Copy size={16} /> Copy
+                              </div>
+                            )}
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                {/* coupon end */}
+
+                {/* need help start */}
+                <button
+                  onClick={() => handleOpenModal("needHelp")}
+                  className="mt-4 border-2 p-4 flex justify-between items-center rounded hover:border-teal-700 transition duration-500 w-full hover:bg-teal-50"
+                >
+                  <div className="flex gap-2">
+                    <span className="text-teal-700">
+                      <Headset size={30} />
+                    </span>
+                    <div className="flex flex-col items-start justify-start">
+                      <h3 className="text-lg text-gray-600 font-semibold">
+                        Need Help?
+                      </h3>
+                      <p className="text-sm text-gray-500">
+                        Get Assistance or Bulk Order Discount
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="text-teal-700">
+                    <ChevronRight size={30} />
+                  </div>
+                </button>
+                {/* need help end */}
 
                 {/* Variations */}
                 <div className="product_variations">
@@ -1523,7 +1831,7 @@ const Page = ({ params }) => {
                   {currency === "INR" ? "₹" : "$"}{" "}
                   {convertedActualPrice.toFixed(2)}
                 </h3>
-                <span className="mt-1 bg_green text-white discountPercentage rounded-full font-semibold py-1 px-2 mb-1">
+                <span className="mt-1 bg_green text-white discountPercentage rounded-full font-semibold py-1 px-3 mb-1">
                   {`SAVE ${Math.round(
                     ((convertedActualPrice - convertedPrice) /
                       convertedActualPrice) *
@@ -1759,6 +2067,353 @@ const Page = ({ params }) => {
                   </div>
                 ) : null}
               </div>
+
+              {/* shipping start */}
+              <div className="mt-4 border grid grid-cols-3  p-2 rounded py-4 items-start">
+                {/* Free Shipping */}
+                <button
+                  onClick={() => handleOpenModal("shipping")}
+                  className="flex items-center justify-center 2xl:flex-row xl:flex-row lg:flex-col flex-col gap-2 lg:text-base text-xs hover:scale-105 hover:-mt-2 transition-all duration-200 group"
+                >
+                  <span className="border-2 p-3 rounded-full green_font group-hover:border-teal-700">
+                    <TbTruckDelivery size={24} />
+                  </span>
+                  <p className="text-black">Free Shipping</p>
+                </button>
+                {/* 7 Days Return */}
+                <button
+                  onClick={() => handleOpenModal("return")}
+                  className="flex items-center justify-center 2xl:flex-row xl:flex-row lg:flex-col flex-col gap-2 lg:text-base text-xs hover:scale-105 hover:-mt-2 transition-all duration-200 group"
+                >
+                  <span className="border-2 p-3 rounded-full green_font group-hover:border-teal-700">
+                    <GrReturn size={24} />
+                  </span>
+                  <p className="text-black">7 Days Return</p>
+                </button>
+                {/* Trusted By */}
+                <button
+                  onClick={() => handleOpenModal("trusted")}
+                  className="flex items-center justify-center 2xl:flex-row xl:flex-row lg:flex-col flex-col gap-2 lg:text-base text-xs hover:scale-105 hover:-mt-2 transition-all duration-200 group"
+                >
+                  <span className="border-2 p-3 rounded-full green_font group-hover:border-teal-700">
+                    <VscWorkspaceTrusted size={24} />
+                  </span>
+                  <p className="text-black">Trusted By 10000+</p>
+                </button>
+
+                {/* Modals */}
+                {openNewModal && (
+                  <div
+                    className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+                    onClick={handleCloseModal}
+                  >
+                    <div
+                      className="bg-white rounded shadow-lg max-w-md w-full relative"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      {/* Close Button */}
+                      <button
+                        className="absolute top-4 right-2 text-gray-500 hover:text-black"
+                        onClick={handleCloseModal}
+                      >
+                        <X />
+                      </button>
+
+                      {/* Modal Content */}
+                      {openNewModal === "shipping" && (
+                        <div>
+                          <h2 className="text-xl font-bold mb-4 bg-teal-50 px-6 py-3 rounded-t-lg flex gap-2 items-center">
+                            <TbTruckDelivery
+                              size={24}
+                              className="text-teal-700"
+                            />
+                            Free Shipping
+                          </h2>
+                          <p className="px-6 pb-4">
+                            Enjoy free shipping on all orders above ₹50. Fast
+                            and reliable delivery to your doorstep.
+                          </p>
+                        </div>
+                      )}
+                      {openNewModal === "return" && (
+                        <div>
+                          <h2 className="text-xl font-bold mb-4 bg-teal-50 px-6 py-3 rounded-t-lg flex gap-2 items-center">
+                            <GrReturn size={24} className="text-teal-700" />7
+                            Days Return
+                          </h2>
+                          <p className="px-6 pb-4">
+                            Not satisfied? No worries! You can return the
+                            product within 7 days for a full refund.
+                          </p>
+                        </div>
+                      )}
+                      {openNewModal === "trusted" && (
+                        <div>
+                          <h2 className="text-xl font-bold mb-4 bg-teal-50 px-6 py-3 rounded-t-lg flex gap-2 items-center">
+                            <VscWorkspaceTrusted
+                              size={24}
+                              className="text-teal-700"
+                            />
+                            Trusted By 10000+
+                          </h2>
+                          <p className="px-6 pb-4">
+                            We are trusted by over 10,000 customers worldwide
+                            for quality products and services.
+                          </p>
+                        </div>
+                      )}
+                      {openNewModal === "needHelp" && (
+                        <div>
+                          <h2 className="text-xl font-bold mb-4 bg-teal-50 px-6 py-3 rounded-t-lg flex gap-2 items-center">
+                            <Headset size={24} className="text-teal-700" />
+                            How can we help You?
+                          </h2>
+                          <div className="px-6 pb-4">
+                            {!selectedOption && (
+                              <>
+                                <button
+                                  onClick={() => setSelectedOption("bulkOrder")}
+                                  className="rounded-lg border-2 hover:border-teal-700 hover:bg-teal-50 transition duration-500 p-3 flex gap-2 items-start w-full"
+                                >
+                                  <Box size={30} className="text-teal-700" />
+                                  <div className="flex flex-col justify-start items-start">
+                                    <h3 className="text-md font-semibold text-gray-600">
+                                      Bulk Order Inquiry
+                                    </h3>
+                                    <p className="text-gray-500 text-left text-sm">
+                                      Get special discount for orders above 30
+                                      pieces
+                                    </p>
+                                  </div>
+                                </button>
+                                <button
+                                  onClick={() =>
+                                    setSelectedOption("generalHelp")
+                                  }
+                                  className="rounded-lg border-2 hover:border-teal-700 hover:bg-teal-50 transition duration-500 p-3 flex gap-2 items-start w-full mt-3"
+                                >
+                                  <CircleHelp
+                                    size={30}
+                                    className="text-teal-700"
+                                  />
+                                  <div className="flex flex-col justify-start items-start">
+                                    <h3 className="text-md font-semibold text-gray-600">
+                                      General Help
+                                    </h3>
+                                    <p className="text-gray-500 text-left text-sm">
+                                      Question about size, delivery, or other
+                                      details
+                                    </p>
+                                  </div>
+                                </button>
+                              </>
+                            )}
+
+                            {/* Bulk Order Content */}
+                            {selectedOption === "bulkOrder" && (
+                              <div className="flex gap-2 items-start">
+                                <button
+                                  onClick={() => setSelectedOption(null)}
+                                  className="mb-4 text-teal-700 underline"
+                                >
+                                  <ArrowLeft />
+                                </button>
+                                <div className="border rounded-lg p-3 w-full bg-teal-50">
+                                  <p className="text-sm border-b pb-2 mb-2">
+                                    Mon - Sun - 10:00 am to 7:00 pm
+                                  </p>
+                                  <a
+                                    href="https://wa.me/+918800217402"
+                                    target="_blank"
+                                    className="rounded-lg bg-white border-2 hover:border-teal-700 transition duration-500 p-3 flex gap-2 items-center w-full mt-3"
+                                  >
+                                    <MessageCircle
+                                      size={30}
+                                      className="text-teal-700"
+                                    />
+                                    <div className="flex flex-col justify-start items-start">
+                                      <p className="text-teal-700 font-noraml text-left text-sm">
+                                        Chat on Whatsapp
+                                      </p>
+                                    </div>
+                                  </a>
+
+                                  <a
+                                    href="tel:+918800217402"
+                                    className="rounded-lg bg-white border-2 hover:border-teal-700 transition duration-500 p-3 flex gap-2 items-center w-full mt-3"
+                                  >
+                                    <Phone
+                                      size={30}
+                                      className="text-teal-700"
+                                    />
+                                    <div className="flex flex-col justify-start items-start">
+                                      <p className="text-teal-700 font-noraml text-left text-sm">
+                                        +91 8800217402
+                                      </p>
+                                    </div>
+                                  </a>
+
+                                  <a
+                                    href="mailto:rakesh@internationalgift.in"
+                                    className="rounded-lg bg-white border-2 hover:border-teal-700 transition duration-500 p-3 flex gap-2 items-center w-full mt-3"
+                                  >
+                                    <Mail size={30} className="text-teal-700" />
+                                    <div className="flex flex-col justify-start items-start">
+                                      <p className="text-teal-700 font-noraml text-left text-sm">
+                                        rakesh@internationalgift.in
+                                      </p>
+                                    </div>
+                                  </a>
+                                </div>
+                              </div>
+                            )}
+
+                            {/* General Help Content */}
+                            {selectedOption === "generalHelp" && (
+                              <div className="flex gap-2 items-start">
+                                <button
+                                  onClick={() => setSelectedOption(null)}
+                                  className="mb-4 text-teal-700 underline"
+                                >
+                                  <ArrowLeft />
+                                </button>
+                                <div className="border rounded-lg p-3 w-full bg-teal-50">
+                                  <p className="text-sm border-b pb-2 mb-2">
+                                    Mon - Sun - 10:00 am to 7:00 pm
+                                  </p>
+                                  <a
+                                    href="https://wa.me/+918800217402"
+                                    target="_blank"
+                                    className="rounded-lg bg-white border-2 hover:border-teal-700 transition duration-500 p-3 flex gap-2 items-center w-full mt-3"
+                                  >
+                                    <MessageCircle
+                                      size={30}
+                                      className="text-teal-700"
+                                    />
+                                    <div className="flex flex-col justify-start items-start">
+                                      <p className="text-teal-700 font-noraml text-left text-sm">
+                                        Chat on Whatsapp
+                                      </p>
+                                    </div>
+                                  </a>
+
+                                  <a
+                                    href="tel:+918800217402"
+                                    className="rounded-lg bg-white border-2 hover:border-teal-700 transition duration-500 p-3 flex gap-2 items-center w-full mt-3"
+                                  >
+                                    <Phone
+                                      size={30}
+                                      className="text-teal-700"
+                                    />
+                                    <div className="flex flex-col justify-start items-start">
+                                      <p className="text-teal-700 font-noraml text-left text-sm">
+                                        +91 8800217402
+                                      </p>
+                                    </div>
+                                  </a>
+
+                                  <a
+                                    href="mailto:rakesh@internationalgift.in"
+                                    className="rounded-lg bg-white border-2 hover:border-teal-700 transition duration-500 p-3 flex gap-2 items-center w-full mt-3"
+                                  >
+                                    <Mail size={30} className="text-teal-700" />
+                                    <div className="flex flex-col justify-start items-start">
+                                      <p className="text-teal-700 font-noraml text-left text-sm">
+                                        rakesh@internationalgift.in
+                                      </p>
+                                    </div>
+                                  </a>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+              </div>
+              {/* shipping end */}
+
+              {/* coupon start */}
+              <div className="mt-4 border p-4 rounded ">
+                <div className="flex gap-2 items-center flex-wrap">
+                  <span className="bg_green rounded-full text-white p-1 px-2 text-sm">
+                    %
+                  </span>
+                  <span className="text-black font-semibold">
+                    {" "}
+                    Get this under ₹{couponDiscounts.discountUnder}
+                  </span>
+                  <span className="bg-teal-100 text-sm green_font px-2 py-1 rounded">
+                    Save up to ₹{couponDiscounts.saveUpTo}
+                  </span>
+                </div>
+                <div className="mt-4 grid lg:grid-cols-2 grid-cols-1 gap-4">
+                  {couponDiscounts.coupons.map((coupon, index) => (
+                    <div className="ps-coupon-card" key={index}>
+                      <div className="border-b border-dashed pb-2 mb-2">
+                        <h3 className="text-lg font-semibold green_font">
+                          {coupon.title}
+                        </h3>
+                        <p className="text-xs text-gray-500 font-normal">
+                          {coupon.desc}
+                        </p>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <p className="text-gray-500 text-sm">
+                          <span className="font-medium text-gray-600">
+                            Code:{" "}
+                          </span>
+                          {coupon.code}
+                        </p>
+                        <button
+                          onClick={() => handleCopy(coupon.code, index)}
+                          className="text-sm"
+                        >
+                          {copiedCouponIndex === index ? (
+                            <div className="bg_green text-white rounded px-2 py-1 flex gap-1 items-center">
+                              <Copy size={16} /> Copied!
+                            </div>
+                          ) : (
+                            <div className="text-sm transition duration-300 flex gap-1 items-center py-1">
+                              <Copy size={16} /> Copy
+                            </div>
+                          )}
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              {/* coupon end */}
+
+              {/* need help start */}
+              <button
+                onClick={() => handleOpenModal("needHelp")}
+                className="mt-4 border-2 p-2 py-4 flex justify-between items-center rounded hover:border-teal-700 transition duration-500 w-full hover:bg-teal-50"
+              >
+                <div className="flex gap-2">
+                  <span className="text-teal-700">
+                    <Headset size={24} />
+                  </span>
+                  <div className="flex flex-col items-start justify-start">
+                    <h3 className="text-md text-gray-600 font-semibold">
+                      Need Help?
+                    </h3>
+                    <p className="text-xs text-gray-500 text-left">
+                      Get Assistance or Bulk Order Discount
+                    </p>
+                  </div>
+                </div>
+
+                <div className="text-teal-700">
+                  <ChevronRight size={30} />
+                </div>
+              </button>
+              {/* need help end */}
+
+              {/* Variations */}
               <div className="product_variations">
                 <h2 className="text-xl font-semibold light_black_font mt-4">
                   Variations
@@ -2171,6 +2826,30 @@ const Page = ({ params }) => {
         <NewArrival title="Related Products" />
       </div>
       <Footer />
+      <div className="hidden max-sm:block">
+        <div className="bg-white fixed bottom-0 left-0 border w-full p-2 py-3 shaodw-lg grid gap-2 grid-cols-2 text-sm z-10">
+          <div>
+            <button
+              onClick={(e) => addToCart1(e, productData)}
+              className="bg_darkgray flex gap-1 items-center justify-center text-white px-4 py-2 rounded-full capitalize text-center w-full"
+            >
+              {/* <span>
+                <HiOutlineShoppingBag />
+              </span>{" "}
+              &nbsp; add to cart{" "} */}
+              add to cart
+            </button>
+          </div>
+          <div>
+            <button
+              onClick={(e) => addToCart2(e, productData)}
+              className="bg_green hover:sha text-white px-4 py-2 rounded-full capitalize text-center w-full"
+            >
+              buy now{" "}
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

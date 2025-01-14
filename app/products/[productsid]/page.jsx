@@ -2,8 +2,8 @@
 import { Suspense, useEffect, useState, useContext, useRef } from "react";
 import { CurrencyContext } from "../../CurrencyContext";
 import { fetchCategoriesAndProducts } from "../../services/subcategoryService";
-import Navbar2 from '../../components/Navbar2'
-import Navbar3 from '../../components/Navbar3'
+import Navbar2 from "../../components/Navbar2";
+import Navbar3 from "../../components/Navbar3";
 import Footer from "../../components/Footer";
 import NewArrival from "../../components/NewArrival";
 import Breadcrumbs from "../../components/Breadcrumbs";
@@ -386,7 +386,7 @@ const ProductContent = ({ urldata }) => {
                 <div key={product._id} className="border rounded-xl p-2">
                   <a
                     href={`/product/${product._id}`}
-                    className="rounded-xl group overflow-hidden"
+                    className="rounded-xl group overflow-hidden relative"
                   >
                     <img
                       loading="lazy"
@@ -394,6 +394,26 @@ const ProductContent = ({ urldata }) => {
                       src={product.images[0]}
                       alt={product.title}
                     />
+                    <div className="absolute top-2 right-2 bg_green text-white text-xs px-2 py-1 rounded-lg">
+                      {`SAVE ${Math.round(
+                        ((convertPrice(
+                          product.price,
+                          currency,
+                          exchangeRates
+                        ).toFixed(2) -
+                          convertPrice(
+                            product.discountedPrice,
+                            currency,
+                            exchangeRates
+                          ).toFixed(2)) /
+                          convertPrice(
+                            product.price,
+                            currency,
+                            exchangeRates
+                          ).toFixed(2)) *
+                          100
+                      )}%`}
+                    </div>
                   </a>
                   <div className="mt-2">
                     <div className="productTitle text-lg font-semibold text-black">
@@ -451,7 +471,7 @@ const ProductContent = ({ urldata }) => {
                   <div className="w-2/5">
                     <a
                       href={`/product/${product._id}`}
-                      className="rounded-xl group overflow-hidden"
+                      className="rounded-xl group overflow-hidden relative"
                     >
                       <img
                         loading="lazy"
@@ -459,6 +479,26 @@ const ProductContent = ({ urldata }) => {
                         src={product.images[0]}
                         alt={product.title}
                       />
+                      <div className="absolute top-2 left-2 bg_green text-white text-xs px-1 py-0.5 rounded-lg">
+                        {`${Math.round(
+                          ((convertPrice(
+                            product.price,
+                            currency,
+                            exchangeRates
+                          ).toFixed(2) -
+                            convertPrice(
+                              product.discountedPrice,
+                              currency,
+                              exchangeRates
+                            ).toFixed(2)) /
+                            convertPrice(
+                              product.price,
+                              currency,
+                              exchangeRates
+                            ).toFixed(2)) *
+                            100
+                        )}%`}
+                      </div>
                     </a>
                   </div>
                   <div className="w-3/5">
