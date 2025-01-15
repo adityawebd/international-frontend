@@ -66,45 +66,39 @@ export default function Content({ blogInfo }) {
         <Navbar3 />
         <Breadcrumbs page_title="blogs" page_title2={blogInfo?.url} />
 
-        <div className="container lg:px-32 px-6 py-5">
-          <div className="flex max-sm:flex-col">
-            <div className="w-full">
-              <div className="flex justify-center w-full p-3">
-                <img
-                  src={blogInfo?.cardImage}
-                  loading="lazy"
-                  alt="Card image"
-                  className="mt-5 rounded w-[100%]"
-                />
-              </div>
+        <div className="mx-auto lg:px-32 px-6 ">
+          <img
+            src={blogInfo?.cardImage}
+            loading="lazy"
+            alt="Card image"
+            className="mt-5 rounded lg:w-[80%] lg:h-[700px] h-[600px] w-full md:h-[500px] mx-auto"
+          />
 
-              <div className="flex-row justify-center">
-                <div className="container mx-auto">
-                  <h1 className="text-3xl font-bold mb-3 text-center">
-                    {blogInfo?.title}
-                  </h1>
-                  {/* <p className="text-sm text-gray-500">{blogInfo?.author}</p> */}
-                  <div className="flex justify-center items-center">
-                    <p className="text-sm text-gray-500 flex items-center">
-                      <User size={16} /> Published by{" "}
-                      {blogInfo?.author ? blogInfo?.author : "N/A"}
-                    </p>
-                    <span className="px-2 text-slate-400">|</span>
-                    <p className="text-sm text-gray-500">
-                      {formatDate(blogInfo?.createdAt)}
-                    </p>
-                  </div>
+          <div className="flex flex-col justify-center items-center mt-10 w-[70%] mx-auto">
+            <p className="text-sm">BLOG</p>
+            <h1 className="text-4xl font-semibold text-black mt-4 max-sm:text-2xl text-center">{blogInfo?.title}</h1>
+          </div>
 
-                  <hr class="h-px my-8 dark:bg-gray-700" />
-
-                  <div
-                    className="text-lg blog_content"
-                    style={{ all: "initial" }}
-                    dangerouslySetInnerHTML={{ __html: blogInfo?.content }}
-                  />
-                </div>
-              </div>
+          <div className="">
+            {/* <p className="text-sm text-gray-500">{blogInfo?.author}</p> */}
+            <div className="flex justify-center items-center mt-4 flex-wrap">
+              <p className="text-sm text-gray-500 flex items-center">
+                <User size={16} /> Published by{" "}
+                {blogInfo?.author ? blogInfo?.author : "N/A"}
+              </p>
+              <span className="px-2 text-slate-400">|</span>
+              <p className="text-sm text-gray-500">
+                {formatDate(blogInfo?.createdAt)}
+              </p>
             </div>
+
+            <hr class="h-px my-8 dark:bg-gray-700" />
+
+            <div
+              className="text-lg blog_content"
+              style={{ all: "initial" }}
+              dangerouslySetInnerHTML={{ __html: blogInfo?.content }}
+            />
           </div>
         </div>
         <Footer />
