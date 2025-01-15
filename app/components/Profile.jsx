@@ -2,12 +2,30 @@ import React, { useState, useEffect } from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
 import BackToTopButton from "../components/BackToTopButton";
 import { Bounce, ToastContainer, toast } from "react-toastify";
+import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 
 const Profile = () => {
   const { data: session } = useSession();
   const [isEditing, setIsEditing] = useState(false);
-  const [profile, setProfile] = useState([]);
+  const [isUploading, setIsUploading] = useState(false);
+  const [profile, setProfile] = useState({});
+  const URL = process.env.NEXT_PUBLIC_UPLOAD_API;
+
+  useEffect(() => {
+    if (session) {
+      const fetchProfile = async () => {
+        try {
+          const response = await axios.get(`/api/user?condition=${session.user.email}`);
+          setProfile(response.data);
+          } catch (error) {
+            console.error(error);
+        }
+      }
+      fetchProfile();
+    }
+  },[session])
+
   useEffect(() => {
     if (session?.user) {
       setProfile({
@@ -17,12 +35,13 @@ const Profile = () => {
         address: session.user.address,
         shippingAddress: session.user.address,
         lastName: session.user.lname,
+        image: session.user.image || "",
       });
     }
   }, [session]);
 
   const notify = () =>
-    toast.success("Profile Updated Successfully ", {
+    toast.success("Profile Updated Successfully", {
       position: "top-center",
       autoClose: 5000,
       hideProgressBar: false,
@@ -34,32 +53,37 @@ const Profile = () => {
       transition: Bounce,
     });
 
-  console.log("user email", session?.user.email);
-
   const handleEdit = () => {
     setIsEditing(true);
   };
 
   const handleSave = async () => {
     try {
+      const updatedProfile = { ...profile };
+
+      // Upload image if a new file is selected
+      if (profile.imageFile) {
+        const data = new FormData();
+        data.append("file", profile.imageFile);
+
+        const res = await axios.post(`${URL}:5000/api/upload`, data);
+        updatedProfile.image = res.data.fileUrl;
+      }
+
       const response = await fetch("/api/updateProfile", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(profile),
+        body: JSON.stringify(updatedProfile),
       });
 
       if (response.ok) {
         setIsEditing(false);
         notify();
-
-        //console.log('Profile updated successfully');
-        // Handle successful response if needed
       } else {
         const errorData = await response.json();
         console.error("Failed to update profile:", errorData);
-        // Handle error response if needed
       }
     } catch (error) {
       console.error("Error:", error);
@@ -69,6 +93,21 @@ const Profile = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setProfile({ ...profile, [name]: value });
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      setProfile({
+        ...profile,
+        image: reader.result, // Set the base64-encoded image string for preview
+        imageFile: file, // Store the file for backend upload
+      });
+    };
+    reader.readAsDataURL(file); // Convert the file to a data URL
+  }
   };
 
   return (
@@ -83,13 +122,6 @@ const Profile = () => {
             alt="Profile Banner"
             className="rounded"
           />
-          {/* <div className="user_img">
-            <img
-              loading="lazy"
-              src="https://w7.pngwing.com/pngs/178/595/png-transparent-user-profile-computer-icons-login-user-avatars-thumbnail.png"
-              alt=""
-            />
-          </div> */}
           <div className="user_img">
             {isEditing ? (
               <>
@@ -104,13 +136,7 @@ const Profile = () => {
                 <input
                   type="file"
                   accept="image/*"
-                  onChange={(e) =>
-                    setProfile({
-                      ...profile,
-                      image: URL.createObjectURL(e.target.files[0]),
-                      imageFile: e.target.files[0], // Store the file for backend upload
-                    })
-                  }
+                  onChange={handleImageChange}
                 />
               </>
             ) : (
@@ -124,9 +150,6 @@ const Profile = () => {
               />
             )}
           </div>
-          {/* <h2 className="name text-center text-xl font-semibold light_black_font mt-2">
-            {profile.firstName}&nbsp;{profile.lastName}
-          </h2> */}
           <h2 className="name text-center text-xl font-semibold light_black_font mt-2">
             {isEditing ? (
               <>
@@ -223,8 +246,8 @@ const Profile = () => {
           </div>
           <div className="profile-actions pl-2">
             {isEditing ? (
-              <button className="save_btn" onClick={handleSave}>
-                Save
+              <button className="save_btn" onClick={handleSave} disabled={isUploading}>
+                {isUploading ? "Uploading..." : "Save"}
               </button>
             ) : (
               <button className="edit_btn" onClick={handleEdit}>
