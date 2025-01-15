@@ -66,7 +66,7 @@ export default function Content({ blogInfo }) {
         <Navbar3 />
         <Breadcrumbs page_title="blogs" page_title2={blogInfo?.url} />
 
-        <div className="container lg:px-32 py-5">
+        <div className="container lg:px-32 px-6 py-5">
           <div className="flex max-sm:flex-col">
             <div className="w-full">
               <div className="flex justify-center w-full p-3">

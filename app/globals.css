@@ -4703,35 +4703,6 @@ footer .limited_edition {
   width: 325px;
 }
 
-.suggested_blog_title {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2; /* Limit to 2 lines */
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-height: 3em; /* 2 lines * line-height */
-}
-.marquee {
-  width: 100%; /* Adjust width as needed */
-  height: 300px; /* Adjust height as needed */
-  overflow: hidden;
-  position: relative;
-  border-radius: 4px;
-  border-bottom: 1px solid #ededed;
-}
-
-.marquee-content {
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  top: 0;
-  animation: vertical-marquee 10s linear infinite;
-}
-
-.marquee:hover .marquee-content {
-  animation-play-state: paused;
-}
-
 @keyframes vertical-marquee {
   0% {
     top: 0;

@@ -53,7 +53,7 @@ const HomeBlogs = () => {
 
         <div className="grid gap-4 lg:grid-cols-4 md:grid-cols-2 grid-cols-2 max-sm:grid-cols-1 mt-4">
           {blogs.map((blog) => (
-            <div key={blog._id} className="mb-4">
+            <div key={blog._id} className="mb-4 rounded-lg shadow-sm">
               <div className="">
                 <div className="overflow-hidden w-full h-[400px] group  transition duration-500">
                   <Link
@@ -61,13 +61,13 @@ const HomeBlogs = () => {
                     className="overflow-hidden w-full h-[400px] group  transition duration-500"
                   >
                     <img
-                      className="object-cover h-full scale-100 group-hover:scale-110 transition duration-500"
+                      className="object-cover h-full scale-100 group-hover:scale-110 transition duration-500 rounded-t-lg"
                       src={blog.cardImage}
                       alt={blog.title}
                     />
                   </Link>
                 </div>
-                <div className="mt-3">
+                <div className="mt-3 p-4">
                   <p className="text-sm text-gray-600">{blog.date}</p>
                   <Link
                     href={`/blogs/${blog.url}`}
