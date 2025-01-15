@@ -127,7 +127,7 @@ const Filter = ({
         {/* {openAccordions.colors && (
           <div className="accordion-content border-0">
             {categories?.map((category, categoryIndex) => (
-              <div key={categoryIndex} className="aditya1">
+              <div key={categoryIndex} className=" 1">
                 {category?.property?.map((property, propertyIndex) => {
                   if (!allowedProperties.includes(property?.name)) {
                     return null; 
@@ -154,7 +154,7 @@ const Filter = ({
         {openAccordions.colors && (
           <div className="accordion-content border-0">
             {uniqueCategories?.map((category, categoryIndex) => (
-              <div key={categoryIndex} className="aditya1">
+              <div key={categoryIndex} className=" 1">
                 {category?.property?.map((property, propertyIndex) => {
                   // Check if the property name is one of the allowed names
                   if (!allowedProperties.includes(property?.name)) {

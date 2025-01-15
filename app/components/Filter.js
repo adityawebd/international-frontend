@@ -116,7 +116,7 @@ const Filter = ({
     });
   }, [categories]);
 
-  console.log("Aditya categories filter: ", categories);
+  console.log("  categories filter: ", categories);
 
   return (
     <div className="filter-container">
@@ -208,7 +208,7 @@ const Filter = ({
               const nestedAccordionKey = `${categoryIndex}-${propertyIndex}`;
               
               return (
-                <div key={propertyIndex} className="aditya1">
+                <div key={propertyIndex} className=" 1">
                   <div
                     className="nested-accordion flex items-center justify-between"
                     onClick={() => toggleNestedAccordion(categoryIndex, propertyIndex)}
@@ -230,7 +230,7 @@ const Filter = ({
                   {openNestedAccordions[nestedAccordionKey] && (
                     <div className="accordion_fixed_div text-gray-500">
                       {property?.values?.map((value, valueIndex) => (
-                        <div key={valueIndex} className="aditya2">
+                        <div key={valueIndex} className=" 2">
                           <label className="flex items-start">
                             <input
                               type="checkbox"
@@ -262,7 +262,7 @@ const Filter = ({
                 const nestedAccordionKey = `${categoryIndex}-${propertyIndex}`;
 
                 return (
-                  <div key={propertyIndex} className="aditya1">
+                  <div key={propertyIndex} className=" 1">
                     <div
                       className="nested-accordion flex items-center justify-between"
                       onClick={() =>
@@ -289,7 +289,7 @@ const Filter = ({
                     {openNestedAccordions[nestedAccordionKey] && (
                       <div className="accordion_fixed_div text-gray-500">
                         {property?.values?.map((value, valueIndex) => (
-                          <div key={valueIndex} className="aditya2">
+                          <div key={valueIndex} className=" 2">
                             <label className="flex items-start">
                               <input
                                 type="checkbox"

@@ -5,9 +5,9 @@ import {Send} from 'lucide-react'
 const Footer = () => {
     const date = new Date();
     return (
-        <div>
+    
             <footer>
-                <div className="limited_edition text-center text-md text-white py-3 developedByAdityaRajGupta">
+                <div className="limited_edition text-center text-md text-white py-3">
                     Discover the World of Unique Gifts!
                 </div>
                 <div className="container py-5">
@@ -26,6 +26,7 @@ const Footer = () => {
                                 <li className='text-sm light_black_font mt-2'><a href="/about-us">About us</a></li>
                                 <li className='text-sm light_black_font mt-2'><a href="/cart">Cart</a></li>
                                 <li className='text-sm light_black_font mt-2'><a href="/contact-us">Contact us</a></li>
+                                <li className='text-sm light_black_font mt-2'><a href="/blogs">Our Blogs</a></li>
                             </ul>
                         </div>
                         <div className="col-md-3 mt-2">
@@ -58,7 +59,7 @@ const Footer = () => {
                             </div>
                         </div>
                         <div className="col-md-4">
-                            <p className='text-sm light_black_font py-2 text-center'>Copyright &copy;{date.getFullYear()} <span className='font-semibold'>INTERNATION GIFT</span>. All Rights Reserved <br /> Design & Developed by <a href='https://rapiddigitalgrowth.com/' className='hover:underline font-semibold'>Rapid Digital Growth</a></p>
+                            <p className='text-sm light_black_font py-2 text-center'>Copyright &copy;2014-{date.getFullYear()} <span className='font-semibold'>INTERNATION GIFT </span>. All Rights Reserved. <br /> Design & Developed by <a href='https://rapiddigitalgrowth.com/' className='hover:underline font-semibold'>Rapid Digital Growth</a></p>
                         </div>
                         <div className="col-md-4">
                             <img loading='lazy' src="/assets/images/icons/payment.png" alt="" />
@@ -66,7 +67,7 @@ const Footer = () => {
                     </div>
                 </div>
             </footer>
-        </div>
+        
     )
 }
 

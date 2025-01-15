@@ -2,36 +2,45 @@ import Link from "next/link";
 import React, { useState, useEffect } from "react";
 
 const HomeBlogs = () => {
-  const blogs = [
-    {
-      _id: 1,
-      image:
-        "https://svastika.in/cdn/shop/articles/Which_Hanuman_Idol_is_Good_for_Home--_Blog_thumbnail_high_520x500_52ad9e2a-590c-4e42-8dba-31148fb70c69.jpg?v=1736850213&width=360",
-      date: "January 10, 2025",
-      title: "Which Hanuman Idol is Good for Home?",
-    },
-    {
-      _id: 2,
-      image:
-        "https://svastika.in/cdn/shop/articles/Which_Hanuman_Idol_is_Good_for_Home--_Blog_thumbnail_high_520x500_52ad9e2a-590c-4e42-8dba-31148fb70c69.jpg?v=1736850213&width=360",
-      date: "January 10, 2025",
-      title: "Which Hanuman Idol is Good for Home?",
-    },
-    {
-      _id: 3,
-      image:
-        "https://svastika.in/cdn/shop/articles/Which_Hanuman_Idol_is_Good_for_Home--_Blog_thumbnail_high_520x500_52ad9e2a-590c-4e42-8dba-31148fb70c69.jpg?v=1736850213&width=360",
-      date: "January 10, 2025",
-      title: "Which Hanuman Idol is Good for Home?",
-    },
-    {
-      _id: 4,
-      image:
-        "https://svastika.in/cdn/shop/articles/Which_Hanuman_Idol_is_Good_for_Home--_Blog_thumbnail_high_520x500_52ad9e2a-590c-4e42-8dba-31148fb70c69.jpg?v=1736850213&width=360",
-      date: "January 10, 2025",
-      title: "Which Hanuman Idol is Good for Home?",
-    },
-  ];
+
+  const [blogs, setBlogs] = useState([]);
+
+  useEffect(() => {
+    fetch("/api/blogs")
+      .then((res) => res.json())
+      .then((data) => setBlogs(data.data));
+  },[])
+
+  // const blogs = [
+  //   {
+  //     _id: 1,
+  //     image:
+  //       "https://svastika.in/cdn/shop/articles/Which_Hanuman_Idol_is_Good_for_Home--_Blog_thumbnail_high_520x500_52ad9e2a-590c-4e42-8dba-31148fb70c69.jpg?v=1736850213&width=360",
+  //     date: "January 10, 2025",
+  //     title: "Which Hanuman Idol is Good for Home?",
+  //   },
+  //   {
+  //     _id: 2,
+  //     image:
+  //       "https://svastika.in/cdn/shop/articles/Which_Hanuman_Idol_is_Good_for_Home--_Blog_thumbnail_high_520x500_52ad9e2a-590c-4e42-8dba-31148fb70c69.jpg?v=1736850213&width=360",
+  //     date: "January 10, 2025",
+  //     title: "Which Hanuman Idol is Good for Home?",
+  //   },
+  //   {
+  //     _id: 3,
+  //     image:
+  //       "https://svastika.in/cdn/shop/articles/Which_Hanuman_Idol_is_Good_for_Home--_Blog_thumbnail_high_520x500_52ad9e2a-590c-4e42-8dba-31148fb70c69.jpg?v=1736850213&width=360",
+  //     date: "January 10, 2025",
+  //     title: "Which Hanuman Idol is Good for Home?",
+  //   },
+  //   {
+  //     _id: 4,
+  //     image:
+  //       "https://svastika.in/cdn/shop/articles/Which_Hanuman_Idol_is_Good_for_Home--_Blog_thumbnail_high_520x500_52ad9e2a-590c-4e42-8dba-31148fb70c69.jpg?v=1736850213&width=360",
+  //     date: "January 10, 2025",
+  //     title: "Which Hanuman Idol is Good for Home?",
+  //   },
+  // ];
   return (
     <div >
       <div className="p-2">
@@ -48,20 +57,20 @@ const HomeBlogs = () => {
               <div className="">
                 <div className="overflow-hidden w-full h-[400px] group  transition duration-500">
                   <Link
-                    href={`/blogs/${blog.title}`}
+                    href={`/blogs/${blog.url}`}
                     className="overflow-hidden w-full h-[400px] group  transition duration-500"
                   >
                     <img
                       className="object-cover h-full scale-100 group-hover:scale-110 transition duration-500"
-                      src={blog.image}
-                      alt=""
+                      src={blog.cardImage}
+                      alt={blog.title}
                     />
                   </Link>
                 </div>
                 <div className="mt-3">
                   <p className="text-sm text-gray-600">{blog.date}</p>
                   <Link
-                    href={`/blogs/${blog.title}`}
+                    href={`/blogs/${blog.url}`}
                     className="font-semibold text-xl text-gray-800"
                   >
                     {blog.title}
