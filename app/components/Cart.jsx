@@ -194,7 +194,9 @@ const Cart = () => {
         phone: prevFormData.phone || session.user?.number || "",
         cart: cart || prevFormData.cart,
         // Weight: prevFormData.Weight || cart[0]?.property?.Weight || "",
-        Weight: prevFormData.Weight || (cart && cart.length > 0 ? cart[0]?.property?.Weight : ""),
+        Weight:
+          prevFormData.Weight ||
+          (cart && cart.length > 0 ? cart[0]?.property?.Weight : ""),
         // address: prevFormData.address || session.user?.address || "",
         // city: prevFormData.city || session.user?.city || "",
         // postalCode: prevFormData.postalCode || session.user?.postalCode || "",
@@ -512,7 +514,28 @@ const Cart = () => {
         <div className="container">
           <div className="row">
             <div className="col-lg-8 col-md-8 col-sm-12">
-              <form action="#">
+              <div className=" border-b mb-3 pb-1">
+                <h2 className="text-2xl font-semibold text-black">
+                  Shopping Cart
+                </h2>
+                <div className="lg:block hidden mt-3">
+                  <div className="flex justify-between items-center text-gray-500">
+                    <div>Items</div>
+                    <div>Price</div>
+                  </div>
+                </div>
+                <div className="lg:hidden block mt-3">
+                  <div className="flex justify-between items-center text-gray-500">
+                    Items & Price
+                  </div>
+                </div>
+              </div>
+
+              {cart?.map((product) => (
+                <CartItem key={product._id} product={product} />
+              ))}
+
+              {/* <form action="#">
                 <div
                   className="table-content cart-table-content"
                   id="table-container"
@@ -546,43 +569,40 @@ const Cart = () => {
                     </table>
                   </li>
                 </div>
-                <div className="row">
-                  <div className="col-lg-12">
-                    <div className="cart_btns flex justify-between max-sm:flex-col text-center">
-                      <a className="mb-2" href="/all-products">
-                        Continue Shopping
-                      </a>
-                      <button
-                        type="button"
-                        className="mb-2"
-                        onClick={handleRazorpayPayment}
-                      >
-                        Pay Online
-                      </button>
-                      {/* <button type="button" className="mb-2" onClick={handleCheckoutCOD}></button> */}
-                      {/* <button type="button" className="mb-2" onClick={handleCheckoutCOD}>
-                                                Cash on Delivery <Spinner size="sm" />
-                                            </button> */}
-                      {/* Cash on Delivery Button with Spinner */}
-                      <button
-                        type="button"
-                        className="mb-2"
-                        onClick={handleCheckoutCOD}
-                      >
-                        {spinner ? (
-                          <>
-                            <div className="flex justify-between items-center gap-2">
-                              Cash on Delivery <div className="spinner"></div>
-                            </div>
-                          </>
-                        ) : (
-                          "Cash on Delivery"
-                        )}
-                      </button>
-                    </div>
+                
+              </form> */}
+
+              <div className="row">
+                <div className="col-lg-12">
+                  <div className="cart_btns flex justify-between max-sm:flex-col text-center">
+                    <a className="mb-2" href="/all-products">
+                      Continue Shopping
+                    </a>
+                    <button
+                      type="button"
+                      className="mb-2"
+                      onClick={handleRazorpayPayment}
+                    >
+                      Pay Online
+                    </button>
+                    <button
+                      type="button"
+                      className="mb-2"
+                      onClick={handleCheckoutCOD}
+                    >
+                      {spinner ? (
+                        <>
+                          <div className="flex justify-between items-center gap-2">
+                            Cash on Delivery <div className="spinner"></div>
+                          </div>
+                        </>
+                      ) : (
+                        "Cash on Delivery"
+                      )}
+                    </button>
                   </div>
                 </div>
-              </form>
+              </div>
             </div>
 
             <div className="col-lg-4 col-md-4 col-sm-12">
