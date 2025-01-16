@@ -243,9 +243,9 @@ const HomeVideos = () => {
           >
             <X />
           </button>
-          <div className="relative w-[400px] max-sm:w-[320px] h-[90vh] flex justify-center items-center">
+          <div className="relative  flex justify-center items-center">
             {/* Video in Modal */}
-            <div className="h-full w-[400px] max-sm:w-[320px] overflow-hidden rounded-lg">
+            <div className="h-full w-auto overflow-hidden rounded-lg">
               <video
                 src={productData[currentIndex]?.images?.find((image) =>
                   image.endsWith(".mp4")
