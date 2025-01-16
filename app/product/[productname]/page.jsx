@@ -204,20 +204,22 @@ const Page = ({ params }) => {
   };
 
   const couponDiscounts = {
-    discountUnder: "4,060",
-    saveUpTo: "439",
+    // discountUnder: "4,060",
+    // saveUpTo: "439",
     coupons: [
       {
         _id: 1,
         title: "Get 5% OFF",
         desc: "Extra 5% OFF on all Online Payments",
         code: "GIFT5",
+        discountPercent: 5,
       },
       {
         _id: 2,
         title: "Get ₹500 OFF",
         desc: "₹500 OFF on 1st Pruchase of Lord Ganesha Idol",
         code: "GANESHA500",
+        discountAmount: 500,
       },
     ],
   };
@@ -775,11 +777,10 @@ const Page = ({ params }) => {
                           <div className="relative">
                             <video
                               src={media}
-                              className={`border border-red-500 rounded-lg h-[auto] w-[100px] lg:max-h-[100px] md:max-h-[80px] max-sm:max-h-[60px] mx-auto cursor-pointer ${
-                                currentIndex === index
+                              className={`border border-red-500 rounded-lg h-[auto] w-[100px] lg:max-h-[100px] md:max-h-[80px] max-sm:max-h-[60px] mx-auto cursor-pointer ${currentIndex === index
                                   ? "border-primary bg-secondary-light"
                                   : "border-gray-300"
-                              }`}
+                                }`}
                               onClick={() => handleThumbnailClick(index)}
                               muted
                             />
@@ -791,11 +792,10 @@ const Page = ({ params }) => {
                           <img
                             src={media}
                             alt="Product Thumbnail"
-                            className={`border rounded-lg h-[auto] lg:max-h-[100px] md:max-h-[80px] max-sm:max-h-[60px] mx-auto cursor-pointer ${
-                              currentIndex === index
+                            className={`border rounded-lg h-[auto] lg:max-h-[100px] md:max-h-[80px] max-sm:max-h-[60px] mx-auto cursor-pointer ${currentIndex === index
                                 ? "border-primary bg-secondary-light"
                                 : "border-gray-300"
-                            }`}
+                              }`}
                             onClick={() => handleThumbnailClick(index)}
                           />
                         )}
@@ -846,10 +846,9 @@ const Page = ({ params }) => {
                         style={{
                           ...zoomStyle,
                           position: "absolute",
-                          backgroundImage: `url(${
-                            productData?.images?.[currentIndex] ||
+                          backgroundImage: `url(${productData?.images?.[currentIndex] ||
                             "/default-image.jpg"
-                          })`,
+                            })`,
                           backgroundRepeat: "no-repeat",
                           backgroundSize: "200%", // Zoom level
                           top: 0,
@@ -921,9 +920,8 @@ const Page = ({ params }) => {
                               "/default-image.jpg"
                             }
                             alt={productData?.title || "Product Image"}
-                            className={`h-full mx-auto rounded-lg transition-transform cursor-zoom-in ${
-                              isZoomed ? "scale-150" : "scale-100"
-                            }`}
+                            className={`h-full mx-auto rounded-lg transition-transform cursor-zoom-in ${isZoomed ? "scale-150" : "scale-100"
+                              }`}
                             onClick={toggleZoom}
                           />
                         )}
@@ -945,7 +943,110 @@ const Page = ({ params }) => {
                     </div>
                   )}
                 </div>
+                <div className="product_variations">
+                  <h2 className="text-xl font-semibold light_black_font mt-4">
+                    Variations
+                  </h2>
+                  <div className="">
+                    {skuData.length > 0 ? (
+                      <Swiper
+                        spaceBetween={10}
+                        slidesPerView={1.5}
+                        loop={true}
+                        autoplay={{
+                          delay: 2000,
+                          disableOnInteraction: false,
+                          pauseOnMouseEnter: true,
+                        }}
+                        pagination={{ clickable: true }}
+                        navigation={true}
+                        scrollbar={{ draggable: true }}
+                        breakpoints={{
+                          // Mobile small (smaller than 500px)
+                          320: {
+                            slidesPerView: 2.2,
+                            // spaceBetween: 20,
+                          },
+                          400: {
+                            slidesPerView: 2.5,
+                            // spaceBetween: 20,
+                          },
+                          640: {
+                            slidesPerView: 3,
+                            // spaceBetween: 20,
+                          },
+                          // Tablets (around 768px)
+                          768: {
+                            slidesPerView: 3, // Can show partial next slide
+                            // spaceBetween: 15,
+                          },
+                          // Tablets large (around 1024px)
+                          1024: {
+                            slidesPerView: 3.5, // Showing 2 slides
+                            // spaceBetween: 20,
+                          },
+                          // Laptops (around 1300px)
+                          1300: {
+                            slidesPerView: 4.5, // Show 2.5 slides
+                            // spaceBetween: 25,
+                          },
+                          // Desktop (larger than 1500px)
+                          1500: {
+                            slidesPerView: 5, // Show 3 full slides
+                            // spaceBetween: 15,
+                          },
+                          1920: {
+                            slidesPerView: 6,
+                            spaceBetween: 15,
+                          },
+                        }}
+                        modules={[Autoplay, Navigation, A11y]}
+                        className="swiper-wrapper mx-auto mb-4"
+                      >
+                        {skuData.map((data) => (
+                          //  <Variations key={data._id} images={data.images} />
+                          <SwiperSlide key={data._id}>
+                            <a href={`/product/${data._id}`}>
+                              {/* <div className="border rounded-lg"> */}
+                              <div
+                                className={`border rounded-lg ${urldata === data._id
+                                    ? "border-4 border-black-500 shadow-xl"
+                                    : ""
+                                  }`}
+                              >
+                                <img
+                                  loading="lazy"
+                                  src={data.images[0]}
+                                  alt={data.title}
+                                  height={100}
+                                  width={100}
+                                  className="rounded-t-xl"
+                                />
+                                <p className="font-semibold variation_title px-2">
+                                  {" "}
+                                  {data.title}
+                                </p>
+                                <p className="font-normal green_font px-2">
+                                  {" "}
+                                  ₹{data.discountedPrice}
+                                </p>
+                              </div>
+                            </a>
+                          </SwiperSlide>
+                        ))}
+                      </Swiper>
+                    ) : (
+                      // Fallback message if no products are available
+                      <p className="text-center green_font mt-4">
+                        No products available at the moment.
+                      </p>
+                    )}
+                  </div>
+                </div>
               </div>
+
+
+
               {/* for mobile view */}
               <div className="lg:hidden md:hidden">
                 <div className="flex flex-col gap-4 ">
@@ -971,11 +1072,10 @@ const Page = ({ params }) => {
                           <div className="relative">
                             <video
                               src={media}
-                              className={`border rounded-lg h-[60px] w-[60px] mx-auto cursor-pointer ${
-                                currentIndex === index
+                              className={`border rounded-lg h-[60px] w-[60px] mx-auto cursor-pointer ${currentIndex === index
                                   ? "border-primary bg-secondary-light"
                                   : "border-gray-300"
-                              }`}
+                                }`}
                               onClick={() => handleThumbnailClick(index)}
                               muted
                             />
@@ -987,11 +1087,10 @@ const Page = ({ params }) => {
                           <img
                             src={media}
                             alt="Product Thumbnail"
-                            className={`border rounded-lg h-[60px] w-[60px] mx-auto cursor-pointer ${
-                              currentIndex === index
+                            className={`border rounded-lg h-[60px] w-[60px] mx-auto cursor-pointer ${currentIndex === index
                                 ? "border-primary bg-secondary-light"
                                 : "border-gray-300"
-                            }`}
+                              }`}
                             onClick={() => handleThumbnailClick(index)}
                           />
                         )}
@@ -1014,22 +1113,22 @@ const Page = ({ params }) => {
                       onClick={() => openModal(currentIndex)}
                     /> */}
                     {productData?.images?.[currentIndex]?.endsWith(".mp4") ? (
-                        <video
-                          src={productData?.images?.[currentIndex]}
-                          className="w-full mx-auto rounded-lg cursor-zoom-in"
-                          controls
-                        />
-                      ) : (
-                        <img
-                          src={
-                            productData?.images?.[currentIndex] ||
-                            "/default-image.jpg"
-                          }
-                          alt={productData?.title || "Product Image"}
-                          className="w-full mx-auto rounded-lg cursor-zoom-in"
-                          onClick={() => openModal(currentIndex)}
-                        />
-                      )}
+                      <video
+                        src={productData?.images?.[currentIndex]}
+                        className="w-full mx-auto rounded-lg cursor-zoom-in"
+                        controls
+                      />
+                    ) : (
+                      <img
+                        src={
+                          productData?.images?.[currentIndex] ||
+                          "/default-image.jpg"
+                        }
+                        alt={productData?.title || "Product Image"}
+                        className="w-full mx-auto rounded-lg cursor-zoom-in"
+                        onClick={() => openModal(currentIndex)}
+                      />
+                    )}
                     <button
                       onClick={prevImage}
                       className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white border_green green_font p-2 rounded-full hover:p-3 product-button-prev"
@@ -1087,9 +1186,8 @@ const Page = ({ params }) => {
                               "/default-image.jpg"
                             }
                             alt={productData?.title || "Product Image"}
-                            className={`w-full max-w-screen-sm mx-auto rounded-lg transition-transform cursor-zoom-in ${
-                            isZoomed ? "scale-150" : "scale-100"
-                          }`}
+                            className={`w-full max-w-screen-sm mx-auto rounded-lg transition-transform cursor-zoom-in ${isZoomed ? "scale-150" : "scale-100"
+                              }`}
                             onClick={toggleZoom}
                           />
                         )}
@@ -1134,10 +1232,9 @@ const Page = ({ params }) => {
                   >
                     <a href="#forReviewClicked">
                       {reviewData?.reviews.length ? (
-                        `${reviewData?.reviews.length} ${
-                          reviewData?.reviews.length === 1
-                            ? "Review"
-                            : "Reviews"
+                        `${reviewData?.reviews.length} ${reviewData?.reviews.length === 1
+                          ? "Review"
+                          : "Reviews"
                         } `
                       ) : (
                         <></>
@@ -1159,7 +1256,7 @@ const Page = ({ params }) => {
                     {`SAVE ${Math.round(
                       ((convertedActualPrice - convertedPrice) /
                         convertedActualPrice) *
-                        100
+                      100
                     )}%`}
                   </span>
                 </div>
@@ -1738,7 +1835,7 @@ const Page = ({ params }) => {
                     </span>
                     <span className="text-black font-semibold">
                       {" "}
-                      Get this under ₹{couponDiscounts.discountUnder}
+                      Get this under ₹{parseFloat(productData.discountedPrice)-parseFloat(couponDiscounts.coupons[1].discountAmount)}
                     </span>
                     <span className="bg-teal-100 text-sm green_font px-2 py-1 rounded">
                       Save up to ₹{couponDiscounts.saveUpTo}
@@ -1809,107 +1906,7 @@ const Page = ({ params }) => {
                 {/* need help end */}
 
                 {/* Variations */}
-                <div className="product_variations">
-                  <h2 className="text-xl font-semibold light_black_font mt-4">
-                    Variations
-                  </h2>
-                  <div className="">
-                    {skuData.length > 0 ? (
-                      <Swiper
-                        spaceBetween={10}
-                        slidesPerView={1.5}
-                        loop={true}
-                        autoplay={{
-                          delay: 2000,
-                          disableOnInteraction: false,
-                          pauseOnMouseEnter: true,
-                        }}
-                        pagination={{ clickable: true }}
-                        navigation={true}
-                        scrollbar={{ draggable: true }}
-                        breakpoints={{
-                          // Mobile small (smaller than 500px)
-                          320: {
-                            slidesPerView: 2.2,
-                            // spaceBetween: 20,
-                          },
-                          400: {
-                            slidesPerView: 2.5,
-                            // spaceBetween: 20,
-                          },
-                          640: {
-                            slidesPerView: 3,
-                            // spaceBetween: 20,
-                          },
-                          // Tablets (around 768px)
-                          768: {
-                            slidesPerView: 3, // Can show partial next slide
-                            // spaceBetween: 15,
-                          },
-                          // Tablets large (around 1024px)
-                          1024: {
-                            slidesPerView: 3.5, // Showing 2 slides
-                            // spaceBetween: 20,
-                          },
-                          // Laptops (around 1300px)
-                          1300: {
-                            slidesPerView: 4.5, // Show 2.5 slides
-                            // spaceBetween: 25,
-                          },
-                          // Desktop (larger than 1500px)
-                          1500: {
-                            slidesPerView: 5, // Show 3 full slides
-                            // spaceBetween: 15,
-                          },
-                          1920: {
-                            slidesPerView: 6,
-                            spaceBetween: 15,
-                          },
-                        }}
-                        modules={[Autoplay, Navigation, A11y]}
-                        className="swiper-wrapper mx-auto mb-4"
-                      >
-                        {skuData.map((data) => (
-                          //  <Variations key={data._id} images={data.images} />
-                          <SwiperSlide key={data._id}>
-                            <a href={`/product/${data._id}`}>
-                              {/* <div className="border rounded-lg"> */}
-                              <div
-                                className={`border rounded-lg ${
-                                  urldata === data._id
-                                    ? "border-4 border-black-500 shadow-xl"
-                                    : ""
-                                }`}
-                              >
-                                <img
-                                  loading="lazy"
-                                  src={data.images[0]}
-                                  alt={data.title}
-                                  height={100}
-                                  width={100}
-                                  className="rounded-t-xl"
-                                />
-                                <p className="font-semibold variation_title px-2">
-                                  {" "}
-                                  {data.title}
-                                </p>
-                                <p className="font-normal green_font px-2">
-                                  {" "}
-                                  ₹{data.discountedPrice}
-                                </p>
-                              </div>
-                            </a>
-                          </SwiperSlide>
-                        ))}
-                      </Swiper>
-                    ) : (
-                      // Fallback message if no products are available
-                      <p className="text-center green_font mt-4">
-                        No products available at the moment.
-                      </p>
-                    )}
-                  </div>
-                </div>
+
               </div>
             </div>
           </div>
@@ -1934,8 +1931,7 @@ const Page = ({ params }) => {
                 >
                   <a href="#forReviewClicked">
                     {reviewData?.reviews.length ? (
-                      `${reviewData?.reviews.length} ${
-                        reviewData?.reviews.length === 1 ? "Review" : "Reviews"
+                      `${reviewData?.reviews.length} ${reviewData?.reviews.length === 1 ? "Review" : "Reviews"
                       } `
                     ) : (
                       <></>
@@ -1957,7 +1953,7 @@ const Page = ({ params }) => {
                   {`SAVE ${Math.round(
                     ((convertedActualPrice - convertedPrice) /
                       convertedActualPrice) *
-                      100
+                    100
                   )}%`}
                 </span>
               </div>
@@ -2465,7 +2461,7 @@ const Page = ({ params }) => {
                   </span>
                   <span className="text-black font-semibold">
                     {" "}
-                    Get this under ₹{couponDiscounts.discountUnder}
+                    Get this under ₹{500}
                   </span>
                   <span className="bg-teal-100 text-sm green_font px-2 py-1 rounded">
                     Save up to ₹{couponDiscounts.saveUpTo}
@@ -2561,7 +2557,7 @@ const Page = ({ params }) => {
                           // spaceBetween: 20,
                         },
                         400: {
-                          slidesPerView: 2.5,
+                          slidesPerView: 2.8,
                           // spaceBetween: 20,
                         },
                         640: {
@@ -2602,11 +2598,10 @@ const Page = ({ params }) => {
                           <a href={`/product/${data._id}`}>
                             {/* <div className="border rounded-lg"> */}
                             <div
-                              className={`border rounded-lg ${
-                                urldata === data._id
+                              className={`border rounded-lg ${urldata === data._id
                                   ? "border-4 border-black-500 shadow-xl"
                                   : ""
-                              }`}
+                                }`}
                             >
                               <img
                                 loading="lazy"
@@ -2648,11 +2643,10 @@ const Page = ({ params }) => {
               >
                 <li className="me-2 max-sm:w-full" role="presentation">
                   <button
-                    className={`inline-block mt-2 px-4 py-2 max-sm:w-full ${
-                      activeTab === "general_info"
+                    className={`inline-block mt-2 px-4 py-2 max-sm:w-full ${activeTab === "general_info"
                         ? "green_bg_white_font"
                         : "hover:text-gray-600 hover:border-gray-300"
-                    }`}
+                      }`}
                     onClick={() => handleTabClick("general_info")}
                   >
                     General Information
@@ -2660,11 +2654,10 @@ const Page = ({ params }) => {
                 </li>
                 <li className="me-2 max-sm:w-full" role="presentation">
                   <button
-                    className={`inline-block mt-2 px-4 py-2 max-sm:w-full ${
-                      activeTab === "additional_info"
+                    className={`inline-block mt-2 px-4 py-2 max-sm:w-full ${activeTab === "additional_info"
                         ? "green_bg_white_font"
                         : "hover:text-gray-600 hover:border-gray-300"
-                    }`}
+                      }`}
                     onClick={() => handleTabClick("additional_info")}
                   >
                     Additional Information
@@ -2672,11 +2665,10 @@ const Page = ({ params }) => {
                 </li>
                 <li className="me-2 max-sm:w-full" role="presentation">
                   <button
-                    className={`inline-block mt-2 px-4 py-2 max-sm:w-full ${
-                      activeTab === "reviews"
+                    className={`inline-block mt-2 px-4 py-2 max-sm:w-full ${activeTab === "reviews"
                         ? "green_bg_white_font"
                         : "hover:text-gray-600 hover:border-gray-300"
-                    }`}
+                      }`}
                     onClick={() => handleTabClick("reviews")}
                   >
                     Product Reviews
@@ -2830,7 +2822,7 @@ const Page = ({ params }) => {
 
                         <div>
                           {reviewData?.reviews &&
-                          reviewData?.reviews.length > 0 ? (
+                            reviewData?.reviews.length > 0 ? (
                             reviewData?.reviews?.map((reviewer, index) => (
                               <div key={index} className="flex gap-4 mb-5">
                                 <div>
@@ -2945,7 +2937,7 @@ const Page = ({ params }) => {
           </div>
         </div>
 
-        <NewArrival title="Related Products" />
+        <NewArrival related={productData.properties} title="Related Products" />
       </div>
       <Footer />
       <div className="hidden max-sm:block">

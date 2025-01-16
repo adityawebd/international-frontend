@@ -60,23 +60,43 @@ const HomeVideos = () => {
       transition: Bounce,
     });
 
-  const videoProduct = [
-    { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
-    { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
-    { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
-    { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
-    { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
-    { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
-    { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
-    { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
-    { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
-    { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
-    { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
-    { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
-    { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
-    { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
-    { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
-  ];
+  // const videoProduct = [
+  //   { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
+  //   { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
+  //   { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
+  //   { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
+  //   { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
+  //   { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
+  //   { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
+  //   { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
+  //   { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
+  //   { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
+  //   { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
+  //   { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
+  //   { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
+  //   { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
+  //   { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
+  // ];
+
+  const [videoProduct, setVideoProducts] = useState([]);
+  useEffect(() => {
+    fetchVideoProducts();
+  }, []);
+
+  const fetchVideoProducts = async () => {
+    try {
+
+      const res = await axios.get('/api/videoProduct');
+      setVideoProducts(res.data.data);
+    } catch (error) {
+      console.error('Error fetching video products:', error);
+    } finally {
+      console.log('Video products:', videoProduct);
+    }
+  };
+
+  // console.log("Video banners", videoProduct);
+  
 
   useEffect(() => {
     // Extract IDs from the URLs
@@ -104,7 +124,7 @@ const HomeVideos = () => {
     };
 
     fetchProductData();
-  }, []);
+  }, [videoProduct]);
 
   const addToCart1 = (e, item) => {
     e.preventDefault(); // Prevent default form submission or link behavior
@@ -214,7 +234,7 @@ const HomeVideos = () => {
                         {`${Math.round(
                           ((product.price - product.discountedPrice) /
                             product.price) *
-                            100
+                          100
                         )}% OFF`}
                       </span>
                     </div>

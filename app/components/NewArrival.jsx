@@ -8,34 +8,40 @@ import "swiper/css";
 import "swiper/css/navigation";
 import axios from "axios";
 
-const NewArrival = ({title}) => {
+const NewArrival = ({title,related}) => {
   useEffect(() => {
     AOS.init();
   }, []);
 
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(true); // Track loading state
-  const type = "NewArrival";
+  const type = related||"NewArrival";
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         //console.log("before reaponce")
         const response = await axios.get(
-          `/api/productnewarrival?properties=${type}`
+          `/api/productf?properties=${type}`
         );
 
         //console.log("the responce is ", response);
         setProduct(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
+        const response = await axios.get(
+          `/api/productnewarrival?properties=${type}`
+        );
+
+        //console.log("the responce is ", response);
+        setProduct(response.data);
       } finally {
         setLoading(false);
       }
     };
 
     fetchData();
-  }, []);
+  }, [type]);
 
   // Determine slidesPerView dynamically based on product length
   const slidesToShow = Math.min(product.length, 5); // Max 5 slides
