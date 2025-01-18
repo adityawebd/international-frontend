@@ -9,10 +9,20 @@ import NewArrival from "../components/NewArrival";
 import Breadcrumbs from "../components/Breadcrumbs";
 import BackToTopButton from "../components/BackToTopButton";
 import { MdKeyboardDoubleArrowRight } from "react-icons/md";
-
+import useFromStore from "../../hooks/useFromStore";
+import { useCartStore } from "../../stores/useCartStore";
 import Sidebar from "../components/Sidebar";
 
 const page = () => {
+  const cart = useFromStore(useCartStore, (state) => state.cart);
+  
+
+  // Safely check if `cart` exists and has at least one item
+  const firstItemProperties = cart?.[0]?.properties || {};
+  console.log("cart",firstItemProperties);
+  
+
+  // related={firstItemProperties}
   return (
     <div>
       <Navbar2 />
@@ -43,7 +53,7 @@ const page = () => {
       <div className="m-4">
         <Cart />
       </div>
-      <NewArrival />
+      <NewArrival related={firstItemProperties}/>
       <Footer />
       <BackToTopButton />
     </div>

@@ -60,23 +60,43 @@ const HomeVideos = () => {
       transition: Bounce,
     });
 
-  const videoProduct = [
-    { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
-    { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
-    { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
-    { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
-    { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
-    { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
-    { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
-    { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
-    { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
-    { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
-    { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
-    { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
-    { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
-    { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
-    { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
-  ];
+  // const videoProduct = [
+  //   { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
+  //   { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
+  //   { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
+  //   { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
+  //   { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
+  //   { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
+  //   { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
+  //   { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
+  //   { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
+  //   { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
+  //   { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
+  //   { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
+  //   { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
+  //   { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
+  //   { url: "https://internationalgift.in/product/673c49b5bac14b959d11842b" },
+  // ];
+
+  const [videoProduct, setVideoProducts] = useState([]);
+  useEffect(() => {
+    fetchVideoProducts();
+  }, []);
+
+  const fetchVideoProducts = async () => {
+    try {
+
+      const res = await axios.get('/api/videoProduct');
+      setVideoProducts(res.data.data);
+    } catch (error) {
+      console.error('Error fetching video products:', error);
+    } finally {
+      console.log('Video products:', videoProduct);
+    }
+  };
+
+  // console.log("Video banners", videoProduct);
+  
 
   useEffect(() => {
     // Extract IDs from the URLs
@@ -104,7 +124,7 @@ const HomeVideos = () => {
     };
 
     fetchProductData();
-  }, []);
+  }, [videoProduct]);
 
   const addToCart1 = (e, item) => {
     e.preventDefault(); // Prevent default form submission or link behavior
@@ -214,7 +234,7 @@ const HomeVideos = () => {
                         {`${Math.round(
                           ((product.price - product.discountedPrice) /
                             product.price) *
-                            100
+                          100
                         )}% OFF`}
                       </span>
                     </div>
@@ -237,41 +257,41 @@ const HomeVideos = () => {
       {/* Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-90 flex justify-center items-center z-50">
-          <button
-            onClick={closeModal}
-            className="absolute top-0 right-0 p-2 text-white bg-transparent rounded-full hover:bg-gray-500 transition duration-300"
-          >
-            <X />
-          </button>
-          <div className="relative  flex justify-center items-center">
-            {/* Video in Modal */}
-            <div className="h-full w-auto overflow-hidden rounded-lg">
-              <video
-                src={productData[currentIndex]?.images?.find((image) =>
-                  image.endsWith(".mp4")
-                )}
-                className="h-full w-full object-cover rounded-lg transition-transform"
-                autoPlay
-                muted
-                loop
-                playsInline
-              />
-            </div>
+        <button
+          onClick={closeModal}
+          className="absolute top-0 right-0 p-2 text-white bg-transparent rounded-full hover:bg-gray-500 transition duration-300"
+        >
+          <X />
+        </button>
+        <div className="relative  flex justify-center items-center">
+          {/* Video in Modal */}
+          <div className="h-full w-auto overflow-hidden rounded-lg">
+            <video
+              src={productData[currentIndex]?.images?.find((image) =>
+                image.endsWith(".mp4")
+              )}
+              className="h-full w-full object-cover rounded-lg transition-transform"
+              autoPlay
+              muted
+              loop
+              playsInline
+            />
           </div>
-          {/* Navigation Buttons */}
-          <button
-            onClick={prevImage}
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white border border-primary text-primary hover:bg-primary hover:text-white p-2 rounded-full hover:p-3"
-          >
-            <ChevronLeft />
-          </button>
-          <button
-            onClick={nextImage}
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white border border-primary text-primary hover:bg-primary hover:text-white p-2 rounded-full hover:p-3"
-          >
-            <ChevronRight />
-          </button>
         </div>
+        {/* Navigation Buttons */}
+        <button
+          onClick={prevImage}
+          className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white border border-primary text-primary hover:bg-primary hover:text-white p-2 rounded-full hover:p-3"
+        >
+          <ChevronLeft />
+        </button>
+        <button
+          onClick={nextImage}
+          className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white border border-primary text-primary hover:bg-primary hover:text-white p-2 rounded-full hover:p-3"
+        >
+          <ChevronRight />
+        </button>
+      </div>
       )}
     </div>
   );
