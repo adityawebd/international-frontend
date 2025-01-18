@@ -283,7 +283,6 @@ const Page = ({ params }) => {
   //console.log("cart data is", cart)
   const maxQuantity = productData?.stockQuantity - 7;
 
-
   useEffect(() => {
     // Ensure cart is defined and is an array
     if (Array.isArray(cart)) {
@@ -473,7 +472,6 @@ const Page = ({ params }) => {
   //   // if (quantity > 1) setQuantity((prev) => prev - 1);
   //   setQuantity((prev) => (prev > 1 ? prev - 1 : 1)); // Prevent decrementing below 1
   // };
-
 
   const increaseQuantity = () => {
     setQuantity((prev) => {
@@ -1014,22 +1012,22 @@ const Page = ({ params }) => {
                       onClick={() => openModal(currentIndex)}
                     /> */}
                     {productData?.images?.[currentIndex]?.endsWith(".mp4") ? (
-                        <video
-                          src={productData?.images?.[currentIndex]}
-                          className="w-full mx-auto rounded-lg cursor-zoom-in"
-                          controls
-                        />
-                      ) : (
-                        <img
-                          src={
-                            productData?.images?.[currentIndex] ||
-                            "/default-image.jpg"
-                          }
-                          alt={productData?.title || "Product Image"}
-                          className="w-full mx-auto rounded-lg cursor-zoom-in"
-                          onClick={() => openModal(currentIndex)}
-                        />
-                      )}
+                      <video
+                        src={productData?.images?.[currentIndex]}
+                        className="w-full mx-auto rounded-lg cursor-zoom-in"
+                        controls
+                      />
+                    ) : (
+                      <img
+                        src={
+                          productData?.images?.[currentIndex] ||
+                          "/default-image.jpg"
+                        }
+                        alt={productData?.title || "Product Image"}
+                        className="w-full mx-auto rounded-lg cursor-zoom-in"
+                        onClick={() => openModal(currentIndex)}
+                      />
+                    )}
                     <button
                       onClick={prevImage}
                       className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white border_green green_font p-2 rounded-full hover:p-3 product-button-prev"
@@ -1088,8 +1086,8 @@ const Page = ({ params }) => {
                             }
                             alt={productData?.title || "Product Image"}
                             className={`w-full max-w-screen-sm mx-auto rounded-lg transition-transform cursor-zoom-in ${
-                            isZoomed ? "scale-150" : "scale-100"
-                          }`}
+                              isZoomed ? "scale-150" : "scale-100"
+                            }`}
                             onClick={toggleZoom}
                           />
                         )}
@@ -1320,16 +1318,20 @@ const Page = ({ params }) => {
                 <div>
                   {showModal ? (
                     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                      <div className="bg-white p-8 rounded-lg shadow-lg max-w-lg w-full">
-                        <p className="text-red-500">
-                          * Only one Customize product at a time{" "}
-                        </p>
-                        <h2 className="text-xl font-semibold mb-4">
-                          Customize Your : {productData.title}{" "}
-                        </h2>
+                      <div className="grid gap-2 grid-cols-2 max-sm:grid-cols-1 bg-white ">
+                        <div>
+                          <div></div>
+                        </div>
+                        <div className="p-8 bg-gray-200 max-w-lg w-full">
+                          <p className="text-red-500">
+                            * Only one Customize product at a time{" "}
+                          </p>
+                          <h2 className="text-xl font-semibold mb-4">
+                            Customize Your : {productData.title}{" "}
+                          </h2>
 
-                        {/* Form inside the modal */}
-                        {/* <form onSubmit={handleSubmit}>
+                          {/* Form inside the modal */}
+                          {/* <form onSubmit={handleSubmit}>
                         <div className="mb-4">
                           <label className="block text-sm font-medium text-gray-700 mb-2">
                             Message:
@@ -1372,84 +1374,85 @@ const Page = ({ params }) => {
                           </button>
                         </div>
                       </form> */}
-                        <form onSubmit={handleSubmit}>
-                          <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                              Enter The Name Here:{" "}
-                              <span className="text-red-600">*</span>
-                            </label>
-                            <input
-                              type="text"
-                              value={username}
-                              onChange={(e) => setusername(e.target.value)}
-                              placeholder="Enter your Name (Under 20 Character)"
-                              className="w-full border border-gray-300 rounded p-2"
-                              required
-                              maxLength="20"
-                            />
-                          </div>
-                          <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                              Message:
-                            </label>
-                            <input
-                              type="text"
-                              value={message}
-                              onChange={(e) => setMessage(e.target.value)}
-                              placeholder="Enter your message( Under 80 Character)"
-                              className="w-full border border-gray-300 rounded p-2"
-                              maxLength="80"
-                            />
-                          </div>
-                          <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                              Enter Your Whats app Number:
-                              <span className="text-red-600">*</span>
-                            </label>
-                            <input
-                              type="text"
-                              value={number}
-                              onChange={(e) => {
-                                const value = e.target.value;
-                                // Allow only numbers and limit to 10 digits
-                                if (/^\d{0,10}$/.test(value)) {
-                                  setnumber(value);
-                                }
-                              }}
-                              placeholder="WhatsApp Number"
-                              className="w-full border border-gray-300 rounded p-2"
-                              required
-                            />
-                          </div>
+                          <form onSubmit={handleSubmit}>
+                            <div className="mb-4">
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Enter The Name Here:{" "}
+                                <span className="text-red-600">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                value={username}
+                                onChange={(e) => setusername(e.target.value)}
+                                placeholder="Enter your Name (Under 20 Character)"
+                                className="w-full border border-gray-300 rounded p-2"
+                                required
+                                maxLength="20"
+                              />
+                            </div>
+                            <div className="mb-4">
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Message:
+                              </label>
+                              <input
+                                type="text"
+                                value={message}
+                                onChange={(e) => setMessage(e.target.value)}
+                                placeholder="Enter your message( Under 80 Character)"
+                                className="w-full border border-gray-300 rounded p-2"
+                                maxLength="80"
+                              />
+                            </div>
+                            <div className="mb-4">
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Enter Your Whats app Number:
+                                <span className="text-red-600">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                value={number}
+                                onChange={(e) => {
+                                  const value = e.target.value;
+                                  // Allow only numbers and limit to 10 digits
+                                  if (/^\d{0,10}$/.test(value)) {
+                                    setnumber(value);
+                                  }
+                                }}
+                                placeholder="WhatsApp Number"
+                                className="w-full border border-gray-300 rounded p-2"
+                                required
+                              />
+                            </div>
 
-                          <div className="mb-4">
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                              Upload Files:
-                            </label>
-                            <input
-                              type="file"
-                              onChange={handleFileChange}
-                              className="w-full"
-                              multiple // Allow multiple file selection
-                            />
-                          </div>
+                            <div className="mb-4">
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Upload Files:
+                              </label>
+                              <input
+                                type="file"
+                                onChange={handleFileChange}
+                                className="w-full"
+                                multiple // Allow multiple file selection
+                              />
+                            </div>
 
-                          <div className="flex justify-end">
-                            <button
-                              type="button"
-                              onClick={() => setShowModal(false)}
-                              className="bg-gray-500 text-white px-4 py-2 mr-2 rounded"
-                            >
-                              Cancel
-                            </button>
-                            <button
-                              type="submit"
-                              className="bg-blue-500 text-white px-4 py-2 rounded"
-                            >
-                              Submit
-                            </button>
-                          </div>
-                        </form>
+                            <div className="flex justify-end">
+                              <button
+                                type="button"
+                                onClick={() => setShowModal(false)}
+                                className="bg-gray-500 text-white px-4 py-2 mr-2 rounded"
+                              >
+                                Cancel
+                              </button>
+                              <button
+                                type="submit"
+                                className="bg-blue-500 text-white px-4 py-2 rounded"
+                              >
+                                Submit
+                              </button>
+                            </div>
+                          </form>
+                        </div>
                       </div>
                     </div>
                   ) : null}
