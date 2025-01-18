@@ -2101,7 +2101,7 @@ const Page = ({ params }) => {
                           className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center"
                           style={{ color: textColor }} // Dynamically update text color
                         >
-                          <p className="text-base font-bold bg-opacity-70 px-96 rounded">
+                          <p className="text-base font-bold bg-opacity-70 px-96 rounded break-words">
                             {displayName || "Your Name Here"}
                           </p>
                         </div>
