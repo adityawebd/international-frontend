@@ -89,6 +89,8 @@ const Page = ({ params }) => {
       transition: Bounce,
     });
 
+  const [displayName, setDisplayName] = useState(""); // For updating the image overlay dynamically
+  const [textColor, setTextColor] = useState("#000000"); // Default text color
   const [activeTab, setActiveTab] = useState("general_info");
   const [activeProductTab, setActiveProductTab] = useState(0); // State to track active tab
   const [isCounting, setIsCounting] = useState(false);
@@ -203,7 +205,7 @@ const Page = ({ params }) => {
     });
   };
 
-  const [couponDiscounts,setDiscountCoupons]=useState([])
+  const [couponDiscounts, setDiscountCoupons] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -232,11 +234,11 @@ const Page = ({ params }) => {
     const fetchCoupons = async () => {
       try {
         setLoading(true); // Start loading
-        const response = await axios.get('/api/coupons');
+        const response = await axios.get("/api/coupons");
         setDiscountCoupons(response.data); // Set coupons to state
         setError(null); // Reset any previous errors
       } catch (err) {
-        setError('Failed to fetch coupons'); // Handle error
+        setError("Failed to fetch coupons"); // Handle error
       } finally {
         setLoading(false); // End loading
       }
@@ -656,6 +658,7 @@ const Page = ({ params }) => {
         sessionStorage.setItem("message", message);
         sessionStorage.setItem("username", username);
         sessionStorage.setItem("number", number);
+        formData.append("textColor", textColor); // new value to backend for customize text color
 
         // Store image URLs or an empty array in sessionStorage as a JSON string
         sessionStorage.setItem("imageUrls", JSON.stringify(uploadedLinks));
@@ -803,10 +806,11 @@ const Page = ({ params }) => {
                           <div className="relative">
                             <video
                               src={media}
-                              className={`border border-red-500 rounded-lg h-[auto] w-[100px] lg:max-h-[100px] md:max-h-[80px] max-sm:max-h-[60px] mx-auto cursor-pointer ${currentIndex === index
+                              className={`border border-red-500 rounded-lg h-[auto] w-[100px] lg:max-h-[100px] md:max-h-[80px] max-sm:max-h-[60px] mx-auto cursor-pointer ${
+                                currentIndex === index
                                   ? "border-primary bg-secondary-light"
                                   : "border-gray-300"
-                                }`}
+                              }`}
                               onClick={() => handleThumbnailClick(index)}
                               muted
                             />
@@ -818,10 +822,11 @@ const Page = ({ params }) => {
                           <img
                             src={media}
                             alt="Product Thumbnail"
-                            className={`border rounded-lg h-[auto] lg:max-h-[100px] md:max-h-[80px] max-sm:max-h-[60px] mx-auto cursor-pointer ${currentIndex === index
+                            className={`border rounded-lg h-[auto] lg:max-h-[100px] md:max-h-[80px] max-sm:max-h-[60px] mx-auto cursor-pointer ${
+                              currentIndex === index
                                 ? "border-primary bg-secondary-light"
                                 : "border-gray-300"
-                              }`}
+                            }`}
                             onClick={() => handleThumbnailClick(index)}
                           />
                         )}
@@ -872,9 +877,10 @@ const Page = ({ params }) => {
                         style={{
                           ...zoomStyle,
                           position: "absolute",
-                          backgroundImage: `url(${productData?.images?.[currentIndex] ||
+                          backgroundImage: `url(${
+                            productData?.images?.[currentIndex] ||
                             "/default-image.jpg"
-                            })`,
+                          })`,
                           backgroundRepeat: "no-repeat",
                           backgroundSize: "200%", // Zoom level
                           top: 0,
@@ -946,8 +952,9 @@ const Page = ({ params }) => {
                               "/default-image.jpg"
                             }
                             alt={productData?.title || "Product Image"}
-                            className={`h-full mx-auto rounded-lg transition-transform cursor-zoom-in ${isZoomed ? "scale-150" : "scale-100"
-                              }`}
+                            className={`h-full mx-auto rounded-lg transition-transform cursor-zoom-in ${
+                              isZoomed ? "scale-150" : "scale-100"
+                            }`}
                             onClick={toggleZoom}
                           />
                         )}
@@ -1035,10 +1042,11 @@ const Page = ({ params }) => {
                             <a href={`/product/${data._id}`}>
                               {/* <div className="border rounded-lg"> */}
                               <div
-                                className={`border rounded-lg ${urldata === data._id
+                                className={`border rounded-lg ${
+                                  urldata === data._id
                                     ? "border-4 border-black-500 shadow-xl"
                                     : ""
-                                  }`}
+                                }`}
                               >
                                 <img
                                   loading="lazy"
@@ -1071,8 +1079,6 @@ const Page = ({ params }) => {
                 </div>
               </div>
 
-
-
               {/* for mobile view */}
               <div className="lg:hidden md:hidden">
                 <div className="flex flex-col gap-4 ">
@@ -1098,10 +1104,11 @@ const Page = ({ params }) => {
                           <div className="relative">
                             <video
                               src={media}
-                              className={`border rounded-lg h-[60px] w-[60px] mx-auto cursor-pointer ${currentIndex === index
+                              className={`border rounded-lg h-[60px] w-[60px] mx-auto cursor-pointer ${
+                                currentIndex === index
                                   ? "border-primary bg-secondary-light"
                                   : "border-gray-300"
-                                }`}
+                              }`}
                               onClick={() => handleThumbnailClick(index)}
                               muted
                             />
@@ -1113,10 +1120,11 @@ const Page = ({ params }) => {
                           <img
                             src={media}
                             alt="Product Thumbnail"
-                            className={`border rounded-lg h-[60px] w-[60px] mx-auto cursor-pointer ${currentIndex === index
+                            className={`border rounded-lg h-[60px] w-[60px] mx-auto cursor-pointer ${
+                              currentIndex === index
                                 ? "border-primary bg-secondary-light"
                                 : "border-gray-300"
-                              }`}
+                            }`}
                             onClick={() => handleThumbnailClick(index)}
                           />
                         )}
@@ -1212,8 +1220,9 @@ const Page = ({ params }) => {
                               "/default-image.jpg"
                             }
                             alt={productData?.title || "Product Image"}
-                            className={`w-full max-w-screen-sm mx-auto rounded-lg transition-transform cursor-zoom-in ${isZoomed ? "scale-150" : "scale-100"
-                              }`}
+                            className={`w-full max-w-screen-sm mx-auto rounded-lg transition-transform cursor-zoom-in ${
+                              isZoomed ? "scale-150" : "scale-100"
+                            }`}
                             onClick={toggleZoom}
                           />
                         )}
@@ -1258,9 +1267,10 @@ const Page = ({ params }) => {
                   >
                     <a href="#forReviewClicked">
                       {reviewData?.reviews.length ? (
-                        `${reviewData?.reviews.length} ${reviewData?.reviews.length === 1
-                          ? "Review"
-                          : "Reviews"
+                        `${reviewData?.reviews.length} ${
+                          reviewData?.reviews.length === 1
+                            ? "Review"
+                            : "Reviews"
                         } `
                       ) : (
                         <></>
@@ -1282,7 +1292,7 @@ const Page = ({ params }) => {
                     {`SAVE ${Math.round(
                       ((convertedActualPrice - convertedPrice) /
                         convertedActualPrice) *
-                      100
+                        100
                     )}%`}
                   </span>
                 </div>
@@ -1443,140 +1453,135 @@ const Page = ({ params }) => {
                 <div>
                   {showModal ? (
                     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                      <div className="grid gap-2 grid-cols-2 max-sm:grid-cols-1 bg-white ">
-                        <div>
-                          <div></div>
-                        </div>
-                        <div className="p-8 bg-gray-200 max-w-lg w-full">
-                          <p className="text-red-500">
-                            * Only one Customize product at a time{" "}
-                          </p>
-                          <h2 className="text-xl font-semibold mb-4">
-                            Customize Your : {productData.title}{" "}
-                          </h2>
-
-                          {/* Form inside the modal */}
-                          {/* <form onSubmit={handleSubmit}>
-                        <div className="mb-4">
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Message:
-                          </label>
-                          <input
-                            type="text"
-                            value={message}
-                            onChange={(e) => setMessage(e.target.value)}
-                            placeholder="Enter your message"
-                            className="w-full border border-gray-300 rounded p-2"
-                            required
+                      <div className="grid grid-cols-2 max-sm:grid-cols-1 bg-white 2xl:w-[70%] xl:w-[70%] lg:w-[80%] md:w-[95%]">
+                        <div className="relative p-6 flex justify-center items-center">
+                          <img
+                            src="/assets/customize.jpeg"
+                            alt="Customize Image Box Demo"
+                            className="w-full rounded-lg"
                           />
-                        </div>
-
-                        <div className="mb-4">
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Upload File:
-                          </label>
-                          <input
-                            type="file"
-                            onChange={handleFileChange}
-                            className="w-full"
-                            required
-                          />
-                        </div>
-
-                        <div className="flex justify-end">
-                          <button
-                            type="button"
-                            onClick={() => setShowModal(false)}
-                            className="bg-gray-500 text-white px-4 py-2 mr-2 rounded"
+                          {/* Overlay Text */}
+                          <div
+                            className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center"
+                            style={{ color: textColor }} // Dynamically update text color
                           >
-                            Cancel
-                          </button>
-                          <button
-                            type="submit"
-                            className="bg-blue-500 text-white px-4 py-2 rounded"
-                          >
-                            Submit
-                          </button>
+                            <p className="text-2xl font-bold bg-opacity-70 px-2 rounded">
+                              {displayName || "Your Name Here"}
+                            </p>
+                          </div>
                         </div>
-                      </form> */}
-                          <form onSubmit={handleSubmit}>
-                            <div className="mb-4">
-                              <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Enter The Name Here:{" "}
-                                <span className="text-red-600">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                value={username}
-                                onChange={(e) => setusername(e.target.value)}
-                                placeholder="Enter your Name (Under 20 Character)"
-                                className="w-full border border-gray-300 rounded p-2"
-                                required
-                                maxLength="20"
-                              />
-                            </div>
-                            <div className="mb-4">
-                              <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Message:
-                              </label>
-                              <input
-                                type="text"
-                                value={message}
-                                onChange={(e) => setMessage(e.target.value)}
-                                placeholder="Enter your message( Under 80 Character)"
-                                className="w-full border border-gray-300 rounded p-2"
-                                maxLength="80"
-                              />
-                            </div>
-                            <div className="mb-4">
-                              <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Enter Your Whats app Number:
-                                <span className="text-red-600">*</span>
-                              </label>
-                              <input
-                                type="text"
-                                value={number}
-                                onChange={(e) => {
-                                  const value = e.target.value;
-                                  // Allow only numbers and limit to 10 digits
-                                  if (/^\d{0,10}$/.test(value)) {
-                                    setnumber(value);
-                                  }
-                                }}
-                                placeholder="WhatsApp Number"
-                                className="w-full border border-gray-300 rounded p-2"
-                                required
-                              />
-                            </div>
+                        <div className="p-3 bg-gray-200 w-full">
+                          <div className="p-3 bg-white">
+                            <p className="text-red-500">
+                              * Only one Customize product at a time{" "}
+                            </p>
+                            <h2 className="text-xl font-semibold mb-4">
+                              Customize Your : {productData.title}{" "}
+                            </h2>
 
-                            <div className="mb-4">
-                              <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Upload Files:
-                              </label>
-                              <input
-                                type="file"
-                                onChange={handleFileChange}
-                                className="w-full"
-                                multiple // Allow multiple file selection
-                              />
-                            </div>
+                            <form onSubmit={handleSubmit}>
+                              <div className="mb-4">
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                  Enter The Name Here:{" "}
+                                  <span className="text-red-600">*</span>
+                                </label>
+                                {/* <input
+                                  type="text"
+                                  value={username}
+                                  onChange={(e) => setusername(e.target.value)}
+                                  placeholder="Enter your Name (Under 30 Character)"
+                                  className="w-full border border-gray-300 rounded p-2"
+                                  required
+                                  maxLength="30"
+                                /> */}
+                                <input
+                                  type="text"
+                                  value={username}
+                                  onChange={(e) => {
+                                    const value = e.target.value.slice(0, 30); // Limit input to 30 characters
+                                    setusername(value);
+                                    setDisplayName(value); // Update display name dynamically
+                                  }}
+                                  placeholder="Enter your Name (Under 30 Characters)"
+                                  className="w-full border border-gray-300 rounded p-2"
+                                  required
+                                />
+                              </div>
+                              {/* Color Picker */}
+                              <div className="mb-4 flex gap-2 items-center">
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                  Choose Text Color:
+                                </label>
+                                <input
+                                  type="color"
+                                  value={textColor}
+                                  onChange={(e) => setTextColor(e.target.value)} // Update text color
+                                  className="w-12 h-8 cursor-pointer"
+                                />
+                              </div>
+                              <div className="mb-4">
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                  Message:
+                                </label>
+                                <input
+                                  type="text"
+                                  value={message}
+                                  onChange={(e) => setMessage(e.target.value)}
+                                  placeholder="Enter your message( Under 80 Character)"
+                                  className="w-full border border-gray-300 rounded p-2"
+                                  maxLength="80"
+                                />
+                              </div>
+                              <div className="mb-4">
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                  Enter Your Whats app Number:
+                                  <span className="text-red-600">*</span>
+                                </label>
+                                <input
+                                  type="text"
+                                  value={number}
+                                  onChange={(e) => {
+                                    const value = e.target.value;
+                                    // Allow only numbers and limit to 10 digits
+                                    if (/^\d{0,10}$/.test(value)) {
+                                      setnumber(value);
+                                    }
+                                  }}
+                                  placeholder="WhatsApp Number"
+                                  className="w-full border border-gray-300 rounded p-2"
+                                  required
+                                />
+                              </div>
 
-                            <div className="flex justify-end">
-                              <button
-                                type="button"
-                                onClick={() => setShowModal(false)}
-                                className="bg-gray-500 text-white px-4 py-2 mr-2 rounded"
-                              >
-                                Cancel
-                              </button>
-                              <button
-                                type="submit"
-                                className="bg-blue-500 text-white px-4 py-2 rounded"
-                              >
-                                Submit
-                              </button>
-                            </div>
-                          </form>
+                              <div className="mb-4">
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                  Upload Files:
+                                </label>
+                                <input
+                                  type="file"
+                                  onChange={handleFileChange}
+                                  className="w-full"
+                                  multiple // Allow multiple file selection
+                                />
+                              </div>
+
+                              <div className="flex justify-end">
+                                <button
+                                  type="button"
+                                  onClick={() => setShowModal(false)}
+                                  className="bg-gray-500 text-white px-4 py-2 mr-2 rounded"
+                                >
+                                  Cancel
+                                </button>
+                                <button
+                                  type="submit"
+                                  className="bg-blue-500 text-white px-4 py-2 rounded"
+                                >
+                                  Submit
+                                </button>
+                              </div>
+                            </form>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -1866,7 +1871,9 @@ const Page = ({ params }) => {
                     </span>
                     <span className="text-black font-semibold">
                       {" "}
-                      Get this under ₹{parseFloat(productData.discountedPrice)-parseFloat(couponDiscounts.coupons[1].discountAmount)}
+                      Get this under ₹
+                      {parseFloat(productData.discountedPrice) -
+                        parseFloat(couponDiscounts.coupons[1].discountAmount)}
                     </span>
                     <span className="bg-teal-100 text-sm green_font px-2 py-1 rounded">
                       Save up to ₹{couponDiscounts.saveUpTo}
@@ -1937,7 +1944,6 @@ const Page = ({ params }) => {
                 {/* need help end */}
 
                 {/* Variations */}
-
               </div>
             </div>
           </div>
@@ -1962,7 +1968,8 @@ const Page = ({ params }) => {
                 >
                   <a href="#forReviewClicked">
                     {reviewData?.reviews.length ? (
-                      `${reviewData?.reviews.length} ${reviewData?.reviews.length === 1 ? "Review" : "Reviews"
+                      `${reviewData?.reviews.length} ${
+                        reviewData?.reviews.length === 1 ? "Review" : "Reviews"
                       } `
                     ) : (
                       <></>
@@ -1984,7 +1991,7 @@ const Page = ({ params }) => {
                   {`SAVE ${Math.round(
                     ((convertedActualPrice - convertedPrice) /
                       convertedActualPrice) *
-                    100
+                      100
                   )}%`}
                 </span>
               </div>
@@ -2082,136 +2089,136 @@ const Page = ({ params }) => {
               <div>
                 {showModal ? (
                   <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-                    <div className="bg-white p-8 rounded-lg shadow-lg max-w-lg w-full">
-                      <p className="text-red-500">
-                        * Only one Customize product at a time{" "}
-                      </p>
-                      <h2 className="text-xl font-semibold mb-4">
-                        Customize Your : {productData.title}{" "}
-                      </h2>
+                    <div className="grid grid-cols-1 bg-white w-[90%] h-[80%] overflow-y-auto">
+                      <div className="relative p-6 flex justify-center items-center">
+                        <img
+                          src="/assets/customize.jpeg"
+                          alt="Customize Image Box Demo"
+                          className="w-full rounded-lg"
+                        />
+                        {/* Overlay Text */}
+                        <div
+                          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center"
+                          style={{ color: textColor }} // Dynamically update text color
+                        >
+                          <p className="text-base font-bold bg-opacity-70 px-96 rounded">
+                            {displayName || "Your Name Here"}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="p-3 bg-gray-200 w-full">
+                        <div className="p-3 bg-white">
+                          <p className="text-red-500">
+                            * Only one Customize product at a time{" "}
+                          </p>
+                          <h2 className="text-xl font-semibold mb-4">
+                            Customize Your : {productData.title}{" "}
+                          </h2>
 
-                      {/* Form inside the modal */}
-                      {/* <form onSubmit={handleSubmit}>
-                        <div className="mb-4">
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Message:
-                          </label>
-                          <input
-                            type="text"
-                            value={message}
-                            onChange={(e) => setMessage(e.target.value)}
-                            placeholder="Enter your message"
-                            className="w-full border border-gray-300 rounded p-2"
-                            required
-                          />
-                        </div>
+                          <form onSubmit={handleSubmit}>
+                            <div className="mb-4">
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Enter The Name Here:{" "}
+                                <span className="text-red-600">*</span>
+                              </label>
+                              {/* <input
+                                  type="text"
+                                  value={username}
+                                  onChange={(e) => setusername(e.target.value)}
+                                  placeholder="Enter your Name (Under 30 Character)"
+                                  className="w-full border border-gray-300 rounded p-2"
+                                  required
+                                  maxLength="30"
+                                /> */}
+                              <input
+                                type="text"
+                                value={username}
+                                onChange={(e) => {
+                                  const value = e.target.value.slice(0, 30); // Limit input to 30 characters
+                                  setusername(value);
+                                  setDisplayName(value); // Update display name dynamically
+                                }}
+                                placeholder="Enter your Name (Under 30 Characters)"
+                                className="w-full border border-gray-300 rounded p-2"
+                                required
+                              />
+                            </div>
+                            {/* Color Picker */}
+                            <div className="mb-4 flex gap-2 items-center">
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Choose Text Color:
+                              </label>
+                              <input
+                                type="color"
+                                value={textColor}
+                                onChange={(e) => setTextColor(e.target.value)} // Update text color
+                                className="w-12 h-8 cursor-pointer"
+                              />
+                            </div>
+                            <div className="mb-4">
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Message:
+                              </label>
+                              <input
+                                type="text"
+                                value={message}
+                                onChange={(e) => setMessage(e.target.value)}
+                                placeholder="Enter your message( Under 80 Character)"
+                                className="w-full border border-gray-300 rounded p-2"
+                                maxLength="80"
+                              />
+                            </div>
+                            <div className="mb-4">
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Enter Your Whats app Number:
+                                <span className="text-red-600">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                value={number}
+                                onChange={(e) => {
+                                  const value = e.target.value;
+                                  // Allow only numbers and limit to 10 digits
+                                  if (/^\d{0,10}$/.test(value)) {
+                                    setnumber(value);
+                                  }
+                                }}
+                                placeholder="WhatsApp Number"
+                                className="w-full border border-gray-300 rounded p-2"
+                                required
+                              />
+                            </div>
 
-                        <div className="mb-4">
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Upload File:
-                          </label>
-                          <input
-                            type="file"
-                            onChange={handleFileChange}
-                            className="w-full"
-                            required
-                          />
-                        </div>
+                            <div className="mb-4">
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Upload Files:
+                              </label>
+                              <input
+                                type="file"
+                                onChange={handleFileChange}
+                                className="w-full"
+                                multiple // Allow multiple file selection
+                              />
+                            </div>
 
-                        <div className="flex justify-end">
-                          <button
-                            type="button"
-                            onClick={() => setShowModal(false)}
-                            className="bg-gray-500 text-white px-4 py-2 mr-2 rounded"
-                          >
-                            Cancel
-                          </button>
-                          <button
-                            type="submit"
-                            className="bg-blue-500 text-white px-4 py-2 rounded"
-                          >
-                            Submit
-                          </button>
+                            <div className="flex justify-end">
+                              <button
+                                type="button"
+                                onClick={() => setShowModal(false)}
+                                className="bg-gray-500 text-white px-4 py-2 mr-2 rounded"
+                              >
+                                Cancel
+                              </button>
+                              <button
+                                type="submit"
+                                className="bg-blue-500 text-white px-4 py-2 rounded"
+                              >
+                                Submit
+                              </button>
+                            </div>
+                          </form>
                         </div>
-                      </form> */}
-                      <form onSubmit={handleSubmit}>
-                        <div className="mb-4">
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Enter The Name Here:{" "}
-                            <span className="text-red-600">*</span>
-                          </label>
-                          <input
-                            type="text"
-                            value={username}
-                            onChange={(e) => setusername(e.target.value)}
-                            placeholder="Enter your Name (Under 20 Character)"
-                            className="w-full border border-gray-300 rounded p-2"
-                            required
-                            maxLength="20"
-                          />
-                        </div>
-                        <div className="mb-4">
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Message:
-                          </label>
-                          <input
-                            type="text"
-                            value={message}
-                            onChange={(e) => setMessage(e.target.value)}
-                            placeholder="Enter your message( Under 80 Character)"
-                            className="w-full border border-gray-300 rounded p-2"
-                            maxLength="80"
-                          />
-                        </div>
-                        <div className="mb-4">
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Enter Your Whats app Number:
-                            <span className="text-red-600">*</span>
-                          </label>
-                          <input
-                            type="text"
-                            value={number}
-                            onChange={(e) => {
-                              const value = e.target.value;
-                              // Allow only numbers and limit to 10 digits
-                              if (/^\d{0,10}$/.test(value)) {
-                                setnumber(value);
-                              }
-                            }}
-                            placeholder="WhatsApp Number"
-                            className="w-full border border-gray-300 rounded p-2"
-                            required
-                          />
-                        </div>
-
-                        <div className="mb-4">
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Upload Files:
-                          </label>
-                          <input
-                            type="file"
-                            onChange={handleFileChange}
-                            className="w-full"
-                            multiple // Allow multiple file selection
-                          />
-                        </div>
-
-                        <div className="flex justify-end">
-                          <button
-                            type="button"
-                            onClick={() => setShowModal(false)}
-                            className="bg-gray-500 text-white px-4 py-2 mr-2 rounded"
-                          >
-                            Cancel
-                          </button>
-                          <button
-                            type="submit"
-                            className="bg-blue-500 text-white px-4 py-2 rounded"
-                          >
-                            Submit
-                          </button>
-                        </div>
-                      </form>
+                      </div>
                     </div>
                   </div>
                 ) : null}
@@ -2629,10 +2636,11 @@ const Page = ({ params }) => {
                           <a href={`/product/${data._id}`}>
                             {/* <div className="border rounded-lg"> */}
                             <div
-                              className={`border rounded-lg ${urldata === data._id
+                              className={`border rounded-lg ${
+                                urldata === data._id
                                   ? "border-4 border-black-500 shadow-xl"
                                   : ""
-                                }`}
+                              }`}
                             >
                               <img
                                 loading="lazy"
@@ -2674,10 +2682,11 @@ const Page = ({ params }) => {
               >
                 <li className="me-2 max-sm:w-full" role="presentation">
                   <button
-                    className={`inline-block mt-2 px-4 py-2 max-sm:w-full ${activeTab === "general_info"
+                    className={`inline-block mt-2 px-4 py-2 max-sm:w-full ${
+                      activeTab === "general_info"
                         ? "green_bg_white_font"
                         : "hover:text-gray-600 hover:border-gray-300"
-                      }`}
+                    }`}
                     onClick={() => handleTabClick("general_info")}
                   >
                     General Information
@@ -2685,10 +2694,11 @@ const Page = ({ params }) => {
                 </li>
                 <li className="me-2 max-sm:w-full" role="presentation">
                   <button
-                    className={`inline-block mt-2 px-4 py-2 max-sm:w-full ${activeTab === "additional_info"
+                    className={`inline-block mt-2 px-4 py-2 max-sm:w-full ${
+                      activeTab === "additional_info"
                         ? "green_bg_white_font"
                         : "hover:text-gray-600 hover:border-gray-300"
-                      }`}
+                    }`}
                     onClick={() => handleTabClick("additional_info")}
                   >
                     Additional Information
@@ -2696,10 +2706,11 @@ const Page = ({ params }) => {
                 </li>
                 <li className="me-2 max-sm:w-full" role="presentation">
                   <button
-                    className={`inline-block mt-2 px-4 py-2 max-sm:w-full ${activeTab === "reviews"
+                    className={`inline-block mt-2 px-4 py-2 max-sm:w-full ${
+                      activeTab === "reviews"
                         ? "green_bg_white_font"
                         : "hover:text-gray-600 hover:border-gray-300"
-                      }`}
+                    }`}
                     onClick={() => handleTabClick("reviews")}
                   >
                     Product Reviews
@@ -2853,7 +2864,7 @@ const Page = ({ params }) => {
 
                         <div>
                           {reviewData?.reviews &&
-                            reviewData?.reviews.length > 0 ? (
+                          reviewData?.reviews.length > 0 ? (
                             reviewData?.reviews?.map((reviewer, index) => (
                               <div key={index} className="flex gap-4 mb-5">
                                 <div>
