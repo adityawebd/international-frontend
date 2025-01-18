@@ -176,6 +176,7 @@ export default async (req, res) => {
         address,
         country,
         paid: true,
+        paidAmount:amount
       });
       const type='Paid'
       await orderConfermation(email, channel_order_id,cart,type );

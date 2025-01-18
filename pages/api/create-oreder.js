@@ -159,6 +159,7 @@ export default async function handler(req, res) {
           address,
           country,
           paid: false,
+          paidAmount:amount
         });
         const type='Pending'
         await orderConfermation(email, channel_order_id,cart,type);

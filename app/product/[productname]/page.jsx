@@ -203,26 +203,54 @@ const Page = ({ params }) => {
     });
   };
 
-  const couponDiscounts = {
-    // discountUnder: "4,060",
-    // saveUpTo: "439",
-    coupons: [
-      {
-        _id: 1,
-        title: "Get 5% OFF",
-        desc: "Extra 5% OFF on all Online Payments",
-        code: "GIFT5",
-        discountPercent: 5,
-      },
-      {
-        _id: 2,
-        title: "Get ₹500 OFF",
-        desc: "₹500 OFF on 1st Pruchase of Lord Ganesha Idol",
-        code: "GANESHA500",
-        discountAmount: 500,
-      },
-    ],
-  };
+  const [couponDiscounts,setDiscountCoupons]=useState([])
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // const couponDiscounts = {
+  //   // discountUnder: "4,060",
+  //   // saveUpTo: "439",
+  //   coupons: [
+  //     {
+  //       _id: 1,
+  //       title: "Get 5% OFF",
+  //       desc: "Extra 5% OFF on all Online Payments",
+  //       code: "GIFT5",
+  //       discountPercent: 5,
+  //     },
+  //     {
+  //       _id: 2,
+  //       title: "Get ₹500 OFF",
+  //       desc: "₹500 OFF on 1st Pruchase of Lord Ganesha Idol",
+  //       code: "GANESHA500",
+  //       discountAmount: 500,
+  //     },
+  //   ],
+  // };
+
+  useEffect(() => {
+    const fetchCoupons = async () => {
+      try {
+        setLoading(true); // Start loading
+        const response = await axios.get('/api/coupons');
+        setDiscountCoupons(response.data); // Set coupons to state
+        setError(null); // Reset any previous errors
+      } catch (err) {
+        setError('Failed to fetch coupons'); // Handle error
+      } finally {
+        setLoading(false); // End loading
+      }
+    };
+
+    fetchCoupons();
+
+    // Cleanup function to avoid setting state after the component is unmounted
+    return () => {
+      setDiscountCoupons([]);
+      setLoading(false);
+      setError(null);
+    };
+  }, []);
 
   useEffect(() => {
     axios.get(`/api/productDetail?condition=${urldata}`).then((response) => {

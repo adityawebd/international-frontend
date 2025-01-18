@@ -30,10 +30,10 @@ const Cart = () => {
   const [discountApplied, setDiscountApplied] = useState(false);
   const [finalPrice, setFinalPrice] = useState(0); // To track the final price after applying coupon
 
-  const validCoupons = {
-    GIFT10: 10, // Example coupon: "GIFT10" gives a 10% discount
-    SAVE15: 15, // Another example: "SAVE15" gives a 15% discount
-  };
+  // const validCoupons = {
+  //   GIFT10: 10, // Example coupon: "GIFT10" gives a 10% discount
+  //   SAVE15: 15, // Another example: "SAVE15" gives a 15% discount
+  // };
 
   let total = 0;
   if (cart) {
@@ -69,16 +69,56 @@ const Cart = () => {
   };
 
   /// Handle applying the coupon code
+  const [couponDiscounts, setDiscountCoupons] = useState([]);
+  const [error, setError] = useState(null);
+
+
+  useEffect(() => {
+    const fetchCoupons = async () => {
+      try {
+        setLoading(true); // Start loading
+        const response = await axios.get('/api/coupons');
+        if (Array.isArray(response.data.coupons)) {
+          setDiscountCoupons(response.data.coupons); // Set coupons to state if response contains an array of coupons
+        } else {
+          setError('Invalid coupons data');
+        }
+        setError(null); // Reset any previous errors
+      } catch (err) {
+        setError('Failed to fetch coupons'); // Handle error
+      } finally {
+        setLoading(false); // End loading
+      }
+    };
+  
+    fetchCoupons();
+  }, []);
+
+  console.log("couponDiscounts",couponDiscounts);
+  
+
   const handleApplyCoupon = () => {
-    if (validCoupons[couponCode]) {
-      const discountPercentage = validCoupons[couponCode];
+    // Find the coupon based on the code
+    const coupon = couponDiscounts.find(c => c.code.toUpperCase() === couponCode.toUpperCase());
+
+    if (coupon) {
+      let discountAmount = 0;
+      let discountPercentage = 0;
+
+      // Check if the coupon has a discount percent or discount amount
+      if (coupon.discountPercent) {
+        discountPercentage = coupon.discountPercent;
+        discountAmount = (total * discountPercentage) / 100;
+      } else if (coupon.discountAmount) {
+        discountAmount = coupon.discountAmount;
+      }
+
       if (!discountApplied) {
-        const discountAmount = (total * discountPercentage) / 100;
         const newFinalPrice = total - discountAmount;
         setFinalPrice(newFinalPrice); // Update the final price with discount
         setDiscountApplied(true);
 
-        alert(`Coupon applied! ${discountPercentage}% discount added.`);
+        alert(`Coupon applied! ${discountPercentage ? `${discountPercentage}% discount` : `₹${discountAmount} discount`} added.`);
       } else {
         alert("Coupon already applied.");
       }
@@ -86,7 +126,6 @@ const Cart = () => {
       alert("Invalid coupon code. Please try again.");
     }
   };
-
   // Handle removing the coupon
   const handleRemoveCoupon = () => {
     setFinalPrice(total); // Reset the final price back to total
@@ -172,6 +211,7 @@ const Cart = () => {
     region: "",
     storedMessage: "",
     storedImageUrl: "",
+
   });
 
   const [hasAddressChanged, setHasAddressChanged] = useState(false); // Track address changes
@@ -179,16 +219,16 @@ const Cart = () => {
   useEffect(() => {
     const totalAmount = cart
       ? cart.reduce(
-          (acc, product) =>
-            acc + product.discountedPrice * (product.quantity || 0),
-          0
-        )
+        (acc, product) =>
+          acc + product.discountedPrice * (product.quantity || 0),
+        0
+      )
       : 0;
     if (session) {
-      setPrice(totalAmount);
+      setPrice(finalPrice);
       setFormData((prevFormData) => ({
         ...prevFormData,
-        amount: totalAmount.toString(),
+        amount: finalPrice,
         buyer_name: prevFormData.buyer_name || session.user?.name || "",
         email: prevFormData.email || session.user?.email || "",
         phone: prevFormData.phone || session.user?.number || "",
@@ -221,7 +261,7 @@ const Cart = () => {
         storednumber: storednumber || "",
       }));
     }
-  }, [cart, session, hasAddressChanged]);
+  }, [cart, session, hasAddressChanged, finalPrice]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -291,7 +331,7 @@ const Cart = () => {
     try {
       const response = await fetch("/api/razorpay", {
         method: "POST",
-        body: price,
+        body: finalPrice,
       });
 
       if (!response.ok) {
@@ -459,6 +499,33 @@ const Cart = () => {
   const Modal = ({ isOpen, onClose }) => {
     if (!isOpen) return null;
 
+
+
+
+
+    // const couponDiscounts = {
+    //   // discountUnder: "4,060",
+    //   // saveUpTo: "439",
+    //   coupons: [
+    //     {
+    //       _id: 1,
+    //       title: "Get 5% OFF",
+    //       desc: "Extra 5% OFF on all Online Payments",
+    //       code: "GIFT5",
+    //       discountPercent: 5,
+    //     },
+    //     {
+    //       _id: 2,
+    //       title: "Get ₹500 OFF",
+    //       desc: "₹500 OFF on 1st Pruchase of Lord Ganesha Idol",
+    //       code: "GANESHA500",
+    //       discountAmount: 500,
+    //     },
+    //   ],
+    // };
+
+
+
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 w-full">
         <div className="bg-white p-6 rounded-lg shadow-lg w-[40%] max-sm:w-[90%] relative">
@@ -488,7 +555,7 @@ const Cart = () => {
             <a
               href="/user-history"
               className="mr-2 bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400"
-              // onClick={onClose}
+            // onClick={onClose}
             >
               VIEW
             </a>
@@ -505,6 +572,29 @@ const Cart = () => {
   };
   //   console.log(total);
   //   console.log(finalPrice);
+
+  // const [couponDiscounts,setDiscountCoupons]=useState([]) 
+  // const [error, setError] = useState(null);
+
+  // useEffect(() => {
+  //   const fetchCoupons = async () => {
+  //     try {
+  //       setLoading(true); // Start loading
+  //       const response = await axios.get('/api/coupons');
+  //       setDiscountCoupons(response.data); // Set coupons to state
+  //       setError(null); // Reset any previous errors
+  //     } catch (err) {
+  //       setError('Failed to fetch coupons'); // Handle error
+  //     } finally {
+  //       setLoading(false); // End loading
+  //     }
+  //   };
+
+  //   fetchCoupons();
+
+  //   // Cleanup function to avoid setting state after the component is unmounted
+
+  // }, []);
 
   return (
     <div>

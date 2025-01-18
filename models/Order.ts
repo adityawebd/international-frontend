@@ -23,6 +23,7 @@ const OrderSchema = new Schema({
   storedImageUrl:[String],
   storedusername:String,
   storednumber:String,
+  paidAmount:String,
 }, {
   timestamps: true,
 });
