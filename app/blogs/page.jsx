@@ -33,7 +33,7 @@ export default function Blog() {
           setFilteredBlogs(result.data);
         }
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching data:", error); 
       }
     };
 
