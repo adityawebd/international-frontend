@@ -342,29 +342,11 @@ const ProductContent = ({ urldata }) => {
 
   return (
     <div className="container">
-      <div className="row">
-        <div className="col-md-2 overflow-hidden overflow-x-auto">
-          <div className="horizontal_filter flex items-center">
-            <button
-              className="reset_button d-md-none flex items-center gap-2 rounded my-4"
-              onClick={toggleFilter}
-            >
-              {/* {showFilter ? "Hide Filter" : "Show Filter"} */}
-              <FaFilter />
-              Filter
-            </button>
-            <FilterHorizontal
-              categories={categories}
-              categori={categori}
-              onFilterButtonClick={handleFilterClose}
-              onClick={toggleFilter}
-            />
-          </div>
+      <div className="flex lg:flex-row md:flex-row gap-4 flex-col">
+        <div className="2xl:w-1/5 xl:w-1/5 lg:w-1/4 md:w-1/4 w-full  lg:py-6 md:py-6">
           <div
             ref={filterRef}
-            className={`filter-page-container ${
-              showFilter ? "show" : ""
-            } d-md-block`}
+            className={` filter-page-container ${showFilter ? "show" : ""} d-md-block`}
           >
             <Filter
               categories={categories}
@@ -378,10 +360,28 @@ const ProductContent = ({ urldata }) => {
               onClose={toggleFilter} // Pass the close handler
             />
           </div>
+          <div className="lg:hidden block">
+            <div className=" flex items-center">
+              <button
+                className="reset_button d-md-none flex items-center gap-2 rounded py-4"
+                onClick={toggleFilter}
+              >
+                {/* {showFilter ? "Hide Filter" : "Show Filter"} */}
+                <FaFilter />
+                Filter
+              </button>
+              <FilterHorizontal
+                categories={categories}
+                categori={categori}
+                onFilterButtonClick={handleFilterClose}
+                onClick={toggleFilter}
+              />
+            </div>
+          </div>
         </div>
-        <div className="col-md-10 py-4">
+        <div className="2xl:w-4/5 xl:w-4/5 lg:w-3/4 md:w-3/4 w-full lg:py-6 md:py-6">
           <div className="lg:block md:block max-sm:hidden">
-            <div className="grid gap-2 grid-cols-3 lg:grid-cols-5 md:grid-cols-3">
+            <div className="grid gap-2 grid-cols-3 2xl:grid-cols-5 xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3">
               {filteredProducts?.map((product) => (
                 <div key={product._id} className="border rounded-xl p-2">
                   <a
@@ -424,7 +424,7 @@ const ProductContent = ({ urldata }) => {
                         {product.title}
                       </a>
                     </div>
-                    <div className="price mt-2 green_font text-md">
+                    <div className="price mt-2 green_font 2xl:text-md xl:text-md lg:text-sm">
                       ₹
                       {convertPrice(
                         product.discountedPrice,
@@ -432,7 +432,7 @@ const ProductContent = ({ urldata }) => {
                         exchangeRates
                       ).toFixed(2)}{" "}
                       &nbsp;
-                      <span className="text-sm line-through text-gray-300">
+                      <span className="2xl:text-sm xl:text-sm lg:text-xs line-through text-gray-300">
                         ₹
                         {convertPrice(
                           product.price,

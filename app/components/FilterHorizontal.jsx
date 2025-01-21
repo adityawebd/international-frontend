@@ -13,7 +13,7 @@ const Filter = ({
   onSortChange,
   onClose,
   responsive_filter_ID,
-  onFilterButtonClick 
+  onFilterButtonClick,
 }) => {
   //console.log("receiving category is", categories);
 
@@ -99,27 +99,26 @@ const Filter = ({
 
   const allowedProperties = ["Color", "Occasion", "Item Type"];
 
-    // Remove duplicate properties and categories
-    const uniqueCategories = useMemo(() => {
-      const seenProperties = new Set();
-      return categories.map((category) => {
-        // Filter out duplicate properties within each category
-        const filteredProperties = category?.property?.filter((property) => {
-          if (!allowedProperties.includes(property?.name)) {
-            return false;
-          }
-          if (seenProperties.has(property?.name)) {
-            return false; // Skip if property has already been seen
-          }
-          seenProperties.add(property?.name);
-          return true;
-        });
-  
-        // Return the category with filtered properties
-        return { ...category, property: filteredProperties };
+  // Remove duplicate properties and categories
+  const uniqueCategories = useMemo(() => {
+    const seenProperties = new Set();
+    return categories.map((category) => {
+      // Filter out duplicate properties within each category
+      const filteredProperties = category?.property?.filter((property) => {
+        if (!allowedProperties.includes(property?.name)) {
+          return false;
+        }
+        if (seenProperties.has(property?.name)) {
+          return false; // Skip if property has already been seen
+        }
+        seenProperties.add(property?.name);
+        return true;
       });
-    }, [categories]);
 
+      // Return the category with filtered properties
+      return { ...category, property: filteredProperties };
+    });
+  }, [categories]);
 
   return (
     <div className="hori_filter_container d-md-none">
@@ -154,7 +153,10 @@ const Filter = ({
         {openAccordions.colors && (
           <div className="accordion-content border-0">
             {uniqueCategories?.map((category, categoryIndex) => (
-              <div key={categoryIndex} className=" 1">
+              <div
+                key={categoryIndex}
+                className=" 1 flex items-center w-[auto]"
+              >
                 {category?.property?.map((property, propertyIndex) => {
                   // Check if the property name is one of the allowed names
                   if (!allowedProperties.includes(property?.name)) {
@@ -162,16 +164,14 @@ const Filter = ({
                   }
                   const nestedAccordionKey = `${categoryIndex}-${propertyIndex}`;
                   return (
-                    <>
-                      <a
-                        href={`#${propertyIndex}`}
-                        key={propertyIndex}
-                        className="inline mr-3 rounded reset_button"
-                        onClick={onFilterButtonClick}
-                      >
-                        {property?.name}
-                      </a>
-                    </>
+                    <a
+                      href={`#${propertyIndex}`}
+                      key={propertyIndex}
+                      className="inline mr-3 rounded reset_button"
+                      onClick={onFilterButtonClick}
+                    >
+                      {property?.name}
+                    </a>
                   );
                 })}
               </div>
