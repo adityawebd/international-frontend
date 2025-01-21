@@ -8,42 +8,56 @@ import "swiper/css";
 import "swiper/css/navigation";
 import axios from "axios";
 
-const NewArrival = ({title,related}) => {
+const NewArrival = ({ title, related }) => {
   useEffect(() => {
     AOS.init();
   }, []);
 
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(true); // Track loading state
-  const type = related||"NewArrival";
+  const type = related || "NewArrival";
 
-  useEffect(() => {
-    const fetchData = async () => {
+useEffect(() => {
+  if (type === "NewArrival") {
+    const fetchNewArrivals = async () => {
       try {
-        //console.log("before reaponce")
-        const response = await axios.get(
-          `/api/productf?properties=${type}`
-        );
-
-        //console.log("the responce is ", response);
+        const response = await axios.get(`/api/productnewarrival?properties=${type}`);
         setProduct(response.data);
       } catch (error) {
-        console.error("Error fetching data:", error);
-        const response = await axios.get(
-          `/api/productnewarrival?properties=${type}`
-        );
-
-        //console.log("the responce is ", response);
-        setProduct(response.data);
+        console.error("Error fetching New Arrival data:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchData();
-  }, [type]);
+    fetchNewArrivals();
+  }
+}, []);
+
+// useEffect(() => {
+//   if (type !== "NewArrival") {
+//     const fetchOtherProducts = async () => {
+//       try {
+//         const response = await axios.get(`/api/productf?properties=${type}`);
+//         setProduct(response.data);
+//       } catch (error) {
+//         console.error("Error fetching other products data:", error);
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+
+//     fetchOtherProducts();
+//   }
+// }, [related]);
+
+
+//   console.log("product",product,"related",related);
+  
 
   // Determine slidesPerView dynamically based on product length
+ 
+ 
   const slidesToShow = Math.min(product.length, 5); // Max 5 slides
   const enableLoop = product.length > slidesToShow;
   return (
@@ -56,7 +70,7 @@ const NewArrival = ({title,related}) => {
           {title}
         </h2>
         <p data-aos="fade-up" className="text-center text-sm light_black_font">
-          Browse The Best Collections of Month 
+          Browse The Best Collections of Month
         </p>
         <div className="container mt-4">
           {loading ? (

@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Cart from "../components/Cart";
-
+import RelatedProduct from "../components/RelatedProduct";
 import Navbar2 from '../components/Navbar2'
 import Navbar3 from '../components/Navbar3'
 import Footer from "../components/Footer";
@@ -53,7 +53,9 @@ const page = () => {
       <div className="m-4">
         <Cart />
       </div>
-      <NewArrival related={firstItemProperties}/>
+      {/* <NewArrival related={firstItemProperties}/> */}
+
+      <RelatedProduct  related={firstItemProperties}/>
       <Footer />
       <BackToTopButton />
     </div>

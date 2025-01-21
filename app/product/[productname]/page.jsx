@@ -70,6 +70,7 @@ import Bread from "../../components/Bread";
 import { TbTruckDelivery } from "react-icons/tb";
 import { GrReturn } from "react-icons/gr";
 import { VscWorkspaceTrusted } from "react-icons/vsc";
+import RelatedProduct from "../../components/relatedProduct";
 
 const Page = ({ params }) => {
   const urldata = decodeURIComponent(params.productname);
@@ -2979,7 +2980,8 @@ const Page = ({ params }) => {
           </div>
         </div>
 
-        <NewArrival related={productData.properties} title="Related Products" />
+        {/* <NewArrival related={productData.properties} title="Related Products" /> */}
+        <RelatedProduct related={productData.properties} title="Related Products" />
       </div>
       <Footer />
       <div className="hidden max-sm:block">
