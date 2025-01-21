@@ -313,63 +313,65 @@ const Cart = () => {
   };
 
   const handleRazorpayPayment = async () => {
-    if (!session) {
-      window.location.href = "/login"; // Redirects to login page
-      return;
-    }
-    const res = await loadRazorpayScript();
 
-    if (!res) {
-      alert("Razorpay SDK failed to load. Are you online?");
-      return;
-    }
+    alert("online payment is Not avalble Right now")
+    // if (!session) {
+    //   window.location.href = "/login"; // Redirects to login page
+    //   return;
+    // }
+    // const res = await loadRazorpayScript();
 
-    setLoading(true);
+    // if (!res) {
+    //   alert("Razorpay SDK failed to load. Are you online?");
+    //   return;
+    // }
 
-    // Create and populate FormData object
+    // setLoading(true);
 
-    try {
-      const response = await fetch("/api/razorpay", {
-        method: "POST",
-        body: finalPrice,
-      });
+    // // Create and populate FormData object
 
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
+    // try {
+    //   const response = await fetch("/api/razorpay", {
+    //     method: "POST",
+    //     body: finalPrice,
+    //   });
 
-      const data = await response.json();
-      // ////console.log('Order created:', data);
+    //   if (!response.ok) {
+    //     throw new Error("Network response was not ok");
+    //   }
 
-      // ////console.log(cart)
-      // Proceed with Razorpay payment handling here
-      const options = {
-        key: process.env.RAZORPAY_KEY_ID, // Your Razorpay Key ID
-        amount: data.amount, // Amount should match the one created in the backend
-        currency: "INR",
-        name: cart[0]?.title,
-        description: "Purchase Description",
-        order_id: data.id, // Order ID from the backend
-        handler: (response) => {
-          handlePaymentSuccess(response);
-        },
-        prefill: {
-          name: session.user?.name,
-          email: session.user?.email,
-          contact: session.user?.number,
-        },
-        theme: {
-          color: "#F37254",
-        },
-      };
+    //   const data = await response.json();
+    //   // ////console.log('Order created:', data);
 
-      const rzp = new window.Razorpay(options);
-      rzp.open();
-    } catch (error) {
-      console.error("Error:", error);
-    } finally {
-      setLoading(false);
-    }
+    //   // ////console.log(cart)
+    //   // Proceed with Razorpay payment handling here
+    //   const options = {
+    //     key: process.env.RAZORPAY_KEY_ID, // Your Razorpay Key ID
+    //     amount: data.amount, // Amount should match the one created in the backend
+    //     currency: "INR",
+    //     name: cart[0]?.title,
+    //     description: "Purchase Description",
+    //     order_id: data.id, // Order ID from the backend
+    //     handler: (response) => {
+    //       handlePaymentSuccess(response);
+    //     },
+    //     prefill: {
+    //       name: session.user?.name,
+    //       email: session.user?.email,
+    //       contact: session.user?.number,
+    //     },
+    //     theme: {
+    //       color: "#F37254",
+    //     },
+    //   };
+
+    //   const rzp = new window.Razorpay(options);
+    //   rzp.open();
+    // } catch (error) {
+    //   console.error("Error:", error);
+    // } finally {
+    //   setLoading(false);
+    // }
   };
 
   const handlePaymentSuccess = async (response) => {
@@ -670,7 +672,7 @@ const Cart = () => {
                     </a>
                     <button
                       type="button"
-                      className="mb-2"
+                      className="mb-2 disabled"
                       onClick={handleRazorpayPayment}
                     >
                       Pay Online

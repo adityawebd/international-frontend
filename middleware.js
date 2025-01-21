@@ -3,7 +3,7 @@ import { NextRequest } from 'next/server';
 
 export function middleware(req) {
   // Assume you store the user authentication status in a cookie
-  const token = req.cookies.get('next-auth.session-token') ||  req.cookies.get('_next-auth.session-token') ;
+  const token = req.cookies.get('next-auth.session-token') ||  req.cookies.get('_next-auth.session-token') || req.cookies.get('__Secure-next-auth.session-token') ;
   
   // Define the paths you want to block for authenticated users
   const blockedPaths = ['/login', '/signup'];
