@@ -14,6 +14,10 @@ const customerSchema = new mongoose.Schema({
     type:String,
     trim:true,
   },
+  hasUsedCuppon:{
+    type:Boolean,
+    default:false
+  },
   email: {
     type: String,
     required: true,

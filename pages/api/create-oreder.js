@@ -3,6 +3,7 @@ import axios from "axios";
 import generateOrderNumber from "../../utils/generateOrderId";
 import mongooseConnect from "../../lib/mongoose";
 import { Order } from "../../models/Order";
+import Customer from "../../utils/models/customer";
 // import Product from "../../models/Product";
 import { sendOtpEmail, orderConfermation } from "../../utils/nodemailer";
 
@@ -159,10 +160,29 @@ export default async function handler(req, res) {
           address,
           country,
           paid: false,
-          paidAmount:amount
+          paidAmount: amount
         });
-        const type='Pending'
-        await orderConfermation(email, channel_order_id,cart,type);
+        const type = 'Pending'
+        await orderConfermation(email, channel_order_id, cart, type);
+
+
+
+        const customer = await Customer.findOne({ email });
+
+        if (!customer) {
+          return res.status(404).json({ error: 'Customer not found' });
+        }
+    
+        // Check if coupon is already used
+        if (customer.hasUsedCuppon) {
+          return res.status(400).json({ error: 'Coupon already used' });
+        }
+    
+        // Update hasUsedCuppon field
+        customer.hasUsedCuppon = true;
+        await customer.save();
+
+
         res.status(200).json(data);
       } catch (error) {
         res.status(500).json({ error: "internal error" });

@@ -71,6 +71,7 @@ const Cart = () => {
   /// Handle applying the coupon code
   const [couponDiscounts, setDiscountCoupons] = useState([]);
   const [error, setError] = useState(null);
+  const [profile, setProfile] = useState({});
 
 
   useEffect(() => {
@@ -94,17 +95,39 @@ const Cart = () => {
     fetchCoupons();
   }, []);
 
-  console.log("couponDiscounts",couponDiscounts);
+  console.log("profile",profile);
+
+  useEffect(() => {
+    if (session) {
+      const fetchProfile = async () => {
+        try {
+          const response = await axios.get(`/api/user?condition=${session.user.email}`);
+          setProfile(response.data);
+          } catch (error) {
+            console.error(error);
+        }
+      }
+      fetchProfile();
+    }
+  },[session])
   
 
   const handleApplyCoupon = () => {
+    console.log("Profile:", profile); // Debugging: Log user profile data
+  
+    // Check if the user has already used a coupon
+    if (profile.hasUsedCuppon) {
+      alert("You have already used a coupon. Cannot apply another one.");
+      return;
+    }
+  
     // Find the coupon based on the code
     const coupon = couponDiscounts.find(c => c.code.toUpperCase() === couponCode.toUpperCase());
-
+  
     if (coupon) {
       let discountAmount = 0;
       let discountPercentage = 0;
-
+  
       // Check if the coupon has a discount percent or discount amount
       if (coupon.discountPercent) {
         discountPercentage = coupon.discountPercent;
@@ -112,13 +135,17 @@ const Cart = () => {
       } else if (coupon.discountAmount) {
         discountAmount = coupon.discountAmount;
       }
-
+  
       if (!discountApplied) {
         const newFinalPrice = total - discountAmount;
         setFinalPrice(newFinalPrice); // Update the final price with discount
         setDiscountApplied(true);
-
+  
         alert(`Coupon applied! ${discountPercentage ? `${discountPercentage}% discount` : `₹${discountAmount} discount`} added.`);
+  
+        // Update the user's profile to indicate they have used a coupon
+        // Ideally, this should be updated on the server side as well
+        profile.hasUsedCoupon = true; // Temporary local update
       } else {
         alert("Coupon already applied.");
       }
