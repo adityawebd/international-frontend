@@ -463,7 +463,7 @@ const ProductContent = ({ urldata }) => {
 
           <div className="lg:hidden md:hidden">
             <div className="grid gap-2 grid-cols-1">
-              {products?.map((product) => (
+              {filteredProducts?.map((product) => (
                 <div
                   key={product._id}
                   className="border rounded-xl p-2 flex gap-2"

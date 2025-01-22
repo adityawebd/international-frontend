@@ -179,7 +179,8 @@ const Page = ({ params }) => {
   const prevImage = () => {
     setCurrentIndex((prevIndex) => {
       const newIndex =
-        (prevIndex - 1 + productData.images?.length) % productData.images?.length;
+        (prevIndex - 1 + productData.images?.length) %
+        productData.images?.length;
       handleThumbnailClick(newIndex); // Center the new active thumbnail
       return newIndex;
     });
@@ -778,6 +779,20 @@ const Page = ({ params }) => {
     setZoomStyle({ display: "none" });
   };
 
+  const maxCouponDiscount = (discount1, discount2) => {
+    discount1 = (productData.discountedPrice) - (((productData.discountedPrice))*(discount1)/100)
+    discount2 = (productData.discountedPrice) - (((productData.discountedPrice))*(discount2)/100)
+
+    // console.log(discount1)
+    // console.log(discount2)
+
+    let discount = discount1;
+    if (discount1 < discount2) discount = discount1;
+    else discount = discount2;
+
+    return discount;
+  };
+
   const isVideo = (url) => /\.(mp4|webm|ogg)$/.test(url);
 
   return (
@@ -1053,9 +1068,7 @@ const Page = ({ params }) => {
                                   loading="lazy"
                                   src={data.images[0]}
                                   alt={data.title}
-                                  height={100}
-                                  width={100}
-                                  className="rounded-t-xl"
+                                  className="rounded-t-lg"
                                 />
                                 <p className="font-semibold variation_title px-2">
                                   {" "}
@@ -1332,7 +1345,7 @@ const Page = ({ params }) => {
                 {productData.stockQuantity > 0 ? (
                   <>
                     <div className="2xl:block xl:block lg:block hidden">
-                      <div className="grid lg:grid-cols-3 md:grid-cols-2 2xl:gap-6 xl:gap-4 lg:gap-2 mt-4">
+                      {/* <div className="grid lg:grid-cols-3 md:grid-cols-2 2xl:gap-6 xl:gap-4 lg:gap-2 mt-4">
                         <div className="">
                           <div className="flex items-center justify-center border border-gray-300 rounded-full">
                             <button
@@ -1375,7 +1388,56 @@ const Page = ({ params }) => {
                             </div>
                           ) : null}
                         </div>
+                      </div> */}
+                      <div className="grid lg:grid-cols-3 md:grid-cols-2 2xl:gap-6 xl:gap-4 lg:gap-2 mt-4">
+                        <div className="">
+                          <div className="flex items-center justify-center border border-gray-300 rounded-full">
+                            <button
+                              onClick={decreaseQuantity}
+                              className="bg-gray-100 rounded-l-full 2xl:w-1/5 xl:w-1/5 lg:w-2/5 2xl:py-2 xl:py-2 lg:py-1 border-r border-gray-300"
+                            >
+                              -
+                            </button>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <span className="w-3/5 text-center 2xl:py-2 xl:py-2 lg:py-1">
+                              {quantity}
+                            </span>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <button
+                              onClick={increaseQuantity}
+                              disabled={isDisabled}
+                              className="bg-gray-100 rounded-r-full 2xl:w-1/5 xl:w-1/5 lg:w-2/5 2xl:py-2 xl:py-2 lg:py-1 border-l border-gray-300"
+                            >
+                              +
+                            </button>
+                          </div>
+                        </div>
+                        <div
+                          className={`${
+                            productData.custom ? "" : "lg:col-span-2"
+                          }`}
+                        >
+                          <button
+                            onClick={(e) => addToCart1(e, productData)}
+                            className="bg_darkgray flex gap-1 items-center justify-center text-white px-4 py-2 rounded-full capitalize text-center w-full 2xl:text-base xl:text-base lg:text-sm"
+                          >
+                            <span>
+                              <HiOutlineShoppingBag />
+                            </span>
+                            &nbsp; add to cart
+                          </button>
+                        </div>
+                        {productData.custom && (
+                          <div className="">
+                            <div className="bg_darkgray text-white px-4 py-2 rounded-full capitalize text-center w-full 2xl:text-base xl:text-base lg:text-sm">
+                              <button onClick={() => setShowModal(true)}>
+                                Customize
+                              </button>
+                            </div>
+                          </div>
+                        )}
                       </div>
+
                       <div className="mt-3">
                         <button
                           onClick={(e) => addToCart2(e, productData)}
@@ -1422,7 +1484,12 @@ const Page = ({ params }) => {
                           </button>
                         </div>
                       </div>
-                      <div className="grid grid-cols-2 gap-2 mt-2">
+                      {/* <div className="grid grid-cols-2 gap-2 mt-2"> */}
+                      <div
+                        className={`mt-2 grid gap-2 ${
+                          productData.custom ? "" : "lg:col-span-2"
+                        }`}
+                      >
                         <div className="">
                           {productData.custom ? (
                             <div className="bg_darkgray text-white px-4 py-2 rounded-full capitalize text-center w-full  text-sm">
@@ -1613,9 +1680,7 @@ const Page = ({ params }) => {
                       <GrReturn size={30} />
                     </span>
                     <div className="text-left">
-                    <p className="text-black">
-                      7 Days Return
-                    </p>
+                      <p className="text-black">7 Days Return</p>
                       <p className="text-sm"> (4 Days Max.)</p>
                     </div>
                   </button>
@@ -1660,7 +1725,8 @@ const Page = ({ params }) => {
                             </h2>
                             <p className="px-6 pb-4">
                               Enjoy free shipping on all orders above ₹50. Fast
-                              and reliable delivery to your doorstep within 2 days maximum.
+                              and reliable delivery to your doorstep within 2
+                              days maximum.
                             </p>
                           </div>
                         )}
@@ -1672,7 +1738,8 @@ const Page = ({ params }) => {
                             </h2>
                             <p className="px-6 pb-4">
                               Not satisfied? No worries! You can return the
-                              product within 7 days for a full refund within 4 days maximum.
+                              product within 7 days for a full refund within 4
+                              days maximum.
                             </p>
                           </div>
                         )}
@@ -1879,14 +1946,14 @@ const Page = ({ params }) => {
                       %
                     </span>
                     <span className="text-black font-semibold">
-                      {" "} 
+                      {" "}
                       {/* //discountPercent */}
                       Get this under ₹
-                      {parseFloat(productData.discountedPrice) -
-                        parseFloat(couponDiscounts.coupons[1].discountAmount)}
+                      {maxCouponDiscount(couponDiscounts.coupons[0].discountPercent, couponDiscounts.coupons[1].discountPercent)}
                     </span>
                     <span className="bg-teal-100 text-sm green_font px-2 py-1 rounded">
-                      Save up to ₹{couponDiscounts.saveUpTo}
+                      Save up to ₹
+                      {parseFloat(productData.discountedPrice) - maxCouponDiscount(couponDiscounts.coupons[0].discountPercent, couponDiscounts.coupons[1].discountPercent)}{" "}
                     </span>
                   </div>
                   <div className="mt-4 grid lg:grid-cols-2 grid-cols-1 gap-4">
@@ -2058,7 +2125,7 @@ const Page = ({ params }) => {
                         </button>
                       </div>
                     </div>
-                    <div className="w-2/3">
+                    {/* <div className="w-2/3">
                       <button
                         onClick={(e) => addToCart1(e, productData)}
                         className="bg_darkgray flex gap-1 items-center justify-center text-white px-4 py-2 rounded-full capitalize text-center w-full"
@@ -2068,25 +2135,26 @@ const Page = ({ params }) => {
                         </span>{" "}
                         &nbsp; add to cart{" "}
                       </button>
+                    </div> */}
+                    <div className="w-2/3">
+                      {productData.custom ? (
+                        <div className="bg_darkgray text-white px-4 py-2 rounded-full capitalize text-center w-full  2xl:text-base xl:text-base lg:text-sm max-sm:text-sm">
+                          <button onClick={() => setShowModal(true)}>
+                            Customize
+                          </button>
+                        </div>
+                      ) : null}
                     </div>
                   </div>
-                  <div className="mt-2">
-                    {productData.custom ? (
-                      <div className="bg_darkgray text-white px-4 py-2 rounded-full capitalize text-center w-full  2xl:text-base xl:text-base lg:text-sm">
-                        <button onClick={() => setShowModal(true)}>
-                          Customize
-                        </button>
-                      </div>
-                    ) : null}
-                  </div>
-                  <div className="mt-2">
+
+                  {/* <div className="mt-2">
                     <button
                       onClick={(e) => addToCart2(e, productData)}
                       className="bg_green hover:sha text-white px-4 py-2 rounded-full capitalize text-center w-full"
                     >
                       buy now{" "}
                     </button>
-                  </div>
+                  </div> */}
 
                   {/* </div> */}
                 </>
@@ -2245,9 +2313,9 @@ const Page = ({ params }) => {
                     <TbTruckDelivery size={24} />
                   </span>
                   <div className="text-left">
-                      <p className="text-black">Free Shipping</p>
-                      <p className="text-sm"> (2 Days Max.)</p>
-                    </div>
+                    <p className="text-black">Free Shipping</p>
+                    <p className="text-sm"> (2 Days Max.)</p>
+                  </div>
                 </button>
                 {/* 7 Days Return */}
                 <button
@@ -2258,11 +2326,9 @@ const Page = ({ params }) => {
                     <GrReturn size={24} />
                   </span>
                   <div className="text-left">
-                    <p className="text-black">
-                      7 Days Return
-                    </p>
-                      <p className="text-sm"> (4 Days Max.)</p>
-                    </div>
+                    <p className="text-black">7 Days Return</p>
+                    <p className="text-sm"> (4 Days Max.)</p>
+                  </div>
                 </button>
                 {/* Trusted By */}
                 <button
@@ -2305,7 +2371,8 @@ const Page = ({ params }) => {
                           </h2>
                           <p className="px-6 pb-4">
                             Enjoy free shipping on all orders above ₹50. Fast
-                            and reliable delivery to your doorstep within 2 days maximum.
+                            and reliable delivery to your doorstep within 2 days
+                            maximum.
                           </p>
                         </div>
                       )}
@@ -2317,7 +2384,8 @@ const Page = ({ params }) => {
                           </h2>
                           <p className="px-6 pb-4">
                             Not satisfied? No worries! You can return the
-                            product within 7 days for a full refund within 4 days maximum.
+                            product within 7 days for a full refund within 4
+                            days maximum.
                           </p>
                         </div>
                       )}
