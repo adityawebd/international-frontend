@@ -7,7 +7,7 @@ export default async function Page({ params }) {
 
   // console.log(urldata);
 
-  const response = await axios.get(`http://localhost:3001/api/blogs?url=${urldata}`); // Replace with your API endpoint
+  const response = await axios.get(`https://internationalgift.in/api/blogs?url=${urldata}`); // Replace with your API endpoint
   const result = await response.data.data;
 
   const id = result?._id;
