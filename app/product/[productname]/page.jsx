@@ -70,7 +70,7 @@ import Bread from "../../components/Bread";
 import { TbTruckDelivery } from "react-icons/tb";
 import { GrReturn } from "react-icons/gr";
 import { VscWorkspaceTrusted } from "react-icons/vsc";
-import RelatedProduct from "../../components/relatedProduct";
+import RelatedProduct from "../../components/RelatedProduct"
 
 const Page = ({ params }) => {
   const urldata = decodeURIComponent(params.productname);
