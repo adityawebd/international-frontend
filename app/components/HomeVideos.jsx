@@ -202,7 +202,7 @@ const HomeVideos = () => {
         </div>
 
         {isModalOpen && (
-          <div className="fixed inset-0 bg-black bg-opacity-90 flex justify-center items-center z-50">
+          <div className="fixed inset-0 bg-black/90 bg-opacity-90 flex justify-center items-center z-50">
             <button
               onClick={closeModal}
               className="absolute top-4 right-4 text-white bg-transparent hover:bg-gray-700 p-2 rounded-full"

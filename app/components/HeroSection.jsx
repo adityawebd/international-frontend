@@ -118,8 +118,8 @@ const HeroSection = () => {
     [categories]
   );
 
-  console.log("1 log", categories)
-  console.log("2 log", categoryData)
+  // console.log("1 log", categories)
+  // console.log("2 log", categoryData)
 
   // console.log(categoryData[selectedCategory]?.properties?.length);
 
@@ -192,7 +192,7 @@ const HeroSection = () => {
             speed={3000}
             pagination={{ clickable: true }}
             scrollbar={{ draggable: true }}
-            lazy={true} // Enable lazy loading
+            // lazy={true} // Enable lazy loading
             breakpoints={{
               320: { slidesPerView: 1 },
               500: { slidesPerView: 1 },

@@ -65,7 +65,7 @@ const MonthlyBestSell = ({ price, ...props }) => {
   // const slidesToShow = Math.min(product.length, 5); // Max 5 slides
   // const enableLoop = product.length > slidesToShow;
 
-  console.log("discountBanners", discountBanners);
+  // console.log("discountBanners", discountBanners);
 
   return (
     <div>

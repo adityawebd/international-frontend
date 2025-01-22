@@ -10,7 +10,7 @@ import {
   FaInstagram,
   FaLinkedinIn,
 } from "react-icons/fa";
-import { CurrencyContext } from "../CurrencyContext"; // Importing the context
+// import { CurrencyContext } from "../CurrencyContext"; // Importing the context
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useCartStore } from "../../stores/useCartStore";
 import useFromStore from "../../hooks/useFromStore";
@@ -24,13 +24,13 @@ import { GoDotFill } from "react-icons/go";
 const Navbar = () => {
   const pathname = usePathname();
 
-  const { currency, setCurrency } = useContext(CurrencyContext); // Use context
+  // const { currency, setCurrency } = useContext(CurrencyContext); // Use context
   const [isVisible, setIsVisible] = useState(false);
   const searchBarRef = useRef(null); // Ref for the search bar
-  const currencyDropdownRef = useRef(null); // Ref for the currency dropdown
+  // const currencyDropdownRef = useRef(null); // Ref for the currency dropdown
   const userDropdownRef = useRef(null); // Ref for the user dropdown
 
-  const [currencyDropdownVisible, setCurrencyDropdownVisible] = useState(false);
+  // const [currencyDropdownVisible, setCurrencyDropdownVisible] = useState(false);
   const [userDropdownVisible, setUserDropdownVisible] = useState(false);
 
   async function logout() {
@@ -55,12 +55,12 @@ const Navbar = () => {
       setIsVisible(false);
     }
 
-    if (
-      currencyDropdownRef.current &&
-      !currencyDropdownRef.current.contains(event.target)
-    ) {
-      setCurrencyDropdownVisible(false);
-    }
+    // if (
+    //   currencyDropdownRef.current &&
+    //   !currencyDropdownRef.current.contains(event.target)
+    // ) {
+    //   setCurrencyDropdownVisible(false);
+    // }
 
     if (
       userDropdownRef.current &&
@@ -77,17 +77,17 @@ const Navbar = () => {
     };
   }, []);
 
-  const toggleCurrencyDropdown = (event) => {
-    // for currency dropdown
-    event.stopPropagation();
-    setCurrencyDropdownVisible((prev) => !prev);
-  };
+  // const toggleCurrencyDropdown = (event) => {
+  //   // for currency dropdown
+  //   event.stopPropagation();
+  //   setCurrencyDropdownVisible((prev) => !prev);
+  // };
 
-  const changeCurrency = (currency) => {
-    // for curreny change
-    setCurrency(currency);
-    setCurrencyDropdownVisible(false);
-  };
+  // const changeCurrency = (currency) => {
+  //   // for curreny change
+  //   setCurrency(currency);
+  //   setCurrencyDropdownVisible(false);
+  // };
 
   const toggleUserDropdown = (event) => {
     // for user dropdown
@@ -112,11 +112,29 @@ const Navbar = () => {
 
     const res = await axios.get(`/api/search?query=${e.target.value}`);
     // const data = await res.json();
-    console.log("result as responce", res);
+    // console.log("result as responce", res);
     setResults(res.data);
-    console.log("result ", results);
-    console.log("result length", results.length);
+    // console.log("result ", results);
+    // console.log("result length", results.length);
   };
+
+  // Handle outside click (to close the dropdown)
+  const handleOutsideClick = (e) => {
+    // Close if the click is outside the search input and results container
+    if (searchBarRef.current && !searchBarRef.current.contains(e.target)) {
+      setQuery(""); // Clear query and close the dropdown
+      setResults([]);
+
+    }
+  };
+
+  useEffect(() => {
+    // Add event listener to detect clicks outside
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, []);
 
   return (
     <div>
@@ -134,22 +152,22 @@ const Navbar = () => {
                   />
                 </Link>
               </div>
-              <div className="relative w-[70%]">
+              <div className="relative w-[70%]" ref={searchBarRef}>
                 <input
                   type="text"
                   placeholder="Search your products..."
-                  onClick={(e) => e.stopPropagation()} 
+                  onClick={(e) => e.stopPropagation()}
                   value={query}
                   onChange={handleSearch}
                   className="w-full border border-black/80 rounded-full px-4 py-1 outline-none light_black_font"
                 />
                 <span className="bg-gray-200 p-2 rounded-full absolute top-0 right-0">
-                  <IoSearch className="" />
+                  <IoSearch />
                 </span>
                 {query && (
                   <div
-                    ref={searchBarRef}
-                    className={`absolute top-10 w-full rounded-b-2xl shadow-lg bg-white p-4 z-[999] ${
+                    
+                    className={`absolute top-10 w-full rounded-b-2xl shadow-lg bg-white p-4 zIndexCustom ${
                       results.length > 0 ? "animate-slideDown block" : "block"
                     }`}
                   >

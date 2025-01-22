@@ -10,7 +10,7 @@ import {
   FaInstagram,
   FaLinkedinIn,
 } from "react-icons/fa";
-import { CurrencyContext } from "../CurrencyContext"; // Importing the context
+// import { CurrencyContext } from "../CurrencyContext"; // Importing the context
 import { useSession, signIn, signOut } from "next-auth/react";
 import { useCartStore } from "../../stores/useCartStore";
 import useFromStore from "../../hooks/useFromStore";
@@ -24,13 +24,13 @@ import { GoDotFill } from "react-icons/go";
 const Navbar = () => {
   const pathname = usePathname();
 
-  const { currency, setCurrency } = useContext(CurrencyContext); // Use context
+  // const { currency, setCurrency } = useContext(CurrencyContext); // Use context
   const [isVisible, setIsVisible] = useState(false);
   const searchBarRef = useRef(null); // Ref for the search bar
-  const currencyDropdownRef = useRef(null); // Ref for the currency dropdown
+  // const currencyDropdownRef = useRef(null); // Ref for the currency dropdown
   const userDropdownRef = useRef(null); // Ref for the user dropdown
 
-  const [currencyDropdownVisible, setCurrencyDropdownVisible] = useState(false);
+  // const [currencyDropdownVisible, setCurrencyDropdownVisible] = useState(false);
   const [userDropdownVisible, setUserDropdownVisible] = useState(false);
 
   async function logout() {
@@ -55,12 +55,12 @@ const Navbar = () => {
       setIsVisible(false);
     }
 
-    if (
-      currencyDropdownRef.current &&
-      !currencyDropdownRef.current.contains(event.target)
-    ) {
-      setCurrencyDropdownVisible(false);
-    }
+    // if (
+    //   currencyDropdownRef.current &&
+    //   !currencyDropdownRef.current.contains(event.target)
+    // ) {
+    //   setCurrencyDropdownVisible(false);
+    // }
 
     if (
       userDropdownRef.current &&
@@ -77,17 +77,17 @@ const Navbar = () => {
     };
   }, []);
 
-  const toggleCurrencyDropdown = (event) => {
-    // for currency dropdown
-    event.stopPropagation();
-    setCurrencyDropdownVisible((prev) => !prev);
-  };
+  // const toggleCurrencyDropdown = (event) => {
+  //   // for currency dropdown
+  //   event.stopPropagation();
+  //   setCurrencyDropdownVisible((prev) => !prev);
+  // };
 
-  const changeCurrency = (currency) => {
-    // for curreny change
-    setCurrency(currency);
-    setCurrencyDropdownVisible(false);
-  };
+  // const changeCurrency = (currency) => {
+  //   // for curreny change
+  //   setCurrency(currency);
+  //   setCurrencyDropdownVisible(false);
+  // };
 
   const toggleUserDropdown = (event) => {
     // for user dropdown
@@ -117,6 +117,25 @@ const Navbar = () => {
     console.log("result ", results);
     console.log("result length", results.length);
   };
+
+  
+    // Handle outside click (to close the dropdown)
+    const handleOutsideClick = (e) => {
+      // Close if the click is outside the search input and results container
+      if (searchBarRef.current && !searchBarRef.current.contains(e.target)) {
+        setQuery(""); // Clear query and close the dropdown
+        setResults([]);
+  
+      }
+    };
+  
+    useEffect(() => {
+      // Add event listener to detect clicks outside
+      document.addEventListener("mousedown", handleOutsideClick);
+      return () => {
+        document.removeEventListener("mousedown", handleOutsideClick);
+      };
+    }, []);
 
   return (
     <div>
@@ -197,7 +216,7 @@ const Navbar = () => {
               </div>
             </div>
           </div>
-              <div className="relative w-full mt-2">
+              <div className="relative w-full mt-2" ref={searchBarRef}>
                 <input
                   type="text"
                   placeholder="Search your products..."
@@ -211,7 +230,7 @@ const Navbar = () => {
                 </span>
                 {query && (
                   <div
-                    ref={searchBarRef}
+                    
                     className={`absolute top-10 w-full rounded-b-2xl shadow-lg bg-white p-4 z-[999] ${
                       results.length > 0 ? "animate-slideDown block" : "block"
                     }`}

@@ -51,7 +51,7 @@ const HomeBlogs = () => {
           Unveiling Spiritual Wisdom
         </p>
 
-        <div className="grid gap-4 lg:grid-cols-4 md:grid-cols-2 grid-cols-2 max-sm:grid-cols-1 mt-4">
+        <div className="grid gap-4 2xl:grid-cols-4 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-2 max-sm:grid-cols-1 mt-4">
           {blogs.map((blog) => (
             <div key={blog._id} className="mb-4 rounded-lg shadow-sm">
               <div className="">
