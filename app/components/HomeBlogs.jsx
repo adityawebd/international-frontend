@@ -43,7 +43,7 @@ const HomeBlogs = () => {
   // ];
   return (
     <div >
-      <div className="p-2">
+      <div className="p-2 mt-10">
         <h2 className="mb-2 font-semibold text-4xl text-center light_black_font">
           Our Blogs
         </h2>

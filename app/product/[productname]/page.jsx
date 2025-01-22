@@ -930,11 +930,11 @@ const Page = ({ params }) => {
 
                   {/* Modal */}
                   {isModalOpen && (
-                    <div className="fixed inset-0 bg-black bg-opacity-95 flex justify-center items-center z-50">
-                      <div className="w-full">
+                    <div className="fixed inset-0 bg-black bg-opacity-95 flex justify-center items-center z-50 ">
+                      <div className="w-full h-[90%]">
                         <button
                           onClick={closeModal}
-                          className="absolute top-0 right-0 p-2 text-white bg-transparent rounded-full hover:bg-gray-500 transition duration-300"
+                          className="absolute top-0 right-0 p-2 text-white bg-transparent rounded-full hover:bg-gray-500 transition duration-300 "
                         >
                           <X />
                         </button>
@@ -1204,7 +1204,7 @@ const Page = ({ params }) => {
                       <div className=" w-full">
                         <button
                           onClick={closeModal}
-                          className="absolute top-2 right-0 p-2 text-white bg-transparent rounded-full hover:bg-gray-500 transition duration-300"
+                          className="absolute top-2 right-0 p-2 text-white bg-transparent rounded-full hover:bg-gray-500 transition duration-300 "
                         >
                           <X />
                         </button>
@@ -1449,7 +1449,7 @@ const Page = ({ params }) => {
                     </div>
 
                     <div className="2xl:hidden xl:hidden lg:hidden md:block">
-                      <div className="grid grid-cols-2 gap-4 mt-4">
+                      <div className="grid grid-cols-2 gap-2 mt-4">
                         <div className="">
                           <div className="flex items-center justify-center border border-gray-300 rounded-full w-full">
                             <button
@@ -1472,7 +1472,7 @@ const Page = ({ params }) => {
                             </button>
                           </div>
                         </div>
-                        <div className="">
+                        {/* <div className="">
                           <button
                             onClick={(e) => addToCart1(e, productData)}
                             className="bg_darkgray flex gap-1 items-center justify-center text-white px-4 py-2 rounded-full capitalize text-center w-full text-sm"
@@ -1482,14 +1482,7 @@ const Page = ({ params }) => {
                             </span>{" "}
                             &nbsp; add to cart{" "}
                           </button>
-                        </div>
-                      </div>
-                      {/* <div className="grid grid-cols-2 gap-2 mt-2"> */}
-                      <div
-                        className={`mt-2 grid gap-2 ${
-                          productData.custom ? "" : "lg:col-span-2"
-                        }`}
-                      >
+                        </div> */}
                         <div className="">
                           {productData.custom ? (
                             <div className="bg_darkgray text-white px-4 py-2 rounded-full capitalize text-center w-full  text-sm">
@@ -1499,14 +1492,22 @@ const Page = ({ params }) => {
                             </div>
                           ) : null}
                         </div>
-                        <div className="">
+                      </div>
+                      {/* <div className="grid grid-cols-2 gap-2 mt-2"> */}
+                      <div
+                        className={`mt-2 grid gap-2 ${
+                          productData.custom ? "" : "lg:col-span-2"
+                        }`}
+                      >
+                        
+                        {/* <div className="">
                           <button
                             onClick={(e) => addToCart2(e, productData)}
                             className="bg_green hover:sha text-white px-4 py-2 rounded-full capitalize text-center w-full text-sm"
                           >
                             buy now{" "}
                           </button>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
 
@@ -3072,7 +3073,7 @@ const Page = ({ params }) => {
         />
       </div>
       <Footer />
-      <div className="hidden max-sm:block">
+      <div className="lg:hidden block">
         <div className="bg-white fixed bottom-0 left-0 border w-full p-2 py-3 shaodw-lg grid gap-2 grid-cols-2 text-sm z-10">
           <div>
             <button

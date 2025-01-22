@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect, useRef, useContext } from "react";
-import { usePathname } from 'next/navigation';
+import { usePathname } from "next/navigation";
 
 import { CiUser, CiShoppingBasket } from "react-icons/ci";
 import { IoSearch } from "react-icons/io5";
@@ -134,51 +134,56 @@ const Navbar = () => {
                   />
                 </Link>
               </div>
-
               <div className="relative w-[70%]">
                 <input
                   type="text"
                   placeholder="Search your products..."
-                  onClick={toggleSearchBar}
+                  onClick={(e) => e.stopPropagation()} 
                   value={query}
                   onChange={handleSearch}
                   className="w-full border border-black/80 rounded-full px-4 py-1 outline-none light_black_font"
                 />
                 <span className="bg-gray-200 p-2 rounded-full absolute top-0 right-0">
-                  <IoSearch onClick={toggleSearchBar} className="" />
+                  <IoSearch className="" />
                 </span>
-                <div
-                  ref={searchBarRef}
-                  className={`absolute top-10 w-full rounded-b-2xl shadow-lg bg-white p-4 z-[999] ${isVisible ? "animate-slideDown block" : "hidden"
-                    }`}
-                >
+                {query && (
                   <div
-                    className={`${results.length === 0
-                        ? ""
-                        : "grid lg:grid-cols-5 md:grid-cols-4 grid-cols-4 gap-2 max-sm:grid-cols-3 h-[500px] lg:h-[500px] md:h-[300px] sm:h-[300px] overflow-y-auto"
-                      }`}
+                    ref={searchBarRef}
+                    className={`absolute top-10 w-full rounded-b-2xl shadow-lg bg-white p-4 z-[999] ${
+                      results.length > 0 ? "animate-slideDown block" : "block"
+                    }`}
                   >
-                    {results?.length > 0 ? (
-                      results.map((result) => (
-                        <a
-                          href={`/product/${result._id}`}
-                          className="border rounded-lg p-2"
-                          key={result._id}
-                        >
-                          <img
-                            loading="lazy"
-                            src={result.images[0]}
-                            alt={result.title}
-                            className="rounded-lg border"
-                          />
-                          <div className="productTitle mt-2">{result.title}</div>
-                        </a>
-                      ))
-                    ) : (
-                      <div>No results found.</div> // Optional: Message when there are no results
-                    )}
+                    <div
+                      className={`${
+                        results.length === 0
+                          ? ""
+                          : "grid lg:grid-cols-5 md:grid-cols-4 grid-cols-4 gap-2 max-sm:grid-cols-3 h-[500px] lg:h-[500px] md:h-[300px] sm:h-[300px] overflow-y-auto"
+                      }`}
+                    >
+                      {results?.length > 0 ? (
+                        results.map((result) => (
+                          <a
+                            href={`/product/${result._id}`}
+                            className="border rounded-lg p-2"
+                            key={result._id}
+                          >
+                            <img
+                              loading="lazy"
+                              src={result.images[0]}
+                              alt={result.title}
+                              className="rounded-lg border"
+                            />
+                            <div className="productTitle mt-2">
+                              {result.title}
+                            </div>
+                          </a>
+                        ))
+                      ) : (
+                        <div>No results found.</div>
+                      )}
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
 

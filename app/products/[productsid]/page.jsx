@@ -38,8 +38,21 @@ const ProductContent = ({ urldata }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  const [sortOption, setSortOption] = useState("");
+
+  const handleSortChange1 = (event) => {
+    const selectedSortOption = event.target.value;
+    setSortOption(selectedSortOption);
+    setSortOrder(selectedSortOption);
+
+
+    // Perform sorting logic here or trigger a fetch with the selected sort option
+    console.log("Selected Sort Option:", selectedSortOption);
+  };
+
   const data1 = searchParams.get("category");
   const data2 = searchParams.get("filter");
+  
 
   //console.log("data in productss is ", data1, data2);
   const product = urldata;
@@ -346,7 +359,9 @@ const ProductContent = ({ urldata }) => {
         <div className="2xl:w-1/5 xl:w-1/5 lg:w-1/4 md:w-1/4 w-full  lg:py-6 md:py-6">
           <div
             ref={filterRef}
-            className={` filter-page-container ${showFilter ? "show" : ""} d-md-block`}
+            className={` filter-page-container ${
+              showFilter ? "show" : ""
+            } d-md-block`}
           >
             <Filter
               categories={categories}
@@ -360,7 +375,7 @@ const ProductContent = ({ urldata }) => {
               onClose={toggleFilter} // Pass the close handler
             />
           </div>
-          <div className="lg:hidden block">
+          <div className="lg:hidden md:hidden block">
             <div className=" flex items-center">
               <button
                 className="reset_button d-md-none flex items-center gap-2 rounded py-4"
@@ -376,6 +391,22 @@ const ProductContent = ({ urldata }) => {
                 onFilterButtonClick={handleFilterClose}
                 onClick={toggleFilter}
               />
+            </div>
+            {/* Sort By Option */}
+            <div className="flex mb-4 items-center mt-2">
+              <label htmlFor="sort-by" className="mr-2 w-1/3">
+                Sort By:
+              </label>
+              <select
+                id="sort-by"
+                value={sortOption}
+                onChange={handleSortChange1}
+                className="text-gray-500 rounded border px-2 py-2 outline-none w-full"
+              >
+                <option value="">Newest</option>
+                <option value="asc">Price: Low to High</option>
+                <option value="desc">Price: High to Low</option>
+              </select>
             </div>
           </div>
         </div>

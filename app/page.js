@@ -41,7 +41,7 @@ export default function Home() {
         {/* <ProductTimer /> */}
         <PromisesBanner />
         {/* <WoodStatue /> */}
-        {/* <HomeVideos /> */}
+        <HomeVideos />
         <HomeBlogs />
         {/* <ClientBrands /> */}
         {/* <Testimonials /> */}
