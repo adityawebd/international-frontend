@@ -170,7 +170,7 @@ const Page = ({ params }) => {
 
   const nextImage = () => {
     setCurrentIndex((prevIndex) => {
-      const newIndex = (prevIndex + 1) % productData.images.length;
+      const newIndex = (prevIndex + 1) % productData.images?.length;
       handleThumbnailClick(newIndex); // Center the new active thumbnail
       return newIndex;
     });
@@ -179,7 +179,8 @@ const Page = ({ params }) => {
   const prevImage = () => {
     setCurrentIndex((prevIndex) => {
       const newIndex =
-        (prevIndex - 1 + productData.images.length) % productData.images.length;
+        (prevIndex - 1 + productData.images?.length) %
+        productData.images?.length;
       handleThumbnailClick(newIndex); // Center the new active thumbnail
       return newIndex;
     });
@@ -281,7 +282,7 @@ const Page = ({ params }) => {
 
           // Set teacher if moduleData has at least one item
 
-          const count = response.data.length;
+          const count = response.data?.length;
           return count;
         } catch (error) {
           //console.log(error);
@@ -534,7 +535,7 @@ const Page = ({ params }) => {
     // Convert FileList to Array and check length
     const selectedFiles = Array.from(e.target.files);
 
-    if (selectedFiles.length > 5) {
+    if (selectedFiles?.length > 5) {
       alert("You can only select up to 5 files.");
       return;
     }
@@ -581,12 +582,12 @@ const Page = ({ params }) => {
   // const handleSubmit = async (e) => {
   //   e.preventDefault();
 
-  //   // if (!files || files.length === 0) {
+  //   // if (!files || files?.length === 0) {
   //   //   alert("Please select files to upload");
   //   //   return;
   //   // }
 
-  //   if (files.length > 5) {
+  //   if (files?.length > 5) {
   //     alert("You can only upload a maximum of 5 files");
   //     return;
   //   }
@@ -594,7 +595,7 @@ const Page = ({ params }) => {
   //   const formData = new FormData();
 
   //   // Append each file to the FormData object
-  //   for (let i = 0; i < files.length; i++) {
+  //   for (let i = 0; i < files?.length; i++) {
   //     formData.append("files", files[i]);
   //   }
 
@@ -630,7 +631,7 @@ const Page = ({ params }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (files.length > 5) {
+    if (files?.length > 5) {
       alert("You can only upload a maximum of 5 files");
       return;
     }
@@ -638,14 +639,14 @@ const Page = ({ params }) => {
     const formData = new FormData();
 
     // Append each file to the FormData object
-    for (let i = 0; i < files.length; i++) {
+    for (let i = 0; i < files?.length; i++) {
       formData.append("files", files[i]);
     }
 
     try {
       let uploadedLinks = [];
 
-      if (files && files.length > 0) {
+      if (files && files?.length > 0) {
         // Make the POST request to upload the files
         const { data } = await axios.post("/api/upload", formData, {
           headers: {
@@ -776,6 +777,20 @@ const Page = ({ params }) => {
 
   const handleMouseLeave = () => {
     setZoomStyle({ display: "none" });
+  };
+
+  const maxCouponDiscount = (discount1, discount2) => {
+    discount1 = (productData.discountedPrice) - (((productData.discountedPrice))*(discount1)/100)
+    discount2 = (productData.discountedPrice) - (((productData.discountedPrice))*(discount2)/100)
+
+    // console.log(discount1)
+    // console.log(discount2)
+
+    let discount = discount1;
+    if (discount1 < discount2) discount = discount1;
+    else discount = discount2;
+
+    return discount;
   };
 
   const isVideo = (url) => /\.(mp4|webm|ogg)$/.test(url);
@@ -915,11 +930,11 @@ const Page = ({ params }) => {
 
                   {/* Modal */}
                   {isModalOpen && (
-                    <div className="fixed inset-0 bg-black bg-opacity-95 flex justify-center items-center z-50">
-                      <div className="w-full">
+                    <div className="fixed inset-0 bg-black bg-opacity-95 flex justify-center items-center z-50 ">
+                      <div className="w-full h-[90%]">
                         <button
                           onClick={closeModal}
-                          className="absolute top-0 right-0 p-2 text-white bg-transparent rounded-full hover:bg-gray-500 transition duration-300"
+                          className="absolute top-0 right-0 p-2 text-white bg-transparent rounded-full hover:bg-gray-500 transition duration-300 "
                         >
                           <X />
                         </button>
@@ -982,7 +997,7 @@ const Page = ({ params }) => {
                     Variations
                   </h2>
                   <div className="">
-                    {skuData.length > 0 ? (
+                    {skuData?.length > 0 ? (
                       <Swiper
                         spaceBetween={10}
                         slidesPerView={1.5}
@@ -1053,9 +1068,7 @@ const Page = ({ params }) => {
                                   loading="lazy"
                                   src={data.images[0]}
                                   alt={data.title}
-                                  height={100}
-                                  width={100}
-                                  className="rounded-t-xl"
+                                  className="rounded-t-lg"
                                 />
                                 <p className="font-semibold variation_title px-2">
                                   {" "}
@@ -1191,7 +1204,7 @@ const Page = ({ params }) => {
                       <div className=" w-full">
                         <button
                           onClick={closeModal}
-                          className="absolute top-2 right-0 p-2 text-white bg-transparent rounded-full hover:bg-gray-500 transition duration-300"
+                          className="absolute top-2 right-0 p-2 text-white bg-transparent rounded-full hover:bg-gray-500 transition duration-300 "
                         >
                           <X />
                         </button>
@@ -1267,9 +1280,9 @@ const Page = ({ params }) => {
                     onClick={handleReviewsClick}
                   >
                     <a href="#forReviewClicked">
-                      {reviewData?.reviews.length ? (
-                        `${reviewData?.reviews.length} ${
-                          reviewData?.reviews.length === 1
+                      {reviewData?.reviews?.length ? (
+                        `${reviewData?.reviews?.length} ${
+                          reviewData?.reviews?.length === 1
                             ? "Review"
                             : "Reviews"
                         } `
@@ -1332,7 +1345,7 @@ const Page = ({ params }) => {
                 {productData.stockQuantity > 0 ? (
                   <>
                     <div className="2xl:block xl:block lg:block hidden">
-                      <div className="grid lg:grid-cols-3 md:grid-cols-2 2xl:gap-6 xl:gap-4 lg:gap-2 mt-4">
+                      {/* <div className="grid lg:grid-cols-3 md:grid-cols-2 2xl:gap-6 xl:gap-4 lg:gap-2 mt-4">
                         <div className="">
                           <div className="flex items-center justify-center border border-gray-300 rounded-full">
                             <button
@@ -1375,7 +1388,56 @@ const Page = ({ params }) => {
                             </div>
                           ) : null}
                         </div>
+                      </div> */}
+                      <div className="grid lg:grid-cols-3 md:grid-cols-2 2xl:gap-6 xl:gap-4 lg:gap-2 mt-4">
+                        <div className="">
+                          <div className="flex items-center justify-center border border-gray-300 rounded-full">
+                            <button
+                              onClick={decreaseQuantity}
+                              className="bg-gray-100 rounded-l-full 2xl:w-1/5 xl:w-1/5 lg:w-2/5 2xl:py-2 xl:py-2 lg:py-1 border-r border-gray-300"
+                            >
+                              -
+                            </button>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <span className="w-3/5 text-center 2xl:py-2 xl:py-2 lg:py-1">
+                              {quantity}
+                            </span>
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+                            <button
+                              onClick={increaseQuantity}
+                              disabled={isDisabled}
+                              className="bg-gray-100 rounded-r-full 2xl:w-1/5 xl:w-1/5 lg:w-2/5 2xl:py-2 xl:py-2 lg:py-1 border-l border-gray-300"
+                            >
+                              +
+                            </button>
+                          </div>
+                        </div>
+                        <div
+                          className={`${
+                            productData.custom ? "" : "lg:col-span-2"
+                          }`}
+                        >
+                          <button
+                            onClick={(e) => addToCart1(e, productData)}
+                            className="bg_darkgray flex gap-1 items-center justify-center text-white px-4 py-2 rounded-full capitalize text-center w-full 2xl:text-base xl:text-base lg:text-sm"
+                          >
+                            <span>
+                              <HiOutlineShoppingBag />
+                            </span>
+                            &nbsp; add to cart
+                          </button>
+                        </div>
+                        {productData.custom && (
+                          <div className="">
+                            <div className="bg_darkgray text-white px-4 py-2 rounded-full capitalize text-center w-full 2xl:text-base xl:text-base lg:text-sm">
+                              <button onClick={() => setShowModal(true)}>
+                                Customize
+                              </button>
+                            </div>
+                          </div>
+                        )}
                       </div>
+
                       <div className="mt-3">
                         <button
                           onClick={(e) => addToCart2(e, productData)}
@@ -1387,7 +1449,7 @@ const Page = ({ params }) => {
                     </div>
 
                     <div className="2xl:hidden xl:hidden lg:hidden md:block">
-                      <div className="grid grid-cols-2 gap-4 mt-4">
+                      <div className="grid grid-cols-2 gap-2 mt-4">
                         <div className="">
                           <div className="flex items-center justify-center border border-gray-300 rounded-full w-full">
                             <button
@@ -1410,7 +1472,7 @@ const Page = ({ params }) => {
                             </button>
                           </div>
                         </div>
-                        <div className="">
+                        {/* <div className="">
                           <button
                             onClick={(e) => addToCart1(e, productData)}
                             className="bg_darkgray flex gap-1 items-center justify-center text-white px-4 py-2 rounded-full capitalize text-center w-full text-sm"
@@ -1420,9 +1482,7 @@ const Page = ({ params }) => {
                             </span>{" "}
                             &nbsp; add to cart{" "}
                           </button>
-                        </div>
-                      </div>
-                      <div className="grid grid-cols-2 gap-2 mt-2">
+                        </div> */}
                         <div className="">
                           {productData.custom ? (
                             <div className="bg_darkgray text-white px-4 py-2 rounded-full capitalize text-center w-full  text-sm">
@@ -1432,14 +1492,22 @@ const Page = ({ params }) => {
                             </div>
                           ) : null}
                         </div>
-                        <div className="">
+                      </div>
+                      {/* <div className="grid grid-cols-2 gap-2 mt-2"> */}
+                      <div
+                        className={`mt-2 grid gap-2 ${
+                          productData.custom ? "" : "lg:col-span-2"
+                        }`}
+                      >
+                        
+                        {/* <div className="">
                           <button
                             onClick={(e) => addToCart2(e, productData)}
                             className="bg_green hover:sha text-white px-4 py-2 rounded-full capitalize text-center w-full text-sm"
                           >
                             buy now{" "}
                           </button>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
 
@@ -1599,7 +1667,10 @@ const Page = ({ params }) => {
                     <span className="border-2 p-3 rounded-full green_font group-hover:border-teal-700">
                       <TbTruckDelivery size={30} />
                     </span>
-                    <p className="text-black">Free Shipping</p>
+                    <div className="text-left">
+                      <p className="text-black">Free Shipping</p>
+                      <p className="text-sm"> (2 Days Max.)</p>
+                    </div>
                   </button>
                   {/* 7 Days Return */}
                   <button
@@ -1609,7 +1680,10 @@ const Page = ({ params }) => {
                     <span className="border-2 p-3 rounded-full green_font group-hover:border-teal-700">
                       <GrReturn size={30} />
                     </span>
-                    <p className="text-black">7 Days Return</p>
+                    <div className="text-left">
+                      <p className="text-black">7 Days Return</p>
+                      <p className="text-sm"> (4 Days Max.)</p>
+                    </div>
                   </button>
                   {/* Trusted By */}
                   <button
@@ -1652,7 +1726,8 @@ const Page = ({ params }) => {
                             </h2>
                             <p className="px-6 pb-4">
                               Enjoy free shipping on all orders above ₹50. Fast
-                              and reliable delivery to your doorstep.
+                              and reliable delivery to your doorstep within 2
+                              days maximum.
                             </p>
                           </div>
                         )}
@@ -1664,7 +1739,8 @@ const Page = ({ params }) => {
                             </h2>
                             <p className="px-6 pb-4">
                               Not satisfied? No worries! You can return the
-                              product within 7 days for a full refund.
+                              product within 7 days for a full refund within 4
+                              days maximum.
                             </p>
                           </div>
                         )}
@@ -1872,12 +1948,13 @@ const Page = ({ params }) => {
                     </span>
                     <span className="text-black font-semibold">
                       {" "}
+                      {/* //discountPercent */}
                       Get this under ₹
-                      {parseFloat(productData.discountedPrice) -
-                        parseFloat(couponDiscounts.coupons[1].discountAmount)}
+                      {maxCouponDiscount(couponDiscounts.coupons[0].discountPercent, couponDiscounts.coupons[1].discountPercent)}
                     </span>
                     <span className="bg-teal-100 text-sm green_font px-2 py-1 rounded">
-                      Save up to ₹{couponDiscounts.saveUpTo}
+                      Save up to ₹
+                      {parseFloat(productData.discountedPrice) - maxCouponDiscount(couponDiscounts.coupons[0].discountPercent, couponDiscounts.coupons[1].discountPercent)}{" "}
                     </span>
                   </div>
                   <div className="mt-4 grid lg:grid-cols-2 grid-cols-1 gap-4">
@@ -1968,9 +2045,9 @@ const Page = ({ params }) => {
                   onClick={handleReviewsClick}
                 >
                   <a href="#forReviewClicked">
-                    {reviewData?.reviews.length ? (
-                      `${reviewData?.reviews.length} ${
-                        reviewData?.reviews.length === 1 ? "Review" : "Reviews"
+                    {reviewData?.reviews?.length ? (
+                      `${reviewData?.reviews?.length} ${
+                        reviewData?.reviews?.length === 1 ? "Review" : "Reviews"
                       } `
                     ) : (
                       <></>
@@ -2049,7 +2126,7 @@ const Page = ({ params }) => {
                         </button>
                       </div>
                     </div>
-                    <div className="w-2/3">
+                    {/* <div className="w-2/3">
                       <button
                         onClick={(e) => addToCart1(e, productData)}
                         className="bg_darkgray flex gap-1 items-center justify-center text-white px-4 py-2 rounded-full capitalize text-center w-full"
@@ -2059,25 +2136,26 @@ const Page = ({ params }) => {
                         </span>{" "}
                         &nbsp; add to cart{" "}
                       </button>
+                    </div> */}
+                    <div className="w-2/3">
+                      {productData.custom ? (
+                        <div className="bg_darkgray text-white px-4 py-2 rounded-full capitalize text-center w-full  2xl:text-base xl:text-base lg:text-sm max-sm:text-sm">
+                          <button onClick={() => setShowModal(true)}>
+                            Customize
+                          </button>
+                        </div>
+                      ) : null}
                     </div>
                   </div>
-                  <div className="mt-2">
-                    {productData.custom ? (
-                      <div className="bg_darkgray text-white px-4 py-2 rounded-full capitalize text-center w-full  2xl:text-base xl:text-base lg:text-sm">
-                        <button onClick={() => setShowModal(true)}>
-                          Customize
-                        </button>
-                      </div>
-                    ) : null}
-                  </div>
-                  <div className="mt-2">
+
+                  {/* <div className="mt-2">
                     <button
                       onClick={(e) => addToCart2(e, productData)}
                       className="bg_green hover:sha text-white px-4 py-2 rounded-full capitalize text-center w-full"
                     >
                       buy now{" "}
                     </button>
-                  </div>
+                  </div> */}
 
                   {/* </div> */}
                 </>
@@ -2235,7 +2313,10 @@ const Page = ({ params }) => {
                   <span className="border-2 p-3 rounded-full green_font group-hover:border-teal-700">
                     <TbTruckDelivery size={24} />
                   </span>
-                  <p className="text-black">Free Shipping</p>
+                  <div className="text-left">
+                    <p className="text-black">Free Shipping</p>
+                    <p className="text-sm"> (2 Days Max.)</p>
+                  </div>
                 </button>
                 {/* 7 Days Return */}
                 <button
@@ -2245,7 +2326,10 @@ const Page = ({ params }) => {
                   <span className="border-2 p-3 rounded-full green_font group-hover:border-teal-700">
                     <GrReturn size={24} />
                   </span>
-                  <p className="text-black">7 Days Return</p>
+                  <div className="text-left">
+                    <p className="text-black">7 Days Return</p>
+                    <p className="text-sm"> (4 Days Max.)</p>
+                  </div>
                 </button>
                 {/* Trusted By */}
                 <button
@@ -2288,7 +2372,8 @@ const Page = ({ params }) => {
                           </h2>
                           <p className="px-6 pb-4">
                             Enjoy free shipping on all orders above ₹50. Fast
-                            and reliable delivery to your doorstep.
+                            and reliable delivery to your doorstep within 2 days
+                            maximum.
                           </p>
                         </div>
                       )}
@@ -2300,7 +2385,8 @@ const Page = ({ params }) => {
                           </h2>
                           <p className="px-6 pb-4">
                             Not satisfied? No worries! You can return the
-                            product within 7 days for a full refund.
+                            product within 7 days for a full refund within 4
+                            days maximum.
                           </p>
                         </div>
                       )}
@@ -2576,7 +2662,7 @@ const Page = ({ params }) => {
                   Variations
                 </h2>
                 <div className="">
-                  {skuData.length > 0 ? (
+                  {skuData?.length > 0 ? (
                     <Swiper
                       spaceBetween={10}
                       slidesPerView={1.5}
@@ -2812,13 +2898,13 @@ const Page = ({ params }) => {
                         </p>
                         <div className="flex align-middle">
                           <div className="review mt-3">
-                            Total Reviews: {reviewData?.reviews.length}
+                            Total Reviews: {reviewData?.reviews?.length}
                           </div>
                         </div>
                       </div>
                       <div className="review_items">
                         {/* {Array.isArray(productData.reviews) &&
-                        reviewData.length > 0 ? (
+                        reviewData?.length > 0 ? (
                           reviewData.reviews.map((review, index) => {
                             const rating = parseInt(review.rating, 10) || 0; // Default to 0 if rating is invalid
 
@@ -2865,7 +2951,7 @@ const Page = ({ params }) => {
 
                         <div>
                           {reviewData?.reviews &&
-                          reviewData?.reviews.length > 0 ? (
+                          reviewData?.reviews?.length > 0 ? (
                             reviewData?.reviews?.map((reviewer, index) => (
                               <div key={index} className="flex gap-4 mb-5">
                                 <div>
@@ -2981,10 +3067,13 @@ const Page = ({ params }) => {
         </div>
 
         {/* <NewArrival related={productData.properties} title="Related Products" /> */}
-        <RelatedProduct related={productData.properties} title="Related Products" />
+        <RelatedProduct
+          related={productData.properties}
+          title="Related Products"
+        />
       </div>
       <Footer />
-      <div className="hidden max-sm:block">
+      <div className="lg:hidden block">
         <div className="bg-white fixed bottom-0 left-0 border w-full p-2 py-3 shaodw-lg grid gap-2 grid-cols-2 text-sm z-10">
           <div>
             <button

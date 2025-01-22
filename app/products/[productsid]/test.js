@@ -2,7 +2,8 @@
 import { Suspense, useEffect, useState, useContext, useRef } from "react";
 import { CurrencyContext } from "../../CurrencyContext";
 import { fetchCategoriesAndProducts } from "../../services/subcategoryService";
-import Navbar from "../../components/Navbar";
+import Navbar2 from "../../components/Navbar2";
+import Navbar3 from "../../components/Navbar3";
 import Footer from "../../components/Footer";
 import NewArrival from "../../components/NewArrival";
 import Breadcrumbs from "../../components/Breadcrumbs";
@@ -246,6 +247,16 @@ const ProductContent = ({ urldata }) => {
     }
 
     setFilteredProducts(filtered);
+
+    console.log("Applying filters with: ", {
+      selectedsubcategory,
+      selectedcategory,
+      filters,
+      priceRange,
+      sortOrder,
+    });
+    console.log("Filtered products: ", filtered);
+    console.log("Filtered products2: ", filteredProducts);
   };
 
   //   const applyFilters = (filters) => {
@@ -371,11 +382,11 @@ const ProductContent = ({ urldata }) => {
         <div className="col-md-10 py-4">
           <div className="lg:block md:block max-sm:hidden">
             <div className="grid gap-2 grid-cols-3 lg:grid-cols-5 md:grid-cols-3">
-              {products?.map((product) => (
+              {filteredProducts?.map((product) => (
                 <div key={product._id} className="border rounded-xl p-2">
                   <a
                     href={`/product/${product._id}`}
-                    className="rounded-xl group overflow-hidden"
+                    className="rounded-xl group overflow-hidden relative"
                   >
                     <img
                       loading="lazy"
@@ -383,6 +394,26 @@ const ProductContent = ({ urldata }) => {
                       src={product.images[0]}
                       alt={product.title}
                     />
+                    <div className="absolute top-2 right-2 bg_green text-white text-xs px-2 py-1 rounded-lg">
+                      {`SAVE ${Math.round(
+                        ((convertPrice(
+                          product.price,
+                          currency,
+                          exchangeRates
+                        ).toFixed(2) -
+                          convertPrice(
+                            product.discountedPrice,
+                            currency,
+                            exchangeRates
+                          ).toFixed(2)) /
+                          convertPrice(
+                            product.price,
+                            currency,
+                            exchangeRates
+                          ).toFixed(2)) *
+                          100
+                      )}%`}
+                    </div>
                   </a>
                   <div className="mt-2">
                     <div className="productTitle text-lg font-semibold text-black">
@@ -440,7 +471,7 @@ const ProductContent = ({ urldata }) => {
                   <div className="w-2/5">
                     <a
                       href={`/product/${product._id}`}
-                      className="rounded-xl group overflow-hidden"
+                      className="rounded-xl group overflow-hidden relative"
                     >
                       <img
                         loading="lazy"
@@ -448,11 +479,31 @@ const ProductContent = ({ urldata }) => {
                         src={product.images[0]}
                         alt={product.title}
                       />
+                      <div className="absolute top-2 left-2 bg_green text-white text-xs px-1 py-0.5 rounded-lg">
+                        {`${Math.round(
+                          ((convertPrice(
+                            product.price,
+                            currency,
+                            exchangeRates
+                          ).toFixed(2) -
+                            convertPrice(
+                              product.discountedPrice,
+                              currency,
+                              exchangeRates
+                            ).toFixed(2)) /
+                            convertPrice(
+                              product.price,
+                              currency,
+                              exchangeRates
+                            ).toFixed(2)) *
+                            100
+                        )}%`}
+                      </div>
                     </a>
                   </div>
                   <div className="w-3/5">
-                    <div className="mt-2">
-                      <div className="productTitle text-lg font-semibold text-black">
+                    <div className="">
+                      <div className="productTitleTwo font-semibold text-black">
                         <a href={`/product/${product._id}`}>{product.title}</a>
                       </div>
                       <div className="price mt-2 green_font text-sm">
@@ -502,8 +553,9 @@ const Page = ({ params }) => {
   const urldata = decodeURIComponent(params.productsid);
   return (
     <>
-      <Navbar />
-      <Breadcrumbs page_title="All Product" />
+      <Navbar2 />
+      <Navbar3 />
+      <Breadcrumbs page_title="products" page_title2={urldata} />
       <ToastContainer />
       <Suspense
         fallback={

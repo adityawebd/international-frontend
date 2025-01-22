@@ -174,27 +174,29 @@ const Filter = ({
 
       {/* Sort Accordion */}
       <div>
-        <div
-          className="accordion border-0 accordion_fixed_div_name"
-          onClick={() => toggleAccordion("sort")}
-        >
-          <h5>Sort By</h5>
-        </div>
-        {openAccordions.sort && (
-          <div className="accordion-content border-0 px-3">
-            <div className="checkbox-container">
-              <select
-                onChange={handleSortChange}
-                className="select_div no-arrow border px-2 outline-none"
-                value={sortOption}
-              >
-                <option value="">Newest</option>
-                <option value="asc">Price: Low to High</option>
-                <option value="desc">Price: High to Low</option>
-              </select>
-            </div>
+        <div className="lg:block md:block hidden ">
+          <div
+            className="accordion border-0 accordion_fixed_div_name"
+            onClick={() => toggleAccordion("sort")}
+          >
+            <h5>Sort By</h5>
           </div>
-        )}
+          {openAccordions.sort && (
+            <div className="accordion-content border-0 px-3">
+              <div className="checkbox-container">
+                <select
+                  onChange={handleSortChange}
+                  className="select_div no-arrow border px-2 outline-none rounded py-1"
+                  value={sortOption}
+                >
+                  <option value="">Newest</option>
+                  <option value="asc">Price: Low to High</option>
+                  <option value="desc">Price: High to Low</option>
+                </select>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Category Properties Accordion */}

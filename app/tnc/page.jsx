@@ -51,7 +51,7 @@ const page = () => {
                   <span className='font-bold'>3. Shipping
                   </span>
                   <p className='my-2'>Delivery: We will ship to the address you provide. Shipping costs and delivery times
-                    vary.
+                    vary. Expect shipping within 2 days.
 
                   </p>
                   <p className='mb-2'>Issues: We are not responsible for delivery delays once the package is with the carrier.
@@ -62,7 +62,7 @@ const page = () => {
                 <li>
                   <span className='font-bold'>4. Returns and Refunds</span>
                   <p className='my-2'>Returns: You can return unused, undamaged items within 5 days. Contact us for return
-                    instructions
+                    instructions. Expect returns within 4 days.
                   </p>
                   <p className='mb-2'>Refunds: Refunds are processed to your original payment method within a day of
                     receiving the returned item. Shipping costs are not refunded.

@@ -43,7 +43,7 @@ const HomeBlogs = () => {
   // ];
   return (
     <div >
-      <div className="p-2">
+      <div className="p-2 mt-10">
         <h2 className="mb-2 font-semibold text-4xl text-center light_black_font">
           Our Blogs
         </h2>
@@ -51,7 +51,7 @@ const HomeBlogs = () => {
           Unveiling Spiritual Wisdom
         </p>
 
-        <div className="grid gap-4 lg:grid-cols-4 md:grid-cols-2 grid-cols-2 max-sm:grid-cols-1 mt-4">
+        <div className="grid gap-4 2xl:grid-cols-4 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 grid-cols-2 max-sm:grid-cols-1 mt-4">
           {blogs.map((blog) => (
             <div key={blog._id} className="mb-4 rounded-lg shadow-sm">
               <div className="">

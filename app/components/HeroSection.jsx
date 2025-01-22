@@ -118,8 +118,8 @@ const HeroSection = () => {
     [categories]
   );
 
-  console.log("1 log", categories)
-  console.log("2 log", categoryData)
+  // console.log("1 log", categories)
+  // console.log("2 log", categoryData)
 
   // console.log(categoryData[selectedCategory]?.properties?.length);
 
@@ -177,7 +177,7 @@ const HeroSection = () => {
         </div>
       </div>
 
-      <div className="heronewwrapper lg:h-[760px]">
+      <div className="heronewwrapper h-[auto] lg:max-h-[800px] md:max-h-[400px] max-sm:max-h-[300px] mx-auto">
         {images.length === 0 ? (
           <div className="animate-pulse h-[800px] w-full lg:max-h-[800px] md:max-h-[300px] max-sm:max-h-[200px] mx-auto bg-gray-300"></div>
         ) : (
@@ -192,7 +192,7 @@ const HeroSection = () => {
             speed={3000}
             pagination={{ clickable: true }}
             scrollbar={{ draggable: true }}
-            lazy={true} // Enable lazy loading
+            // lazy={true} // Enable lazy loading
             breakpoints={{
               320: { slidesPerView: 1 },
               500: { slidesPerView: 1 },
@@ -206,12 +206,12 @@ const HeroSection = () => {
             className="swiper-wrapper"
           >
             {images.map((image, index) => (
-              <SwiperSlide key={index}>
+              <SwiperSlide key={index} className="border">
                 <img
                   loading="lazy"
                   src={image}
                   alt={`Banner ${index + 1}`}
-                  className="h-[auto] lg:max-h-[800px] md:max-h-[300px] max-sm:max-h-[200px] mx-auto"
+                  className="h-[auto] lg:max-h-[800px] md:max-h-[400px] max-sm:max-h-[300px] mx-auto object-cover"
                 />
               </SwiperSlide>
             ))}

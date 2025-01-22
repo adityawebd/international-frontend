@@ -23,7 +23,6 @@ const allCollection = [
 ];
 
 const AllCollection = () => {
-
   const [allCollection, setAllCollections] = useState([]);
   useEffect(() => {
     fetchAllCollections();
@@ -56,6 +55,7 @@ const AllCollection = () => {
           >
             {allCollection.map((data, index) => (
               <AllCollectionCard
+                key={index}
                 title={data.title}
                 tagline={data.tagline}
                 discount_text=""

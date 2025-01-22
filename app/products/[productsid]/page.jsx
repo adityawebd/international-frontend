@@ -38,8 +38,21 @@ const ProductContent = ({ urldata }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  const [sortOption, setSortOption] = useState("");
+
+  const handleSortChange1 = (event) => {
+    const selectedSortOption = event.target.value;
+    setSortOption(selectedSortOption);
+    setSortOrder(selectedSortOption);
+
+
+    // Perform sorting logic here or trigger a fetch with the selected sort option
+    console.log("Selected Sort Option:", selectedSortOption);
+  };
+
   const data1 = searchParams.get("category");
   const data2 = searchParams.get("filter");
+  
 
   //console.log("data in productss is ", data1, data2);
   const product = urldata;
@@ -342,27 +355,11 @@ const ProductContent = ({ urldata }) => {
 
   return (
     <div className="container">
-      <div className="row">
-        <div className="col-md-2 overflow-hidden overflow-x-auto">
-          <div className="horizontal_filter flex items-center">
-            <button
-              className="reset_button d-md-none flex items-center gap-2 rounded my-4"
-              onClick={toggleFilter}
-            >
-              {/* {showFilter ? "Hide Filter" : "Show Filter"} */}
-              <FaFilter />
-              Filter
-            </button>
-            <FilterHorizontal
-              categories={categories}
-              categori={categori}
-              onFilterButtonClick={handleFilterClose}
-              onClick={toggleFilter}
-            />
-          </div>
+      <div className="flex lg:flex-row md:flex-row gap-4 flex-col">
+        <div className="2xl:w-1/5 xl:w-1/5 lg:w-1/4 md:w-1/4 w-full  lg:py-6 md:py-6">
           <div
             ref={filterRef}
-            className={`filter-page-container ${
+            className={` filter-page-container ${
               showFilter ? "show" : ""
             } d-md-block`}
           >
@@ -378,10 +375,44 @@ const ProductContent = ({ urldata }) => {
               onClose={toggleFilter} // Pass the close handler
             />
           </div>
+          <div className="lg:hidden md:hidden block">
+            <div className=" flex items-center">
+              <button
+                className="reset_button d-md-none flex items-center gap-2 rounded py-4"
+                onClick={toggleFilter}
+              >
+                {/* {showFilter ? "Hide Filter" : "Show Filter"} */}
+                <FaFilter />
+                Filter
+              </button>
+              <FilterHorizontal
+                categories={categories}
+                categori={categori}
+                onFilterButtonClick={handleFilterClose}
+                onClick={toggleFilter}
+              />
+            </div>
+            {/* Sort By Option */}
+            <div className="flex mb-4 items-center mt-2">
+              <label htmlFor="sort-by" className="mr-2 w-1/3">
+                Sort By:
+              </label>
+              <select
+                id="sort-by"
+                value={sortOption}
+                onChange={handleSortChange1}
+                className="text-gray-500 rounded border px-2 py-2 outline-none w-full"
+              >
+                <option value="">Newest</option>
+                <option value="asc">Price: Low to High</option>
+                <option value="desc">Price: High to Low</option>
+              </select>
+            </div>
+          </div>
         </div>
-        <div className="col-md-10 py-4">
+        <div className="2xl:w-4/5 xl:w-4/5 lg:w-3/4 md:w-3/4 w-full lg:py-6 md:py-6">
           <div className="lg:block md:block max-sm:hidden">
-            <div className="grid gap-2 grid-cols-3 lg:grid-cols-5 md:grid-cols-3">
+            <div className="grid gap-2 grid-cols-3 2xl:grid-cols-5 xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3">
               {filteredProducts?.map((product) => (
                 <div key={product._id} className="border rounded-xl p-2">
                   <a
@@ -424,7 +455,7 @@ const ProductContent = ({ urldata }) => {
                         {product.title}
                       </a>
                     </div>
-                    <div className="price mt-2 green_font text-md">
+                    <div className="price mt-2 green_font 2xl:text-md xl:text-md lg:text-sm">
                       ₹
                       {convertPrice(
                         product.discountedPrice,
@@ -432,7 +463,7 @@ const ProductContent = ({ urldata }) => {
                         exchangeRates
                       ).toFixed(2)}{" "}
                       &nbsp;
-                      <span className="text-sm line-through text-gray-300">
+                      <span className="2xl:text-sm xl:text-sm lg:text-xs line-through text-gray-300">
                         ₹
                         {convertPrice(
                           product.price,
@@ -463,7 +494,7 @@ const ProductContent = ({ urldata }) => {
 
           <div className="lg:hidden md:hidden">
             <div className="grid gap-2 grid-cols-1">
-              {products?.map((product) => (
+              {filteredProducts?.map((product) => (
                 <div
                   key={product._id}
                   className="border rounded-xl p-2 flex gap-2"

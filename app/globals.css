@@ -80,6 +80,9 @@ html{
   }
 }
 
+.zIndexCustom {
+  z-index: 1100;
+}
 .product_main_tatile {
   font-family: "Amazon Ember";
   font-weight: 600;
