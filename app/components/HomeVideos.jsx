@@ -45,40 +45,68 @@ const HomeVideos = () => {
     return url;
   };
 
-  const reels = [
-    {
-      videoUrl: "https://www.youtube.com/shorts/nlNtskyfH9U",
-      productUrl: "https://example.com/product/1",
-    },
-    {
-      videoUrl: "https://www.youtube.com/shorts/nlNtskyfH9U",
-      productUrl: "https://example.com/product/1",
-    },
-    {
-      videoUrl: "https://www.youtube.com/shorts/nlNtskyfH9U",
-      productUrl: "https://example.com/product/1",
-    },
-    {
-      videoUrl: "https://www.youtube.com/shorts/nlNtskyfH9U",
-      productUrl: "https://example.com/product/1",
-    },
-    {
-      videoUrl: "https://www.youtube.com/shorts/nlNtskyfH9U",
-      productUrl: "https://example.com/product/1",
-    },
-    {
-      videoUrl: "https://www.youtube.com/shorts/nlNtskyfH9U",
-      productUrl: "https://example.com/product/1",
-    },
-    {
-      videoUrl: "https://www.youtube.com/shorts/nlNtskyfH9U",
-      productUrl: "https://example.com/product/1",
-    },
-    {
-      videoUrl: "https://www.youtube.com/shorts/v2DDv1iGL0Q",
-      productUrl: "https://example.com/product/2",
-    },
-  ];
+  // const reels = [
+  //   {
+  //     videoUrl: "https://www.youtube.com/shorts/nlNtskyfH9U",
+  //     productUrl: "https://example.com/product/1",
+  //   },
+  //   {
+  //     videoUrl: "https://www.youtube.com/shorts/nlNtskyfH9U",
+  //     productUrl: "https://example.com/product/1",
+  //   },
+  //   {
+  //     videoUrl: "https://www.youtube.com/shorts/nlNtskyfH9U",
+  //     productUrl: "https://example.com/product/1",
+  //   },
+  //   {
+  //     videoUrl: "https://www.youtube.com/shorts/nlNtskyfH9U",
+  //     productUrl: "https://example.com/product/1",
+  //   },
+  //   {
+  //     videoUrl: "https://www.youtube.com/shorts/nlNtskyfH9U",
+  //     productUrl: "https://example.com/product/1",
+  //   },
+  //   {
+  //     videoUrl: "https://www.youtube.com/shorts/nlNtskyfH9U",
+  //     productUrl: "https://example.com/product/1",
+  //   },
+  //   {
+  //     videoUrl: "https://www.youtube.com/shorts/nlNtskyfH9U",
+  //     productUrl: "https://example.com/product/1",
+  //   },
+  //   {
+  //     videoUrl: "https://www.youtube.com/shorts/v2DDv1iGL0Q",
+  //     productUrl: "https://example.com/product/2",
+  //   },
+  // ];
+
+  const [reels, setVideoProducts] = useState([]);
+  // State to handle loading and error
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    // Function to fetch data
+    const fetchVideoProducts = async () => {
+      try {
+        setLoading(true); // Set loading to true before fetching
+        const response = await axios.get("/api/videoProduct");
+        setVideoProducts(response.data.data); // Store the response data in state
+      } catch (err) {
+        console.error("Error fetching video products:", err);
+        setError("Failed to fetch video products.");
+      } finally {
+        setLoading(false); // Stop loading after fetching
+      }
+    };
+
+    fetchVideoProducts(); // Call the function inside useEffect
+  }, []);
+
+
+
+  console.log('videoProducts',reels);
+  
 
   const reelRefs = useRef([]);
 
