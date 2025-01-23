@@ -103,10 +103,7 @@ const HomeVideos = () => {
     fetchVideoProducts(); // Call the function inside useEffect
   }, []);
 
-
-
-  console.log('videoProducts',reels);
-  
+  console.log("videoProducts", reels);
 
   const reelRefs = useRef([]);
 
@@ -156,78 +153,94 @@ const HomeVideos = () => {
           Browse The Collection of Top Products
         </p>
         {/* Scrollable Reel Container */}
-        <div className="mt-4">
-          <Swiper
-            spaceBetween={20}
-            slidesPerView={1.5}
-            loop={true}
-            autoplay={{
-              delay: 3000,
-              disableOnInteraction: true,
-              pauseOnMouseEnter: true,
-            }}
-            speed={5000}
-            scrollbar={{ draggable: true }}
-            breakpoints={{
-              320: {
-                slidesPerView: 1.6,
-              },
-              500: {
-                slidesPerView: 2.2,
-              },
-              768: {
-                slidesPerView: 2.6,
-              },
-              1024: {
-                slidesPerView: 3.5,
-              },
-              1300: {
-                slidesPerView: 5.5,
-              },
-              1500: {
-                slidesPerView: 6.5,
-              },
-            }}
-            navigation={true}
-            //  modules={[Autoplay, Pagination, Navigation]}
-            modules={[Autoplay, Navigation, A11y]}
-            className="swiper-wrapper"
-          >
-            {reels.map((reel, index) => (
-              <SwiperSlide
-                key={index}
-                // ref={(el) => (reelRefs.current[index] = el)}
+
+        {loading ? (
+          <div className="grid grid-cols-6 max-sm:grid-cols-1 gap-4 ">
+            <div className="animate-pulse h-[500px] max-sm:h-[300px] w-full bg-gray-300 rounded"></div>
+            <div className="animate-pulse h-[500px] max-sm:h-[300px] w-full bg-gray-300 rounded"></div>
+            <div className="animate-pulse h-[500px] max-sm:h-[300px] w-full bg-gray-300 rounded"></div>
+            <div className="animate-pulse h-[500px] max-sm:h-[300px] w-full bg-gray-300 rounded"></div>
+            <div className="animate-pulse h-[500px] max-sm:h-[300px] w-full bg-gray-300 rounded"></div>
+            <div className="animate-pulse h-[500px] max-sm:h-[300px] w-full bg-gray-300 rounded"></div>
+          </div>
+        ) : (
+          <div className="mt-4">
+            {reels?.length > 0 ? (
+              <Swiper
+                spaceBetween={20}
+                slidesPerView={1.5}
+                loop={true}
+                autoplay={{
+                  delay: 3000,
+                  disableOnInteraction: true,
+                  pauseOnMouseEnter: true,
+                }}
+                speed={5000}
+                scrollbar={{ draggable: true }}
+                breakpoints={{
+                  320: {
+                    slidesPerView: 1.6,
+                  },
+                  500: {
+                    slidesPerView: 2.2,
+                  },
+                  768: {
+                    slidesPerView: 2.6,
+                  },
+                  1024: {
+                    slidesPerView: 3.5,
+                  },
+                  1300: {
+                    slidesPerView: 5.5,
+                  },
+                  1500: {
+                    slidesPerView: 6.5,
+                  },
+                }}
+                navigation={true}
+                //  modules={[Autoplay, Pagination, Navigation]}
+                modules={[Autoplay, Navigation, A11y]}
+                className="swiper-wrapper"
               >
-                {/* Video */}
-
-                <div
-                  onClick={() => openModal(index)}
-                  className="relative w-full h-[500px] max-sm:h-[300px] bg-black overflow-hidden rounded-t-lg"
-                >
-                  <iframe
-                    src={convertToEmbedUrl(reel.videoUrl)}
-                    title={`Reel ${index + 1}`}
-                    className="absolute top-0 left-0 w-full h-full pointer-events-none"
-                    frameBorder="0"
-                    allowFullScreen
-                  ></iframe>
-                </div>
-
-                {/* Buy Now Button */}
-                <div className="flex justify-center">
-                  <a
-                    href={reel.productUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg_green text-white px-4 py-2 w-full text-center hover:bg_darkgray rounded-b-lg"
+                {reels?.map((reel, index) => (
+                  <SwiperSlide
+                    key={index}
+                    // ref={(el) => (reelRefs.current[index] = el)}
                   >
-                    Buy Now
-                  </a>
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </div>
+                    {/* Video */}
+
+                    <div
+                      onClick={() => openModal(index)}
+                      className="relative w-full h-[500px] max-sm:h-[300px] bg-black overflow-hidden rounded-t-lg"
+                    >
+                      <iframe
+                        src={convertToEmbedUrl(reel.videoUrl)}
+                        title={`Reel ${index + 1}`}
+                        className="absolute top-0 left-0 w-full h-full pointer-events-none"
+                        frameBorder="0"
+                        allowFullScreen
+                      ></iframe>
+                    </div>
+
+                    {/* Buy Now Button */}
+                    <div className="flex justify-center">
+                      <a
+                        href={reel.productUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="bg_green text-white px-4 py-2 w-full text-center hover:bg_darkgray rounded-b-lg"
+                      >
+                        Buy Now
+                      </a>
+                    </div>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            ) : (
+              <>No product available.</>
+            )}
+          </div>
+        )}
 
         {isModalOpen && (
           <div className="fixed inset-0 bg-black/90 bg-opacity-90 flex justify-center items-center z-50">

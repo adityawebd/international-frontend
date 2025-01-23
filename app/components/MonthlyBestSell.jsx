@@ -46,6 +46,8 @@ const MonthlyBestSell = ({ price, ...props }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true); // Start loading
+
         //console.log("before reaponce")
         const response = await axios.get(`/api/BestSell`);
 
@@ -83,36 +85,50 @@ const MonthlyBestSell = ({ price, ...props }) => {
           >
             Big Savings
           </h2>
-
-          <div className="grid gap-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1">
-            {discountBanners.length > 0 &&
-              discountBanners.map((data) => {
-                return (
-                  <Link
-                    key={data._id}
-                    href={data.order_link}
-                    className="rounded-xl"
-                  >
-                    <div className="relative h-[300px] sm:h-[350px] md:h-[400px] lg:h-[500px] w-full rounded-xl overflow-hidden">
-                      <img
-                        src={data.img_src}
-                        alt=""
-                        className="rounded-xl h-full w-full object-cover"
-                      />
-                      {/* Optional content overlay */}
-                      <div className="p-4 absolute top-0 left-0 inset-0 w-full bg-black/70 hover:bg-black/40 transition duration-500 text-center z-10 text-white flex flex-col justify-center items-center h-full">
-                        <h2 className="lg:text-4xl md:text-3xl max-sm:text-2xl text-2xl uppercase ">
-                          {data.discount_text}
-                        </h2>
-                        <p className="lg:text-6xl md:text-5xl max-sm:text-4xl text-4xl font-bold uppercase  break-words">
-                          {data.discount}
-                        </p>
-                      </div>
-                    </div>
-                  </Link>
-                );
-              })}
-          </div>
+          {loading ? (
+            <div className="grid grid-cols-3 max-sm:grid-cols-1 gap-4 px-10 max-sm:px-2">
+              <div className="animate-pulse h-[300px] sm:h-[350px] md:h-[400px] lg:h-[500px] w-full bg-gray-300 rounded"></div>
+              <div className="animate-pulse h-[300px] sm:h-[350px] md:h-[400px] lg:h-[500px] w-full bg-gray-300 rounded"></div>
+              <div className="animate-pulse h-[300px] sm:h-[350px] md:h-[400px] lg:h-[500px] w-full bg-gray-300 rounded"></div>
+            </div>
+          ) : (
+            <>
+              {discountBanners?.length > 0 ? (
+                <div className="grid gap-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1">
+                  {discountBanners?.map((data) => {
+                    return (
+                      <Link
+                        key={data?._id}
+                        href={data?.order_link}
+                        className="rounded-xl"
+                      >
+                        <div className="relative h-[300px] sm:h-[350px] md:h-[400px] lg:h-[500px] w-full rounded-xl overflow-hidden">
+                          <img
+                            src={data?.img_src}
+                            alt=""
+                            className="rounded-xl h-full w-full object-cover"
+                          />
+                          {/* Optional content overlay */}
+                          <div className="p-4 absolute top-0 left-0 inset-0 w-full bg-black/70 hover:bg-black/40 transition duration-500 text-center z-10 text-white flex flex-col justify-center items-center h-full">
+                            <h2 className="lg:text-4xl md:text-3xl max-sm:text-2xl text-2xl uppercase ">
+                              {data?.discount_text}
+                            </h2>
+                            <p className="lg:text-6xl md:text-5xl max-sm:text-4xl text-4xl font-bold uppercase  break-words">
+                              {data?.discount}
+                            </p>
+                          </div>
+                        </div>
+                      </Link>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div className="text-center text-gray-500">
+                  <p className="text-red-500">Banners not available.</p>
+                </div>
+              )}
+            </>
+          )}
         </div>
       </div>
     </div>

@@ -17,49 +17,49 @@ const NewArrival = ({ title, related }) => {
   const [loading, setLoading] = useState(true); // Track loading state
   const type = related || "NewArrival";
 
-useEffect(() => {
-  if (type === "NewArrival") {
-    const fetchNewArrivals = async () => {
-      try {
-        const response = await axios.get(`/api/productnewarrival?properties=${type}`);
-        setProduct(response.data);
-      } catch (error) {
-        console.error("Error fetching New Arrival data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  useEffect(() => {
+    if (type === "NewArrival") {
+      const fetchNewArrivals = async () => {
+        try {
+          const response = await axios.get(
+            `/api/productnewarrival?properties=${type}`
+          );
+          setProduct(response.data);
+        } catch (error) {
+          console.error("Error fetching New Arrival data:", error);
+        } finally {
+          setLoading(false);
+        }
+      };
 
-    fetchNewArrivals();
-  }
-}, []);
+      fetchNewArrivals();
+    }
+  }, []);
 
-// useEffect(() => {
-//   if (type !== "NewArrival") {
-//     const fetchOtherProducts = async () => {
-//       try {
-//         const response = await axios.get(`/api/productf?properties=${type}`);
-//         setProduct(response.data);
-//       } catch (error) {
-//         console.error("Error fetching other products data:", error);
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
+  // useEffect(() => {
+  //   if (type !== "NewArrival") {
+  //     const fetchOtherProducts = async () => {
+  //       try {
+  //         const response = await axios.get(`/api/productf?properties=${type}`);
+  //         setProduct(response.data);
+  //       } catch (error) {
+  //         console.error("Error fetching other products data:", error);
+  //       } finally {
+  //         setLoading(false);
+  //       }
+  //     };
 
-//     fetchOtherProducts();
-//   }
-// }, [related]);
+  //     fetchOtherProducts();
+  //   }
+  // }, [related]);
 
-
-//   console.log("product",product,"related",related);
-  
+  //   console.log("product",product,"related",related);
 
   // Determine slidesPerView dynamically based on product length
- 
- 
+
   const slidesToShow = Math.min(product.length, 5); // Max 5 slides
   const enableLoop = product.length > slidesToShow;
+
   return (
     <div>
       <div className="new_arrival py-5" id="new_arrival">
@@ -74,12 +74,12 @@ useEffect(() => {
         </p>
         <div className="container mt-4">
           {loading ? (
-            // Preloader when data is being fetched
-            <div className="flex gap-2 justify-center items-center h-64">
-              <div className="loader w-8 h-8 border-4 border_green border-dashed rounded-full animate-spin"></div>
-              <p className="ml-4 green_font text-sm mt-1">
-                Loading products...
-              </p>
+            <div className="grid grid-cols-5 max-sm:grid-cols-1 gap-4 px-10 max-sm:px-2">
+              <div className="animate-pulse h-[300px] w-full bg-gray-300 rounded"></div>
+              <div className="animate-pulse h-[300px] w-full bg-gray-300 rounded"></div>
+              <div className="animate-pulse h-[300px] w-full bg-gray-300 rounded"></div>
+              <div className="animate-pulse h-[300px] w-full bg-gray-300 rounded"></div>
+              <div className="animate-pulse h-[300px] w-full bg-gray-300 rounded"></div>
             </div>
           ) : product.length > 0 ? (
             // Swiper if products are available
@@ -113,7 +113,7 @@ useEffect(() => {
               modules={[Autoplay, Navigation, A11y]}
               className="swiper-wrapper mx-auto mb-4"
             >
-              {product.map((product, index) => (
+              {product?.map((product, index) => (
                 <SwiperSlide key={index}>
                   <NewArrivalCard
                     card_link={`/product/${product?._id}`}
