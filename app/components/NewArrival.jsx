@@ -116,13 +116,13 @@ useEffect(() => {
               {product.map((product, index) => (
                 <SwiperSlide key={index}>
                   <NewArrivalCard
-                    card_link={`/product/${product._id}`}
-                    img_src={product.images[0]}
-                    img_title={product.title}
-                    sku_id={product.sku}
-                    title={product.title}
-                    discounted_price={product.discountedPrice}
-                    actual_price={product.price}
+                    card_link={`/product/${product?._id}`}
+                    img_src={product?.images[0]}
+                    img_title={product?.title}
+                    sku_id={product?.sku}
+                    title={product?.title}
+                    discounted_price={product?.discountedPrice}
+                    actual_price={product?.price}
                   />
                 </SwiperSlide>
               ))}

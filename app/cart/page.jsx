@@ -19,7 +19,7 @@ const page = () => {
 
   // Safely check if `cart` exists and has at least one item
   const firstItemProperties = cart?.[0]?.properties || {};
-  console.log("cart",firstItemProperties);
+  // console.log("cart",firstItemProperties);
   
 
   // related={firstItemProperties}

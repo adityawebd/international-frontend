@@ -780,8 +780,12 @@ const Page = ({ params }) => {
   };
 
   const maxCouponDiscount = (discount1, discount2) => {
-    discount1 = (productData.discountedPrice) - (((productData.discountedPrice))*(discount1)/100)
-    discount2 = (productData.discountedPrice) - (((productData.discountedPrice))*(discount2)/100)
+    discount1 =
+      productData.discountedPrice -
+      (productData.discountedPrice * discount1) / 100;
+    discount2 =
+      productData.discountedPrice -
+      (productData.discountedPrice * discount2) / 100;
 
     // console.log(discount1)
     // console.log(discount2)
@@ -815,7 +819,7 @@ const Page = ({ params }) => {
                     ref={imageContainerRef}
                     className="flex flex-col gap-4 h-[auto] 2xl:max-h-[800px] xl:max-h-[700px] lg:max-h-[440px] md:max-h-[300px] max-sm:max-h-[200px] overflow-y-auto scrollbar-hidden relative"
                   >
-                    {productData.images?.map((media, index) => (
+                    {productData?.images?.map((media, index) => (
                       <div key={index} className="relative">
                         {/* Check if it's an image or video */}
                         {media.endsWith(".mp4") ? (
@@ -1101,7 +1105,7 @@ const Page = ({ params }) => {
                     ref={imageContainerRef}
                     className="flex flex-row gap-2 overflow-x-auto w-full scrollbar-hidden relative order-2"
                   >
-                    {productData.images?.map((media, index) => (
+                    {productData?.images?.map((media, index) => (
                       <div key={index} className="relative flex-none">
                         {/* <img
                           src={image}
@@ -1264,7 +1268,7 @@ const Page = ({ params }) => {
             <div className="lg:block md:block hidden">
               <div className="product_about_wrapper">
                 <h3 className="productTiteNewBaskervilleFont">
-                  {productData.title}
+                  {productData?.title}
                 </h3>
 
                 <div className="rating_div flex align-middle mt-2">
@@ -1326,7 +1330,7 @@ const Page = ({ params }) => {
                   <span className="text-black font-semibold">
                     Short Description:{" "}
                   </span>
-                  {productData.shortDescriptionPoints?.map((point, index) => (
+                  {productData?.shortDescriptionPoints?.map((point, index) => (
                     <ul key={index}>
                       <li>
                         <span className="flex">
@@ -1342,7 +1346,7 @@ const Page = ({ params }) => {
 
                 {/* <div className="flex"> */}
 
-                {productData.stockQuantity > 0 ? (
+                {productData?.stockQuantity > 0 ? (
                   <>
                     <div className="2xl:block xl:block lg:block hidden">
                       {/* <div className="grid lg:grid-cols-3 md:grid-cols-2 2xl:gap-6 xl:gap-4 lg:gap-2 mt-4">
@@ -1414,7 +1418,7 @@ const Page = ({ params }) => {
                         </div>
                         <div
                           className={`${
-                            productData.custom ? "" : "lg:col-span-2"
+                            productData?.custom ? "" : "lg:col-span-2"
                           }`}
                         >
                           <button
@@ -1427,7 +1431,7 @@ const Page = ({ params }) => {
                             &nbsp; add to cart
                           </button>
                         </div>
-                        {productData.custom && (
+                        {productData?.custom && (
                           <div className="">
                             <div className="bg_darkgray text-white px-4 py-2 rounded-full capitalize text-center w-full 2xl:text-base xl:text-base lg:text-sm">
                               <button onClick={() => setShowModal(true)}>
@@ -1484,7 +1488,7 @@ const Page = ({ params }) => {
                           </button>
                         </div> */}
                         <div className="">
-                          {productData.custom ? (
+                          {productData?.custom ? (
                             <div className="bg_darkgray text-white px-4 py-2 rounded-full capitalize text-center w-full  text-sm">
                               <button onClick={() => setShowModal(true)}>
                                 Customize
@@ -1496,10 +1500,9 @@ const Page = ({ params }) => {
                       {/* <div className="grid grid-cols-2 gap-2 mt-2"> */}
                       <div
                         className={`mt-2 grid gap-2 ${
-                          productData.custom ? "" : "lg:col-span-2"
+                          productData?.custom ? "" : "lg:col-span-2"
                         }`}
                       >
-                        
                         {/* <div className="">
                           <button
                             onClick={(e) => addToCart2(e, productData)}
@@ -1545,7 +1548,7 @@ const Page = ({ params }) => {
                               * Only one Customize product at a time{" "}
                             </p>
                             <h2 className="text-xl font-semibold mb-4">
-                              Customize Your : {productData.title}{" "}
+                              Customize Your : {productData?.title}{" "}
                             </h2>
 
                             <form onSubmit={handleSubmit}>
@@ -1950,15 +1953,23 @@ const Page = ({ params }) => {
                       {" "}
                       {/* //discountPercent */}
                       Get this under ₹
-                      {maxCouponDiscount(couponDiscounts.coupons[0].discountPercent, couponDiscounts.coupons[1].discountPercent)}
+                      {maxCouponDiscount(
+                        couponDiscounts?.coupons[0]?.discountPercent,
+                        couponDiscounts?.coupons[1]?.discountPercent
+                      )}
                     </span>
                     <span className="bg-teal-100 text-sm green_font px-2 py-1 rounded">
                       Save up to ₹
-                      {parseFloat(productData.discountedPrice) - maxCouponDiscount(couponDiscounts.coupons[0].discountPercent, couponDiscounts.coupons[1].discountPercent)}{" "}
+                      {parseFloat(productData?.discountedPrice) -
+                        maxCouponDiscount(
+                          couponDiscounts?.coupons[0]?.discountPercent,
+                          couponDiscounts?.coupons[1]?.discountPercent
+                        )}{" "}
                     </span>
                   </div>
                   <div className="mt-4 grid lg:grid-cols-2 grid-cols-1 gap-4">
-                    {couponDiscounts.coupons.map((coupon, index) => (
+                  {couponDiscounts?.coupons?.length > 0 ? (
+                      couponDiscounts?.coupons?.map((coupon, index) => (
                       <div className="ps-coupon-card" key={index}>
                         <div className="border-b border-dashed pb-2 mb-2">
                           <h3 className="text-lg font-semibold green_font">
@@ -1991,7 +2002,12 @@ const Page = ({ params }) => {
                           </button>
                         </div>
                       </div>
-                    ))}
+                    ))
+                  ) : (
+                    <div className="text-center text-gray-500">
+                      <p>No coupons available at the moment.</p>
+                    </div>
+                  )}
                   </div>
                 </div>
                 {/* coupon end */}
@@ -2029,7 +2045,7 @@ const Page = ({ params }) => {
           <div className="hidden max-sm:block pt-4">
             <div className="product_about_wrapper">
               <h3 className="productTiteNewBaskervilleFont">
-                {productData.title}
+                {productData?.title}
               </h3>
 
               <div className="rating_div flex align-middle mt-2">
@@ -2085,7 +2101,7 @@ const Page = ({ params }) => {
                 <span className="text-black font-semibold">
                   Short Description:{" "}
                 </span>
-                {productData.shortDescriptionPoints?.map((point, index) => (
+                {productData?.shortDescriptionPoints?.map((point, index) => (
                   <ul key={index}>
                     <li>
                       <span className="flex">
@@ -2101,7 +2117,7 @@ const Page = ({ params }) => {
 
               {/* <div className="flex"> */}
 
-              {productData.stockQuantity > 0 ? (
+              {productData?.stockQuantity > 0 ? (
                 <>
                   <div className="flex gap-2 mt-4">
                     <div className="w-1/3">
@@ -2138,7 +2154,7 @@ const Page = ({ params }) => {
                       </button>
                     </div> */}
                     <div className="w-2/3">
-                      {productData.custom ? (
+                      {productData?.custom ? (
                         <div className="bg_darkgray text-white px-4 py-2 rounded-full capitalize text-center w-full  2xl:text-base xl:text-base lg:text-sm max-sm:text-sm">
                           <button onClick={() => setShowModal(true)}>
                             Customize
@@ -2586,47 +2602,63 @@ const Page = ({ params }) => {
                   </span>
                   <span className="text-black font-semibold">
                     {" "}
-                    Get this under ₹{500}
+                    {/* //discountPercent */}
+                    Get this under ₹
+                    {maxCouponDiscount(
+                      couponDiscounts?.coupons[0]?.discountPercent,
+                      couponDiscounts?.coupons[1]?.discountPercent
+                    )}
                   </span>
                   <span className="bg-teal-100 text-sm green_font px-2 py-1 rounded">
-                    Save up to ₹{couponDiscounts.saveUpTo}
+                    Save up to ₹
+                    {parseFloat(productData?.discountedPrice) -
+                      maxCouponDiscount(
+                        couponDiscounts?.coupons[0]?.discountPercent,
+                        couponDiscounts?.coupons[1]?.discountPercent
+                      )}{" "}
                   </span>
                 </div>
                 <div className="mt-4 grid lg:grid-cols-2 grid-cols-1 gap-4">
-                  {couponDiscounts.coupons.map((coupon, index) => (
-                    <div className="ps-coupon-card" key={index}>
-                      <div className="border-b border-dashed pb-2 mb-2">
-                        <h3 className="text-lg font-semibold green_font">
-                          {coupon.title}
-                        </h3>
-                        <p className="text-xs text-gray-500 font-normal">
-                          {coupon.desc}
-                        </p>
+                  {couponDiscounts?.coupons?.length > 0 ? (
+                    couponDiscounts?.coupons?.map((coupon, index) => (
+                      <div className="ps-coupon-card" key={index}>
+                        <div className="border-b border-dashed pb-2 mb-2">
+                          <h3 className="text-lg font-semibold green_font">
+                            {coupon.title}
+                          </h3>
+                          <p className="text-xs text-gray-500 font-normal">
+                            {coupon.desc}
+                          </p>
+                        </div>
+                        <div className="flex items-center justify-between">
+                          <p className="text-gray-500 text-sm">
+                            <span className="font-medium text-gray-600">
+                              Code:{" "}
+                            </span>
+                            {coupon.code}
+                          </p>
+                          <button
+                            onClick={() => handleCopy(coupon.code, index)}
+                            className="text-sm"
+                          >
+                            {copiedCouponIndex === index ? (
+                              <div className="bg_green text-white rounded px-2 py-1 flex gap-1 items-center">
+                                <Copy size={16} /> Copied!
+                              </div>
+                            ) : (
+                              <div className="text-sm transition duration-300 flex gap-1 items-center py-1">
+                                <Copy size={16} /> Copy
+                              </div>
+                            )}
+                          </button>
+                        </div>
                       </div>
-                      <div className="flex items-center justify-between">
-                        <p className="text-gray-500 text-sm">
-                          <span className="font-medium text-gray-600">
-                            Code:{" "}
-                          </span>
-                          {coupon.code}
-                        </p>
-                        <button
-                          onClick={() => handleCopy(coupon.code, index)}
-                          className="text-sm"
-                        >
-                          {copiedCouponIndex === index ? (
-                            <div className="bg_green text-white rounded px-2 py-1 flex gap-1 items-center">
-                              <Copy size={16} /> Copied!
-                            </div>
-                          ) : (
-                            <div className="text-sm transition duration-300 flex gap-1 items-center py-1">
-                              <Copy size={16} /> Copy
-                            </div>
-                          )}
-                        </button>
-                      </div>
+                    ))
+                  ) : (
+                    <div className="text-center text-gray-500">
+                      <p>No coupons available at the moment.</p>
                     </div>
-                  ))}
+                  )}
                 </div>
               </div>
               {/* coupon end */}
@@ -2833,7 +2865,7 @@ const Page = ({ params }) => {
                               <td className="w-full lg:w-1/2 align-top p-2">
                                 <table className="min-w-full table-auto">
                                   <tbody>
-                                    {Object.entries(productData.property)
+                                    {Object.entries(productData?.property)
                                       .slice(0, 10)
                                       .map(([key, value], index) => (
                                         <tr
@@ -2856,7 +2888,7 @@ const Page = ({ params }) => {
                               <td className="w-full lg:w-1/2 align-top p-2">
                                 <table className="min-w-full table-auto">
                                   <tbody>
-                                    {Object.entries(productData.property)
+                                    {Object.entries(productData?.property)
                                       .slice(10)
                                       .map(([key, value], index) => (
                                         <tr
@@ -3032,7 +3064,6 @@ const Page = ({ params }) => {
                                     <Link
                                       href="/cart"
                                       className="bg_green text-sm text-white py-2 px-4 rounded mt-3 mr-4"
-                                      prefetch={true}
                                     >
                                       Buy Now
                                     </Link>
@@ -3040,7 +3071,6 @@ const Page = ({ params }) => {
                                     <Link
                                       href="/login"
                                       className="bg_green text-sm text-white py-2 px-4 rounded mt-3 ml-4"
-                                      prefetch={true}
                                     >
                                       Login
                                     </Link>
@@ -3068,7 +3098,7 @@ const Page = ({ params }) => {
 
         {/* <NewArrival related={productData.properties} title="Related Products" /> */}
         <RelatedProduct
-          related={productData.properties}
+          related={productData?.properties}
           title="Related Products"
         />
       </div>
