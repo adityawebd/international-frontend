@@ -112,10 +112,10 @@ const Navbar = () => {
 
     const res = await axios.get(`/api/search?query=${e.target.value}`);
     // const data = await res.json();
-    console.log("result as responce", res);
+    // console.log("result as responce", res);
     setResults(res.data);
-    console.log("result ", results);
-    console.log("result length", results.length);
+    // console.log("result ", results);
+    // console.log("result length", results.length);
   };
 
   

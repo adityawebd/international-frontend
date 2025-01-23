@@ -192,7 +192,7 @@ const HeroSection = () => {
             speed={3000}
             pagination={{ clickable: true }}
             scrollbar={{ draggable: true }}
-            // lazy={true} // Enable lazy loading
+            lazy={true} // Enable lazy loading
             breakpoints={{
               320: { slidesPerView: 1 },
               500: { slidesPerView: 1 },
