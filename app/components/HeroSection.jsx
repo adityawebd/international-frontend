@@ -39,11 +39,25 @@ const HeroSection = () => {
     const initializeTopbarAndData = async () => {
       // Ensure ProductTopbar is initialized first
       setInitialized(true);
-
+  
       // Check if data is in localStorage for banners
       const cachedImages = localStorage.getItem("bannerImages");
       if (cachedImages) {
-        setImages(JSON.parse(cachedImages)); // Use cached data
+        const parsedCachedImages = JSON.parse(cachedImages);
+        try {
+          const response = await axios.get("/api/banner");
+          const apiImages = response.data.map((item) => item.images[0]);
+  
+          // Only update localStorage if the data is different
+          if (JSON.stringify(parsedCachedImages) !== JSON.stringify(apiImages)) {
+            setImages(apiImages);
+            localStorage.setItem("bannerImages", JSON.stringify(apiImages)); // Cache data
+          } else {
+            setImages(parsedCachedImages); // Use cached data if it's the same
+          }
+        } catch (error) {
+          console.error("Failed to fetch banners:", error);
+        }
       } else {
         try {
           const response = await axios.get("/api/banner");
@@ -54,11 +68,25 @@ const HeroSection = () => {
           console.error("Failed to fetch banners:", error);
         }
       }
-
+  
       // Check if categories data exists in localStorage
       const cachedCategories = localStorage.getItem("categories");
       if (cachedCategories) {
-        setCategories(JSON.parse(cachedCategories)); // Use cached categories
+        const parsedCachedCategories = JSON.parse(cachedCategories);
+        try {
+          const res = await fetch("/api/categories");
+          const { categories } = await res.json();
+  
+          // Only update localStorage if the data is different
+          if (JSON.stringify(parsedCachedCategories) !== JSON.stringify(categories)) {
+            setCategories(categories);
+            localStorage.setItem("categories", JSON.stringify(categories)); // Cache categories
+          } else {
+            setCategories(parsedCachedCategories); // Use cached data if it's the same
+          }
+        } catch (error) {
+          console.error("Failed to fetch categories:", error);
+        }
       } else {
         try {
           const res = await fetch("/api/categories");
@@ -70,9 +98,10 @@ const HeroSection = () => {
         }
       }
     };
-
+  
     initializeTopbarAndData();
   }, []);
+  
 
   useEffect(() => {
     // Animate on scroll
