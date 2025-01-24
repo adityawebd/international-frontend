@@ -266,7 +266,7 @@ const Page = ({ params }) => {
 
   useEffect(() => {
     axios.get(`/api/productskuDetail?condition=${sku}`).then((response) => {
-      setSkuData(response.data);
+      setSkuData(response?.data);
       // Assuming the API returns an array of products
     });
   }, [sku]);
@@ -937,7 +937,7 @@ const Page = ({ params }) => {
                         modules={[Autoplay, Navigation, A11y]}
                         className="swiper-wrapper mx-auto mb-4"
                       >
-                        {skuData.map((data) => (
+                        {skuData?.map((data) => (
                           //  <Variations key={data._id} images={data.images} />
                           <SwiperSlide key={data._id}>
                             <a href={`/product/${data._id}`}>
@@ -2613,7 +2613,7 @@ const Page = ({ params }) => {
                       modules={[Autoplay, Navigation, A11y]}
                       className="swiper-wrapper mx-auto mb-4"
                     >
-                      {skuData.map((data) => (
+                      {skuData?.map((data) => (
                         //  <Variations key={data._id} images={data.images} />
                         <SwiperSlide key={data._id}>
                           <a href={`/product/${data._id}`}>
@@ -2727,7 +2727,7 @@ const Page = ({ params }) => {
                                   <tbody>
                                     {Object.entries(productData?.property)
                                       .slice(0, 10)
-                                      .map(([key, value], index) => (
+                                      ?.map(([key, value], index) => (
                                         <tr
                                           key={index}
                                           className="border-b border-t"
@@ -2750,7 +2750,7 @@ const Page = ({ params }) => {
                                   <tbody>
                                     {Object.entries(productData?.property)
                                       .slice(10)
-                                      .map(([key, value], index) => (
+                                      ?.map(([key, value], index) => (
                                         <tr
                                           key={index}
                                           className="border-b border-t"
@@ -2797,7 +2797,7 @@ const Page = ({ params }) => {
                       <div className="review_items">
                         {/* {Array.isArray(productData.reviews) &&
                         reviewData?.length > 0 ? (
-                          reviewData.reviews.map((review, index) => {
+                          reviewData.reviews?.map((review, index) => {
                             const rating = parseInt(review.rating, 10) || 0; // Default to 0 if rating is invalid
 
                             return (
@@ -2816,7 +2816,7 @@ const Page = ({ params }) => {
 
                                     <div className="author_rating flex align-middle mt-2 mb-1">
                                       <div className="author_stars flex align-middle mr-1">
-                                        {[...Array(rating)].map((_, i) => (
+                                        {[...Array(rating)]?.map((_, i) => (
                                           <span
                                             key={i}
                                             className="colored_star"
