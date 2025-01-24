@@ -96,7 +96,7 @@ const Page = ({ params }) => {
   const [activeProductTab, setActiveProductTab] = useState(0); // State to track active tab
   const [isCounting, setIsCounting] = useState(false);
   const [progressValues, setProgressValues] = useState([0, 0, 0, 0, 0]);
-  const [productData, setProductData] = useState(null);
+  const [productData, setProductData] = useState('');
   const [sku, setSku] = useState([]);
   const [quantity, setQuantity] = useState(1); // Local state for quantity
   const [skuData, setSkuData] = useState([]);
@@ -482,30 +482,6 @@ const Page = ({ params }) => {
     addToCart({ ...item, quantity });
   };
 
-  // const maxQuantity = productData?.stockQuantity - 7;
-  // const increaseQuantity = () => {
-  //   setQuantity((prev) => {
-  //     const newQuantity = prev + 1;
-
-  //     // Check if newQuantity exceeds or hits the limit
-  //     if (newQuantity >= maxQuantity) {
-  //       setIsDisabled(true); // Disable button if limit is reached
-  //     }
-
-  //     // Call addToCartHandler with the updated quantity
-  //     addToCartHandler(new Event("click"), {
-  //       ...productData,
-  //       quantity: newQuantity,
-  //     });
-
-  //     return newQuantity <= maxQuantity ? newQuantity : prev; // Prevent going above the limit
-  //   });
-  // };
-
-  // const decreaseQuantity = () => {
-  //   // if (quantity > 1) setQuantity((prev) => prev - 1);
-  //   setQuantity((prev) => (prev > 1 ? prev - 1 : 1)); // Prevent decrementing below 1
-  // };
 
   const increaseQuantity = () => {
     setQuantity((prev) => {
@@ -527,9 +503,6 @@ const Page = ({ params }) => {
 
   var hasPurchasedCourse = true;
 
-  // const handleFileChange = (e) => {
-  //   setFile(e.target.files[0]);
-  // };
 
   const handleFileChange = (e) => {
     // Convert FileList to Array and check length
@@ -543,90 +516,6 @@ const Page = ({ params }) => {
     setFiles(selectedFiles);
   };
 
-  // Handle form submission
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   if (!file) {
-  //     alert("Please select a file to upload");
-  //     return;
-  //   }
-
-  //   const formData = new FormData();
-  //   formData.append("file", file);
-
-  //   try {
-  //     // Make the POST request to upload the file
-  //     const { data } = await axios.post("/api/upload", formData, {
-  //       headers: {
-  //         "Content-Type": "multipart/form-data",
-  //       },
-  //     });
-
-  //     // Log the uploaded file URL
-  //     //console.log("Uploaded File URL:", data.link);
-
-  //     if (typeof window !== "undefined") {
-  //       sessionStorage.setItem("message", message);
-  //       sessionStorage.setItem("imageUrl", data.link);
-  //       alert("Data saved in session");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error uploading file:", error);
-  //   } finally {
-  //     // Close the modal
-  //     setShowModal(false);
-  //   }
-  // };
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   // if (!files || files?.length === 0) {
-  //   //   alert("Please select files to upload");
-  //   //   return;
-  //   // }
-
-  //   if (files?.length > 5) {
-  //     alert("You can only upload a maximum of 5 files");
-  //     return;
-  //   }
-
-  //   const formData = new FormData();
-
-  //   // Append each file to the FormData object
-  //   for (let i = 0; i < files?.length; i++) {
-  //     formData.append("files", files[i]);
-  //   }
-
-  //   try {
-  //     // Make the POST request to upload the files
-  //     const { data } = await axios.post("/api/upload", formData, {
-  //       headers: {
-  //         "Content-Type": "multipart/form-data",
-  //       },
-  //     });
-
-  //     // Log the uploaded file URLs
-  //     //console.log("Uploaded File URLs:", data.links);
-
-  //     if (typeof window !== "undefined") {
-  //       sessionStorage.setItem("message", message);
-  //       sessionStorage.setItem("username", username);
-  //       sessionStorage.setItem("number", number);
-
-  //       // Store all image URLs in sessionStorage as a JSON string
-  //       sessionStorage.setItem("imageUrls", JSON.stringify(data.links));
-
-  //       alert("Data Uploaded");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error uploading files:", error);
-  //   } finally {
-  //     // Close the modal
-  //     setShowModal(false);
-  //   }
-  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -751,11 +640,7 @@ const Page = ({ params }) => {
     // }
   };
 
-  // useEffect(() => {
-  //   if (urldata == skuData._id) {
 
-  //   }
-  // }, []);
 
   const handleReviewsClick = () => {
     // Set the active tab to 'reviews'
@@ -779,13 +664,13 @@ const Page = ({ params }) => {
     setZoomStyle({ display: "none" });
   };
 
-  const maxCouponDiscount = (discount1, discount2) => {
+  const maxCouponDiscount = (discount1 = 0, discount2 = 0) => {
     discount1 =
-      productData.discountedPrice -
-      (productData.discountedPrice * discount1) / 100;
+      productData?.discountedPrice -
+      (productData?.discountedPrice * discount1) / 100;
     discount2 =
-      productData.discountedPrice -
-      (productData.discountedPrice * discount2) / 100;
+      productData?.discountedPrice -
+      (productData?.discountedPrice * discount2) / 100;
 
     // console.log(discount1)
     // console.log(discount2)
@@ -826,11 +711,10 @@ const Page = ({ params }) => {
                           <div className="relative">
                             <video
                               src={media}
-                              className={`border border-red-500 rounded-lg h-[auto] w-[100px] lg:max-h-[100px] md:max-h-[80px] max-sm:max-h-[60px] mx-auto cursor-pointer ${
-                                currentIndex === index
-                                  ? "border-primary bg-secondary-light"
-                                  : "border-gray-300"
-                              }`}
+                              className={`border border-red-500 rounded-lg h-[auto] w-[100px] lg:max-h-[100px] md:max-h-[80px] max-sm:max-h-[60px] mx-auto cursor-pointer ${currentIndex === index
+                                ? "border-primary bg-secondary-light"
+                                : "border-gray-300"
+                                }`}
                               onClick={() => handleThumbnailClick(index)}
                               muted
                             />
@@ -842,11 +726,10 @@ const Page = ({ params }) => {
                           <img
                             src={media}
                             alt="Product Thumbnail"
-                            className={`border rounded-lg h-[auto] lg:max-h-[100px] md:max-h-[80px] max-sm:max-h-[60px] mx-auto cursor-pointer ${
-                              currentIndex === index
-                                ? "border-primary bg-secondary-light"
-                                : "border-gray-300"
-                            }`}
+                            className={`border rounded-lg h-[auto] lg:max-h-[100px] md:max-h-[80px] max-sm:max-h-[60px] mx-auto cursor-pointer ${currentIndex === index
+                              ? "border-primary bg-secondary-light"
+                              : "border-gray-300"
+                              }`}
                             onClick={() => handleThumbnailClick(index)}
                           />
                         )}
@@ -897,10 +780,9 @@ const Page = ({ params }) => {
                         style={{
                           ...zoomStyle,
                           position: "absolute",
-                          backgroundImage: `url(${
-                            productData?.images?.[currentIndex] ||
+                          backgroundImage: `url(${productData?.images?.[currentIndex] ||
                             "/default-image.jpg"
-                          })`,
+                            })`,
                           backgroundRepeat: "no-repeat",
                           backgroundSize: "200%", // Zoom level
                           top: 0,
@@ -972,9 +854,8 @@ const Page = ({ params }) => {
                               "/default-image.jpg"
                             }
                             alt={productData?.title || "Product Image"}
-                            className={`h-full mx-auto rounded-lg transition-transform cursor-zoom-in ${
-                              isZoomed ? "scale-150" : "scale-100"
-                            }`}
+                            className={`h-full mx-auto rounded-lg transition-transform cursor-zoom-in ${isZoomed ? "scale-150" : "scale-100"
+                              }`}
                             onClick={toggleZoom}
                           />
                         )}
@@ -1062,11 +943,10 @@ const Page = ({ params }) => {
                             <a href={`/product/${data._id}`}>
                               {/* <div className="border rounded-lg"> */}
                               <div
-                                className={`border rounded-lg ${
-                                  urldata === data._id
-                                    ? "border-4 border-black-500 shadow-xl"
-                                    : ""
-                                }`}
+                                className={`border rounded-lg ${urldata === data._id
+                                  ? "border-4 border-black-500 shadow-xl"
+                                  : ""
+                                  }`}
                               >
                                 <img
                                   loading="lazy"
@@ -1122,11 +1002,10 @@ const Page = ({ params }) => {
                           <div className="relative">
                             <video
                               src={media}
-                              className={`border rounded-lg h-[60px] w-[60px] mx-auto cursor-pointer ${
-                                currentIndex === index
-                                  ? "border-primary bg-secondary-light"
-                                  : "border-gray-300"
-                              }`}
+                              className={`border rounded-lg h-[60px] w-[60px] mx-auto cursor-pointer ${currentIndex === index
+                                ? "border-primary bg-secondary-light"
+                                : "border-gray-300"
+                                }`}
                               onClick={() => handleThumbnailClick(index)}
                               muted
                             />
@@ -1138,11 +1017,10 @@ const Page = ({ params }) => {
                           <img
                             src={media}
                             alt="Product Thumbnail"
-                            className={`border rounded-lg h-[60px] w-[60px] mx-auto cursor-pointer ${
-                              currentIndex === index
-                                ? "border-primary bg-secondary-light"
-                                : "border-gray-300"
-                            }`}
+                            className={`border rounded-lg h-[60px] w-[60px] mx-auto cursor-pointer ${currentIndex === index
+                              ? "border-primary bg-secondary-light"
+                              : "border-gray-300"
+                              }`}
                             onClick={() => handleThumbnailClick(index)}
                           />
                         )}
@@ -1238,9 +1116,8 @@ const Page = ({ params }) => {
                               "/default-image.jpg"
                             }
                             alt={productData?.title || "Product Image"}
-                            className={`w-full max-w-screen-sm mx-auto rounded-lg transition-transform cursor-zoom-in ${
-                              isZoomed ? "scale-150" : "scale-100"
-                            }`}
+                            className={`w-full max-w-screen-sm mx-auto rounded-lg transition-transform cursor-zoom-in ${isZoomed ? "scale-150" : "scale-100"
+                              }`}
                             onClick={toggleZoom}
                           />
                         )}
@@ -1285,10 +1162,9 @@ const Page = ({ params }) => {
                   >
                     <a href="#forReviewClicked">
                       {reviewData?.reviews?.length ? (
-                        `${reviewData?.reviews?.length} ${
-                          reviewData?.reviews?.length === 1
-                            ? "Review"
-                            : "Reviews"
+                        `${reviewData?.reviews?.length} ${reviewData?.reviews?.length === 1
+                          ? "Review"
+                          : "Reviews"
                         } `
                       ) : (
                         <></>
@@ -1310,7 +1186,7 @@ const Page = ({ params }) => {
                     {`SAVE ${Math.round(
                       ((convertedActualPrice - convertedPrice) /
                         convertedActualPrice) *
-                        100
+                      100
                     )}%`}
                   </span>
                 </div>
@@ -1417,9 +1293,8 @@ const Page = ({ params }) => {
                           </div>
                         </div>
                         <div
-                          className={`${
-                            productData?.custom ? "" : "lg:col-span-2"
-                          }`}
+                          className={`${productData?.custom ? "" : "lg:col-span-2"
+                            }`}
                         >
                           <button
                             onClick={(e) => addToCart1(e, productData)}
@@ -1499,9 +1374,8 @@ const Page = ({ params }) => {
                       </div>
                       {/* <div className="grid grid-cols-2 gap-2 mt-2"> */}
                       <div
-                        className={`mt-2 grid gap-2 ${
-                          productData?.custom ? "" : "lg:col-span-2"
-                        }`}
+                        className={`mt-2 grid gap-2 ${productData?.custom ? "" : "lg:col-span-2"
+                          }`}
                       >
                         {/* <div className="">
                           <button
@@ -1944,70 +1818,64 @@ const Page = ({ params }) => {
                 {/* shipping end */}
 
                 {/* coupon start */}
-                <div className="mt-4 border p-4 rounded ">
+                <div className="mt-4 border p-4 rounded">
                   <div className="flex gap-2 items-center flex-wrap">
                     <span className="bg_green rounded-full text-white p-1 px-2 text-sm">
                       %
                     </span>
                     <span className="text-black font-semibold">
-                      {" "}
-                      {/* //discountPercent */}
                       Get this under ₹
                       {maxCouponDiscount(
-                        couponDiscounts?.coupons[0]?.discountPercent,
-                        couponDiscounts?.coupons[1]?.discountPercent
+                        couponDiscounts?.coupons?.[0]?.discountPercent || 0,
+                        couponDiscounts?.coupons?.[1]?.discountPercent || 0
                       )}
                     </span>
                     <span className="bg-teal-100 text-sm green_font px-2 py-1 rounded">
                       Save up to ₹
-                      {parseFloat(productData?.discountedPrice) -
+                      {parseFloat(productData?.discountedPrice || 0) -
                         maxCouponDiscount(
-                          couponDiscounts?.coupons[0]?.discountPercent,
-                          couponDiscounts?.coupons[1]?.discountPercent
-                        )}{" "}
+                          couponDiscounts?.coupons?.[0]?.discountPercent || 0,
+                          couponDiscounts?.coupons?.[1]?.discountPercent || 0
+                        )}
                     </span>
                   </div>
                   <div className="mt-4 grid lg:grid-cols-2 grid-cols-1 gap-4">
-                  {couponDiscounts?.coupons?.length > 0 ? (
-                      couponDiscounts?.coupons?.map((coupon, index) => (
-                      <div className="ps-coupon-card" key={index}>
-                        <div className="border-b border-dashed pb-2 mb-2">
-                          <h3 className="text-lg font-semibold green_font">
-                            {coupon.title}
-                          </h3>
-                          <p className="text-xs text-gray-500 font-normal">
-                            {coupon.desc}
-                          </p>
+                    {couponDiscounts?.coupons?.length > 0 ? (
+                      couponDiscounts.coupons.map((coupon, index) => (
+                        <div className="ps-coupon-card" key={index}>
+                          <div className="border-b border-dashed pb-2 mb-2">
+                            <h3 className="text-lg font-semibold green_font">{coupon.title || 'No Title'}</h3>
+                            <p className="text-xs text-gray-500 font-normal">
+                              {coupon.desc || 'No description available.'}
+                            </p>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <p className="text-gray-500 text-sm">
+                              <span className="font-medium text-gray-600">Code: </span>
+                              {coupon.code || 'N/A'}
+                            </p>
+                            <button
+                              onClick={() => handleCopy(coupon.code, index)}
+                              className="text-sm"
+                            >
+                              {copiedCouponIndex === index ? (
+                                <div className="bg_green text-white rounded px-2 py-1 flex gap-1 items-center">
+                                  <Copy size={16} /> Copied!
+                                </div>
+                              ) : (
+                                <div className="text-sm transition duration-300 flex gap-1 items-center py-1">
+                                  <Copy size={16} /> Copy
+                                </div>
+                              )}
+                            </button>
+                          </div>
                         </div>
-                        <div className="flex items-center justify-between">
-                          <p className="text-gray-500 text-sm">
-                            <span className="font-medium text-gray-600">
-                              Code:{" "}
-                            </span>
-                            {coupon.code}
-                          </p>
-                          <button
-                            onClick={() => handleCopy(coupon.code, index)}
-                            className="text-sm"
-                          >
-                            {copiedCouponIndex === index ? (
-                              <div className="bg_green text-white rounded px-2 py-1 flex gap-1 items-center">
-                                <Copy size={16} /> Copied!
-                              </div>
-                            ) : (
-                              <div className="text-sm transition duration-300 flex gap-1 items-center py-1">
-                                <Copy size={16} /> Copy
-                              </div>
-                            )}
-                          </button>
-                        </div>
+                      ))
+                    ) : (
+                      <div className="text-center text-gray-500">
+                        <p>No coupons available at the moment.</p>
                       </div>
-                    ))
-                  ) : (
-                    <div className="text-center text-gray-500">
-                      <p>No coupons available at the moment.</p>
-                    </div>
-                  )}
+                    )}
                   </div>
                 </div>
                 {/* coupon end */}
@@ -2062,8 +1930,7 @@ const Page = ({ params }) => {
                 >
                   <a href="#forReviewClicked">
                     {reviewData?.reviews?.length ? (
-                      `${reviewData?.reviews?.length} ${
-                        reviewData?.reviews?.length === 1 ? "Review" : "Reviews"
+                      `${reviewData?.reviews?.length} ${reviewData?.reviews?.length === 1 ? "Review" : "Reviews"
                       } `
                     ) : (
                       <></>
@@ -2085,7 +1952,7 @@ const Page = ({ params }) => {
                   {`SAVE ${Math.round(
                     ((convertedActualPrice - convertedPrice) /
                       convertedActualPrice) *
-                      100
+                    100
                   )}%`}
                 </span>
               </div>
@@ -2595,50 +2462,46 @@ const Page = ({ params }) => {
               {/* shipping end */}
 
               {/* coupon start */}
-              <div className="mt-4 border p-4 rounded ">
+              <div className="mt-4 border p-4 rounded">
                 <div className="flex gap-2 items-center flex-wrap">
                   <span className="bg_green rounded-full text-white p-1 px-2 text-sm">
                     %
                   </span>
                   <span className="text-black font-semibold">
-                    {" "}
-                    {/* //discountPercent */}
                     Get this under ₹
                     {maxCouponDiscount(
-                      couponDiscounts?.coupons[0]?.discountPercent,
-                      couponDiscounts?.coupons[1]?.discountPercent
+                      couponDiscounts?.coupons?.[0]?.discountPercent || 0,
+                      couponDiscounts?.coupons?.[1]?.discountPercent || 0
                     )}
                   </span>
                   <span className="bg-teal-100 text-sm green_font px-2 py-1 rounded">
                     Save up to ₹
-                    {parseFloat(productData?.discountedPrice) -
+                    {parseFloat(productData?.discountedPrice || 0) -
                       maxCouponDiscount(
-                        couponDiscounts?.coupons[0]?.discountPercent,
-                        couponDiscounts?.coupons[1]?.discountPercent
-                      )}{" "}
+                        couponDiscounts?.coupons?.[0]?.discountPercent || 0,
+                        couponDiscounts?.coupons?.[1]?.discountPercent || 0
+                      )}
                   </span>
                 </div>
                 <div className="mt-4 grid lg:grid-cols-2 grid-cols-1 gap-4">
                   {couponDiscounts?.coupons?.length > 0 ? (
-                    couponDiscounts?.coupons?.map((coupon, index) => (
+                    couponDiscounts.coupons.map((coupon, index) => (
                       <div className="ps-coupon-card" key={index}>
                         <div className="border-b border-dashed pb-2 mb-2">
                           <h3 className="text-lg font-semibold green_font">
-                            {coupon.title}
+                            {coupon.title || 'No Title'}
                           </h3>
                           <p className="text-xs text-gray-500 font-normal">
-                            {coupon.desc}
+                            {coupon.desc || 'No description available.'}
                           </p>
                         </div>
                         <div className="flex items-center justify-between">
                           <p className="text-gray-500 text-sm">
-                            <span className="font-medium text-gray-600">
-                              Code:{" "}
-                            </span>
-                            {coupon.code}
+                            <span className="font-medium text-gray-600">Code: </span>
+                            {coupon.code || 'N/A'}
                           </p>
                           <button
-                            onClick={() => handleCopy(coupon.code, index)}
+                            onClick={() => handleCopy(coupon.code || '', index)}
                             className="text-sm"
                           >
                             {copiedCouponIndex === index ? (
@@ -2661,6 +2524,7 @@ const Page = ({ params }) => {
                   )}
                 </div>
               </div>
+
               {/* coupon end */}
 
               {/* need help start */}
@@ -2755,11 +2619,10 @@ const Page = ({ params }) => {
                           <a href={`/product/${data._id}`}>
                             {/* <div className="border rounded-lg"> */}
                             <div
-                              className={`border rounded-lg ${
-                                urldata === data._id
-                                  ? "border-4 border-black-500 shadow-xl"
-                                  : ""
-                              }`}
+                              className={`border rounded-lg ${urldata === data._id
+                                ? "border-4 border-black-500 shadow-xl"
+                                : ""
+                                }`}
                             >
                               <img
                                 loading="lazy"
@@ -2801,11 +2664,10 @@ const Page = ({ params }) => {
               >
                 <li className="me-2 max-sm:w-full" role="presentation">
                   <button
-                    className={`inline-block mt-2 px-4 py-2 max-sm:w-full ${
-                      activeTab === "general_info"
-                        ? "green_bg_white_font"
-                        : "hover:text-gray-600 hover:border-gray-300"
-                    }`}
+                    className={`inline-block mt-2 px-4 py-2 max-sm:w-full ${activeTab === "general_info"
+                      ? "green_bg_white_font"
+                      : "hover:text-gray-600 hover:border-gray-300"
+                      }`}
                     onClick={() => handleTabClick("general_info")}
                   >
                     General Information
@@ -2813,11 +2675,10 @@ const Page = ({ params }) => {
                 </li>
                 <li className="me-2 max-sm:w-full" role="presentation">
                   <button
-                    className={`inline-block mt-2 px-4 py-2 max-sm:w-full ${
-                      activeTab === "additional_info"
-                        ? "green_bg_white_font"
-                        : "hover:text-gray-600 hover:border-gray-300"
-                    }`}
+                    className={`inline-block mt-2 px-4 py-2 max-sm:w-full ${activeTab === "additional_info"
+                      ? "green_bg_white_font"
+                      : "hover:text-gray-600 hover:border-gray-300"
+                      }`}
                     onClick={() => handleTabClick("additional_info")}
                   >
                     Additional Information
@@ -2825,11 +2686,10 @@ const Page = ({ params }) => {
                 </li>
                 <li className="me-2 max-sm:w-full" role="presentation">
                   <button
-                    className={`inline-block mt-2 px-4 py-2 max-sm:w-full ${
-                      activeTab === "reviews"
-                        ? "green_bg_white_font"
-                        : "hover:text-gray-600 hover:border-gray-300"
-                    }`}
+                    className={`inline-block mt-2 px-4 py-2 max-sm:w-full ${activeTab === "reviews"
+                      ? "green_bg_white_font"
+                      : "hover:text-gray-600 hover:border-gray-300"
+                      }`}
                     onClick={() => handleTabClick("reviews")}
                   >
                     Product Reviews
@@ -2983,7 +2843,7 @@ const Page = ({ params }) => {
 
                         <div>
                           {reviewData?.reviews &&
-                          reviewData?.reviews?.length > 0 ? (
+                            reviewData?.reviews?.length > 0 ? (
                             reviewData?.reviews?.map((reviewer, index) => (
                               <div key={index} className="flex gap-4 mb-5">
                                 <div>
