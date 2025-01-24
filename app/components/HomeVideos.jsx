@@ -45,40 +45,65 @@ const HomeVideos = () => {
     return url;
   };
 
-  const reels = [
-    {
-      videoUrl: "https://www.youtube.com/shorts/nlNtskyfH9U",
-      productUrl: "https://example.com/product/1",
-    },
-    {
-      videoUrl: "https://www.youtube.com/shorts/nlNtskyfH9U",
-      productUrl: "https://example.com/product/1",
-    },
-    {
-      videoUrl: "https://www.youtube.com/shorts/nlNtskyfH9U",
-      productUrl: "https://example.com/product/1",
-    },
-    {
-      videoUrl: "https://www.youtube.com/shorts/nlNtskyfH9U",
-      productUrl: "https://example.com/product/1",
-    },
-    {
-      videoUrl: "https://www.youtube.com/shorts/nlNtskyfH9U",
-      productUrl: "https://example.com/product/1",
-    },
-    {
-      videoUrl: "https://www.youtube.com/shorts/nlNtskyfH9U",
-      productUrl: "https://example.com/product/1",
-    },
-    {
-      videoUrl: "https://www.youtube.com/shorts/nlNtskyfH9U",
-      productUrl: "https://example.com/product/1",
-    },
-    {
-      videoUrl: "https://www.youtube.com/shorts/v2DDv1iGL0Q",
-      productUrl: "https://example.com/product/2",
-    },
-  ];
+  // const reels = [
+  //   {
+  //     videoUrl: "https://www.youtube.com/shorts/nlNtskyfH9U",
+  //     productUrl: "https://example.com/product/1",
+  //   },
+  //   {
+  //     videoUrl: "https://www.youtube.com/shorts/nlNtskyfH9U",
+  //     productUrl: "https://example.com/product/1",
+  //   },
+  //   {
+  //     videoUrl: "https://www.youtube.com/shorts/nlNtskyfH9U",
+  //     productUrl: "https://example.com/product/1",
+  //   },
+  //   {
+  //     videoUrl: "https://www.youtube.com/shorts/nlNtskyfH9U",
+  //     productUrl: "https://example.com/product/1",
+  //   },
+  //   {
+  //     videoUrl: "https://www.youtube.com/shorts/nlNtskyfH9U",
+  //     productUrl: "https://example.com/product/1",
+  //   },
+  //   {
+  //     videoUrl: "https://www.youtube.com/shorts/nlNtskyfH9U",
+  //     productUrl: "https://example.com/product/1",
+  //   },
+  //   {
+  //     videoUrl: "https://www.youtube.com/shorts/nlNtskyfH9U",
+  //     productUrl: "https://example.com/product/1",
+  //   },
+  //   {
+  //     videoUrl: "https://www.youtube.com/shorts/v2DDv1iGL0Q",
+  //     productUrl: "https://example.com/product/2",
+  //   },
+  // ];
+
+  const [reels, setVideoProducts] = useState([]);
+  // State to handle loading and error
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    // Function to fetch data
+    const fetchVideoProducts = async () => {
+      try {
+        setLoading(true); // Set loading to true before fetching
+        const response = await axios.get("/api/videoProduct");
+        setVideoProducts(response.data.data); // Store the response data in state
+      } catch (err) {
+        console.error("Error fetching video products:", err);
+        setError("Failed to fetch video products.");
+      } finally {
+        setLoading(false); // Stop loading after fetching
+      }
+    };
+
+    fetchVideoProducts(); // Call the function inside useEffect
+  }, []);
+
+  console.log("videoProducts", reels);
 
   const reelRefs = useRef([]);
 
@@ -128,81 +153,97 @@ const HomeVideos = () => {
           Browse The Collection of Top Products
         </p>
         {/* Scrollable Reel Container */}
-        <div className="mt-4">
-          <Swiper
-            spaceBetween={20}
-            slidesPerView={1.5}
-            loop={true}
-            autoplay={{
-              delay: 3000,
-              disableOnInteraction: true,
-              pauseOnMouseEnter: true,
-            }}
-            speed={5000}
-            scrollbar={{ draggable: true }}
-            breakpoints={{
-              320: {
-                slidesPerView: 1.6,
-              },
-              500: {
-                slidesPerView: 2.2,
-              },
-              768: {
-                slidesPerView: 2.6,
-              },
-              1024: {
-                slidesPerView: 3.5,
-              },
-              1300: {
-                slidesPerView: 5.5,
-              },
-              1500: {
-                slidesPerView: 6.5,
-              },
-            }}
-            navigation={true}
-            //  modules={[Autoplay, Pagination, Navigation]}
-            modules={[Autoplay, Navigation, A11y]}
-            className="swiper-wrapper"
-          >
-            {reels.map((reel, index) => (
-              <SwiperSlide
-                key={index}
-                // ref={(el) => (reelRefs.current[index] = el)}
+
+        {loading ? (
+          <div className="grid grid-cols-6 max-sm:grid-cols-1 gap-4 ">
+            <div className="animate-pulse h-[500px] max-sm:h-[300px] w-full bg-gray-300 rounded"></div>
+            <div className="animate-pulse h-[500px] max-sm:h-[300px] w-full bg-gray-300 rounded"></div>
+            <div className="animate-pulse h-[500px] max-sm:h-[300px] w-full bg-gray-300 rounded"></div>
+            <div className="animate-pulse h-[500px] max-sm:h-[300px] w-full bg-gray-300 rounded"></div>
+            <div className="animate-pulse h-[500px] max-sm:h-[300px] w-full bg-gray-300 rounded"></div>
+            <div className="animate-pulse h-[500px] max-sm:h-[300px] w-full bg-gray-300 rounded"></div>
+          </div>
+        ) : (
+          <div className="mt-4">
+            {reels?.length > 0 ? (
+              <Swiper
+                spaceBetween={20}
+                slidesPerView={1.5}
+                loop={true}
+                autoplay={{
+                  delay: 3000,
+                  disableOnInteraction: true,
+                  pauseOnMouseEnter: true,
+                }}
+                speed={5000}
+                scrollbar={{ draggable: true }}
+                breakpoints={{
+                  320: {
+                    slidesPerView: 1.6,
+                  },
+                  500: {
+                    slidesPerView: 2.2,
+                  },
+                  768: {
+                    slidesPerView: 2.6,
+                  },
+                  1024: {
+                    slidesPerView: 3.5,
+                  },
+                  1300: {
+                    slidesPerView: 5.5,
+                  },
+                  1500: {
+                    slidesPerView: 6.5,
+                  },
+                }}
+                navigation={true}
+                //  modules={[Autoplay, Pagination, Navigation]}
+                modules={[Autoplay, Navigation, A11y]}
+                className="swiper-wrapper"
               >
-                {/* Video */}
-
-                <div
-                  onClick={() => openModal(index)}
-                  className="relative w-full h-[500px] max-sm:h-[300px] bg-black overflow-hidden rounded-t-lg"
-                >
-                  <iframe
-                    src={convertToEmbedUrl(reel.videoUrl)}
-                    title={`Reel ${index + 1}`}
-                    className="absolute top-0 left-0 w-full h-full pointer-events-none"
-                    frameBorder="0"
-                    allowFullScreen
-                  ></iframe>
-                </div>
-
-                {/* Buy Now Button */}
-                <div className="flex justify-center">
-                  <a
-                    href={reel.productUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg_green text-white px-4 py-2 w-full text-center hover:bg_darkgray rounded-b-lg"
+                {reels?.map((reel, index) => (
+                  <SwiperSlide
+                    key={index}
+                    // ref={(el) => (reelRefs.current[index] = el)}
                   >
-                    Buy Now
-                  </a>
-                </div>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </div>
+                    {/* Video */}
+
+                    <div
+                      onClick={() => openModal(index)}
+                      className="relative w-full h-[500px] max-sm:h-[300px] bg-black overflow-hidden rounded-t-lg"
+                    >
+                      <iframe
+                        src={convertToEmbedUrl(reel.videoUrl)}
+                        title={`Reel ${index + 1}`}
+                        className="absolute top-0 left-0 w-full h-full pointer-events-none"
+                        frameBorder="0"
+                        allowFullScreen
+                      ></iframe>
+                    </div>
+
+                    {/* Buy Now Button */}
+                    <div className="flex justify-center">
+                      <a
+                        href={reel.productUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="bg_green text-white px-4 py-2 w-full text-center hover:bg_darkgray rounded-b-lg"
+                      >
+                        Buy Now
+                      </a>
+                    </div>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            ) : (
+              <>No product available.</>
+            )}
+          </div>
+        )}
 
         {isModalOpen && (
-          <div className="fixed inset-0 bg-black bg-opacity-90 flex justify-center items-center z-50">
+          <div className="fixed inset-0 bg-black/90 bg-opacity-90 flex justify-center items-center z-50">
             <button
               onClick={closeModal}
               className="absolute top-4 right-4 text-white bg-transparent hover:bg-gray-700 p-2 rounded-full"

@@ -5,10 +5,12 @@ import axios from "axios";
 const TopCategories = () => {
   const [tabData, setTabData] = useState([]);
   const [activeTab, setActiveTab] = useState(null); // Initially null
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true); // Start loading
         const response = await axios.get(`/api/TopCollection`);
         const data = response.data.data;
         setTabData(data);
@@ -17,6 +19,8 @@ const TopCategories = () => {
         }
       } catch (error) {
         console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -28,9 +32,9 @@ const TopCategories = () => {
     document.getElementById(discount)?.scrollIntoView({ behavior: "smooth" });
   };
 
-  if (!tabData || tabData.length === 0) {
-    return <div>No categories found.</div>;
-  }
+  // if (!tabData || tabData.length === 0) {
+  //   return <div className="text-center">No categories found.</div>;
+  // }
 
   return (
     <div>
@@ -45,82 +49,96 @@ const TopCategories = () => {
         <div className="container">
           <div className="hidden lg:block">
             <div className="tabs_wrapper mt-4">
-              <div className="flex gap-2">
-                <div className="w-1/4">
-                  <nav
-                    className="grid gap-2 grid-cols-2 h-full"
-                    aria-label="Tabs"
-                    role="tablist"
-                  >
-                    {tabData.map(
-                      ({ _id, title, tagline, discount_text, discount }) => (
-                        <button
-                          key={_id}
-                          type="button"
-                          className={`tab-button flex-col gap-2 ${
-                            activeTab === `vertical-tab-with-border-${_id}`
-                              ? "active"
-                              : ""
-                          }`}
-                          id={`vertical-tab-with-border-item-${_id}`}
-                          onClick={() =>
-                            handleTabClick(`vertical-tab-with-border-${_id}`, discount)
-                          }
-                          aria-controls={`vertical-tab-with-border-${_id}`}
-                          role="tab"
-                          aria-selected={
-                            activeTab === `vertical-tab-with-border-${_id}`
-                          }
-                        >
-                          <figure className="hover-image">
-                            <img
-                              loading="lazy"
-                              className="default_img"
-                              src={`/assets/images/icons/${tagline}`}
-                              alt={`${title} Image`}
-                            />
-                            <img
-                              loading="lazy"
-                              className="hovered_img"
-                              src={`/assets/images/icons/${discount_text}`}
-                              alt={`${title} Hover Image`}
-                            />
-                          </figure>
-                          <div className="tab_btn_text text-center">
-                            <div className="title">{title}</div>
-                          </div>
-                        </button>
-                      )
-                    )}
-                  </nav>
+              {loading ? (
+                <div className="flex max-sm:flex-col gap-2">
+                  <div className="animate-pulse h-[300px] w-1/4 max-sm:w-full bg-gray-300 rounded"></div>
+                  <div className="animate-pulse h-[300px] w-3/4 max-sm:w-full bg-gray-300 rounded"></div>
                 </div>
-
-                <div className="w-3/4">
-                  {tabData.map(({ _id, img_src, discount, order_link }) => (
-                    <div
-                      key={_id}
-                      id={`vertical-tab-with-border-${_id}`}
-                      className={`tab_content ${
-                        activeTab === `vertical-tab-with-border-${_id}`
-                          ? ""
-                          : "hidden"
-                      }`}
-                      role="tabpanel"
-                      aria-labelledby={`vertical-tab-with-border-item-${_id}`}
+              ) : (
+                <div className="flex gap-2">
+                  <div className="w-1/4">
+                    <nav
+                      className="grid gap-2 grid-cols-2 h-full"
+                      aria-label="Tabs"
+                      role="tablist"
                     >
-                      <img loading="lazy" src={img_src} alt={`${discount} image`} />
+                      {tabData?.map(
+                        ({ _id, title, tagline, discount_text, discount }) => (
+                          <button
+                            key={_id}
+                            type="button"
+                            className={`tab-button flex-col gap-2 ${
+                              activeTab === `vertical-tab-with-border-${_id}`
+                                ? "active"
+                                : ""
+                            }`}
+                            id={`vertical-tab-with-border-item-${_id}`}
+                            onClick={() =>
+                              handleTabClick(
+                                `vertical-tab-with-border-${_id}`,
+                                discount
+                              )
+                            }
+                            aria-controls={`vertical-tab-with-border-${_id}`}
+                            role="tab"
+                            aria-selected={
+                              activeTab === `vertical-tab-with-border-${_id}`
+                            }
+                          >
+                            <figure className="hover-image">
+                              <img
+                                loading="lazy"
+                                className="default_img"
+                                src={`/assets/images/icons/${tagline}`}
+                                alt={`${title} Image`}
+                              />
+                              <img
+                                loading="lazy"
+                                className="hovered_img"
+                                src={`/assets/images/icons/${discount_text}`}
+                                alt={`${title} Hover Image`}
+                              />
+                            </figure>
+                            <div className="tab_btn_text text-center">
+                              <div className="title">{title}</div>
+                            </div>
+                          </button>
+                        )
+                      )}
+                    </nav>
+                  </div>
 
-                      <div className="show_all_collection_btn">
-                        <div className="all_collection_card_btn">
-                          <Link legacyBehavior href={order_link}>
-                            <a className="uppercase text-sm">View all</a>
-                          </Link>
+                  <div className="w-3/4">
+                    {tabData?.map(({ _id, img_src, discount, order_link }) => (
+                      <div
+                        key={_id}
+                        id={`vertical-tab-with-border-${_id}`}
+                        className={`tab_content ${
+                          activeTab === `vertical-tab-with-border-${_id}`
+                            ? ""
+                            : "hidden"
+                        }`}
+                        role="tabpanel"
+                        aria-labelledby={`vertical-tab-with-border-item-${_id}`}
+                      >
+                        <img
+                          loading="lazy"
+                          src={img_src}
+                          alt={`${discount} image`}
+                        />
+
+                        <div className="show_all_collection_btn">
+                          <div className="all_collection_card_btn">
+                            <Link legacyBehavior href={order_link}>
+                              <a className="uppercase text-sm">View all</a>
+                            </Link>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
 

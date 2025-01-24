@@ -23,8 +23,9 @@ const allCollection = [
 ];
 
 const AllCollection = () => {
-
   const [allCollection, setAllCollections] = useState([]);
+  const [loading, setLoading] = useState(true); // Track loading state
+
   useEffect(() => {
     fetchAllCollections();
   }, []);
@@ -35,6 +36,8 @@ const AllCollection = () => {
       setAllCollections(res.data.data);
     } catch (error) {
       console.error("Failed to fetch AllCollections:", error);
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -49,37 +52,32 @@ const AllCollection = () => {
         </h2>
 
         <div className="container">
-          <div
-            className="grid grid-cols-2 max-sm:grid-cols-1 gap-4"
-            data-aos="fade-up"
-            data-aos-duration="1000"
-          >
-            {allCollection.map((data, index) => (
-              <AllCollectionCard
-                title={data.title}
-                tagline={data.tagline}
-                discount_text=""
-                discount={data.discount}
-                img_src={data.img_src}
-                order_link={data.order_link}
-              />
-            ))}
-            {/* <div className="row"></div>
+          {loading ? (
+            <div className="grid grid-cols-2 max-sm:grid-cols-1 gap-4">
+              <div className="animate-pulse h-[300px] w-full bg-gray-300 rounded"></div>
+              <div className="animate-pulse h-[300px] w-full bg-gray-300 rounded"></div>
+            </div>
+          ) : (
             <div
-              className="col-md-6"
-              data-aos="fade-up"
-              data-aos-duration="1000"
+              className="grid grid-cols-2 max-sm:grid-cols-1 gap-4"
             >
-              <AllCollectionCard
-                title="New Trending"
-                tagline="Best Gold Gifts"
-                discount_text="Buy any 3 items & get"
-                discount="30"
-                img_src="/assets/image/cat-1-2-removebg-preview.png"
-                order_link="/products/Birthday%20Gift"
-              />
-            </div> */}
-          </div>
+              {allCollection.length > 0 ? (
+                allCollection?.map((data, index) => (
+                  <AllCollectionCard
+                    key={index}
+                    title={data.title}
+                    tagline={data.tagline}
+                    discount_text=""
+                    discount={data.discount}
+                    img_src={data.img_src}
+                    order_link={data.order_link}
+                  />
+                ))
+              ) : (
+                <p>No collections found.</p>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>

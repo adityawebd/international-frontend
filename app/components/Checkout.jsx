@@ -75,7 +75,7 @@ const Checkout = () => {
                   <input
                     type="text"
                     name="firstName"
-                    value={profile.firstName}
+                    value={profile?.firstName}
                     onChange={handleChange}
                     placeholder='First Name'
                     required
@@ -86,7 +86,7 @@ const Checkout = () => {
                   <input
                     type="text"
                     name="lastName"
-                    value={profile.lastName}
+                    value={profile?.lastName}
                     onChange={handleChange}
                     placeholder='Last Name'
                     required
@@ -99,7 +99,7 @@ const Checkout = () => {
                   <input
                     type="text"
                     name="city"
-                    value={profile.city}
+                    value={profile?.city}
                     onChange={handleChange}
                     placeholder='Address Line 1'
                     required
@@ -110,7 +110,7 @@ const Checkout = () => {
                   <input
                     type="text"
                     name="city"
-                    value={profile.city}
+                    value={profile?.city}
                     onChange={handleChange}
                     placeholder='Address Line 2'
                     required
@@ -123,7 +123,7 @@ const Checkout = () => {
                   <input
                     type="text"
                     name="city"
-                    value={profile.city}
+                    value={profile?.city}
                     onChange={handleChange}
                     placeholder='Enter City'
                     required
@@ -134,7 +134,7 @@ const Checkout = () => {
                   <input
                     type="text"
                     name="postcode"
-                    value={profile.postcode}
+                    value={profile?.postcode}
                     onChange={handleChange}
                     placeholder='Enter Post Code'
                     required
@@ -144,7 +144,7 @@ const Checkout = () => {
               <div className="flex form_flex mb-3">
                 <div className="form-group">
                   <label>Country<span className='asterik'>*</span>:</label>
-                  <select name="country" value={profile.country} onChange={handleChange} required>
+                  <select name="country" value={profile?.country} onChange={handleChange} required>
                     <option value="">Select Country</option>
                     <option value="USA">USA</option>
                     <option value="India">India</option>
@@ -153,7 +153,7 @@ const Checkout = () => {
                 {profile.country && (
                   <div className="form-group">
                     <label>State<span className='asterik'>*</span>:</label>
-                    <select name="state" value={profile.state} onChange={handleChange} required>
+                    <select name="state" value={profile?.state} onChange={handleChange} required>
                       <option value="">Select State</option>
                       {states.map((state, index) => (
                         <option key={index} value={state}>
@@ -175,7 +175,7 @@ const Checkout = () => {
                 type="radio"
                 name="paymentMethod"
                 value="directBank"
-                checked={profile.paymentMethod === 'directBank'}
+                checked={profile?.paymentMethod === 'directBank'}
                 onChange={handleChange}
                 required
               />&nbsp;
@@ -186,7 +186,7 @@ const Checkout = () => {
                 type="radio"
                 name="paymentMethod"
                 value="checkPayment"
-                checked={profile.paymentMethod === 'checkPayment'}
+                checked={profile?.paymentMethod === 'checkPayment'}
                 onChange={handleChange}
                 required
               />&nbsp;
@@ -197,7 +197,7 @@ const Checkout = () => {
                 type="radio"
                 name="paymentMethod"
                 value="paypal"
-                checked={profile.paymentMethod === 'paypal'}
+                checked={profile?.paymentMethod === 'paypal'}
                 onChange={handleChange}
                 required
               />&nbsp;

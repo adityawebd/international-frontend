@@ -38,7 +38,7 @@ const RelatedProduct = ({ title, related }) => {
     }, [related]);
 
 
-    console.log("product", product, "related", related);
+    // console.log("product", product, "related", related);
 
 
     // Determine slidesPerView dynamically based on product length

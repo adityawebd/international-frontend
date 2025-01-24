@@ -73,61 +73,63 @@ const Cart = () => {
   const [error, setError] = useState(null);
   const [profile, setProfile] = useState({});
 
-
   useEffect(() => {
     const fetchCoupons = async () => {
       try {
         setLoading(true); // Start loading
-        const response = await axios.get('/api/coupons');
+        const response = await axios.get("/api/coupons");
         if (Array.isArray(response.data.coupons)) {
           setDiscountCoupons(response.data.coupons); // Set coupons to state if response contains an array of coupons
         } else {
-          setError('Invalid coupons data');
+          setError("Invalid coupons data");
         }
         setError(null); // Reset any previous errors
       } catch (err) {
-        setError('Failed to fetch coupons'); // Handle error
+        setError("Failed to fetch coupons"); // Handle error
       } finally {
         setLoading(false); // End loading
       }
     };
-  
+
     fetchCoupons();
   }, []);
 
-  console.log("profile",profile);
+  // console.log("profile", profile);
 
   useEffect(() => {
     if (session) {
       const fetchProfile = async () => {
         try {
-          const response = await axios.get(`/api/user?condition=${session.user.email}`);
+          const response = await axios.get(
+            `/api/user?condition=${session.user.email}`
+          );
           setProfile(response.data);
-          } catch (error) {
-            console.error(error);
+        } catch (error) {
+          // console.error(error);
         }
-      }
+      };
       fetchProfile();
     }
-  },[session])
-  
+  }, [session]);
 
   const handleApplyCoupon = () => {
-    console.log("Profile:", profile); // Debugging: Log user profile data
-  
+    // console.log("Profile:", profile); // Debugging: Log user profile data
+
     // Check if the user has already used a coupon
     if (profile.hasUsedCuppon) {
       alert("You have already used a coupon. Cannot apply another one.");
       return;
     }
-  
+
     // Find the coupon based on the code
-    const coupon = couponDiscounts.find(c => c.code.toUpperCase() === couponCode.toUpperCase());
-  
+    const coupon = couponDiscounts.find(
+      (c) => c.code.toUpperCase() === couponCode.toUpperCase()
+    );
+
     if (coupon) {
       let discountAmount = 0;
       let discountPercentage = 0;
-  
+
       // Check if the coupon has a discount percent or discount amount
       if (coupon.discountPercent) {
         discountPercentage = coupon.discountPercent;
@@ -135,14 +137,20 @@ const Cart = () => {
       } else if (coupon.discountAmount) {
         discountAmount = coupon.discountAmount;
       }
-  
+
       if (!discountApplied) {
         const newFinalPrice = total - discountAmount;
         setFinalPrice(newFinalPrice); // Update the final price with discount
         setDiscountApplied(true);
-  
-        alert(`Coupon applied! ${discountPercentage ? `${discountPercentage}% discount` : `₹${discountAmount} discount`} added.`);
-  
+
+        alert(
+          `Coupon applied! ${
+            discountPercentage
+              ? `${discountPercentage}% discount`
+              : `₹${discountAmount} discount`
+          } added.`
+        );
+
         // Update the user's profile to indicate they have used a coupon
         // Ideally, this should be updated on the server side as well
         profile.hasUsedCoupon = true; // Temporary local update
@@ -238,7 +246,6 @@ const Cart = () => {
     region: "",
     storedMessage: "",
     storedImageUrl: "",
-
   });
 
   const [hasAddressChanged, setHasAddressChanged] = useState(false); // Track address changes
@@ -246,10 +253,10 @@ const Cart = () => {
   useEffect(() => {
     const totalAmount = cart
       ? cart.reduce(
-        (acc, product) =>
-          acc + product.discountedPrice * (product.quantity || 0),
-        0
-      )
+          (acc, product) =>
+            acc + product.discountedPrice * (product.quantity || 0),
+          0
+        )
       : 0;
     if (session) {
       setPrice(finalPrice);
@@ -320,9 +327,9 @@ const Cart = () => {
           }),
         });
         const data = await response.json();
-        console.log("Address saved:", data);
+        // console.log("Address saved:", data);
       } catch (error) {
-        console.error("Error saving address:", error);
+        // console.error("Error saving address:", error);
       }
     }
   };
@@ -340,8 +347,7 @@ const Cart = () => {
   };
 
   const handleRazorpayPayment = async () => {
-
-    alert("online payment is Not avalble Right now")
+    alert("online payment is Not avalble Right now");
     // if (!session) {
     //   window.location.href = "/login"; // Redirects to login page
     //   return;
@@ -430,7 +436,7 @@ const Cart = () => {
         alert("Payment verification failed. Please contact support.");
       }
     } catch (error) {
-      console.error("Error verifying payment:", error);
+      // console.error("Error verifying payment:", error);
       alert("An error occurred. Please try again.");
     }
   };
@@ -504,7 +510,7 @@ const Cart = () => {
         // Redirect to Instamojo payment page
       } catch (error) {
         setPaymentStatus("Payment request failed. Please try again.");
-        console.error("Error creating payment request:", error);
+        // console.error("Error creating payment request:", error);
         setSpinner(false);
         notify2();
       }
@@ -528,10 +534,6 @@ const Cart = () => {
   const Modal = ({ isOpen, onClose }) => {
     if (!isOpen) return null;
 
-
-
-
-
     // const couponDiscounts = {
     //   // discountUnder: "4,060",
     //   // saveUpTo: "439",
@@ -552,8 +554,6 @@ const Cart = () => {
     //     },
     //   ],
     // };
-
-
 
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 w-full">
@@ -584,7 +584,7 @@ const Cart = () => {
             <a
               href="/user-history"
               className="mr-2 bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400"
-            // onClick={onClose}
+              // onClick={onClose}
             >
               VIEW
             </a>
@@ -602,7 +602,7 @@ const Cart = () => {
   //   console.log(total);
   //   console.log(finalPrice);
 
-  // const [couponDiscounts,setDiscountCoupons]=useState([]) 
+  // const [couponDiscounts,setDiscountCoupons]=useState([])
   // const [error, setError] = useState(null);
 
   // useEffect(() => {
@@ -624,6 +624,8 @@ const Cart = () => {
   //   // Cleanup function to avoid setting state after the component is unmounted
 
   // }, []);
+
+  // console.log("Cart", cart);
 
   return (
     <div>
@@ -650,9 +652,19 @@ const Cart = () => {
                 </div>
               </div>
 
-              {cart?.map((product) => (
+              {/* {cart?.map((product) => (
                 <CartItem key={product._id} product={product} />
-              ))}
+              ))} */}
+
+              {Array.isArray(cart) && cart.length > 0 ? (
+                cart.map((product) => (
+                  <CartItem key={product._id} product={product} />
+                ))
+              ) : (
+                <div className="border-b pb-3 mb-3">
+                  <p className="text-center text-red-500">Your cart is empty. Start adding products!</p>
+                </div>
+              )}
 
               {/* <form action="#">
                 <div
