@@ -1525,7 +1525,7 @@ const Page = ({ params }) => {
                       <div className="grid grid-cols-2 max-sm:grid-cols-1 bg-white 2xl:w-[70%] xl:w-[70%] lg:w-[80%] md:w-[95%]">
                         <div className="relative p-6 flex justify-center items-center">
                           <img
-                            src="/assets/customize.jpeg"
+                            src="/assets/customize.png"
                             alt="Customize Image Box Demo"
                             className="w-full rounded-lg"
                           />
