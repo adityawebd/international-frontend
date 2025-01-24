@@ -66,15 +66,15 @@ export default function CartItem({ product }) {
             <div className="flex gap-4">
               <img
                 src={product?.images[0]}
-                alt={product.title}
+                alt={product?.title}
                 loading="lazy"
                 className="2xl:w-56 xl:w-56 lg:w-48 rounded-lg"
               />
               <div>
-                <div className="text-lg font-medium ">{product.title}</div>
+                <div className="text-lg font-medium ">{product?.title}</div>
                 <div className="text-green-500 text-sm">
                   (
-                  {product.stockQuantity > 0
+                  {product?.stockQuantity > 0
                     ? "In stock"
                     : "Currently Unavailable"}
                   )
@@ -88,7 +88,7 @@ export default function CartItem({ product }) {
                       -
                     </button>
                     &nbsp;&nbsp;&nbsp;&nbsp;
-                    <span>{product.quantity}</span>
+                    <span>{product?.quantity}</span>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <button
                       onClick={(e) => addToCart2(e, product)}
@@ -113,17 +113,17 @@ export default function CartItem({ product }) {
               <div className="flex gap-2 items-center justify-end 2xl:flex-row xl:flex-row lg:flex-col">
                 <div className="bg-red-500 text-white text-xs px-2 py-1 rounded">
                   {`- ${Math.round(
-                    ((product.price - product.discountedPrice) /
-                      product.price) *
+                    ((product?.price - product?.discountedPrice) /
+                      product?.price) *
                       100
                   )}%`}
                 </div>
                 <div className="text-black font-bold text-lg">
-                  ₹<span>{product.quantity * product.discountedPrice}</span>
+                  ₹<span>{product?.quantity * product?.discountedPrice}</span>
                 </div>
               </div>
               <div className="text-sm text-gray-500 text-right mt-2">
-                M.R.P.: <span className="line-through">{product.price}</span>
+                M.R.P.: <span className="line-through">{product?.price}</span>
               </div>
             </div>
           </div>
@@ -133,15 +133,15 @@ export default function CartItem({ product }) {
             <div className="flex gap-2 max-sm:flex-col">
               <img
                 src={product?.images[0]}
-                alt={product.title}
+                alt={product?.title}
                 loading="lazy"
                 className="w-32 rounded-lg max-sm:w-32"
               />
               <div>
-                <div className="text-lg font-medium ">{product.title}</div>
+                <div className="text-lg font-medium ">{product?.title}</div>
                 <div className="text-green-500 text-sm">
                   (
-                  {product.stockQuantity > 0
+                  {product?.stockQuantity > 0
                     ? "In stock"
                     : "Currently Unavailable"}
                   )
@@ -150,18 +150,18 @@ export default function CartItem({ product }) {
                   <div className="flex gap-2 items-center justify-start 2xl:flex-row xl:flex-row lg:flex-col">
                     <div className="bg-red-500 text-white text-xs px-2 py-1 rounded">
                       {`- ${Math.round(
-                        ((product.price - product.discountedPrice) /
-                          product.price) *
+                        ((product?.price - product?.discountedPrice) /
+                          product?.price) *
                           100
                       )}%`}
                     </div>
                     <div className="text-black font-bold text-lg">
-                      ₹<span>{product.quantity * product.discountedPrice}</span>
+                      ₹<span>{product?.quantity * product?.discountedPrice}</span>
                     </div>
                   </div>
                   <div className="text-sm text-gray-500 text-left mt-2">
                     M.R.P.:{" "}
-                    <span className="line-through">{product.price}</span>
+                    <span className="line-through">{product?.price}</span>
                   </div>
                 </div>
                 <div className="flex items-start gap-2 justify-start mt-3">
@@ -173,7 +173,7 @@ export default function CartItem({ product }) {
                       -
                     </button>
                     &nbsp;&nbsp;&nbsp;&nbsp;
-                    <span>{product.quantity}</span>
+                    <span>{product?.quantity}</span>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <button
                       onClick={(e) => addToCart2(e, product)}

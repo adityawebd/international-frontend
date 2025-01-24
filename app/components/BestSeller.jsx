@@ -53,10 +53,12 @@ const BestSeller = () => {
         </p>
         <div className="container mt-4">
           {loading ? (
-            // Preloader when data is being fetched
-            <div className="flex gap-2 justify-center items-center h-64">
-              <div className="loader w-8 h-8 border-4 border_green border-dashed rounded-full animate-spin"></div>
-              <p className="ml-4 green_font text-sm mt-1">Loading products...</p>
+            <div className="grid grid-cols-5 max-sm:grid-cols-1 gap-4 px-10 max-sm:px-2">
+              <div className="animate-pulse h-[300px] w-full bg-gray-300 rounded"></div>
+              <div className="animate-pulse h-[300px] w-full bg-gray-300 rounded"></div>
+              <div className="animate-pulse h-[300px] w-full bg-gray-300 rounded"></div>
+              <div className="animate-pulse h-[300px] w-full bg-gray-300 rounded"></div>
+              <div className="animate-pulse h-[300px] w-full bg-gray-300 rounded"></div>
             </div>
           ) : product.length > 0 ? (
             // Swiper if products are available

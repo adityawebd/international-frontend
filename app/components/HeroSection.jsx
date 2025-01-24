@@ -118,8 +118,8 @@ const HeroSection = () => {
     [categories]
   );
 
-  console.log("1 log", categories)
-  console.log("2 log", categoryData)
+  // console.log("1 log", categories)
+  // console.log("2 log", categoryData)
 
   // console.log(categoryData[selectedCategory]?.properties?.length);
 
@@ -128,7 +128,7 @@ const HeroSection = () => {
       <div className="product_topbar py-2 h-[100px]">
         <div className="container-auto">
           <div className="z-50 product_topbar_wrapper">
-            {memoizedCategories.length === 0 ? (
+            {memoizedCategories?.length === 0 ? (
               <div className="flex gap-4 px-10">
                 <div className="animate-pulse w-20 h-20 bg-gray-300 rounded"></div>
                 <div className="animate-pulse w-20 h-20 bg-gray-300 rounded"></div>
@@ -139,32 +139,32 @@ const HeroSection = () => {
                 <div className="animate-pulse w-20 h-20 bg-gray-300 rounded"></div>
               </div>
             ) : (
-              memoizedCategories.map((category) => (
+              memoizedCategories?.map((category) => (
                 <div
-                  key={category._id}
+                  key={category?._id}
                   style={{ cursor: "pointer" }}
                   className="pt_card_parent"
                   // onClick={() => handleCategoryClick(category._id)}
                   onClick={() => {
                     // Check if the category has subcategories (properties)
-                    if (category.properties && category.properties.length > 0) {
+                    if (category?.properties && category?.properties?.length > 0) {
                       // If properties exist, open the modal
-                      handleCategoryClick(category._id);
+                      handleCategoryClick(category?._id);
                     } else {
                       // If no properties (subcategories), redirect to the category page
-                      router.push(`/products/${category.name}`);
+                      router.push(`/products/${category?.name}`);
                     }
                   }}
                 >
                   <img
                     loading="lazy"
-                    src={category.image || `/assets/image/gift14.jpg`}
-                    alt={category.name}
+                    src={category?.image || `/assets/image/gift14.jpg`}
+                    alt={category?.name}
                     width={50}
                     height={50}
                   />
                   <div className="text-black tracking-wider fs-6 text-start px-2 topbar_word_wrapper">
-                    {category.name.split(" ").map((word, idx) => (
+                    {category?.name.split(" ").map((word, idx) => (
                       <div key={idx} className="topbar_word">
                         {word}
                       </div>
@@ -178,7 +178,7 @@ const HeroSection = () => {
       </div>
 
       <div className="heronewwrapper h-[auto] lg:max-h-[800px] md:max-h-[400px] max-sm:max-h-[300px] mx-auto">
-        {images.length === 0 ? (
+        {images?.length === 0 ? (
           <div className="animate-pulse h-[800px] w-full lg:max-h-[800px] md:max-h-[300px] max-sm:max-h-[200px] mx-auto bg-gray-300"></div>
         ) : (
           <Swiper
@@ -205,7 +205,7 @@ const HeroSection = () => {
             modules={[Autoplay, Navigation, A11y]}
             className="swiper-wrapper"
           >
-            {images.map((image, index) => (
+            {images?.map((image, index) => (
               <SwiperSlide key={index} className="border">
                 <img
                   loading="lazy"

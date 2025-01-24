@@ -37,6 +37,7 @@ const ProductContent = ({ urldata }) => {
   const [sortOrder, setSortOrder] = useState("");
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [loading, setLoading] = useState(true);
 
   const [sortOption, setSortOption] = useState("");
 
@@ -45,14 +46,12 @@ const ProductContent = ({ urldata }) => {
     setSortOption(selectedSortOption);
     setSortOrder(selectedSortOption);
 
-
     // Perform sorting logic here or trigger a fetch with the selected sort option
     console.log("Selected Sort Option:", selectedSortOption);
   };
 
   const data1 = searchParams.get("category");
   const data2 = searchParams.get("filter");
-  
 
   //console.log("data in productss is ", data1, data2);
   const product = urldata;
@@ -74,6 +73,7 @@ const ProductContent = ({ urldata }) => {
   useEffect(() => {
     async function loadData() {
       try {
+        setLoading(true); // Start loading
         const { categories, products, categori } =
           await fetchCategoriesAndProducts({ product });
 
@@ -97,6 +97,8 @@ const ProductContent = ({ urldata }) => {
         }
       } catch (error) {
         console.error("Failed to fetch categories and products:", error);
+      } finally {
+        setLoading(false); // End loading
       }
     }
 
@@ -411,169 +413,192 @@ const ProductContent = ({ urldata }) => {
           </div>
         </div>
         <div className="2xl:w-4/5 xl:w-4/5 lg:w-3/4 md:w-3/4 w-full lg:py-6 md:py-6">
-          <div className="lg:block md:block max-sm:hidden">
-            <div className="grid gap-2 grid-cols-3 2xl:grid-cols-5 xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3">
-              {filteredProducts?.map((product) => (
-                <div key={product._id} className="border rounded-xl p-2">
-                  <a
-                    href={`/product/${product._id}`}
-                    className="rounded-xl group overflow-hidden relative"
-                  >
-                    <img
-                      loading="lazy"
-                      className="rounded-xl scale-100 hover:scale-105 transition duration-500"
-                      src={product.images[0]}
-                      alt={product.title}
-                    />
-                    <div className="absolute top-2 right-2 bg_green text-white text-xs px-2 py-1 rounded-lg">
-                      {`SAVE ${Math.round(
-                        ((convertPrice(
-                          product.price,
-                          currency,
-                          exchangeRates
-                        ).toFixed(2) -
-                          convertPrice(
-                            product.discountedPrice,
-                            currency,
-                            exchangeRates
-                          ).toFixed(2)) /
-                          convertPrice(
-                            product.price,
-                            currency,
-                            exchangeRates
-                          ).toFixed(2)) *
-                          100
-                      )}%`}
-                    </div>
-                  </a>
-                  <div className="mt-2">
-                    <div className="productTitle text-lg font-semibold text-black">
-                      <a
-                        href={`/product/${product._id}`}
-                        className="productTitle"
-                      >
-                        {product.title}
-                      </a>
-                    </div>
-                    <div className="price mt-2 green_font 2xl:text-md xl:text-md lg:text-sm">
-                      ₹
-                      {convertPrice(
-                        product.discountedPrice,
-                        currency,
-                        exchangeRates
-                      ).toFixed(2)}{" "}
-                      &nbsp;
-                      <span className="2xl:text-sm xl:text-sm lg:text-xs line-through text-gray-300">
-                        ₹
-                        {convertPrice(
-                          product.price,
-                          currency,
-                          exchangeRates
-                        ).toFixed(2)}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex justify-between mt-2">
-                    <a
-                      href={`/product/${product._id}`}
-                      className="text-sm bg_green text-white rounded py-2 px-4"
-                    >
-                      Buy Now
-                    </a>
-                    <button
-                      onClick={(e) => addToCart1(e, product)}
-                      className="bg_green rounded-full p-2 border text-white"
-                    >
-                      <MdOutlineShoppingCart size={20} />
-                    </button>
-                  </div>
-                </div>
-              ))}
+          {loading ? (
+            <div className="flex gap-2 justify-center items-center h-[60vh]">
+              <div className="loader w-8 h-8 border-4 border_green border-dashed rounded-full animate-spin"></div>
+              <p className="ml-4 green_font text-sm mt-1">Loading product...</p>
             </div>
-          </div>
-
-          <div className="lg:hidden md:hidden">
-            <div className="grid gap-2 grid-cols-1">
-              {filteredProducts?.map((product) => (
-                <div
-                  key={product._id}
-                  className="border rounded-xl p-2 flex gap-2"
-                >
-                  <div className="w-2/5">
-                    <a
-                      href={`/product/${product._id}`}
-                      className="rounded-xl group overflow-hidden relative"
-                    >
-                      <img
-                        loading="lazy"
-                        className="rounded-xl scale-100 hover:scale-105 transition duration-500"
-                        src={product.images[0]}
-                        alt={product.title}
-                      />
-                      <div className="absolute top-2 left-2 bg_green text-white text-xs px-1 py-0.5 rounded-lg">
-                        {`${Math.round(
-                          ((convertPrice(
-                            product.price,
-                            currency,
-                            exchangeRates
-                          ).toFixed(2) -
-                            convertPrice(
+          ) : (
+            <>
+              <div className="lg:block md:block max-sm:hidden">
+                {filteredProducts?.length > 0 ? (
+                  <div className="grid gap-2 grid-cols-3 2xl:grid-cols-5 xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3">
+                    {filteredProducts?.map((product) => (
+                      <div key={product._id} className="border rounded-xl p-2">
+                        <a
+                          href={`/product/${product._id}`}
+                          className="rounded-xl group overflow-hidden relative"
+                        >
+                          <img
+                            loading="lazy"
+                            className="rounded-xl scale-100 hover:scale-105 transition duration-500"
+                            src={product.images[0]}
+                            alt={product.title}
+                          />
+                          <div className="absolute top-2 right-2 bg_green text-white text-xs px-2 py-1 rounded-lg">
+                            {`SAVE ${Math.round(
+                              ((convertPrice(
+                                product.price,
+                                currency,
+                                exchangeRates
+                              ).toFixed(2) -
+                                convertPrice(
+                                  product.discountedPrice,
+                                  currency,
+                                  exchangeRates
+                                ).toFixed(2)) /
+                                convertPrice(
+                                  product.price,
+                                  currency,
+                                  exchangeRates
+                                ).toFixed(2)) *
+                                100
+                            )}%`}
+                          </div>
+                        </a>
+                        <div className="mt-2">
+                          <div className="productTitle text-lg font-semibold text-black">
+                            <a
+                              href={`/product/${product._id}`}
+                              className="productTitle"
+                            >
+                              {product.title}
+                            </a>
+                          </div>
+                          <div className="price mt-2 green_font 2xl:text-md xl:text-md lg:text-sm">
+                            ₹
+                            {convertPrice(
                               product.discountedPrice,
                               currency,
                               exchangeRates
-                            ).toFixed(2)) /
-                            convertPrice(
-                              product.price,
-                              currency,
-                              exchangeRates
-                            ).toFixed(2)) *
-                            100
-                        )}%`}
+                            ).toFixed(2)}{" "}
+                            &nbsp;
+                            <span className="2xl:text-sm xl:text-sm lg:text-xs line-through text-gray-300">
+                              ₹
+                              {convertPrice(
+                                product.price,
+                                currency,
+                                exchangeRates
+                              ).toFixed(2)}
+                            </span>
+                          </div>
+                        </div>
+                        <div className="flex justify-between mt-2">
+                          <a
+                            href={`/product/${product._id}`}
+                            className="text-sm bg_green text-white rounded py-2 px-4"
+                          >
+                            Buy Now
+                          </a>
+                          <button
+                            onClick={(e) => addToCart1(e, product)}
+                            className="bg_green rounded-full p-2 border text-white"
+                          >
+                            <MdOutlineShoppingCart size={20} />
+                          </button>
+                        </div>
                       </div>
-                    </a>
+                    ))}
                   </div>
-                  <div className="w-3/5">
-                    <div className="">
-                      <div className="productTitleTwo font-semibold text-black">
-                        <a href={`/product/${product._id}`}>{product.title}</a>
-                      </div>
-                      <div className="price mt-2 green_font text-sm">
-                        ₹
-                        {convertPrice(
-                          product.discountedPrice,
-                          currency,
-                          exchangeRates
-                        ).toFixed(2)}{" "}
-                        &nbsp;
-                        <span className="text-xs line-through text-gray-300">
-                          ₹
-                          {convertPrice(
-                            product.price,
-                            currency,
-                            exchangeRates
-                          ).toFixed(2)}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="flex justify-between items-end mt-3">
-                      <a
-                        href={`/product/${product._id}`}
-                        className="text-sm bg_green text-white rounded py-1  px-2"
-                      >
-                        Buy Now
-                      </a>
-                      <button
-                        onClick={(e) => addToCart1(e, product)}
-                        className="bg_green rounded-full p-2 border text-white"
-                      >
-                        <MdOutlineShoppingCart size={16} />
-                      </button>
-                    </div>
+                ) : (
+                  <div className="text-center text-gray-500">
+                    <p className="text-red-500 ">Products not available.</p>
                   </div>
+                )}
+              </div>
+
+              <div className="lg:hidden md:hidden">
+                <div className="grid gap-2 grid-cols-1">
+                  {filteredProducts?.length > 0 ? (
+                    filteredProducts?.map((product) => (
+                      <div
+                        key={product._id}
+                        className="border rounded-xl p-2 flex gap-2"
+                      >
+                        <div className="w-2/5">
+                          <a
+                            href={`/product/${product._id}`}
+                            className="rounded-xl group overflow-hidden relative"
+                          >
+                            <img
+                              loading="lazy"
+                              className="rounded-xl scale-100 hover:scale-105 transition duration-500"
+                              src={product.images[0]}
+                              alt={product.title}
+                            />
+                            <div className="absolute top-2 left-2 bg_green text-white text-xs px-1 py-0.5 rounded-lg">
+                              {`${Math.round(
+                                ((convertPrice(
+                                  product.price,
+                                  currency,
+                                  exchangeRates
+                                ).toFixed(2) -
+                                  convertPrice(
+                                    product.discountedPrice,
+                                    currency,
+                                    exchangeRates
+                                  ).toFixed(2)) /
+                                  convertPrice(
+                                    product.price,
+                                    currency,
+                                    exchangeRates
+                                  ).toFixed(2)) *
+                                  100
+                              )}%`}
+                            </div>
+                          </a>
+                        </div>
+                        <div className="w-3/5">
+                          <div className="">
+                            <div className="productTitleTwo font-semibold text-black">
+                              <a href={`/product/${product._id}`}>
+                                {product.title}
+                              </a>
+                            </div>
+                            <div className="price mt-2 green_font text-sm">
+                              ₹
+                              {convertPrice(
+                                product.discountedPrice,
+                                currency,
+                                exchangeRates
+                              ).toFixed(2)}{" "}
+                              &nbsp;
+                              <span className="text-xs line-through text-gray-300">
+                                ₹
+                                {convertPrice(
+                                  product.price,
+                                  currency,
+                                  exchangeRates
+                                ).toFixed(2)}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="flex justify-between items-end mt-3">
+                            <a
+                              href={`/product/${product._id}`}
+                              className="text-sm bg_green text-white rounded py-1  px-2"
+                            >
+                              Buy Now
+                            </a>
+                            <button
+                              onClick={(e) => addToCart1(e, product)}
+                              className="bg_green rounded-full p-2 border text-white"
+                            >
+                              <MdOutlineShoppingCart size={16} />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="text-center text-gray-500">
+                      <p className="text-red-500 ">Products not available.</p>
+                    </div>
+                  )}
                 </div>
-              ))}
-            </div>
-          </div>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
