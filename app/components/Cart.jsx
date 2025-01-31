@@ -144,10 +144,9 @@ const Cart = () => {
         setDiscountApplied(true);
 
         alert(
-          `Coupon applied! ${
-            discountPercentage
-              ? `${discountPercentage}% discount`
-              : `₹${discountAmount} discount`
+          `Coupon applied! ${discountPercentage
+            ? `${discountPercentage}% discount`
+            : `₹${discountAmount} discount`
           } added.`
         );
 
@@ -193,6 +192,7 @@ const Cart = () => {
   //         });
   //     }
   // }, [cart, session]);
+
   const [storedMessage, setStoredMessage] = useState(null);
   const [storedusername, setStoredusername] = useState(null);
   const [storednumber, setStorednumber] = useState(null);
@@ -253,10 +253,10 @@ const Cart = () => {
   useEffect(() => {
     const totalAmount = cart
       ? cart.reduce(
-          (acc, product) =>
-            acc + product.discountedPrice * (product.quantity || 0),
-          0
-        )
+        (acc, product) =>
+          acc + product.discountedPrice * (product.quantity || 0),
+        0
+      )
       : 0;
     if (session) {
       setPrice(finalPrice);
@@ -531,6 +531,7 @@ const Cart = () => {
   // //console.log("delevry ressponce is ",orderData);
 
   // Modal Component
+
   const Modal = ({ isOpen, onClose }) => {
     if (!isOpen) return null;
 
@@ -584,7 +585,7 @@ const Cart = () => {
             <a
               href="/user-history"
               className="mr-2 bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400"
-              // onClick={onClose}
+            // onClick={onClose}
             >
               VIEW
             </a>
@@ -599,6 +600,8 @@ const Cart = () => {
       </div>
     );
   };
+
+
   //   console.log(total);
   //   console.log(finalPrice);
 
@@ -938,7 +941,10 @@ const Cart = () => {
       </div>
 
       {/* Modal */}
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+      <Modal isOpen={isModalOpen} onClose={() => {
+        setIsModalOpen(false);
+        router.push('/user-history');
+      }} />
     </div>
   );
 };
