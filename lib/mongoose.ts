@@ -44,7 +44,7 @@ const mongooseConnect = async (): Promise<void> => {
 
     
 
-    await mongoose.connect(dbURI || 'mongodb+srv://avipurohit27:avinash27@cluster0.4jj9vnf.mongodb.net/gift');
+    await mongoose.connect(dbURI || 'mongodb://internationgift:internationgift@194.238.19.190:27017/gift?authSource=admin');
 
     //console.log('MongoDB connected successfully');
   } catch (error) {

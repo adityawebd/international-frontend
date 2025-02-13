@@ -1602,9 +1602,7 @@ const Page = ({ params }) => {
                               Free Shipping
                             </h2>
                             <p className="px-6 pb-4">
-                              Enjoy free shipping on all orders above ₹50. Fast
-                              and reliable delivery to your doorstep within 2
-                              days maximum.
+                            We offer free shipping on all orders across India, ensuring fast and reliable delivery within 3 to 5 days along with secure packaging and live order tracking.
                             </p>
                           </div>
                         )}
@@ -2254,9 +2252,7 @@ const Page = ({ params }) => {
                             Free Shipping
                           </h2>
                           <p className="px-6 pb-4">
-                            Enjoy free shipping on all orders above ₹50. Fast
-                            and reliable delivery to your doorstep within 2 days
-                            maximum.
+                            We offer free shipping on all orders across India, ensuring fast and reliable delivery within 3 to 5 days along with secure packaging and live order tracking.
                           </p>
                         </div>
                       )}
