@@ -89,14 +89,14 @@ const TopCategories = () => {
                               <img
                                 loading="lazy"
                                 className="default_img"
-                                src={`/assets/images/icons/${tagline}`}
-                                alt={`${title} Image`}
+                                src={tagline}
+                                alt={title}
                               />
                               <img
                                 loading="lazy"
                                 className="hovered_img"
-                                src={`/assets/images/icons/${discount_text}`}
-                                alt={`${title} Hover Image`}
+                                src={discount_text}
+                                alt={title}
                               />
                             </figure>
                             <div className="tab_btn_text text-center">
