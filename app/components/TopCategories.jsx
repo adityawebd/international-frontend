@@ -156,9 +156,9 @@ const TopCategories = () => {
                       <h2 className="lg:text-4xl md:text-3xl max-sm:text-xl text-2xl uppercase tracking-widest">
                         {data.title}
                       </h2>
-                      <p className="lg:text-7xl md:text-5xl max-sm:text-4xl text-4xl font-bold uppercase tracking-widest">
+                      {/* <p className="lg:text-7xl md:text-5xl max-sm:text-4xl text-4xl font-bold uppercase tracking-widest">
                         {data.discount}
-                      </p>
+                      </p> */}
                     </div>
                   </div>
                 </Link>

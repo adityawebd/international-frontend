@@ -679,7 +679,7 @@ const Page = ({ params }) => {
     if (discount1 < discount2) discount = discount1;
     else discount = discount2;
 
-    return discount;
+    return Math.floor(discount);
   };
 
   const isVideo = (url) => /\.(mp4|webm|ogg)$/.test(url);
